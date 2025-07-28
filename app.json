@@ -1,0 +1,24 @@
+{
+  "name": "HackRX Document Query API",
+  "description": "FastAPI webhook for document querying",
+  "image": "heroku/python",
+  "repository": "https://github.com/your-username/rag_hackrx",
+  "keywords": ["python", "fastapi", "ai", "hackrx"],
+  "env": {
+    "GOOGLE_API_KEY": {
+      "description": "Google Gemini API Key",
+      "required": true
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "basic"
+    }
+  },
+  "buildpacks": [
+    {
+      "url": "heroku/python"
+    }
+  ]
+}
