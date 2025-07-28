@@ -1,6 +1,6 @@
 """
-Pure Python FastAPI Webhook for HackRX Competition
-100% pure Python - no Rust dependencies, guaranteed to deploy
+Vercel-optimized FastAPI webhook for HackRX Competition
+Serverless deployment on Vercel (100% FREE)
 """
 
 import os
@@ -10,22 +10,15 @@ import json
 import re
 from typing import List, Dict, Any
 
-from fastapi import FastAPI, HTTPException, Depends, status
+from fastapi import FastAPI, HTTPException, Depends, status, Request
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from pydantic import BaseModel, HttpUrl
-import uvicorn
-
-# Only pure Python imports
 import PyPDF2
-from dotenv import load_dotenv
-
-# Load environment
-load_dotenv()
 
 # Initialize FastAPI app
 app = FastAPI(
     title="HackRX Document Query API",
-    description="Pure Python API for answering questions about policy documents",
+    description="Serverless API for answering questions about policy documents",
     version="1.0.0"
 )
 
@@ -54,7 +47,6 @@ def verify_token(credentials: HTTPAuthorizationCredentials = Depends(security)):
 def download_pdf(url: str) -> str:
     """Download PDF from URL"""
     try:
-        # Handle SSL verification issues
         response = requests.get(url, timeout=30, verify=False)
         response.raise_for_status()
         
@@ -86,9 +78,7 @@ def extract_pdf_text(pdf_path: str) -> str:
 
 def clean_text(text: str) -> str:
     """Basic text cleaning"""
-    # Remove excessive whitespace
     text = re.sub(r'\s+', ' ', text)
-    # Remove special characters but keep important punctuation
     text = re.sub(r'[^\w\s\.\,\!\?\;\:\-\(\)\[\]\{\}\"\'\/\@\#\$\%\&\*\+\=\<\>\|\\]', '', text)
     return text.strip()
 
@@ -115,16 +105,13 @@ def find_relevant_chunks(question: str, chunks: List[str], top_k: int = 5) -> Li
     question_lower = question.lower()
     question_words = set(question_lower.split())
     
-    # Score chunks based on keyword overlap and relevance
     scored_chunks = []
     for chunk in chunks:
         chunk_lower = chunk.lower()
         chunk_words = set(chunk_lower.split())
         
-        # Calculate overlap score
         overlap = len(question_words.intersection(chunk_words))
         
-        # Boost for important insurance terms
         boost = 0
         important_terms = {
             'grace period': 3, 'waiting period': 3, 'coverage': 2, 'benefit': 2, 
@@ -139,7 +126,6 @@ def find_relevant_chunks(question: str, chunks: List[str], top_k: int = 5) -> Li
             if term in question_lower and term in chunk_lower:
                 boost += weight
         
-        # Boost for numbers (often important in insurance)
         if re.search(r'\d+', question_lower) and re.search(r'\d+', chunk_lower):
             boost += 1
         
@@ -147,7 +133,6 @@ def find_relevant_chunks(question: str, chunks: List[str], top_k: int = 5) -> Li
         if score > 0:
             scored_chunks.append((score, chunk))
     
-    # Sort by score and return top chunks
     scored_chunks.sort(key=lambda x: x[0], reverse=True)
     return [chunk for _, chunk in scored_chunks[:top_k]]
 
@@ -160,16 +145,10 @@ def call_gemini_api(prompt: str) -> str:
         
         url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={api_key}"
         
-        headers = {
-            'Content-Type': 'application/json',
-        }
+        headers = {'Content-Type': 'application/json'}
         
         data = {
-            "contents": [{
-                "parts": [{
-                    "text": prompt
-                }]
-            }],
+            "contents": [{"parts": [{"text": prompt}]}],
             "generationConfig": {
                 "temperature": 0.1,
                 "topK": 40,
@@ -189,17 +168,13 @@ def call_gemini_api(prompt: str) -> str:
         
         return "Error: No response generated"
         
-    except requests.exceptions.RequestException as e:
-        return f"Error calling Gemini API: {str(e)}"
     except Exception as e:
-        return f"Error processing Gemini response: {str(e)}"
+        return f"Error calling Gemini API: {str(e)}"
 
 def answer_question_with_gemini(question: str, context_chunks: List[str]) -> str:
     """Use Gemini to answer question based on context"""
-    # Combine context
     context = "\n\n".join(context_chunks)
     
-    # Create prompt
     prompt = f"""You are an expert insurance policy analyst. Answer the question based ONLY on the provided policy document context.
 
 CONTEXT:
@@ -213,72 +188,43 @@ INSTRUCTIONS:
 - For yes/no questions, start with "Yes" or "No" followed by conditions
 - If information is not in the context, say "Information not available in the provided document"
 - Be concise but complete
-- Use exact policy language when possible
 
 ANSWER:"""
 
     return call_gemini_api(prompt)
 
-def process_document_and_questions(pdf_path: str, questions: List[str]) -> List[str]:
-    """Process document and answer questions"""
-    try:
-        print(f"📄 Extracting text from PDF...")
-        text = extract_pdf_text(pdf_path)
-        
-        print(f"🔄 Cleaning and chunking text...")
-        clean_text_content = clean_text(text)
-        chunks = create_chunks(clean_text_content)
-        
-        print(f"✅ Created {len(chunks)} chunks")
-        
-        answers = []
-        for i, question in enumerate(questions, 1):
-            print(f"❓ Processing question {i}/{len(questions)}")
-            
-            # Find relevant chunks
-            relevant_chunks = find_relevant_chunks(question, chunks)
-            
-            # Generate answer
-            answer = answer_question_with_gemini(question, relevant_chunks)
-            answers.append(answer)
-            
-            print(f"✅ Answer {i}: {answer[:100]}...")
-        
-        return answers
-        
-    except Exception as e:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Error processing document: {str(e)}"
-        )
-
 @app.get("/")
 async def root():
     """Health check"""
-    return {"message": "HackRX Document Query API is running", "status": "healthy", "version": "pure-python"}
+    return {"message": "HackRX Document Query API is running", "status": "healthy", "version": "vercel-serverless"}
 
-@app.get("/health")
+@app.get("/api/health")
 async def health_check():
     """Health check"""
-    return {"status": "healthy", "version": "pure-python", "dependencies": "zero-rust"}
+    return {"status": "healthy", "version": "vercel-serverless", "dependencies": "zero-rust"}
 
-@app.post("/hackrx/run", response_model=QueryResponse)
+@app.post("/api/hackrx/run", response_model=QueryResponse)
 async def hackrx_run(
     request: QueryRequest,
     token: str = Depends(verify_token)
 ) -> QueryResponse:
     """Main HackRX endpoint"""
-    print(f"🚀 Received request with {len(request.questions)} questions")
-    
     pdf_path = None
     try:
         # Download PDF
         pdf_path = download_pdf(str(request.documents))
         
-        # Process and answer
-        answers = process_document_and_questions(pdf_path, request.questions)
+        # Extract text
+        text = extract_pdf_text(pdf_path)
+        clean_text_content = clean_text(text)
+        chunks = create_chunks(clean_text_content)
         
-        print(f"✅ Successfully processed {len(answers)} answers")
+        answers = []
+        for question in request.questions:
+            relevant_chunks = find_relevant_chunks(question, chunks)
+            answer = answer_question_with_gemini(question, relevant_chunks)
+            answers.append(answer)
+        
         return QueryResponse(answers=answers)
         
     except HTTPException:
@@ -289,13 +235,11 @@ async def hackrx_run(
             detail=f"Internal server error: {str(e)}"
         )
     finally:
-        # Cleanup
         if pdf_path and os.path.exists(pdf_path):
             try:
                 os.unlink(pdf_path)
             except:
                 pass
 
-if __name__ == "__main__":
-    print("🚀 Starting Pure Python HackRX API...")
-    uvicorn.run("webhook_pure:app", host="0.0.0.0", port=8000, reload=True)
+# Vercel handler
+handler = app
