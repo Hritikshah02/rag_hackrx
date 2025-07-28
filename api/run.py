@@ -1,6 +1,6 @@
 """
 Vercel serverless function for HackRX webhook
-Path: /api/run
+Path: /api/run_fixed
 """
 
 import os
@@ -10,79 +10,62 @@ import requests
 import re
 from typing import List
 import PyPDF2
+from http.server import BaseHTTPRequestHandler
 
-def handler(request):
-    """Main Vercel serverless function handler"""
+class handler(BaseHTTPRequestHandler):
+    def do_OPTIONS(self):
+        """Handle CORS preflight"""
+        self.send_response(200)
+        self.send_header('Access-Control-Allow-Origin', '*')
+        self.send_header('Access-Control-Allow-Methods', 'POST, OPTIONS')
+        self.send_header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+        self.end_headers()
+        return
     
-    # Handle CORS preflight
-    if request.method == 'OPTIONS':
-        return {
-            'statusCode': 200,
-            'headers': {
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods': 'POST, OPTIONS',
-                'Access-Control-Allow-Headers': 'Content-Type, Authorization'
-            },
-            'body': ''
-        }
-    
-    # Only allow POST requests
-    if request.method != 'POST':
-        return {
-            'statusCode': 405,
-            'headers': {'Content-Type': 'application/json'},
-            'body': json.dumps({'detail': 'Method not allowed'})
-        }
-    
-    try:
-        # Check authorization
-        auth_header = request.headers.get('authorization', '')
-        expected_token = "Bearer 0834b150c8388abe371c886793946844e5847079871db13687754358e06d4b30"
-        
-        if auth_header != expected_token:
-            return {
-                'statusCode': 401,
-                'headers': {'Content-Type': 'application/json'},
-                'body': json.dumps({'detail': 'Invalid authentication token'})
-            }
-        
-        # Parse request body
-        if hasattr(request, 'json'):
-            data = request.json
-        else:
-            body = request.body if hasattr(request, 'body') else request.get('body', '')
-            if isinstance(body, bytes):
-                body = body.decode('utf-8')
-            data = json.loads(body)
-        
-        documents_url = data.get('documents')
-        questions = data.get('questions', [])
-        
-        if not documents_url or not questions:
-            return {
-                'statusCode': 400,
-                'headers': {'Content-Type': 'application/json'},
-                'body': json.dumps({'detail': 'Missing documents or questions'})
-            }
-        
-        # Process the request
-        answers = process_document_and_questions(documents_url, questions)
-        
-        return {
-            'statusCode': 200,
-            'headers': {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
-            },
-            'body': json.dumps({'answers': answers})
-        }
-        
-    except Exception as e:
-        return {
-            'statusCode': 500,
-            'headers': {'Content-Type': 'application/json'},
-            'body': json.dumps({'detail': f'Internal server error: {str(e)}'})
-        }
+    def do_POST(self):
+        """Handle POST requests"""
+        try:
+            # Check authorization
+            auth_header = self.headers.get('authorization', '')
+            expected_token = "Bearer 0834b150c8388abe371c886793946844e5847079871db13687754358e06d4b30"
+            
+            if auth_header != expected_token:
+                self.send_response(401)
+                self.send_header('Content-type', 'application/json')
+                self.end_headers()
+                self.wfile.write(json.dumps({'detail': 'Invalid authentication token'}).encode())
+                return
+            
+            # Parse request body
+            content_length = int(self.headers.get('Content-Length', 0))
+            post_data = self.rfile.read(content_length)
+            data = json.loads(post_data.decode('utf-8'))
+            
+            documents_url = data.get('documents')
+            questions = data.get('questions', [])
+            
+            if not documents_url or not questions:
+                self.send_response(400)
+                self.send_header('Content-type', 'application/json')
+                self.end_headers()
+                self.wfile.write(json.dumps({'detail': 'Missing documents or questions'}).encode())
+                return
+            
+            # Process the request
+            answers = process_document_and_questions(documents_url, questions)
+            
+            # Send success response
+            self.send_response(200)
+            self.send_header('Content-type', 'application/json')
+            self.send_header('Access-Control-Allow-Origin', '*')
+            self.end_headers()
+            self.wfile.write(json.dumps({'answers': answers}).encode())
+            
+        except Exception as e:
+            self.send_response(500)
+            self.send_header('Content-type', 'application/json')
+            self.end_headers()
+            self.wfile.write(json.dumps({'detail': f'Internal server error: {str(e)}'}).encode())
 
 def download_pdf(url: str) -> str:
     """Download PDF from URL"""
