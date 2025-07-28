@@ -82,7 +82,7 @@ Content: {result.get('content', '')}
     def _create_reasoning_prompt(self, query: str, context: str) -> str:
         """Create reasoning prompt for the LLM"""
         prompt = f"""
-You are an expert AI assistant specializing in document analysis and decision-making for insurance, legal, and policy documents. Your task is to analyze the provided query against the relevant document chunks and provide a structured, accurate response.
+You are an expert insurance policy analyst. Your task is to provide precise, direct answers to user queries based on policy documents.
 
 USER QUERY: {query}
 
@@ -90,47 +90,48 @@ RELEVANT DOCUMENT CHUNKS:
 {context}
 
 INSTRUCTIONS:
-1. Carefully analyze the user query to identify key information such as:
-   - Age, gender, medical conditions
-   - Procedures, treatments, or services
-   - Location, timing, policy details
-   - Any other relevant criteria
+1. Read the user query carefully and identify what specific information is being requested.
+2. Search through the document chunks for the exact information that answers the query.
+3. Provide a direct, concise answer based on the policy text.
+4. If the query is about claims/coverage decisions, make a clear decision. If it's a factual question about policy terms, provide the factual answer.
 
-2. Review the provided document chunks to find relevant clauses, rules, or policies that apply to the query.
-
-3. Make a clear decision based on the available information.
-
-4. Provide a structured response in the following JSON format:
+Provide a structured response in the following JSON format:
 
 {{
-    "decision": "APPROVED" | "REJECTED" | "PARTIAL" | "REQUIRES_REVIEW" | "INSUFFICIENT_INFO",
-    "amount": "Specific amount if applicable, or 'N/A'",
+    "decision": "APPROVED" | "REJECTED" | "PARTIAL" | "REQUIRES_REVIEW" | "INSUFFICIENT_INFO" | "FACTUAL_ANSWER",
+    "amount": "Specific amount/percentage/limit if applicable, or 'N/A'",
     "confidence": "Confidence score from 0-100",
-    "justification": "Clear explanation of the decision with reasoning",
+    "justification": "Direct, precise answer to the question. Be concise and factual. Quote specific policy terms, periods, percentages, or conditions exactly as stated in the documents.",
     "referenced_clauses": [
         {{
             "clause_number": "Clause identifier if available",
             "source": "Source document name",
-            "content": "Relevant clause text",
-            "relevance_explanation": "Why this clause is relevant"
+            "content": "Exact relevant clause text from the policy",
+            "relevance_explanation": "Why this clause directly answers the query"
         }}
     ],
     "key_factors": [
-        "List of key factors that influenced the decision"
+        "Key policy terms, conditions, or requirements that directly relate to the answer"
     ],
     "additional_requirements": [
-        "Any additional requirements or conditions if applicable"
+        "Any conditions, exceptions, or additional details mentioned in the policy"
     ]
 }}
 
 IMPORTANT GUIDELINES:
-- Base your decision ONLY on the information provided in the document chunks
-- If information is insufficient, state "INSUFFICIENT_INFO" as the decision
-- Be specific about which clauses support your decision
-- Provide clear, professional justification
-- If amounts are mentioned in the documents, extract them accurately
-- Consider edge cases and exceptions mentioned in the documents
-- Maintain consistency with the policy language and terminology
+- Answer directly and precisely - avoid lengthy explanations unless necessary
+- Extract exact numbers, periods, percentages, and conditions from the policy text
+- Use "FACTUAL_ANSWER" as decision type for informational queries (not claims decisions)
+- Quote policy language exactly when providing definitions or specific terms
+- If asking about waiting periods, coverage limits, or conditions - provide the exact timeframes and amounts
+- For yes/no questions, start with "Yes" or "No" followed by the specific conditions
+- Be concise but complete - include all relevant conditions and exceptions
+- If information is not found in the documents, state "INSUFFICIENT_INFO"
+
+EXAMPLE RESPONSE STYLES:
+- For "What is the grace period?": "A grace period of thirty days is provided for premium payment after the due date..."
+- For "Does policy cover X?": "Yes, the policy covers X under the following conditions: [specific conditions]"
+- For "What is the waiting period?": "The waiting period is [specific time] for [specific condition/treatment]"
 
 Respond with ONLY the JSON structure, no additional text.
 """

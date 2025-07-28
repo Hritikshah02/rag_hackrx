@@ -1,5 +1,6 @@
 import os
 import pickle
+import re
 from typing import List, Dict, Any, Optional
 import numpy as np
 
@@ -146,57 +147,66 @@ class VectorStore:
     
     def create_vector_store(self, chunks: List[Dict[str, Any]]) -> None:
         """
-        Create vector store from document chunks
+        Create vector store from document chunks using normalized content for embeddings
         
         Args:
             chunks: List of document chunks with metadata
         """
         if not chunks:
-            raise ValueError("No chunks provided for vector store creation")
+            raise ValueError("No chunks provided")
         
-        # Delete existing collection if it exists
+        self._ensure_embedding_model()
+        
+        # Create or get collection
         try:
-            self.client.delete_collection(name=self.config.COLLECTION_NAME)
+            self.collection = self.client.create_collection(
+                name=self.config.COLLECTION_NAME,
+                metadata={"hnsw:space": "cosine"}
+            )
         except Exception:
-            pass  # Collection doesn't exist or other error
+            # Collection might already exist
+            self.collection = self.client.get_collection(
+                name=self.config.COLLECTION_NAME
+            )
         
-        # Create new collection
-        self.collection = self.client.create_collection(
-            name=self.config.COLLECTION_NAME,
-            metadata={"hnsw:space": "cosine"}
-        )
-        
-        # Prepare data for insertion
-        documents = []
+        # Prepare data for ChromaDB
+        documents = []  # Original content for display
+        embedding_texts = []  # Normalized content for embeddings
         metadatas = []
         ids = []
         
         for i, chunk in enumerate(chunks):
             documents.append(chunk['content'])
+            # Use normalized content for embeddings if available, otherwise original
+            embedding_text = chunk.get('normalized_content', chunk['content'].lower())
+            embedding_texts.append(embedding_text)
+            
             metadatas.append({
                 'source': chunk['source'],
                 'chunk_id': chunk['chunk_id'],
                 'token_count': chunk['token_count'],
-                'char_count': chunk['char_count']
+                'char_count': chunk['char_count'],
+                'keywords': ', '.join(chunk.get('keywords', []))  # Convert list to string
             })
             ids.append(f"chunk_{i}")
         
-        # Generate embeddings
-        embeddings = self._generate_embeddings(documents)
+        # Generate embeddings using normalized text
+        print(f"🔄 Generating embeddings for {len(embedding_texts)} chunks using normalized content...")
+        embeddings = self._generate_embeddings(embedding_texts)
         
-        # Add to collection
+        # Add to collection (store original documents but use normalized embeddings)
         self.collection.add(
-            documents=documents,
+            documents=documents,  # Original content for display
             metadatas=metadatas,
             embeddings=embeddings.tolist(),
             ids=ids
         )
         
-        print(f"Vector store created with {len(chunks)} chunks")
+        print(f"✅ Vector store created with {len(chunks)} chunks using enhanced normalization")
     
     def semantic_search(self, query: str, top_k: int = None) -> List[Dict[str, Any]]:
         """
-        Perform semantic search on the vector store with improved retrieval
+        Perform enhanced semantic search with improved query processing and retrieval
         
         Args:
             query: Search query
@@ -211,36 +221,65 @@ class VectorStore:
         if top_k is None:
             top_k = self.config.DEFAULT_TOP_K
         
-        # Expand query for better semantic matching
-        expanded_queries = self._expand_query(query)
+        # Normalize and expand query for better matching
+        normalized_query = self._normalize_query(query)
+        expanded_queries = self._expand_query(normalized_query)
         
         # Generate embeddings for all query variations
         all_embeddings = self._generate_embeddings(expanded_queries)
         
-        # Perform search with multiple query embeddings and combine results
+        # Perform multiple search strategies
         all_results = []
+        
+        # Strategy 1: Direct semantic search with expanded queries
         for i, query_embedding in enumerate(all_embeddings):
-            weight = 1.0 if i == 0 else 0.7  # Original query gets higher weight
+            weight = 1.0 if i == 0 else 0.8  # Original query gets higher weight
             
-            # Perform search for this query variation
+            # Get more results initially to improve recall
+            search_count = min(top_k * 3, 20)  # Increased search count
+            
             results = self.collection.query(
                 query_embeddings=[query_embedding.tolist()],
-                n_results=top_k * 2  # Get more results to combine
+                n_results=search_count
             )
             
             # Add weighted results
             for j in range(len(results['documents'][0])):
+                distance = results['distances'][0][j]
+                similarity_score = 1 - distance
+                
                 result = {
                     'content': results['documents'][0][j],
                     'metadata': results['metadatas'][0][j],
-                    'score': (1 - results['distances'][0][j]) * weight,  # Weighted similarity
+                    'score': similarity_score * weight,
                     'source': results['metadatas'][0][j]['source'],
                     'chunk_id': results['metadatas'][0][j]['chunk_id'],
-                    'id': results['ids'][0][j]
+                    'id': results['ids'][0][j],
+                    'distance': distance
                 }
                 all_results.append(result)
         
-        # Deduplicate and merge results by ID
+        # Strategy 2: Keyword-based boost for exact matches
+        query_lower = query.lower()
+        for result in all_results:
+            content_lower = result['content'].lower()
+            
+            # Boost score for exact keyword matches
+            keyword_boost = 0
+            query_words = query_lower.split()
+            for word in query_words:
+                if len(word) > 3 and word in content_lower:
+                    keyword_boost += 0.1
+            
+            # Boost for important terms
+            important_terms = ['grace period', 'waiting period', 'coverage', 'benefit', 'premium']
+            for term in important_terms:
+                if term in query_lower and term in content_lower:
+                    keyword_boost += 0.15
+            
+            result['score'] += keyword_boost
+        
+        # Deduplicate and merge results by ID (keep highest score)
         unique_results = {}
         for result in all_results:
             result_id = result['id']
@@ -251,59 +290,126 @@ class VectorStore:
         search_results = list(unique_results.values())
         search_results.sort(key=lambda x: x['score'], reverse=True)
         
-        # Filter by similarity threshold and limit results
+        # Apply more lenient similarity threshold for better recall
+        min_threshold = max(0.1, self.config.SIMILARITY_THRESHOLD - 0.2)  # Lower threshold
+        
         filtered_results = []
-        for result in search_results[:top_k]:
-            if result['score'] >= self.config.SIMILARITY_THRESHOLD:
-                # Remove the 'id' field from final results
+        for result in search_results[:top_k * 2]:  # Consider more results
+            if result['score'] >= min_threshold:
+                # Clean up result
                 result.pop('id', None)
+                result.pop('distance', None)
                 filtered_results.append(result)
         
-        return filtered_results
+        # Return top results
+        return filtered_results[:top_k]
+    
+    def _normalize_query(self, query: str) -> str:
+        """Normalize query for better semantic matching"""
+        # Convert to lowercase
+        normalized = query.lower()
+        
+        # Apply same normalizations as document processing
+        normalizations = {
+            r'\bpre-existing\b': 'preexisting',
+            r'\bpre existing\b': 'preexisting',
+            r'\bco-payment\b': 'copayment',
+            r'\bco payment\b': 'copayment',
+            r'\bbenefits?\b': 'benefit',
+            r'\bcoverages?\b': 'coverage',
+            r'\bpolicies\b': 'policy',
+            r'\bpremiums?\b': 'premium',
+            r'\bclaims?\b': 'claim',
+            r'\bprocedures?\b': 'procedure',
+            r'\btreatments?\b': 'treatment',
+            r'\bhospitalizations?\b': 'hospitalization',
+            r'\bsurgeries\b': 'surgery',
+            r'\bsurgical\b': 'surgery',
+            r'\bNCD\b': 'no claim discount',
+            r'\bAYUSH\b': 'ayush',
+            r'\bICU\b': 'icu intensive care',
+            r'\bOPD\b': 'opd outpatient',
+            r'\bIPD\b': 'ipd inpatient'
+        }
+        
+        for pattern, replacement in normalizations.items():
+            normalized = re.sub(pattern, replacement, normalized, flags=re.IGNORECASE)
+        
+        return normalized
     
     def _expand_query(self, query: str) -> List[str]:
         """Expand query with synonyms and variations for better semantic matching"""
         expanded_queries = [query]  # Start with original query
-        
-        # Add common insurance/medical synonyms and variations
         query_lower = query.lower()
         
-        # Pre-existing conditions variations
-        if 'pre-existing' in query_lower or 'preexisting' in query_lower:
+        # Medical/insurance term expansions with more variations
+        if 'waiting period' in query_lower or 'wait' in query_lower:
             expanded_queries.extend([
-                query + " waiting period",
-                query.replace('pre-existing', 'existing medical conditions'),
-                "medical conditions before policy",
-                "waiting period for existing conditions"
+                query.replace('waiting period', 'wait time'),
+                query + " coverage delay",
+                query + " eligibility period",
+                "how long wait " + query.replace('waiting period', ''),
+                query.replace('waiting', 'wait')
             ])
         
-        # Coverage/covered variations
-        if 'covered' in query_lower or 'coverage' in query_lower:
+        if 'grace period' in query_lower or 'grace' in query_lower:
+            expanded_queries.extend([
+                query.replace('grace period', 'payment grace time'),
+                query + " premium payment delay",
+                query + " late payment allowed",
+                "payment deadline " + query
+            ])
+        
+        # Coverage/benefit variations
+        if any(word in query_lower for word in ['cover', 'coverage', 'benefit']):
             expanded_queries.extend([
                 query.replace('covered', 'included'),
                 query.replace('coverage', 'benefits'),
-                query + " policy benefits"
+                query.replace('cover', 'include'),
+                query + " policy benefits",
+                query + " insurance coverage"
             ])
         
         # Surgery/procedure variations
-        if 'surgery' in query_lower or 'procedure' in query_lower:
+        if any(word in query_lower for word in ['surgery', 'procedure', 'operation']):
             expanded_queries.extend([
                 query + " medical treatment",
                 query.replace('surgery', 'surgical procedure'),
-                query + " hospitalization"
+                query.replace('surgery', 'operation'),
+                query + " hospitalization",
+                query + " medical procedure"
+            ])
+        
+        # Maternity variations
+        if 'maternity' in query_lower or 'pregnancy' in query_lower:
+            expanded_queries.extend([
+                query.replace('maternity', 'pregnancy'),
+                query.replace('pregnancy', 'maternity'),
+                query + " childbirth",
+                query + " delivery expenses"
             ])
         
         # Dental variations
-        if 'dental' in query_lower:
+        if 'dental' in query_lower or 'teeth' in query_lower:
             expanded_queries.extend([
                 query + " teeth treatment",
                 query.replace('dental', 'tooth'),
+                query.replace('teeth', 'dental'),
                 "oral health " + query
             ])
         
-        # Remove duplicates and limit to avoid too many queries
-        expanded_queries = list(set(expanded_queries))[:3]
-        return expanded_queries
+        # Amount/percentage variations
+        if any(word in query_lower for word in ['amount', 'limit', 'percent', '%']):
+            expanded_queries.extend([
+                query + " coverage amount",
+                query + " benefit limit",
+                query.replace('%', 'percent')
+            ])
+        
+        # Remove duplicates, empty strings, and limit results
+        expanded_queries = [q.strip() for q in expanded_queries if q.strip()]
+        expanded_queries = list(dict.fromkeys(expanded_queries))  # Preserve order while removing duplicates
+        return expanded_queries[:5]  # Increased from 3 to 5
     
     def _generate_embeddings(self, texts: List[str]) -> np.ndarray:
         """Generate embeddings for a list of texts using sentence transformers"""
@@ -356,7 +462,8 @@ class VectorStore:
                 'source': chunk['source'],
                 'chunk_id': chunk['chunk_id'],
                 'token_count': chunk['token_count'],
-                'char_count': chunk['char_count']
+                'char_count': chunk['char_count'],
+                'keywords': ', '.join(chunk.get('keywords', []))  # Convert list to string
             })
             ids.append(f"chunk_{current_count + i}")
         

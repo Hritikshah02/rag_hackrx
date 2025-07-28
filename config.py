@@ -23,8 +23,8 @@ class Config:
     COLLECTION_NAME = "documents"
     
     # Search parameters
-    DEFAULT_TOP_K = 5
-    SIMILARITY_THRESHOLD = 0.3  # Lowered for better retrieval
+    DEFAULT_TOP_K = 8  # Increased for better recall
+    SIMILARITY_THRESHOLD = 0.15  # Further lowered for better retrieval
     
     # LLM parameters
     MAX_TOKENS = 2048

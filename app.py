@@ -58,6 +58,33 @@ st.markdown("""
         border-left: 4px solid #dc3545;
         margin: 1rem 0;
     }
+    .full-width-container {
+        width: 100%;
+        max-width: none;
+    }
+    .metric-container {
+        background-color: #f8f9fa;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        text-align: center;
+        border: 1px solid #dee2e6;
+        height: 100%;
+    }
+    .justification-container {
+        background-color: #ffffff;
+        padding: 1.5rem;
+        border-radius: 0.5rem;
+        border: 1px solid #dee2e6;
+        margin: 1rem 0;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .clause-container {
+        background-color: #f8f9fa;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        margin: 0.5rem 0;
+        border-left: 4px solid #1f77b4;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -270,47 +297,86 @@ class DocumentQueryApp:
         """Display query results"""
         st.markdown('<div class="section-header">📋 Query Results</div>', unsafe_allow_html=True)
         
-        # Display structured response
+        # Display structured response with full width
         st.subheader("🎯 AI Response")
         
-        # Create columns for structured display
-        col1, col2, col3 = st.columns(3)
+        # Create columns for metrics - use more columns to spread across width
+        col1, col2, col3, col4, col5 = st.columns([2, 2, 2, 3, 3])
         
         with col1:
+            st.markdown('<div class="metric-container">', unsafe_allow_html=True)
             st.metric("Decision", response.get('decision', 'N/A'))
+            st.markdown('</div>', unsafe_allow_html=True)
         
         with col2:
+            st.markdown('<div class="metric-container">', unsafe_allow_html=True)
             amount = response.get('amount', 'N/A')
             st.metric("Amount", amount if amount != 'N/A' else 'Not applicable')
+            st.markdown('</div>', unsafe_allow_html=True)
         
         with col3:
+            st.markdown('<div class="metric-container">', unsafe_allow_html=True)
             confidence = response.get('confidence', 'N/A')
             st.metric("Confidence", f"{confidence}%" if confidence != 'N/A' else 'N/A')
+            st.markdown('</div>', unsafe_allow_html=True)
         
-        # Justification
+        with col4:
+            st.markdown('<div class="metric-container">', unsafe_allow_html=True)
+            st.write("**Query:**")
+            st.write(query[:100] + "..." if len(query) > 100 else query)
+            st.markdown('</div>', unsafe_allow_html=True)
+        
+        with col5:
+            st.markdown('<div class="metric-container">', unsafe_allow_html=True)
+            st.write("**Results Found:**")
+            st.write(f"{len(search_results)} chunks")
+            st.markdown('</div>', unsafe_allow_html=True)
+        
+        # Justification with full width
+        st.markdown('<div class="justification-container">', unsafe_allow_html=True)
         st.subheader("📝 Justification")
         st.write(response.get('justification', 'No justification provided'))
+        st.markdown('</div>', unsafe_allow_html=True)
         
-        # Referenced clauses
+        # Referenced clauses in two columns for better space utilization
         if 'referenced_clauses' in response and response['referenced_clauses']:
             st.subheader("📄 Referenced Clauses")
-            for i, clause in enumerate(response['referenced_clauses'], 1):
-                with st.expander(f"Clause {i}: {clause.get('source', 'Unknown source')}"):
-                    st.write(clause.get('content', 'No content available'))
-                    if 'relevance_score' in clause:
-                        st.caption(f"Relevance Score: {clause['relevance_score']:.3f}")
+            
+            # Split clauses into two columns
+            clause_col1, clause_col2 = st.columns(2)
+            clauses = response['referenced_clauses']
+            
+            for i, clause in enumerate(clauses):
+                target_col = clause_col1 if i % 2 == 0 else clause_col2
+                
+                with target_col:
+                    with st.expander(f"Clause {i+1}: {clause.get('source', 'Unknown source')}"):
+                        st.markdown('<div class="clause-container">', unsafe_allow_html=True)
+                        st.write(clause.get('content', 'No content available'))
+                        if 'relevance_score' in clause:
+                            st.caption(f"Relevance Score: {clause['relevance_score']:.3f}")
+                        st.markdown('</div>', unsafe_allow_html=True)
         
-        # Raw JSON response
-        with st.expander("🔧 Raw JSON Response"):
-            st.json(response)
+        # Full width expandable sections
+        col_left, col_right = st.columns(2)
         
-        # Search results
-        with st.expander(f"🔍 Search Results ({len(search_results)} chunks)"):
-            for i, result in enumerate(search_results, 1):
-                st.write(f"**Result {i}** (Score: {result.get('score', 'N/A'):.3f})")
-                st.write(f"Source: {result.get('source', 'Unknown')}")
-                st.write(result.get('content', 'No content')[:500] + "...")
-                st.divider()
+        with col_left:
+            # Raw JSON response
+            with st.expander("🔧 Raw JSON Response"):
+                st.json(response)
+        
+        with col_right:
+            # Search results
+            with st.expander(f"🔍 Search Results ({len(search_results)} chunks)"):
+                for i, result in enumerate(search_results[:5], 1):  # Limit to first 5 for better performance
+                    st.write(f"**Result {i}** (Score: {result.get('score', 'N/A'):.3f})")
+                    st.write(f"Source: {result.get('source', 'Unknown')}")
+                    st.write(result.get('content', 'No content')[:300] + "...")
+                    if i < len(search_results[:5]):
+                        st.divider()
+                
+                if len(search_results) > 5:
+                    st.info(f"Showing top 5 results out of {len(search_results)} total results.")
     
     def render_query_history(self):
         """Render query history"""
