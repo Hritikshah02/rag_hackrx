@@ -1,0 +1,8 @@
+# Ultra-minimal requirements (< 500MB total)
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+requests==2.31.0
+pydantic==2.5.0
+google-generativeai==0.3.2
+PyPDF2==3.0.1
+python-dotenv==1.0.0
