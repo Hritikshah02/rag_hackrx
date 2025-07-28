@@ -1,0 +1,18 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "webhook_minimal.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "webhook_minimal.py"
+    }
+  ],
+  "env": {
+    "GOOGLE_API_KEY": "@google_api_key"
+  }
+}
