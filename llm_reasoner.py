@@ -21,17 +21,12 @@ class LLMReasoner:
         genai.configure(api_key=self.config.GOOGLE_API_KEY)
         self.model = genai.GenerativeModel(self.config.LLM_MODEL)
     
-    def generate_response(self, query: str, search_results: List[Dict[str, Any]]) -> Dict[str, Any]:
-        """
-        Generate structured response based on query and search results
+    def generate_response(self, query: str, search_results: List[Dict[str, Any]], 
+                         request_id: str = None, question_index: int = None) -> Dict[str, Any]:
+        """Generate structured response from search results with comprehensive logging"""
+        # Import here to avoid circular imports
+        from query_logger import rag_logger
         
-        Args:
-            query: User query
-            search_results: Relevant document chunks from semantic search
-            
-        Returns:
-            Structured response with decision, amount, justification, and referenced clauses
-        """
         # Prepare context from search results
         context = self._prepare_context(search_results)
         
@@ -48,20 +43,40 @@ class LLMReasoner:
                 )
             )
             
+            raw_response = response.text
+            
             # Parse and structure the response
-            structured_response = self._parse_llm_response(response.text, search_results)
+            parsing_details = {"parsing_success": False, "parsing_method": "unknown"}
+            try:
+                structured_response = self._parse_llm_response(raw_response, search_results)
+                parsing_details["parsing_success"] = True
+                parsing_details["parsing_method"] = "json_parse"
+            except Exception as parse_error:
+                structured_response = self._create_error_response(f"Parsing failed: {str(parse_error)}", raw_response)
+                parsing_details["parsing_error"] = str(parse_error)
+                parsing_details["parsing_method"] = "error_fallback"
+            
+            # Log LLM interaction if request_id provided
+            if request_id and question_index:
+                rag_logger.log_llm_interaction(
+                    request_id, question_index, query, prompt, raw_response,
+                    structured_response, parsing_details
+                )
             
             return structured_response
             
         except Exception as e:
-            return {
-                "decision": "Error",
-                "amount": "N/A",
-                "justification": f"Error generating response: {str(e)}",
-                "confidence": 0,
-                "referenced_clauses": [],
-                "raw_response": ""
-            }
+            error_response = self._create_error_response(f"Error generating response: {str(e)}")
+            
+            # Log error if request_id provided
+            if request_id:
+                rag_logger.log_error(request_id, "llm_generation", str(e), {
+                    "question": query,
+                    "question_index": question_index
+                })
+            
+            print(f"❌ Error generating response: {str(e)}")
+            return error_response
     
     def _prepare_context(self, search_results: List[Dict[str, Any]]) -> str:
         """Prepare context from search results"""

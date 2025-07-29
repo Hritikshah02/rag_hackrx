@@ -12,7 +12,7 @@ class Config:
     
     # Model configurations
     EMBEDDING_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
-    LLM_MODEL = "gemini-1.5-flash"
+    LLM_MODEL = "gemini-2.5-flash"
     
     # Document processing
     CHUNK_SIZE = 1000
@@ -23,8 +23,8 @@ class Config:
     COLLECTION_NAME = "documents"
     
     # Search parameters
-    DEFAULT_TOP_K = 8  # Increased for better recall
-    SIMILARITY_THRESHOLD = 0.15  # Further lowered for better retrieval
+    DEFAULT_TOP_K = 3  # Focus on only the 3 BEST chunks for better accuracy
+    SIMILARITY_THRESHOLD = 0.3  # Higher threshold to ensure quality chunks
     
     # LLM parameters
     MAX_TOKENS = 2048

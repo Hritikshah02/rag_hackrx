@@ -282,7 +282,7 @@ class DocumentQueryApp:
                 query_record = {
                     'query': query,
                     'response': response,
-                    'timestamp': datetime.now().isoformat(),
+{{ ... }}
                     'search_results_count': len(search_results)
                 }
                 st.session_state.query_history.append(query_record)
