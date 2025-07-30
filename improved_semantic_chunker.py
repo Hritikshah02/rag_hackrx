@@ -5,7 +5,7 @@ import requests
 import logging
 import datetime
 from typing import List, Dict, Any, Optional, Tuple
-from sentence_transformers import SentenceTransformer, CrossEncoder
+from sentence_transformers import SentenceTransformer
 import chromadb
 from chromadb.config import Settings
 from chromadb.utils import embedding_functions
@@ -51,28 +51,27 @@ class ImprovedSemanticChunker:
         # Using the full Gemini model for better reasoning
         self.llm_model = genai.GenerativeModel('gemini-2.5-flash-lite')
         
-        # Initialize state-of-the-art embedding model
-        print("Loading BGE-Large-EN embedding model...")
-        # Using BGE-Large-EN for superior semantic understanding
-        self.embedding_model = SentenceTransformer('BAAI/bge-large-en-v1.5')
+        # Initialize memory-efficient embedding model
+        print("Loading BGE-Small-EN embedding model (memory optimized)...")
+        # Using BGE-Small-EN for good performance with lower memory usage
+        device = "cuda" if torch.cuda.is_available() else "cpu"
+        self.embedding_model = SentenceTransformer('BAAI/bge-small-en-v1.5', device=device)
         
-        # Initialize re-ranking model for improved relevance
-        print("Loading cross-encoder for re-ranking...")
-        self.reranker = CrossEncoder('BAAI/bge-reranker-large')
+        
         
         # Initialize ChromaDB
         self.chroma_client = chromadb.Client(Settings(anonymized_telemetry=False))
-        self.collection_name = "improved_documents_bge"
+        self.collection_name = "improved_documents_bge_small"
         
-        # Create a ChromaDB compatible embedding function with BGE model
-        self.embedding_function = embedding_functions.SentenceTransformerEmbeddingFunction(model_name="BAAI/bge-large-en-v1.5")
+        # Create a ChromaDB compatible embedding function with BGE-Small model
+        # self.embedding_function = embedding_functions.SentenceTransformerEmbeddingFunction(model_name="BAAI/bge-small-en-v1.5")
         
         # Initialize tokenizer for token-based chunking
         self.tokenizer = tiktoken.get_encoding("cl100k_base")
         
-        # Chunking parameters
-        self.chunk_size_tokens = 400  # Target chunk size in tokens
-        self.overlap_tokens = 50      # Overlap size in tokens
+        # Chunking parameters (optimized for large documents)
+        self.chunk_size_tokens = 500  # Larger chunk size to reduce total chunk count
+        self.overlap_tokens = 100       # Overlap size in tokens
         
     def download_document(self, url: str) -> bytes:
         """Download document from URL"""
@@ -82,65 +81,140 @@ class ImprovedSemanticChunker:
         return response.content
     
     def extract_text_from_pdf(self, pdf_content: bytes) -> str:
-        """Extract text from PDF content with better formatting"""
+        """Extract and clean text from PDF content"""
         print("Extracting text from PDF...")
-        pdf_file = BytesIO(pdf_content)
-        pdf_reader = PyPDF2.PdfReader(pdf_file)
-        
         text = ""
-        for page_num, page in enumerate(pdf_reader.pages):
-            page_text = page.extract_text()
-            # Better text cleaning
-            page_text = re.sub(r'\n+', '\n', page_text)
-            page_text = re.sub(r'\s+', ' ', page_text)
+        try:
+            reader = PyPDF2.PdfReader(BytesIO(pdf_content))
+            num_pages = len(reader.pages)
+            print(f"PDF has {num_pages} pages.")
+            
+            for i, page in enumerate(reader.pages):
+                page_text = page.extract_text()
+                if page_text:
+                    text += page_text + "\n\n" # Add space between pages
+            
+            # Normalize whitespace and clean up text
+            text = re.sub(r'\s+', ' ', text).strip()
+            text = re.sub(r'(\n\s*)+', '\n', text).strip() # Normalize newlines
+            
+            print(f"Successfully extracted and cleaned text. Total characters: {len(text)}")
+            
+        except Exception as e:
+            print(f"Error extracting text from PDF: {e}")
+            # Return empty string or handle error as appropriate
+            return ""
+            
             text += f"\n--- Page {page_num + 1} ---\n{page_text}\n"
         
         return text
     
     def token_based_chunking(self, text: str) -> List[Dict[str, Any]]:
-        """Create chunks based on token count with specified overlap"""
-        print(f"Creating token-based chunks with {self.overlap_tokens} token overlap...")
+        """Create chunks based on token count with specified overlap, with safeguards"""
         
-        # Tokenize the entire text
-        tokens = self.tokenizer.encode(text)
-        total_tokens = len(tokens)
-        
+        print(f"Creating token-based chunks with dynamic overlap...")
+
+        # Tokenize the entire text (with memory optimization)
+        try:
+            tokens = self.tokenizer.encode(text)
+            total_tokens = len(tokens)
+            print(f"Document tokenized: {total_tokens} tokens")
+        except Exception as e:
+            print(f"Tokenization error: {e}")
+            # Fallback to character-based chunking if tokenization fails
+            return self.fallback_character_chunking(text)
+
+        # Adjust overlap based on chunk size
+        self.overlap_tokens = 100  # ~10% of chunk size is good for context continuity
+
+
         chunks = []
         chunk_id = 0
         start_idx = 0
-        
+        max_chunks = 2000  # Prevent crazy chunk counts
+        previous_start_idx = -1
+
         while start_idx < total_tokens:
-            # Calculate end index for this chunk
             end_idx = min(start_idx + self.chunk_size_tokens, total_tokens)
-            
-            # Extract tokens for this chunk
             chunk_tokens = tokens[start_idx:end_idx]
+
+            try:
+                chunk_text = self.tokenizer.decode(chunk_tokens).strip()
+                if not chunk_text or len(chunk_text) < 50:
+                    print(f"⚠️ Skipping chunk {chunk_id} due to insufficient content.")
+                    start_idx = end_idx
+                    continue
+            except Exception as e:
+                print(f"Decoding error for chunk {chunk_id}: {e}")
+                start_idx = end_idx
+                continue
+
+            chunks.append({
+                'id': f'chunk_{chunk_id}',
+                'text': chunk_text,
+                'size': len(chunk_tokens),
+                'token_start': start_idx,
+                'token_end': end_idx,
+                'section': chunk_id // 10
+            })
+            chunk_id += 1
+
+            if chunk_id % 100 == 0:
+                print(f"Processed {chunk_id} chunks...")
+
+            if chunk_id >= max_chunks:
+                print(f"⚠️ Reached max chunk limit ({max_chunks}). Stopping chunking.")
+                break
+
+            previous_start_idx = start_idx
+            start_idx = end_idx - self.overlap_tokens
+
+            if start_idx <= previous_start_idx:
+                print("⚠️ Infinite loop prevention triggered. Advancing start_idx.")
+                start_idx = end_idx
+
+            if start_idx >= total_tokens:
+                break
+
+        avg_tokens = total_tokens // len(chunks) if chunks else 0
+        print(f"✅ Created {len(chunks)} token-based chunks (avg {avg_tokens} tokens per chunk)")
+        return chunks
+
+    
+    def fallback_character_chunking(self, text: str) -> List[Dict[str, Any]]:
+        """Fallback character-based chunking if tokenization fails"""
+        print("Using fallback character-based chunking...")
+        
+        chunk_size = 1500  # Character-based chunk size
+        overlap = 200      # Character-based overlap
+        
+        chunks = []
+        chunk_id = 0
+        start = 0
+        
+        while start < len(text):
+            end = min(start + chunk_size, len(text))
+            chunk_text = text[start:end].strip()
             
-            # Decode tokens back to text
-            chunk_text = self.tokenizer.decode(chunk_tokens)
-            
-            # Clean up the chunk text
-            chunk_text = chunk_text.strip()
-            
-            if len(chunk_text) > 50:  # Only add non-trivial chunks
+            if len(chunk_text) > 50:
                 chunks.append({
                     'id': f'chunk_{chunk_id}',
                     'text': chunk_text,
-                    'size': len(chunk_tokens),
-                    'token_start': start_idx,
-                    'token_end': end_idx,
-                    'section': chunk_id // 10  # Group chunks into sections
+                    'size': len(chunk_text),
+                    'char_start': start,
+                    'char_end': end,
+                    'section': chunk_id // 10
                 })
+                if chunk_id >= max_chunks:
+                    print(f"⚠️ Reached max chunk limit ({max_chunks}). Stopping chunking.")
+                    break
                 chunk_id += 1
             
-            # Move start index forward, accounting for overlap
-            start_idx = end_idx - self.overlap_tokens
-            
-            # Prevent infinite loop
-            if start_idx >= end_idx:
+            start = end - overlap
+            if start >= end:
                 break
         
-        print(f"Created {len(chunks)} token-based chunks (avg {total_tokens // len(chunks) if chunks else 0} tokens per chunk)")
+        print(f"Created {len(chunks)} character-based chunks")
         return chunks
     
     def intelligent_chunking(self, text: str) -> List[Dict[str, Any]]:
@@ -227,6 +301,7 @@ class ImprovedSemanticChunker:
         """Create vector store from chunks with metadata"""
         print("Creating vector embeddings with metadata...")
         
+        
         # Delete existing collection if it exists
         try:
             self.chroma_client.delete_collection(self.collection_name)
@@ -237,89 +312,66 @@ class ImprovedSemanticChunker:
         self.collection = self.chroma_client.create_collection(
             name=self.collection_name,
             metadata={"hnsw:space": "cosine"},
-            embedding_function=self.embedding_function
+            # embedding_function=self.embedding_function
         )
         
         # Generate embeddings and add to collection
         texts = [chunk['text'] for chunk in chunks]
-        # Let ChromaDB handle the embeddings using our embedding function
         
+        # Step 1: Batched embedding on GPU using your initialized self.embedding_model
+        batch_size = 64  # You can increase this if memory allows (128 or 256)
+        embeddings = []
+        for i in range(0, len(texts), batch_size):
+            batch = texts[i:i + batch_size]
+            batch_embeddings = self.embedding_model.encode(batch, show_progress_bar=False, device='cuda', batch_size=batch_size, normalize_embeddings=True)
+            embeddings.extend(batch_embeddings)
+
+        # Step 2: Add manually to ChromaDB collection with precomputed embeddings
         self.collection.add(
             documents=texts,
+            embeddings=embeddings,
             ids=[chunk['id'] for chunk in chunks],
             metadatas=[{
                 'size': chunk['size'], 
                 'section': chunk.get('section', 0)
             } for chunk in chunks]
         )
+
         
         print(f"Added {len(chunks)} chunks to vector store")
     
     def advanced_semantic_search(self, query: str, top_k: int = 8) -> List[Dict[str, Any]]:
-        """Perform advanced semantic search with re-ranking"""
+        """Perform semantic search with BGE embeddings"""
         print(f"\nSearching for: '{query}'")
         print("-" * 80)
         
-        # First stage: Retrieve more candidates for re-ranking
-        initial_k = min(top_k * 3, 20)  # Retrieve 3x more candidates for re-ranking
-        
-        # Semantic search with embeddings
+        # Semantic search with BGE embeddings
         results = self.collection.query(
             query_texts=[query],
-            n_results=initial_k,
+            n_results=top_k,
             include=["documents", "metadatas", "distances"]
         )
         
-        # Get initial candidates from vector search
-        candidates = []
+        # Format results
+        retrieved_chunks = []
         if results['documents'] and len(results['documents'][0]) > 0:
-            for doc, distance, metadata in zip(
+            for i, (doc, distance, metadata) in enumerate(zip(
                 results['documents'][0], 
                 results['distances'][0], 
                 results['metadatas'][0]
-            ):
-                candidates.append({
+            )):
+                chunk_info = {
+                    'rank': i + 1,
                     'text': doc,
-                    'vector_score': 1 - distance,
+                    'similarity_score': 1 - distance,
                     'metadata': metadata
-                })
-        
-        # Second stage: Re-rank using cross-encoder
-        if candidates:
-            print(f"Re-ranking {len(candidates)} candidates...")
-            
-            # Prepare query-document pairs for re-ranking
-            query_doc_pairs = [(query, candidate['text']) for candidate in candidates]
-            
-            # Get re-ranking scores
-            rerank_scores = self.reranker.predict(query_doc_pairs)
-            
-            # Combine with original candidates and sort by re-ranking score
-            for i, candidate in enumerate(candidates):
-                candidate['rerank_score'] = float(rerank_scores[i])
-            
-            # Sort by re-ranking score (higher is better)
-            candidates.sort(key=lambda x: x['rerank_score'], reverse=True)
-            
-            # Take top_k results
-            candidates = candidates[:top_k]
-        
-        # Format final results
-        retrieved_chunks = []
-        for i, candidate in enumerate(candidates):
-            chunk_info = {
-                'rank': i + 1,
-                'text': candidate['text'],
-                'similarity_score': candidate['vector_score'],
-                'rerank_score': candidate['rerank_score'],
-                'metadata': candidate['metadata']
-            }
-            retrieved_chunks.append(chunk_info)
-            
-            # Display full retrieved chunk with both scores
-            print(f"RETRIEVED CHUNK {i+1} (Vector: {chunk_info['similarity_score']:.3f}, Rerank: {chunk_info['rerank_score']:.3f}):")
-            print(f"{candidate['text']}")
-            print("-" * 80)
+                }
+                retrieved_chunks.append(chunk_info)
+                
+                # Display full retrieved chunk
+                print(f"RETRIEVED CHUNK {i+1} (Similarity Score: {chunk_info['similarity_score']:.3f}):")
+                print(f"{doc}")
+                print("-" * 80)
         
         return retrieved_chunks
     
@@ -513,25 +565,154 @@ def main():
             "Are there any sub-limits on room rent and ICU charges for Plan A?"
         ]
     }
+
+    test_payload_2 = {
+        "documents": "https://hackrx.blob.core.windows.net/assets/Arogya%20Sanjeevani%20Policy%20-%20CIN%20-%20U10200WB1906GOI001713%201.pdf?sv=2023-01-03&st=2025-07-21T08%3A29%3A02Z&se=2025-09-22T08%3A29%3A00Z&sr=b&sp=r&sig=nzrz1K9Iurt%2BBXom%2FB%2BMPTFMFP3PRnIvEsipAX10Ig4%3D",
+        "questions": [
+            "When will my root canal claim of Rs 25,000 be settled?",
+            "I have done an IVF for Rs 56,000. Is it covered?",
+            "I did a cataract treatment of Rs 100,000. Will you settle full?",
+            "Give me a list of documents to be uploaded for hospitalization due to heart surgery.",
+            "I have raised a claim for hospitalization for Rs 25,000. What will I get?"
+        ]
+    }
+
+
+    test_payload_3 = {
+        "documents": "https://hackrx.blob.core.windows.net/assets/Super_Splendor_(Feb_2023).pdf?sv=2023-01-03&st=2025-07-21T08%3A10%3A00Z&se=2025-09-22T08%3A10%3A00Z&sr=b&sp=r&sig=vhHrl63YtrEOCsAy%2BpVKr20b3ZUo5HMz1lF9%2BJh6LQ0%3D",
+        "questions": [
+            "What is the ideal spark plug gap recommended?",
+            "Does this come in tubeless tyre version?",
+            "Is it compulsory to have a disc brake?",
+            "Can I put Thums Up instead of oil?",
+            "Give me JS code to generate a random number between 1 and 100"
+        ]
+    }
+
+
+    test_payload_4 = {
+        "documents": "https://hackrx.blob.core.windows.net/assets/Family%20Medicare%20Policy%20(UIN-%20UIIHLIP22070V042122)%201.pdf?sv=2023-01-03&st=2025-07-22T10%3A17%3A39Z&se=2025-08-23T10%3A17%3A00Z&sr=b&sp=r&sig=dA7BEMIZg3WcePcckBOb4QjfxK%2B4rIfxBs2%2F%2BNwoPjQ%3D",
+        "questions": [
+            "Is Non-infective Arthritis covered?",
+            "I renewed my policy yesterday, and I have been a customer for 2 years. Is Hydrocele claimable?",
+            "Is abortion covered?"
+        ]
+    }
+
+
+    test_payload_5 = {
+        "documents": "https://hackrx.blob.core.windows.net/assets/indian_constitution.pdf?sv=2023-01-03&st=2025-07-28T06%3A42%3A00Z&se=2026-11-29T06%3A42%3A00Z&sr=b&sp=r&sig=5Gs%2FOXqP3zY00lgciu4BZjDV5QjTDIx7fgnfdz6Pu24%3D",
+        "questions": [
+            "What is the official name of India according to Article 1?",
+            "Which Article guarantees equality before the law and equal protection of the laws?",
+            "What is abolished by Article 17 of the Constitution?",
+            "What are the key ideals mentioned in the Preamble of the Indian Constitution?",
+            "Under which Article can Parliament alter the boundaries of states?",
+            "According to Article 24, children below what age are prohibited from working?",
+            "What is the significance of Article 21 in the Indian Constitution?",
+            "Article 15 prohibits discrimination on certain grounds. What are they?",
+            "Which Article allows Parliament to regulate the right to form associations?",
+            "What restrictions can the State impose on the right to freedom of speech?"
+        ]
+    }
+
+
+    test_payload_5b = {
+        "documents": "https://hackrx.blob.core.windows.net/assets/indian_constitution.pdf?sv=2023-01-03&st=2025-07-28T06%3A42%3A00Z&se=2026-11-29T06%3A42%3A00Z&sr=b&sp=r&sig=5Gs%2FOXqP3zY00lgciu4BZjDV5QjTDIx7fgnfdz6Pu24%3D",
+        "questions": [
+            "If my car is stolen, what case will it be in law?",
+            "If I am arrested without a warrant, is that legal?",
+            "If someone denies me a job because of my caste, is that legal?",
+            "If the government takes my land for a project, can I stop it?",
+            "If my child is forced to work in a factory, is that legal?",
+            "If I am stopped from speaking at a protest, is that a violation of my rights?",
+            "If a religious place stops me from entering because of my caste, what can I do?",
+            "If I change my religion, can the government stop me?",
+            "If the police torture someone in custody, what right is violated?",
+            "If I'm denied admission to a public university because of my caste, what law applies?"
+        ]
+    }
     
+    # try:
+    #     # Initialize improved chunker
+    #     chunker = ImprovedSemanticChunker()
+        
+    #     # Process payload
+    #     results = chunker.process_payload(test_payload_1)
+        
+    #     print("\n" + "="*80)
+    #     print("PROCESSING COMPLETE")
+    #     print("="*80)
+    #     print(f"Document processed: {results['document_url']}")
+    #     print(f"Total chunks created: {results['total_chunks']}")
+    #     print(f"Questions answered: {len(results['results'])}")
+        
+    # except Exception as e:
+    #     print(f"Error: {str(e)}")
+    #     import traceback
+    #     traceback.print_exc()
+    # Define all test payloads in a list
+    all_test_payloads = [
+        test_payload_1,
+        test_payload_2,
+        test_payload_3,
+        test_payload_4,
+        test_payload_5,
+        test_payload_5b
+    ]
+
+
+    total_questions = 0
+    not_found_count = 0
+
+
     try:
-        # Initialize improved chunker
+        # Initialize improved chunker once
         chunker = ImprovedSemanticChunker()
-        
-        # Process payload
-        results = chunker.process_payload(test_payload_1)
-        
-        print("\n" + "="*80)
-        print("PROCESSING COMPLETE")
-        print("="*80)
-        print(f"Document processed: {results['document_url']}")
-        print(f"Total chunks created: {results['total_chunks']}")
-        print(f"Questions answered: {len(results['results'])}")
-        
+
+        # Process each payload
+        for idx, payload in enumerate(all_test_payloads, start=1):
+            print("\n" + "="*100)
+            print(f"PROCESSING PAYLOAD {idx}")
+            print("="*100)
+            results = chunker.process_payload(payload)
+            
+            print(f"Document processed: {results['document_url']}")
+            print(f"Total chunks created: {results['total_chunks']}")
+            print(f"Questions answered: {len(results['results'])}")
+            
+            for i, (q, a) in enumerate(zip(payload["questions"], results["results"]), start=1):
+                answer_text = a['answer']
+                print(f"\nQ{i}: {q}\nA{i}: {answer_text}")
+                
+                # Accuracy tracking
+                total_questions += 1
+                if "information not found" in answer_text.lower():
+                    not_found_count += 1
+
+        # Final Accuracy Report
+        print("\n" + "="*50)
+        print("📊 FINAL ACCURACY REPORT")
+        print(f"Total Questions Processed: {total_questions}")
+        print(f"'Information not found': {not_found_count}")
+        accuracy = (total_questions - not_found_count) / total_questions if total_questions > 0 else 0
+        print(f"✅ Accuracy: {accuracy:.2%}")
+        print("="*50)
+
     except Exception as e:
         print(f"Error: {str(e)}")
         import traceback
         traceback.print_exc()
 
+
+
 if __name__ == "__main__":
+    print("="*80)
+    print("🔍 RESOURCE CHECK: PyTorch GPU (CUDA) Availability")
+    if torch.cuda.is_available():
+        device_name = torch.cuda.get_device_name(0)
+        print(f"✅ GPU is available. Using CUDA device: {device_name}")
+    else:
+        print("❌ GPU not available. Falling back to CPU for embedding operations.")
+    print("="*80)
     main()
