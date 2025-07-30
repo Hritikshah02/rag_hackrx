@@ -17,10 +17,28 @@ class DocumentProcessor:
     def __init__(self):
         self.config = Config()
         self.encoding = tiktoken.get_encoding("cl100k_base")
+        
+        # Performance optimizations - compile regex patterns once
+        self._compiled_patterns = {
+            'list_item': re.compile(r'^\s*[•\-\*]|^\s*\d+[.):]'),
+            'monetary': re.compile(r'₹|rupees?|\d+\s*lakh|\d+\s*crore'),
+            'percentage': re.compile(r'\d+\s*%|\d+\s*(months?|years?|days?)'),
+            'sentence_split': re.compile(r'(?<=[.!?])\s+')
+        }
+        
+        # Cache for tokenization to avoid repeated encoding
+        self._token_cache = {}
+        
+        # Pre-compiled keyword sets for faster lookup
+        self._important_terms_set = {
+            'coverage', 'benefit', 'premium', 'claim', 'exclusion', 'waiting period',
+            'grace period', 'deductible', 'copayment', 'pre-existing', 'maternity',
+            'room rent', 'icu', 'surgery', 'hospitalization'
+        }
     
     def process_document(self, file_path: str, filename: str) -> List[Dict[str, Any]]:
         """
-        Process a document and return chunks with metadata
+        Process a document and return chunks with metadata - OPTIMIZED
         
         Args:
             file_path: Path to the document file
@@ -29,6 +47,9 @@ class DocumentProcessor:
         Returns:
             List of document chunks with metadata
         """
+        # Clear cache if it gets too large
+        if len(self._token_cache) > 1000:
+            self.clear_cache()
         file_extension = Path(file_path).suffix.lower()
         
         if file_extension == '.pdf':
@@ -187,50 +208,309 @@ class DocumentProcessor:
         return text
     
     def _create_chunks(self, text: str, source: str) -> List[Dict[str, Any]]:
-        """Create chunks from text with improved overlap and semantic boundaries"""
+        """Create semantic chunks with edge windows for better query handling"""
+        try:
+            # First, analyze document structure
+            semantic_blocks = self._analyze_document_structure(text)
+            
+            # Create semantic chunks with edge windows
+            chunks = self._create_semantic_chunks_with_edges(semantic_blocks, source)
+            
+            # Fallback to simple chunking if semantic chunking produces too few chunks
+            if len(chunks) < 3 and len(text) > 3000:  # Should have more chunks for large docs
+                print(f"⚠️ Semantic chunking produced only {len(chunks)} chunks, falling back to simple chunking")
+                chunks = self._create_simple_chunks(text, source)
+            
+            return chunks
+        except Exception as e:
+            print(f"❌ Semantic chunking failed: {e}, falling back to simple chunking")
+            return self._create_simple_chunks(text, source)
+    
+    def _analyze_document_structure(self, text: str) -> List[Dict[str, Any]]:
+        """Analyze document structure to identify semantic blocks - OPTIMIZED"""
+        blocks = []
+        
+        # Split text into paragraphs first
+        paragraphs = [p.strip() for p in text.split('\n\n') if p.strip()]
+        
+        # Batch process paragraphs for better performance
+        paragraph_data = self._batch_process_paragraphs(paragraphs)
+        
+        for i, (paragraph, paragraph_lower, token_count) in enumerate(paragraph_data):
+            block_type = self._identify_block_type_optimized(paragraph, paragraph_lower)
+            importance_score = self._calculate_importance_score_optimized(paragraph, paragraph_lower)
+            
+            # Only split into sentences if needed (for very long paragraphs)
+            sentences = self._split_into_sentences_cached(paragraph) if len(paragraph) > 500 else [paragraph]
+            
+            block = {
+                'content': paragraph,
+                'sentences': sentences,
+                'block_type': block_type,
+                'importance_score': importance_score,
+                'position': i,
+                'token_count': token_count
+            }
+            blocks.append(block)
+        
+        return blocks
+    
+    def _batch_process_paragraphs(self, paragraphs: List[str]) -> List[tuple]:
+        """Batch process paragraphs for tokenization and lowercasing"""
+        batch_data = []
+        
+        for paragraph in paragraphs:
+            # Cache tokenization results
+            if paragraph in self._token_cache:
+                token_count = self._token_cache[paragraph]
+            else:
+                token_count = len(self.encoding.encode(paragraph))
+                # Only cache if reasonable size to avoid memory issues
+                if len(self._token_cache) < 1000:
+                    self._token_cache[paragraph] = token_count
+            
+            paragraph_lower = paragraph.lower()
+            batch_data.append((paragraph, paragraph_lower, token_count))
+        
+        return batch_data
+    
+    def _identify_block_type_optimized(self, text: str, text_lower: str) -> str:
+        """Identify the type of content block - OPTIMIZED"""
+        text_len = len(text)
+        
+        # Headers and titles (short, often capitalized)
+        if text_len < 100 and (text.isupper() or text.istitle()):
+            return 'header'
+        
+        # Lists (bullet points, numbered) - use compiled regex
+        if self._compiled_patterns['list_item'].match(text):
+            return 'list_item'
+        
+        # Tables (contains pipe separators or multiple tabs)
+        if '|' in text or text.count('\t') > 3:
+            return 'table'
+        
+        # Policy sections (contains specific keywords) - use set intersection
+        policy_keywords = {'coverage', 'benefit', 'premium', 'claim', 'exclusion', 'condition'}
+        text_words = set(text_lower.split())
+        if policy_keywords & text_words:  # Fast set intersection
+            return 'policy_section'
+        
+        # Definitions (contains "means" or "refers to")
+        if 'means' in text_lower or 'refers to' in text_lower or 'defined as' in text_lower:
+            return 'definition'
+        
+        # Default to paragraph
+        return 'paragraph'
+    
+    def _identify_block_type(self, text: str) -> str:
+        """Identify the type of content block - LEGACY METHOD"""
+        return self._identify_block_type_optimized(text, text.lower().strip())
+    
+    def _calculate_importance_score_optimized(self, text: str, text_lower: str) -> float:
+        """Calculate importance score for content prioritization - OPTIMIZED"""
+        score = 1.0
+        text_len = len(text)
+        
+        # Boost score for important keywords using pre-compiled set
+        text_words = set(text_lower.split())
+        matching_terms = self._important_terms_set & text_words
+        score += len(matching_terms) * 0.2
+        
+        # Boost for monetary amounts using compiled regex
+        if self._compiled_patterns['monetary'].search(text_lower):
+            score += 0.3
+        
+        # Boost for percentages and numbers using compiled regex
+        if self._compiled_patterns['percentage'].search(text_lower):
+            score += 0.2
+        
+        # Reduce score for very short or very long blocks
+        if text_len < 50:
+            score *= 0.8
+        elif text_len > 1000:
+            score *= 0.9
+        
+        return min(score, 3.0)  # Cap at 3.0
+    
+    def _calculate_importance_score(self, text: str) -> float:
+        """Calculate importance score for content prioritization - LEGACY METHOD"""
+        return self._calculate_importance_score_optimized(text, text.lower())
+    
+    def _create_semantic_chunks_with_edges(self, blocks: List[Dict[str, Any]], source: str) -> List[Dict[str, Any]]:
+        """Create semantic chunks with edge windows for better context preservation"""
         chunks = []
-        
-        # Split text into sentences for better chunking
-        sentences = self._split_into_sentences(text)
-        
-        current_chunk = ""
+        current_chunk_blocks = []
         current_tokens = 0
         chunk_id = 0
-        sentence_buffer = []  # Buffer to handle semantic boundaries
         
-        for i, sentence in enumerate(sentences):
-            sentence_tokens = len(self.encoding.encode(sentence))
-            sentence_buffer.append(sentence)
+        for i, block in enumerate(blocks):
+            block_tokens = block['token_count']
             
-            # If adding this sentence would exceed chunk size
-            if current_tokens + sentence_tokens > self.config.CHUNK_SIZE and current_chunk:
-                # Create chunk from current content
-                chunk_content = current_chunk.strip()
-                chunks.append(self._create_chunk_metadata(
-                    chunk_content, 
-                    source, 
-                    chunk_id
-                ))
+            # Check if adding this block would exceed chunk size
+            if current_tokens + block_tokens > self.config.CHUNK_SIZE and current_chunk_blocks:
+                # Create chunk with edge windows
+                chunk_content = self._build_chunk_with_edges(current_chunk_blocks, blocks, i)
                 
-                # Start new chunk with better overlap strategy
-                overlap_sentences = self._get_overlap_sentences(sentence_buffer, sentences, i)
-                current_chunk = " ".join(overlap_sentences + [sentence])
-                current_tokens = len(self.encoding.encode(current_chunk))
+                chunk_metadata = self._create_enhanced_chunk_metadata(
+                    chunk_content, source, chunk_id, current_chunk_blocks
+                )
+                chunks.append(chunk_metadata)
+                
+                # Start new chunk with overlap from previous chunk
+                overlap_blocks = self._get_edge_window_blocks(current_chunk_blocks, blocks, i)
+                current_chunk_blocks = overlap_blocks + [block]
+                current_tokens = sum(b['token_count'] for b in current_chunk_blocks)
                 chunk_id += 1
-                sentence_buffer = overlap_sentences + [sentence]
             else:
-                current_chunk += " " + sentence if current_chunk else sentence
-                current_tokens += sentence_tokens
+                current_chunk_blocks.append(block)
+                current_tokens += block_tokens
         
-        # Add the last chunk if it has content
-        if current_chunk.strip():
-            chunks.append(self._create_chunk_metadata(
-                current_chunk.strip(), 
-                source, 
-                chunk_id
-            ))
+        # Handle the last chunk
+        if current_chunk_blocks:
+            chunk_content = self._build_chunk_with_edges(current_chunk_blocks, blocks, len(blocks))
+            chunk_metadata = self._create_enhanced_chunk_metadata(
+                chunk_content, source, chunk_id, current_chunk_blocks
+            )
+            chunks.append(chunk_metadata)
         
         return chunks
+    
+    def _create_simple_chunks(self, text: str, source: str) -> List[Dict[str, Any]]:
+        """Fallback simple chunking method for when semantic chunking fails"""
+        chunks = []
+        sentences = self._split_into_sentences_cached(text)
+        
+        current_chunk = []
+        current_tokens = 0
+        chunk_id = 0
+        
+        for sentence in sentences:
+            sentence_tokens = len(self.encoding.encode(sentence))
+            
+            # If adding this sentence would exceed chunk size, finalize current chunk
+            if current_tokens + sentence_tokens > self.config.CHUNK_SIZE and current_chunk:
+                chunk_content = ' '.join(current_chunk)
+                
+                # Add overlap from previous chunk
+                if chunk_id > 0 and len(current_chunk) > 1:
+                    overlap_size = min(2, len(current_chunk) // 3)
+                    overlap_content = ' '.join(current_chunk[-overlap_size:])
+                    chunk_content = f"{overlap_content} {chunk_content}"
+                
+                chunk_metadata = {
+                    'content': chunk_content,
+                    'normalized_content': self._normalize_text(chunk_content),
+                    'source': source,
+                    'chunk_id': chunk_id,
+                    'token_count': len(self.encoding.encode(chunk_content)),
+                    'block_types': ['paragraph'],
+                    'importance_score': 1.0,
+                    'position': chunk_id
+                }
+                chunks.append(chunk_metadata)
+                
+                # Start new chunk with overlap
+                if len(current_chunk) > 1:
+                    overlap_size = min(2, len(current_chunk) // 3)
+                    current_chunk = current_chunk[-overlap_size:] + [sentence]
+                    current_tokens = sum(len(self.encoding.encode(s)) for s in current_chunk)
+                else:
+                    current_chunk = [sentence]
+                    current_tokens = sentence_tokens
+                chunk_id += 1
+            else:
+                current_chunk.append(sentence)
+                current_tokens += sentence_tokens
+        
+        # Handle the last chunk
+        if current_chunk:
+            chunk_content = ' '.join(current_chunk)
+            chunk_metadata = {
+                'content': chunk_content,
+                'normalized_content': self._normalize_text(chunk_content),
+                'source': source,
+                'chunk_id': chunk_id,
+                'token_count': len(self.encoding.encode(chunk_content)),
+                'block_types': ['paragraph'],
+                'importance_score': 1.0,
+                'position': chunk_id
+            }
+            chunks.append(chunk_metadata)
+        
+        print(f"✅ Simple chunking created {len(chunks)} chunks")
+        return chunks
+    
+    def _build_chunk_with_edges(self, chunk_blocks: List[Dict[str, Any]], all_blocks: List[Dict[str, Any]], current_index: int) -> str:
+        """Build chunk content with edge windows for better context"""
+        # Get the main content
+        main_content = '\n\n'.join(block['content'] for block in chunk_blocks)
+        
+        # Add edge windows (context from surrounding blocks)
+        edge_content = self._get_edge_context(chunk_blocks, all_blocks, current_index)
+        
+        if edge_content:
+            return f"{edge_content}\n\n{main_content}"
+        
+        return main_content
+    
+    def _get_edge_context(self, chunk_blocks: List[Dict[str, Any]], all_blocks: List[Dict[str, Any]], current_index: int) -> str:
+        """Get edge context from surrounding blocks"""
+        edge_context = []
+        edge_token_budget = self.config.CHUNK_OVERLAP // 2  # Use half overlap for edges
+        
+        # Get context from previous blocks (if not already included)
+        if chunk_blocks and chunk_blocks[0]['position'] > 0:
+            prev_block_idx = chunk_blocks[0]['position'] - 1
+            if prev_block_idx >= 0 and prev_block_idx < len(all_blocks):
+                prev_block = all_blocks[prev_block_idx]
+                if prev_block['token_count'] <= edge_token_budget:
+                    edge_context.append(f"[Context: {prev_block['content'][:200]}...]")
+        
+        return '\n'.join(edge_context)
+    
+    def _get_edge_window_blocks(self, current_blocks: List[Dict[str, Any]], all_blocks: List[Dict[str, Any]], current_index: int) -> List[Dict[str, Any]]:
+        """Get blocks for edge window overlap"""
+        overlap_blocks = []
+        overlap_tokens = 0
+        target_overlap = self.config.CHUNK_OVERLAP
+        
+        # Take the most important blocks from the end of current chunk
+        sorted_blocks = sorted(current_blocks, key=lambda x: x['importance_score'], reverse=True)
+        
+        for block in sorted_blocks:
+            if overlap_tokens + block['token_count'] <= target_overlap:
+                overlap_blocks.append(block)
+                overlap_tokens += block['token_count']
+            else:
+                break
+        
+        # Sort back by position to maintain document order
+        overlap_blocks.sort(key=lambda x: x['position'])
+        
+        return overlap_blocks
+    
+    def _create_enhanced_chunk_metadata(self, content: str, source: str, chunk_id: int, blocks: List[Dict[str, Any]]) -> Dict[str, Any]:
+        """Create enhanced chunk metadata with semantic information"""
+        # Get block types and importance scores
+        block_types = [block['block_type'] for block in blocks]
+        avg_importance = sum(block['importance_score'] for block in blocks) / len(blocks) if blocks else 1.0
+        
+        # Create normalized content
+        normalized_content = self._create_normalized_content(content)
+        
+        return {
+            'content': content,
+            'normalized_content': normalized_content,
+            'source': source,
+            'chunk_id': chunk_id,
+            'token_count': len(self.encoding.encode(content)),
+            'char_count': len(content),
+            'keywords': self._extract_keywords(content),
+            'block_types': block_types,
+            'importance_score': avg_importance,
+            'semantic_blocks_count': len(blocks)
+        }
     
     def _get_overlap_sentences(self, sentence_buffer: List[str], all_sentences: List[str], current_index: int) -> List[str]:
         """Get overlap sentences that maintain semantic context"""
@@ -250,11 +530,20 @@ class DocumentProcessor:
         
         return overlap_sentences
     
-    def _split_into_sentences(self, text: str) -> List[str]:
-        """Split text into sentences"""
-        # Simple sentence splitting - can be improved with more sophisticated NLP
-        sentences = re.split(r'(?<=[.!?])\s+', text)
+    def _split_into_sentences_cached(self, text: str) -> List[str]:
+        """Split text into sentences with caching - OPTIMIZED"""
+        # Check cache first
+        if text in self._token_cache:
+            # Use a simple heuristic for cached results
+            return [text]  # For performance, return as single sentence if cached
+        
+        # Use compiled regex for better performance
+        sentences = self._compiled_patterns['sentence_split'].split(text)
         return [s.strip() for s in sentences if s.strip()]
+    
+    def _split_into_sentences(self, text: str) -> List[str]:
+        """Split text into sentences - LEGACY METHOD"""
+        return self._split_into_sentences_cached(text)
     
     def _get_overlap_text(self, text: str) -> str:
         """Get overlap text for chunk continuity"""
@@ -324,3 +613,14 @@ class DocumentProcessor:
             keywords.extend(matches)
         
         return list(set(keywords))  # Remove duplicates
+    
+    def clear_cache(self):
+        """Clear tokenization cache to prevent memory issues"""
+        self._token_cache.clear()
+    
+    def get_cache_stats(self) -> Dict[str, int]:
+        """Get cache statistics for monitoring"""
+        return {
+            'cache_size': len(self._token_cache),
+            'cache_memory_estimate': sum(len(k) + 4 for k in self._token_cache.keys())  # Rough estimate
+        }

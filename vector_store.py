@@ -290,16 +290,31 @@ class VectorStore:
         search_results = list(unique_results.values())
         search_results.sort(key=lambda x: x['score'], reverse=True)
         
-        # Apply more lenient similarity threshold for better recall
-        min_threshold = max(0.1, self.config.SIMILARITY_THRESHOLD - 0.2)  # Lower threshold
+        # Apply dynamic similarity threshold based on result quality
+        if search_results:
+            # Use adaptive threshold based on top result
+            top_score = search_results[0]['score']
+            min_threshold = max(0.2, top_score * 0.4)  # At least 40% of top score
+        else:
+            min_threshold = 0.2
         
         filtered_results = []
         for result in search_results[:top_k * 2]:  # Consider more results
             if result['score'] >= min_threshold:
-                # Clean up result
+                # Clean up result and add relevance info
                 result.pop('id', None)
                 result.pop('distance', None)
+                # Add content preview for debugging
+                result['content_preview'] = result['content'][:200] + "..." if len(result['content']) > 200 else result['content']
                 filtered_results.append(result)
+        
+        # Ensure we return at least one result if any exist
+        if not filtered_results and search_results:
+            best_result = search_results[0]
+            best_result.pop('id', None)
+            best_result.pop('distance', None)
+            best_result['content_preview'] = best_result['content'][:200] + "..." if len(best_result['content']) > 200 else best_result['content']
+            filtered_results = [best_result]
         
         # Return top results
         return filtered_results[:top_k]

@@ -12,7 +12,7 @@ class Config:
     
     # Model configurations
     EMBEDDING_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
-    LLM_MODEL = "gemini-2.5-flash"
+    LLM_MODEL = "gemini-2.5-flash-lite"
     
     # Document processing
     CHUNK_SIZE = 1000

@@ -95,101 +95,142 @@ Content: {result.get('content', '')}
         return "\n".join(context_parts)
     
     def _create_reasoning_prompt(self, query: str, context: str) -> str:
-        """Create reasoning prompt for the LLM"""
+        """Create reasoning prompt for the LLM - OPTIMIZED FOR CONCISE ANSWERS"""
         prompt = f"""
-You are an expert insurance policy analyst. Your task is to provide precise, direct answers to user queries based on policy documents.
+You are an expert insurance policy analyst. Provide CONCISE, DIRECT answers only.
 
 USER QUERY: {query}
 
 RELEVANT DOCUMENT CHUNKS:
 {context}
 
-INSTRUCTIONS:
-1. Read the user query carefully and identify what specific information is being requested.
-2. Search through the document chunks for the exact information that answers the query.
-3. Provide a direct, concise answer based on the policy text.
-4. If the query is about claims/coverage decisions, make a clear decision. If it's a factual question about policy terms, provide the factual answer.
+CRITICAL INSTRUCTIONS - FOLLOW EXACTLY:
+1. Answer ONLY what is asked - no extra information
+2. Keep justification under 50 words maximum
+3. Use bullet points for multiple conditions
+4. Start with YES/NO for coverage questions
+5. Give exact numbers/periods only
 
-Provide a structured response in the following JSON format:
-
+JSON RESPONSE FORMAT:
 {{
-    "decision": "APPROVED" | "REJECTED" | "PARTIAL" | "REQUIRES_REVIEW" | "INSUFFICIENT_INFO" | "FACTUAL_ANSWER",
-    "amount": "Specific amount/percentage/limit if applicable, or 'N/A'",
-    "confidence": "Confidence score from 0-100",
-    "justification": "Direct, precise answer to the question. Be concise and factual. Quote specific policy terms, periods, percentages, or conditions exactly as stated in the documents.",
-    "referenced_clauses": [
-        {{
-            "clause_number": "Clause identifier if available",
-            "source": "Source document name",
-            "content": "Exact relevant clause text from the policy",
-            "relevance_explanation": "Why this clause directly answers the query"
-        }}
-    ],
-    "key_factors": [
-        "Key policy terms, conditions, or requirements that directly relate to the answer"
-    ],
-    "additional_requirements": [
-        "Any conditions, exceptions, or additional details mentioned in the policy"
-    ]
+"decision": "APPROVED|REJECTED|PARTIAL|REQUIRES_REVIEW|INSUFFICIENT_INFO|FACTUAL_ANSWER",
+"amount": "Exact amount/limit or N/A",
+"confidence": "0-100",
+"justification": "MAXIMUM 50 WORDS. Direct answer only. No explanations.",
+"referenced_clauses": [
+    {{
+        "clause_number": "Section/Article number",
+        "source": "Document name",
+        "content": "Key sentence only - max 30 words",
+        "relevance_explanation": "Max 15 words"
+    }}
+],
+"key_factors": ["Max 3 items, 10 words each"],
+"additional_requirements": ["Max 2 items, 15 words each"]
 }}
 
-IMPORTANT GUIDELINES:
-- Answer directly and precisely - avoid lengthy explanations unless necessary
-- Extract exact numbers, periods, percentages, and conditions from the policy text
-- Use "FACTUAL_ANSWER" as decision type for informational queries (not claims decisions)
-- Quote policy language exactly when providing definitions or specific terms
-- If asking about waiting periods, coverage limits, or conditions - provide the exact timeframes and amounts
-- For yes/no questions, start with "Yes" or "No" followed by the specific conditions
-- Be concise but complete - include all relevant conditions and exceptions
-- If information is not found in the documents, state "INSUFFICIENT_INFO"
+CONCISE ANSWER EXAMPLES:
+- Grace period: "30 days from due date"
+- Coverage: "Yes, covered after 2-year waiting period"
+- Waiting period: "24 months for pre-existing conditions"
+- Amount: "₹5 lakh maximum per policy year"
 
-EXAMPLE RESPONSE STYLES:
-- For "What is the grace period?": "A grace period of thirty days is provided for premium payment after the due date..."
-- For "Does policy cover X?": "Yes, the policy covers X under the following conditions: [specific conditions]"
-- For "What is the waiting period?": "The waiting period is [specific time] for [specific condition/treatment]"
+STRICT RULES:
+- NO lengthy explanations
+- NO background information
+- NO policy context unless directly asked
+- ONLY answer the specific question
+- Use numbers, dates, amounts from documents exactly
 
-Respond with ONLY the JSON structure, no additional text.
+Respond with ONLY the JSON - no other text.
 """
         return prompt
     
     def _parse_llm_response(self, llm_response: str, search_results: List[Dict[str, Any]]) -> Dict[str, Any]:
         """Parse and validate LLM response"""
         try:
+            print(f" LLM Response length: {len(llm_response)} chars")
+            print(f" LLM Response preview: {llm_response[:200]}...")
+            
             # Extract JSON from response
             json_match = re.search(r'\{.*\}', llm_response, re.DOTALL)
             if json_match:
-                json_str = json_match.group()
-                parsed_response = json.loads(json_str)
+                json_str = json_match.group(0)
+                print(f" Extracted JSON: {json_str[:150]}...")
+                try:
+                    parsed_response = json.loads(json_str)
+                    print(f" JSON parsing successful")
+                except json.JSONDecodeError as je:
+                    print(f" JSON decode error: {je}")
+                    print(f" Attempting fallback parsing...")
+                    parsed_response = self._fallback_parse(llm_response)
             else:
-                # Fallback parsing
+                print(f" No JSON found in response, using fallback parsing")
+                # Fallback parsing if no JSON found
                 parsed_response = self._fallback_parse(llm_response)
             
             # Validate and enhance response
             validated_response = self._validate_response(parsed_response, search_results)
+            print(f" Response validation complete")
             
             return validated_response
             
-        except json.JSONDecodeError:
-            return self._create_error_response("Failed to parse LLM response as JSON", llm_response)
+        except json.JSONDecodeError as je:
+            print(f" JSON decode error: {je}")
+            return self._create_error_response(f"Failed to parse LLM response as JSON: {je}", llm_response)
         except Exception as e:
+            print(f" General parsing error: {e}")
             return self._create_error_response(f"Error parsing response: {str(e)}", llm_response)
     
     def _fallback_parse(self, response: str) -> Dict[str, Any]:
         """Fallback parsing when JSON extraction fails"""
+        print(f"🔧 Using fallback parsing for response: {response[:100]}...")
+        
         # Extract key information using regex patterns
-        decision_match = re.search(r'(?:decision|Decision)[":\s]*(["\']?)([^"\'\\n,}]+)\1', response, re.IGNORECASE)
-        amount_match = re.search(r'(?:amount|Amount)[":\s]*(["\']?)([^"\'\\n,}]+)\1', response, re.IGNORECASE)
+        decision_match = re.search(r'(?:decision|Decision)[":\s]*(["\']?)([^"\'\
+,}]+)\1', response, re.IGNORECASE)
+        amount_match = re.search(r'(?:amount|Amount)[":\s]*(["\']?)([^"\'\
+,}]+)\1', response, re.IGNORECASE)
         confidence_match = re.search(r'(?:confidence|Confidence)[":\s]*(["\']?)(\d+)\1', response, re.IGNORECASE)
         
-        return {
-            "decision": decision_match.group(2) if decision_match else "REQUIRES_REVIEW",
+        # Try to extract justification from common patterns
+        justification = "Response could not be fully parsed. Please review manually."
+        justification_patterns = [
+            r'(?:justification|Justification)[":\s]*(["\']?)([^"\'\
+,}]{10,100})\1',
+            r'(?:answer|Answer)[":\s]*(["\']?)([^"\'\
+,}]{10,100})\1',
+            r'(?:explanation|Explanation)[":\s]*(["\']?)([^"\'\
+,}]{10,100})\1'
+        ]
+        
+        for pattern in justification_patterns:
+            just_match = re.search(pattern, response, re.IGNORECASE)
+            if just_match:
+                justification = just_match.group(2)
+                break
+        
+        # Look for yes/no answers in the text
+        decision = "REQUIRES_REVIEW"
+        if decision_match:
+            decision = decision_match.group(2)
+        elif re.search(r'\b(yes|covered|approved)\b', response, re.IGNORECASE):
+            decision = "APPROVED"
+        elif re.search(r'\b(no|not covered|rejected|excluded)\b', response, re.IGNORECASE):
+            decision = "REJECTED"
+        
+        result = {
+            "decision": decision,
             "amount": amount_match.group(2) if amount_match else "N/A",
             "confidence": int(confidence_match.group(2)) if confidence_match else 50,
-            "justification": "Response could not be fully parsed. Please review manually.",
+            "justification": justification,
             "referenced_clauses": [],
             "key_factors": [],
             "additional_requirements": []
         }
+        
+        print(f"🔧 Fallback parsing result: {result['decision']} with confidence {result['confidence']}")
+        return result
     
     def _validate_response(self, response: Dict[str, Any], search_results: List[Dict[str, Any]]) -> Dict[str, Any]:
         """Validate and enhance the parsed response"""

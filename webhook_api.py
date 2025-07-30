@@ -79,13 +79,23 @@ def process_document_and_questions(pdf_path: str, questions: List[str], request_
     """Process document and answer questions with comprehensive logging"""
     
     try:
-        # Process document into chunks
+        # Process document into chunks with enhanced processing
         print(f"📄 Processing document: {pdf_path}")
         doc_start_time = time.time()
+        
+        # Clear cache for fresh processing
+        doc_processor.clear_cache()
+        
+        # Process document with semantic chunking
         chunks = doc_processor.process_document(pdf_path, "policy.pdf")
         doc_processing_time = time.time() - doc_start_time
         
-        print(f"✅ Created {len(chunks)} chunks")
+        print(f"✅ Created {len(chunks)} semantic chunks in {doc_processing_time:.2f}s")
+        
+        # Log chunk quality statistics
+        avg_chunk_size = sum(len(chunk['content']) for chunk in chunks) / len(chunks) if chunks else 0
+        avg_tokens = sum(chunk.get('token_count', 0) for chunk in chunks) / len(chunks) if chunks else 0
+        print(f"📊 Chunk stats: Avg size={avg_chunk_size:.0f} chars, Avg tokens={avg_tokens:.0f}")
         
         # Log document processing
         total_tokens = sum(chunk.get('token_count', 0) for chunk in chunks)
@@ -96,9 +106,21 @@ def process_document_and_questions(pdf_path: str, questions: List[str], request_
             "processing_time": doc_processing_time
         })
         
-        # Create vector store
+        # Validate chunks before creating vector store
+        print(f"🔍 Validating {len(chunks)} chunks...")
+        valid_chunks = []
+        for chunk in chunks:
+            # Only include chunks with meaningful content
+            if (len(chunk['content'].strip()) >= 50 and  # Minimum length
+                chunk.get('token_count', 0) >= 10 and     # Minimum tokens
+                not chunk['content'].strip().startswith('---')):  # Skip page separators
+                valid_chunks.append(chunk)
+        
+        print(f"✅ Using {len(valid_chunks)} valid chunks (filtered from {len(chunks)})")
+        
+        # Create vector store with validated chunks
         print("🔄 Creating vector store...")
-        vector_store.create_vector_store(chunks)
+        vector_store.create_vector_store(valid_chunks)
         print("✅ Vector store created")
         
         # Answer each question
@@ -106,25 +128,61 @@ def process_document_and_questions(pdf_path: str, questions: List[str], request_
         for i, question in enumerate(questions, 1):
             print(f"❓ Processing question {i}/{len(questions)}: {question}")
             
-            # Search for relevant chunks (only 3 BEST chunks for better focus)
+            # Search for relevant chunks with improved accuracy
             search_start_time = time.time()
-            search_results = vector_store.semantic_search(question, top_k=3)
+            # Use more chunks initially for better accuracy, then filter
+            search_results = vector_store.semantic_search(question, top_k=8)
             search_time = time.time() - search_start_time
             
-            # Log chunk retrieval
+            # Filter for high-quality chunks only
+            high_quality_results = []
+            for result in search_results:
+                # Only include chunks with good relevance scores
+                if result['score'] >= 0.3:  # Minimum relevance threshold
+                    high_quality_results.append(result)
+            
+            # Use top 5 high-quality chunks for better context
+            search_results = high_quality_results[:5] if high_quality_results else search_results[:3]
+            
+            # Log chunk retrieval with enhanced details
             rag_logger.log_chunk_retrieval(
                 request_id, i, question, search_results,
-                {"top_k": 3, "search_time_seconds": search_time}
+                {
+                    "top_k_requested": 8,
+                    "top_k_returned": len(search_results),
+                    "search_time_seconds": search_time,
+                    "min_score": min([r['score'] for r in search_results]) if search_results else 0,
+                    "max_score": max([r['score'] for r in search_results]) if search_results else 0,
+                    "avg_score": sum([r['score'] for r in search_results]) / len(search_results) if search_results else 0
+                }
             )
             
-            # Generate answer using LLM
+            # Generate response using LLM with validation
+            if not search_results:
+                print(f"⚠️ No relevant chunks found for question {i}")
+                answers.append("No relevant information found in the document.")
+                continue
+            
+            print(f"🔍 Found {len(search_results)} relevant chunks (scores: {[f'{r['score']:.3f}' for r in search_results[:3]]})") 
+            
             llm_start_time = time.time()
-            response = llm_reasoner.generate_response(question, search_results, request_id, i)
+            response = llm_reasoner.generate_response(
+                question, search_results, request_id, i
+            )
             llm_time = time.time() - llm_start_time
             
-            # Extract the justification as the answer
-            answer = response.get('justification', 'No answer found')
+            # Extract and validate answer
+            answer = response.get('justification', 'Unable to find relevant information')
+            
+            # Ensure answer is not empty or generic
+            if not answer or answer.strip() in ['Unable to find relevant information', 'No justification provided']:
+                # Try to extract from the best chunk directly
+                if search_results:
+                    best_chunk = search_results[0]['content'][:300]
+                    answer = f"Based on the document: {best_chunk}..."
+            
             answers.append(answer)
+            print(f"✅ Answer {i}: {answer[:100]}...")
             
             # Log final answer
             rag_logger.log_final_answer(request_id, i, question, answer, {
@@ -132,8 +190,6 @@ def process_document_and_questions(pdf_path: str, questions: List[str], request_
                 "confidence": response.get('confidence', 0),
                 "decision": response.get('decision', 'UNKNOWN')
             })
-            
-            print(f"✅ Answer {i}: {answer}")
         
         return answers
         
