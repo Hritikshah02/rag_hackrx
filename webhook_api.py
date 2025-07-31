@@ -70,9 +70,9 @@ class ImprovedSemanticChunker:
         self.llm_model = genai.GenerativeModel('gemini-2.5-flash-lite')
         
         # Initialize memory-efficient embedding model
-        self.logger.info("Loading BGE-Small-EN embedding model (memory optimized)...")
+        self.logger.info("Loading BGE-large-EN embedding model (memory optimized)...")
         device = "cuda" if torch.cuda.is_available() else "cpu"
-        self.embedding_model = SentenceTransformer('BAAI/bge-small-en-v1.5', device=device)
+        self.embedding_model = SentenceTransformer('BAAI/bge-large-en-v1.5', device=device)
         
         # Initialize ChromaDB
         self.chroma_client = chromadb.Client(Settings(anonymized_telemetry=False, is_persistent=False))
@@ -81,8 +81,8 @@ class ImprovedSemanticChunker:
         self.tokenizer = tiktoken.get_encoding("cl100k_base")
         
         # Chunking parameters
-        self.chunk_size_tokens = 500
-        self.overlap_tokens = 100
+        self.chunk_size_tokens = 300
+        self.overlap_tokens = 50
 
     def download_document(self, url: str) -> bytes:
         self.logger.info(f"Downloading document from: {url}")
