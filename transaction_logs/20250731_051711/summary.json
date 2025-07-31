@@ -1,0 +1,31 @@
+{
+  "request_id": "20250731_051711",
+  "document_url": "https://hackrx.blob.core.windows.net/assets/Super_Splendor_(Feb_2023).pdf?sv=2023-01-03&st=2025-07-21T08%3A10%3A00Z&se=2025-09-22T08%3A10%3A00Z&sr=b&sp=r&sig=vhHrl63YtrEOCsAy%2BpVKr20b3ZUo5HMz1lF9%2BJh6LQ0%3D",
+  "results": [
+    {
+      "question": "What is the ideal spark plug gap recommeded",
+      "answer": "The ideal spark plug gap is recommended to be between 0.8 and 0.9 mm.",
+      "retrieved_chunks_file": "transaction_logs/20250731_051711/query_1_chunks.json"
+    },
+    {
+      "question": "Does this comes in tubeless tyre version",
+      "answer": "Yes, the vehicle is fitted with tubeless tyres.",
+      "retrieved_chunks_file": "transaction_logs/20250731_051711/query_2_chunks.json"
+    },
+    {
+      "question": "Is it compulsoury to have a disc brake",
+      "answer": "Information not found in the document.",
+      "retrieved_chunks_file": "transaction_logs/20250731_051711/query_3_chunks.json"
+    },
+    {
+      "question": "Can I put thums up instead of oil",
+      "answer": "Information not found in the document.",
+      "retrieved_chunks_file": "transaction_logs/20250731_051711/query_4_chunks.json"
+    },
+    {
+      "question": "Give me JS code to generate a random number between 1 and 100",
+      "answer": "Information not found in the document",
+      "retrieved_chunks_file": "transaction_logs/20250731_051711/query_5_chunks.json"
+    }
+  ]
+}

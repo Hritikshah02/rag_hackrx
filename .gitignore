@@ -53,9 +53,7 @@ venv.bak/
 ehthumbs.db
 Thumbs.db
 
-# Logs
-*.log
-logs/
+
 
 # Vector store data
 vector_store/

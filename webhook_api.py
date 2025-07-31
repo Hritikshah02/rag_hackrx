@@ -1,56 +1,314 @@
-"""
-FastAPI Webhook for HackRX Competition
-Provides /hackrx/run endpoint for document question answering
-"""
+# main_api.py
 
 import os
-import tempfile
+import json
+import uuid
 import requests
+import logging
+import datetime
 import time
-from typing import List, Dict, Any
-from pathlib import Path
+import re
+from io import BytesIO
+from typing import List, Dict, Any, Optional, Tuple
 
+# --- FastAPI Imports ---
 from fastapi import FastAPI, HTTPException, Depends, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from pydantic import BaseModel, HttpUrl
 import uvicorn
 
-# Import your existing components
-from document_processor import DocumentProcessor
-from vector_store import VectorStore
-from llm_reasoner import LLMReasoner
-from config import Config
-from query_logger import rag_logger
+# --- ML/RAG Imports from ImprovedSemanticChunker ---
+import torch
+import numpy as np
+import google.generativeai as genai
+from sentence_transformers import SentenceTransformer
+import chromadb
+from chromadb.config import Settings
+import PyPDF2
+import tiktoken
+from dotenv import load_dotenv
 
-# Initialize FastAPI app
+# --- Load Environment Variables ---
+load_dotenv()
+
+# ==============================================================================
+# IMPROVED SEMANTIC CHUNKER CLASS (Your core logic)
+# ==============================================================================
+
+class ImprovedSemanticChunker:
+    """
+    A self-contained class to handle the entire RAG pipeline:
+    document fetching, text extraction, chunking, embedding, and answer generation.
+    """
+    def __init__(self):
+        """Initialize the improved semantic chunker with better models and configurations"""
+        # Configure logging for application status
+        app_log_directory = "logs"
+        os.makedirs(app_log_directory, exist_ok=True)
+        log_filename = f"rag_query_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
+        log_path = os.path.join(app_log_directory, log_filename)
+
+        logging.basicConfig(
+            level=logging.INFO,
+            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+            handlers=[
+                logging.FileHandler(log_path),
+                logging.StreamHandler()
+            ]
+        )
+        self.logger = logging.getLogger("ImprovedSemanticChunker")
+        
+        # Create directory for detailed transaction logs
+        os.makedirs("transaction_logs", exist_ok=True)
+
+        # Configure Google Gemini
+        self.google_api_key = os.getenv('GOOGLE_API_KEY')
+        if not self.google_api_key:
+            raise ValueError("GOOGLE_API_KEY environment variable is required")
+        
+        genai.configure(api_key=self.google_api_key)
+        self.llm_model = genai.GenerativeModel('gemini-2.5-flash-lite')
+        
+        # Initialize memory-efficient embedding model
+        self.logger.info("Loading BGE-Small-EN embedding model (memory optimized)...")
+        device = "cuda" if torch.cuda.is_available() else "cpu"
+        self.embedding_model = SentenceTransformer('BAAI/bge-small-en-v1.5', device=device)
+        
+        # Initialize ChromaDB
+        self.chroma_client = chromadb.Client(Settings(anonymized_telemetry=False, is_persistent=False))
+        
+        # Initialize tokenizer for token-based chunking
+        self.tokenizer = tiktoken.get_encoding("cl100k_base")
+        
+        # Chunking parameters
+        self.chunk_size_tokens = 500
+        self.overlap_tokens = 100
+
+    def download_document(self, url: str) -> bytes:
+        self.logger.info(f"Downloading document from: {url}")
+        response = requests.get(url)
+        response.raise_for_status()
+        return response.content
+
+    def extract_text_from_pdf(self, pdf_content: bytes) -> str:
+        self.logger.info("Extracting text from PDF...")
+        text = ""
+        try:
+            reader = PyPDF2.PdfReader(BytesIO(pdf_content))
+            for page in reader.pages:
+                page_text = page.extract_text()
+                if page_text:
+                    text += page_text + "\n\n"
+            
+            text = re.sub(r'\s+', ' ', text).strip()
+            self.logger.info(f"Successfully extracted and cleaned text. Total characters: {len(text)}")
+        except Exception as e:
+            self.logger.error(f"Error extracting text from PDF: {e}")
+            return ""
+        return text
+
+    def token_based_chunking(self, text: str) -> List[Dict[str, Any]]:
+        self.logger.info("Creating token-based chunks...")
+        tokens = self.tokenizer.encode(text)
+        total_tokens = len(tokens)
+        self.logger.info(f"Document tokenized: {total_tokens} tokens")
+
+        chunks = []
+        for start_idx in range(0, total_tokens, self.chunk_size_tokens - self.overlap_tokens):
+            end_idx = min(start_idx + self.chunk_size_tokens, total_tokens)
+            chunk_tokens = tokens[start_idx:end_idx]
+            chunk_text = self.tokenizer.decode(chunk_tokens).strip()
+
+            if chunk_text:
+                chunks.append({
+                    'id': f'chunk_{len(chunks)}',
+                    'text': chunk_text,
+                    'size': len(chunk_tokens),
+                })
+        self.logger.info(f"Created {len(chunks)} token-based chunks")
+        return chunks
+
+    def create_vector_store(self, chunks: List[Dict[str, Any]]) -> None:
+        self.logger.info("Creating vector embeddings and storing in ChromaDB...")
+        # Use a unique collection name per run to avoid conflicts
+        self.collection_name = f"docs_{uuid.uuid4().hex}"
+        self.collection = self.chroma_client.create_collection(
+            name=self.collection_name,
+            metadata={"hnsw:space": "cosine"}
+        )
+        texts = [chunk['text'] for chunk in chunks]
+        embeddings = self.embedding_model.encode(
+            texts, 
+            batch_size=64, 
+            show_progress_bar=True, 
+            normalize_embeddings=True
+        )
+        self.collection.add(
+            documents=texts,
+            embeddings=embeddings.tolist(),
+            ids=[chunk['id'] for chunk in chunks],
+            metadatas=[{'size': chunk['size']} for chunk in chunks]
+        )
+        self.logger.info(f"Added {len(chunks)} chunks to vector store: {self.collection_name}")
+
+    def advanced_semantic_search(self, query: str, top_k: int = 8) -> List[Dict[str, Any]]:
+        self.logger.info(f"Searching for: '{query}'")
+        results = self.collection.query(query_texts=[query], n_results=top_k)
+        retrieved_chunks = []
+        if results and results['documents']:
+            for i, (doc, dist) in enumerate(zip(results['documents'][0], results['distances'][0])):
+                retrieved_chunks.append({
+                    'rank': i + 1,
+                    'text': doc,
+                    'similarity_score': 1 - dist if dist is not None else 0
+                })
+        return retrieved_chunks
+
+    def generate_improved_answer(self, query: str, context_chunks: List[Dict[str, Any]]) -> str:
+        self.logger.info("Generating final answer with Gemini model...")
+        if not context_chunks:
+            return "Information not found in the document."
+
+        context = "\n\n".join([f"Context {c['rank']}: {c['text']}" for c in context_chunks])
+        prompt = f"""You are an expert insurance policy analyst. Based on the provided context from a policy document, answer the question in one single, precise sentence.
+
+CONTEXT:
+{context}
+
+QUESTION: {query}
+
+INSTRUCTIONS:
+- Provide ONLY ONE concise sentence that directly answers the question.
+- If the information is not in the context, respond with "Information not found in the document".
+
+ANSWER:"""
+        try:
+            response = self.llm_model.generate_content(prompt)
+            return response.text.strip() if response.text else "Error: No response generated from LLM."
+        except Exception as e:
+            self.logger.error(f"Error generating response from LLM: {e}")
+            return f"Error during answer generation: {str(e)}"
+    
+    def process_payload(self, payload: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Process the complete payload with enhanced logging for each transaction.
+        """
+        self.logger.info("=" * 80)
+        self.logger.info("STARTING NEW PAYLOAD PROCESSING")
+        
+        doc_url = str(payload['documents'])
+        questions = payload['questions']
+        
+        # --- Enhanced Logging Setup ---
+        request_id = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
+        log_dir_for_request = os.path.join("transaction_logs", request_id)
+        os.makedirs(log_dir_for_request, exist_ok=True)
+        # ---
+
+        doc_content = self.download_document(doc_url)
+        text = self.extract_text_from_pdf(doc_content)
+        
+        if not text:
+            answers = ["Failed to extract text from the PDF document."] * len(questions)
+            return {'answers': answers}
+
+        chunks = self.token_based_chunking(text)
+        self.create_vector_store(chunks)
+        
+        all_results_data = [] # For detailed logging
+        final_answers = []    # For the API response
+
+        for i, question in enumerate(questions, 1):
+            self.logger.info(f"\n--- Processing Question {i}: {question} ---")
+            
+            # 1. Retrieve chunks
+            retrieved_chunks = self.advanced_semantic_search(question)
+            
+            # 2. Log retrieved chunks to a separate file for each query
+            chunks_log_path = os.path.join(log_dir_for_request, f"query_{i}_chunks.json")
+            with open(chunks_log_path, 'w', encoding='utf-8') as f_chunks:
+                json.dump(retrieved_chunks, f_chunks, indent=2, ensure_ascii=False)
+            
+            # 3. Generate answer
+            answer = self.generate_improved_answer(question, retrieved_chunks)
+            self.logger.info(f"Final Answer: {answer}")
+            
+            # 4. Prepare data for logging and response
+            final_answers.append(answer)
+            all_results_data.append({
+                'question': question, 
+                'answer': answer,
+                'retrieved_chunks_file': chunks_log_path
+            })
+        
+        # 5. Log the main summary file for the entire request
+        main_log_data = {
+            'request_id': request_id,
+            'document_url': doc_url,
+            'results': all_results_data
+        }
+        main_log_path = os.path.join(log_dir_for_request, "summary.json")
+        with open(main_log_path, 'w', encoding='utf-8') as f_main:
+            json.dump(main_log_data, f_main, indent=2, ensure_ascii=False)
+        
+        self.logger.info(f"✅ Transaction logs saved to directory: {log_dir_for_request}")
+        self.logger.info("=" * 80)
+        
+        # Clean up the ChromaDB collection
+        try:
+            self.chroma_client.delete_collection(self.collection_name)
+            self.logger.info(f"Cleaned up ChromaDB collection: {self.collection_name}")
+        except Exception as e:
+            self.logger.error(f"Could not delete collection {self.collection_name}: {e}")
+
+        # Return only the answers to match the API response model
+        return {'answers': final_answers}
+
+# ==============================================================================
+# FASTAPI APPLICATION SETUP
+# ==============================================================================
+
+# --- Initialize FastAPI app ---
 app = FastAPI(
     title="HackRX Document Query API",
-    description="API for answering questions about policy documents",
-    version="1.0.0"
+    description="API for answering questions about policy documents using an advanced RAG pipeline.",
+    version="2.1.0" # Version updated for logging change
 )
 
-# Security
+# --- Security ---
 security = HTTPBearer()
-
-# Expected Bearer token (from HackRX requirements)
 EXPECTED_TOKEN = "0834b150c8388abe371c886793946844e5847079871db13687754358e06d4b30"
 
-# Request/Response models
+# --- Pydantic Models for Request/Response ---
 class QueryRequest(BaseModel):
-    documents: HttpUrl  # PDF URL
+    documents: HttpUrl
     questions: List[str]
 
 class QueryResponse(BaseModel):
     answers: List[str]
 
-# Initialize components
-config = Config()
-doc_processor = DocumentProcessor()
-vector_store = VectorStore()
-llm_reasoner = LLMReasoner()
+# --- Global variable to hold the RAG pipeline instance ---
+rag_pipeline: Optional[ImprovedSemanticChunker] = None
 
+# --- FastAPI Startup Event to load models ---
+@app.on_event("startup")
+def startup_event():
+    global rag_pipeline
+    print("🚀 API starting up...")
+    print("🔍 Checking for GPU...")
+    if torch.cuda.is_available():
+        print(f"✅ GPU is available: {torch.cuda.get_device_name(0)}")
+    else:
+        print("❌ GPU not available. Using CPU.")
+    
+    print("🧠 Loading models and initializing the RAG pipeline...")
+    start_time = time.time()
+    rag_pipeline = ImprovedSemanticChunker()
+    end_time = time.time()
+    print(f"✅ RAG pipeline ready in {end_time - start_time:.2f} seconds.")
+
+# --- Helper function for token verification ---
 def verify_token(credentials: HTTPAuthorizationCredentials = Depends(security)):
-    """Verify Bearer token"""
     if credentials.credentials != EXPECTED_TOKEN:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -59,246 +317,59 @@ def verify_token(credentials: HTTPAuthorizationCredentials = Depends(security)):
         )
     return credentials.credentials
 
-def download_pdf(url: str) -> str:
-    """Download PDF from URL and return local file path"""
-    try:
-        response = requests.get(url, timeout=30)
-        response.raise_for_status()
-        
-        # Create temporary file
-        with tempfile.NamedTemporaryFile(delete=False, suffix='.pdf') as tmp_file:
-            tmp_file.write(response.content)
-            return tmp_file.name
-    except Exception as e:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail=f"Failed to download PDF: {str(e)}"
-        )
-
-def process_document_and_questions(pdf_path: str, questions: List[str], request_id: str) -> List[str]:
-    """Process document and answer questions with comprehensive logging"""
-    
-    try:
-        # Process document into chunks with enhanced processing
-        print(f"📄 Processing document: {pdf_path}")
-        doc_start_time = time.time()
-        
-        # Clear cache for fresh processing
-        doc_processor.clear_cache()
-        
-        # Process document with semantic chunking
-        chunks = doc_processor.process_document(pdf_path, "policy.pdf")
-        doc_processing_time = time.time() - doc_start_time
-        
-        print(f"✅ Created {len(chunks)} semantic chunks in {doc_processing_time:.2f}s")
-        
-        # Log chunk quality statistics
-        avg_chunk_size = sum(len(chunk['content']) for chunk in chunks) / len(chunks) if chunks else 0
-        avg_tokens = sum(chunk.get('token_count', 0) for chunk in chunks) / len(chunks) if chunks else 0
-        print(f"📊 Chunk stats: Avg size={avg_chunk_size:.0f} chars, Avg tokens={avg_tokens:.0f}")
-        
-        # Log document processing
-        total_tokens = sum(chunk.get('token_count', 0) for chunk in chunks)
-        rag_logger.log_document_processing(request_id, {
-            "path": pdf_path,
-            "num_chunks": len(chunks),
-            "total_tokens": total_tokens,
-            "processing_time": doc_processing_time
-        })
-        
-        # Validate chunks before creating vector store
-        print(f"🔍 Validating {len(chunks)} chunks...")
-        valid_chunks = []
-        for chunk in chunks:
-            # Only include chunks with meaningful content
-            if (len(chunk['content'].strip()) >= 50 and  # Minimum length
-                chunk.get('token_count', 0) >= 10 and     # Minimum tokens
-                not chunk['content'].strip().startswith('---')):  # Skip page separators
-                valid_chunks.append(chunk)
-        
-        print(f"✅ Using {len(valid_chunks)} valid chunks (filtered from {len(chunks)})")
-        
-        # Create vector store with validated chunks
-        print("🔄 Creating vector store...")
-        vector_store.create_vector_store(valid_chunks)
-        print("✅ Vector store created")
-        
-        # Answer each question
-        answers = []
-        for i, question in enumerate(questions, 1):
-            print(f"❓ Processing question {i}/{len(questions)}: {question}")
-            
-            # Search for relevant chunks with improved accuracy
-            search_start_time = time.time()
-            # Use more chunks initially for better accuracy, then filter
-            search_results = vector_store.semantic_search(question, top_k=8)
-            search_time = time.time() - search_start_time
-            
-            # Filter for high-quality chunks only
-            high_quality_results = []
-            for result in search_results:
-                # Only include chunks with good relevance scores
-                if result['score'] >= 0.3:  # Minimum relevance threshold
-                    high_quality_results.append(result)
-            
-            # Use top 5 high-quality chunks for better context
-            search_results = high_quality_results[:5] if high_quality_results else search_results[:3]
-            
-            # Log chunk retrieval with enhanced details
-            rag_logger.log_chunk_retrieval(
-                request_id, i, question, search_results,
-                {
-                    "top_k_requested": 8,
-                    "top_k_returned": len(search_results),
-                    "search_time_seconds": search_time,
-                    "min_score": min([r['score'] for r in search_results]) if search_results else 0,
-                    "max_score": max([r['score'] for r in search_results]) if search_results else 0,
-                    "avg_score": sum([r['score'] for r in search_results]) / len(search_results) if search_results else 0
-                }
-            )
-            
-            # Generate response using LLM with validation
-            if not search_results:
-                print(f"⚠️ No relevant chunks found for question {i}")
-                answers.append("No relevant information found in the document.")
-                continue
-            
-            print(f"🔍 Found {len(search_results)} relevant chunks (scores: {[f'{r['score']:.3f}' for r in search_results[:3]]})") 
-            
-            llm_start_time = time.time()
-            response = llm_reasoner.generate_response(
-                question, search_results, request_id, i
-            )
-            llm_time = time.time() - llm_start_time
-            
-            # Extract and validate answer
-            answer = response.get('justification', 'Unable to find relevant information')
-            
-            # Ensure answer is not empty or generic
-            if not answer or answer.strip() in ['Unable to find relevant information', 'No justification provided']:
-                # Try to extract from the best chunk directly
-                if search_results:
-                    best_chunk = search_results[0]['content'][:300]
-                    answer = f"Based on the document: {best_chunk}..."
-            
-            answers.append(answer)
-            print(f"✅ Answer {i}: {answer[:100]}...")
-            
-            # Log final answer
-            rag_logger.log_final_answer(request_id, i, question, answer, {
-                "llm_processing_time": llm_time,
-                "confidence": response.get('confidence', 0),
-                "decision": response.get('decision', 'UNKNOWN')
-            })
-        
-        return answers
-        
-    except Exception as e:
-        rag_logger.log_error(request_id, "document_processing", str(e), {
-            "pdf_path": pdf_path,
-            "num_questions": len(questions)
-        })
-        print(f"❌ Error processing document: {str(e)}")
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Error processing document: {str(e)}"
-        )
+# ==============================================================================
+# API ENDPOINTS
+# ==============================================================================
 
 @app.get("/")
 async def root():
-    """Health check endpoint"""
     return {"message": "HackRX Document Query API is running", "status": "healthy"}
-
-@app.get("/health")
-async def health_check():
-    """Detailed health check"""
-    try:
-        # Test components
-        config.validate_config()
-        return {
-            "status": "healthy",
-            "components": {
-                "config": "ok",
-                "document_processor": "ok",
-                "vector_store": "ok",
-                "llm_reasoner": "ok"
-            }
-        }
-    except Exception as e:
-        raise HTTPException(
-            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-            detail=f"Service unhealthy: {str(e)}"
-        )
 
 @app.post("/hackrx/run", response_model=QueryResponse)
 async def hackrx_run(
     request: QueryRequest,
     token: str = Depends(verify_token)
 ) -> QueryResponse:
+    if not rag_pipeline:
+        raise HTTPException(status_code=503, detail="RAG pipeline is not initialized.")
+
+    print(f"🚀 Received request for document: {request.documents}")
     start_time = time.time()
-    
-    # Start request logging
-    request_id = rag_logger.start_request(str(request.documents), request.questions)
-    
-    print(f"🚀 Received request {request_id} with {len(request.questions)} questions")
-    print(f"📄 Document URL: {request.documents}")
-    
-    pdf_path = None
+
     try:
-        # Download PDF
-        print("⬇️ Downloading PDF...")
-        pdf_path = download_pdf(str(request.documents))
-        print(f"✅ PDF downloaded to: {pdf_path}")
-        
-        # Process document and answer questions
-        answers = process_document_and_questions(pdf_path, request.questions, request_id)
+        response_data = rag_pipeline.process_payload(request.dict())
+        answers = response_data['answers']
         
         total_time = time.time() - start_time
-        rag_logger.complete_request(request_id, True, total_time, answers)
-        
         print(f"✅ Successfully processed {len(answers)} answers in {total_time:.2f}s")
-        return QueryResponse(answers=answers)
         
-    except HTTPException:
-        total_time = time.time() - start_time
-        rag_logger.complete_request(request_id, False, total_time, [], "HTTP Exception")
-        raise
+        return QueryResponse(answers=answers)
+
     except Exception as e:
-        total_time = time.time() - start_time
-        error_msg = f"Internal server error: {str(e)}"
-        rag_logger.complete_request(request_id, False, total_time, [], error_msg)
-        print(f"❌ Unexpected error: {str(e)}")
+        print(f"❌ An unexpected error occurred: {str(e)}")
+        import traceback
+        traceback.print_exc()
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=error_msg
+            detail=f"An internal error occurred: {str(e)}"
         )
-    finally:
-        # Clean up temporary file
-        if pdf_path and os.path.exists(pdf_path):
-            try:
-                os.unlink(pdf_path)
-                print(f"🗑️ Cleaned up temporary file: {pdf_path}")
-            except Exception as e:
-                print(f"⚠️ Failed to clean up temporary file: {e}")
 
-# Alternative endpoint for testing (same functionality)
-@app.post("/api/v1/hackrx/run", response_model=QueryResponse)
+@app.post("/api/v1/hackrx/run", response_model=QueryResponse, include_in_schema=False)
 async def hackrx_run_v1(
     request: QueryRequest,
     token: str = Depends(verify_token)
 ) -> QueryResponse:
-    """Alternative endpoint with /api/v1 prefix"""
     return await hackrx_run(request, token)
 
+# --- Main block for local development ---
 if __name__ == "__main__":
-    # For local development
-    print("🚀 Starting HackRX Document Query API...")
-    print(f"📋 Expected Bearer Token: {EXPECTED_TOKEN}")
+    print("🚀 Starting HackRX Document Query API for local development...")
+    print(f"🔑 Expected Bearer Token (for testing): {EXPECTED_TOKEN}")
     print("🌐 API will be available at: http://localhost:8000")
-    print("📖 Docs available at: http://localhost:8000/docs")
+    print("📖 API docs available at: http://localhost:8000/docs")
     
     uvicorn.run(
-        "webhook_api:app",
+        "__main__:app",
         host="0.0.0.0",
         port=8000,
         reload=True,

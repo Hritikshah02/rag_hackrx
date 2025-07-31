@@ -14,6 +14,7 @@ from io import BytesIO
 import re
 import google.generativeai as genai
 import tiktoken
+import torch
 
 # Configure logging
 log_directory = "logs"

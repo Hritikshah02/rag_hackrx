@@ -1,0 +1,11 @@
+{
+  "request_id": "20250731_051702",
+  "document_url": "https://hackrx.blob.core.windows.net/assets/Arogya%20Sanjeevani%20Policy%20-%20CIN%20-%20U10200WB1906GOI001713%201.pdf?sv=2023-01-03&st=2025-07-21T08%3A29%3A02Z&se=2025-09-22T08%3A29%3A00Z&sr=b&sp=r&sig=nzrz1K9Iurt%2BBXom%2FB%2BMPTFMFP3PRnIvEsipAX10Ig4%3D",
+  "results": [
+    {
+      "question": "I have raised a claim for hospitalization for Rs 200,000 with HDFC, and it's approved. My total expenses are Rs 250,000. Can I raise the remaining Rs 50,000 with you?",
+      "answer": "You may prefer claims under this policy for amounts disallowed under any other policy, and the insurer shall independently settle the claim subject to the terms and conditions of this policy.",
+      "retrieved_chunks_file": "transaction_logs/20250731_051702/query_1_chunks.json"
+    }
+  ]
+}
