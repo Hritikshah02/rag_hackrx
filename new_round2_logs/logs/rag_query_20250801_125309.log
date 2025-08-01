@@ -1,0 +1,449 @@
+2025-08-01 12:53:09,008 - ImprovedSemanticChunker - INFO - Loading BGE-large-EN embedding model (memory optimized)...
+2025-08-01 12:53:09,008 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: BAAI/bge-large-en-v1.5
+2025-08-01 12:53:15,512 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2025-08-01 12:53:57,938 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-01 12:53:57,938 - ImprovedSemanticChunker - INFO - STARTING NEW PAYLOAD PROCESSING
+2025-08-01 12:53:57,938 - ImprovedSemanticChunker - INFO - Using pre-chunked collection: doc_1
+2025-08-01 12:53:57,939 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 1: What is the grace period for premium payment under the National Parivar Mediclaim Plus Policy? ---
+2025-08-01 12:53:57,939 - ImprovedSemanticChunker - INFO - Searching for: 'What is the grace period for premium payment under the National Parivar Mediclaim Plus Policy?'
+2025-08-01 12:53:57,940 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: BAAI/bge-large-en-v1.5
+2025-08-01 12:54:03,680 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:54:04,773 - ImprovedSemanticChunker - INFO - Final Answer: The grace period for premium payment under the National Parivar Mediclaim Plus Policy is thirty days.
+2025-08-01 12:54:04,774 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 2: What is the waiting period for pre-existing diseases (PED) to be covered? ---
+2025-08-01 12:54:04,774 - ImprovedSemanticChunker - INFO - Searching for: 'What is the waiting period for pre-existing diseases (PED) to be covered?'
+2025-08-01 12:54:04,968 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:54:06,207 - ImprovedSemanticChunker - INFO - Final Answer: Expenses related to the treatment of a Pre-Existing Disease and its direct complications are excluded until the expiry of thirty-six months of continuous coverage after the date of inception of the first policy.
+2025-08-01 12:54:06,207 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 3: Does this policy cover maternity expenses, and what are the conditions? ---
+2025-08-01 12:54:06,207 - ImprovedSemanticChunker - INFO - Searching for: 'Does this policy cover maternity expenses, and what are the conditions?'
+2025-08-01 12:54:06,426 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:54:07,436 - ImprovedSemanticChunker - INFO - Final Answer: This policy covers maternity expenses for childbirth and lawful medical termination of pregnancy, provided the female insured is between 18 and 45 years old and delivery or termination does not occur within a 24-month waiting period, with limits on the number of deliveries/terminations and specific exclusions.
+2025-08-01 12:54:07,436 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 4: What is the waiting period for cataract surgery? ---
+2025-08-01 12:54:07,436 - ImprovedSemanticChunker - INFO - Searching for: 'What is the waiting period for cataract surgery?'
+2025-08-01 12:54:07,657 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:54:08,768 - ImprovedSemanticChunker - INFO - Final Answer: The waiting period for cataract surgery is two years.
+2025-08-01 12:54:08,769 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 5: Are the medical expenses for an organ donor covered under this policy? ---
+2025-08-01 12:54:08,769 - ImprovedSemanticChunker - INFO - Searching for: 'Are the medical expenses for an organ donor covered under this policy?'
+2025-08-01 12:54:08,964 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:54:09,994 - ImprovedSemanticChunker - INFO - Final Answer: The medical expenses for an organ donor are covered for their hospitalization during organ harvesting, provided specific conditions are met and the claim is admitted for the insured person's transplant.
+2025-08-01 12:54:09,994 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 6: What is the No Claim Discount (NCD) offered in this policy? ---
+2025-08-01 12:54:09,995 - ImprovedSemanticChunker - INFO - Searching for: 'What is the No Claim Discount (NCD) offered in this policy?'
+2025-08-01 12:54:10,187 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:54:11,120 - ImprovedSemanticChunker - INFO - Final Answer: The No Claim Discount (NCD) allowed shall not exceed flat 5% of the total base premium for the term of the policy.
+2025-08-01 12:54:11,120 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 7: Is there a benefit for preventive health check-ups? ---
+2025-08-01 12:54:11,120 - ImprovedSemanticChunker - INFO - Searching for: 'Is there a benefit for preventive health check-ups?'
+2025-08-01 12:54:11,243 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:54:12,279 - ImprovedSemanticChunker - INFO - Final Answer: Yes, health check-up expenses are reimbursed every two years provided the policy has been continuously renewed without a break.
+2025-08-01 12:54:12,279 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 8: How does the policy define a 'Hospital'? ---
+2025-08-01 12:54:12,280 - ImprovedSemanticChunker - INFO - Searching for: 'How does the policy define a 'Hospital'?'
+2025-08-01 12:54:12,487 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:54:13,476 - ImprovedSemanticChunker - INFO - Final Answer: A hospital is defined as an institution for in-patient care and day care treatment of disease/injuries, registered with local authorities or compliant with specific minimum criteria including qualified nursing and medical staff, bed capacity, equipped operation theatre, and patient record maintenance.
+2025-08-01 12:54:13,476 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 9: What is the extent of coverage for AYUSH treatments? ---
+2025-08-01 12:54:13,476 - ImprovedSemanticChunker - INFO - Searching for: 'What is the extent of coverage for AYUSH treatments?'
+2025-08-01 12:54:13,689 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:54:14,500 - ImprovedSemanticChunker - INFO - Final Answer: AYUSH treatments are covered up to the sum insured for all plans.
+2025-08-01 12:54:14,500 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 10: Are there any sub-limits on room rent and ICU charges for Plan A? ---
+2025-08-01 12:54:14,501 - ImprovedSemanticChunker - INFO - Searching for: 'Are there any sub-limits on room rent and ICU charges for Plan A?'
+2025-08-01 12:54:14,606 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:54:16,035 - ImprovedSemanticChunker - INFO - Final Answer: Yes, for Plan A, room charges and intensive care unit charges are payable up to a specified limit per day, which does not apply if the treatment is part of a package for a listed procedure at a Preferred Provider Network (PPN).
+2025-08-01 12:54:16,036 - ImprovedSemanticChunker - INFO - ✅ Transaction logs saved to directory: transaction_logs/20250801_125357
+2025-08-01 12:54:16,036 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-01 12:54:18,046 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-01 12:54:18,047 - ImprovedSemanticChunker - INFO - STARTING NEW PAYLOAD PROCESSING
+2025-08-01 12:54:18,047 - ImprovedSemanticChunker - INFO - Using pre-chunked collection: doc_2
+2025-08-01 12:54:18,049 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 1: When will my root canal claim of Rs 25,000 be settled? ---
+2025-08-01 12:54:18,049 - ImprovedSemanticChunker - INFO - Searching for: 'When will my root canal claim of Rs 25,000 be settled?'
+2025-08-01 12:54:18,224 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:54:19,108 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-08-01 12:54:19,108 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 2: I have done an IVF for Rs 56,000. Is it covered? ---
+2025-08-01 12:54:19,108 - ImprovedSemanticChunker - INFO - Searching for: 'I have done an IVF for Rs 56,000. Is it covered?'
+2025-08-01 12:54:19,224 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:54:20,234 - ImprovedSemanticChunker - INFO - Final Answer: Expenses related to assisted reproduction services, including IVF, are not covered by this policy.
+2025-08-01 12:54:20,235 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 3: I did a cataract treatment of Rs 100,000. Will you settle full? ---
+2025-08-01 12:54:20,235 - ImprovedSemanticChunker - INFO - Searching for: 'I did a cataract treatment of Rs 100,000. Will you settle full?'
+2025-08-01 12:54:20,341 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:54:21,376 - ImprovedSemanticChunker - INFO - Final Answer: The policy will indemnify medical expenses for cataract treatment up to 25% of the Sum Insured or INR 40,000 per eye, whichever is lower.
+2025-08-01 12:54:21,377 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 4: Give me a list of documents to be uploaded for hospitalization due to heart surgery. ---
+2025-08-01 12:54:21,377 - ImprovedSemanticChunker - INFO - Searching for: 'Give me a list of documents to be uploaded for hospitalization due to heart surgery.'
+2025-08-01 12:54:21,493 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:54:22,797 - ImprovedSemanticChunker - INFO - Final Answer: To process a reimbursement claim for hospitalization due to heart surgery, upload a duly completed claim form, photo identity proof, medical practitioner’s prescription advising admission, original itemized bills and payment receipts, discharge summary, investigation reports, OT notes or surgeon's certificate, implant stickers/invoices, MLR/FIR if applicable, NEFT details and a cancelled cheque, KYC of proposer if claim exceeds Rs. 1 Lakh, and any other relevant documents required by the Company/TPA.
+2025-08-01 12:54:22,797 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 5: I have raised a claim for hospitalization for Rs 25,000. What will I get? ---
+2025-08-01 12:54:22,798 - ImprovedSemanticChunker - INFO - Searching for: 'I have raised a claim for hospitalization for Rs 25,000. What will I get?'
+2025-08-01 12:54:22,912 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:54:24,538 - ImprovedSemanticChunker - INFO - Final Answer: As there is no mention of the Sum Insured or the specific hospitalization expenses within the provided context, it is not possible to determine the exact reimbursement amount.
+2025-08-01 12:54:24,539 - ImprovedSemanticChunker - INFO - ✅ Transaction logs saved to directory: transaction_logs/20250801_125418
+2025-08-01 12:54:24,539 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-01 12:54:26,549 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-01 12:54:26,549 - ImprovedSemanticChunker - INFO - STARTING NEW PAYLOAD PROCESSING
+2025-08-01 12:54:26,549 - ImprovedSemanticChunker - INFO - Using pre-chunked collection: doc_3
+2025-08-01 12:54:26,551 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 1: What is the ideal spark plug gap recommended? ---
+2025-08-01 12:54:26,551 - ImprovedSemanticChunker - INFO - Searching for: 'What is the ideal spark plug gap recommended?'
+2025-08-01 12:54:26,712 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:54:27,608 - ImprovedSemanticChunker - INFO - Final Answer: The ideal spark plug gap is recommended to be between 0.8 and 0.9 mm.
+2025-08-01 12:54:27,609 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 2: Does this come in tubeless tyre version? ---
+2025-08-01 12:54:27,609 - ImprovedSemanticChunker - INFO - Searching for: 'Does this come in tubeless tyre version?'
+2025-08-01 12:54:27,705 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:54:28,838 - ImprovedSemanticChunker - INFO - Final Answer: Yes, the vehicle is fitted with tubeless tyres for both the front and rear.
+2025-08-01 12:54:28,838 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 3: Is it compulsory to have a disc brake? ---
+2025-08-01 12:54:28,838 - ImprovedSemanticChunker - INFO - Searching for: 'Is it compulsory to have a disc brake?'
+2025-08-01 12:54:28,934 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:54:29,861 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-08-01 12:54:29,862 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 4: Can I put Thums Up instead of oil? ---
+2025-08-01 12:54:29,862 - ImprovedSemanticChunker - INFO - Searching for: 'Can I put Thums Up instead of oil?'
+2025-08-01 12:54:29,955 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:54:31,178 - ImprovedSemanticChunker - INFO - Final Answer: Non-detergent, vegetable, or castor-based racing oils are not recommended for engine oil.
+2025-08-01 12:54:31,178 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 5: Give me JS code to generate a random number between 1 and 100 ---
+2025-08-01 12:54:31,178 - ImprovedSemanticChunker - INFO - Searching for: 'Give me JS code to generate a random number between 1 and 100'
+2025-08-01 12:54:31,280 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:54:32,240 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-08-01 12:54:32,241 - ImprovedSemanticChunker - INFO - ✅ Transaction logs saved to directory: transaction_logs/20250801_125426
+2025-08-01 12:54:32,241 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-01 12:54:34,251 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-01 12:54:34,251 - ImprovedSemanticChunker - INFO - STARTING NEW PAYLOAD PROCESSING
+2025-08-01 12:54:34,251 - ImprovedSemanticChunker - INFO - Using pre-chunked collection: doc_4
+2025-08-01 12:54:34,253 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 1: Is Non-infective Arthritis covered? ---
+2025-08-01 12:54:34,253 - ImprovedSemanticChunker - INFO - Searching for: 'Is Non-infective Arthritis covered?'
+2025-08-01 12:54:34,409 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:54:35,292 - ImprovedSemanticChunker - INFO - Final Answer: Non-infective Arthritis is subject to a two-year waiting period.
+2025-08-01 12:54:35,293 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 2: I renewed my policy yesterday, and I have been a customer for 2 years. Is Hydrocele claimable? ---
+2025-08-01 12:54:35,293 - ImprovedSemanticChunker - INFO - Searching for: 'I renewed my policy yesterday, and I have been a customer for 2 years. Is Hydrocele claimable?'
+2025-08-01 12:54:35,414 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:54:36,416 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document
+2025-08-01 12:54:36,417 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 3: Is abortion covered? ---
+2025-08-01 12:54:36,417 - ImprovedSemanticChunker - INFO - Searching for: 'Is abortion covered?'
+2025-08-01 12:54:36,498 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:54:37,987 - ImprovedSemanticChunker - INFO - Final Answer: Expenses incurred in connection with voluntary medical termination of pregnancy during the first twelve weeks from the date of conception are not covered.
+2025-08-01 12:54:37,988 - ImprovedSemanticChunker - INFO - ✅ Transaction logs saved to directory: transaction_logs/20250801_125434
+2025-08-01 12:54:37,988 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-01 12:54:39,996 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-01 12:54:39,996 - ImprovedSemanticChunker - INFO - STARTING NEW PAYLOAD PROCESSING
+2025-08-01 12:54:39,996 - ImprovedSemanticChunker - INFO - Using pre-chunked collection: indian_constitution_collection
+2025-08-01 12:54:39,997 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 1: What is the official name of India according to Article 1? ---
+2025-08-01 12:54:39,997 - ImprovedSemanticChunker - INFO - Searching for: 'What is the official name of India according to Article 1?'
+2025-08-01 12:54:40,293 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:54:41,060 - ImprovedSemanticChunker - INFO - Final Answer: According to Article 1, the official name of India is India, that is Bharat.
+2025-08-01 12:54:41,060 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 2: Which Article guarantees equality before the law and equal protection of the laws? ---
+2025-08-01 12:54:41,061 - ImprovedSemanticChunker - INFO - Searching for: 'Which Article guarantees equality before the law and equal protection of the laws?'
+2025-08-01 12:54:41,161 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:54:42,558 - ImprovedSemanticChunker - INFO - Final Answer: Article 14 guarantees equality before the law and equal protection of the laws.
+2025-08-01 12:54:42,558 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 3: What is abolished by Article 17 of the Constitution? ---
+2025-08-01 12:54:42,558 - ImprovedSemanticChunker - INFO - Searching for: 'What is abolished by Article 17 of the Constitution?'
+2025-08-01 12:54:42,667 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:54:43,505 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document
+2025-08-01 12:54:43,506 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 4: What are the key ideals mentioned in the Preamble of the Indian Constitution? ---
+2025-08-01 12:54:43,506 - ImprovedSemanticChunker - INFO - Searching for: 'What are the key ideals mentioned in the Preamble of the Indian Constitution?'
+2025-08-01 12:54:43,612 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:54:44,918 - ImprovedSemanticChunker - INFO - Final Answer: The key ideals mentioned in the Preamble of the Indian Constitution are Justice, Liberty, Equality, and Fraternity, assuring the dignity of the individual and the unity and integrity of the Nation.
+2025-08-01 12:54:44,919 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 5: Under which Article can Parliament alter the boundaries of states? ---
+2025-08-01 12:54:44,919 - ImprovedSemanticChunker - INFO - Searching for: 'Under which Article can Parliament alter the boundaries of states?'
+2025-08-01 12:54:45,015 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:54:45,940 - ImprovedSemanticChunker - INFO - Final Answer: Parliament may alter the boundaries of states under Article 3.
+2025-08-01 12:54:45,941 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 6: According to Article 24, children below what age are prohibited from working? ---
+2025-08-01 12:54:45,941 - ImprovedSemanticChunker - INFO - Searching for: 'According to Article 24, children below what age are prohibited from working?'
+2025-08-01 12:54:46,051 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:54:47,066 - ImprovedSemanticChunker - INFO - Final Answer: According to Article 24, children below the age of fourteen years are prohibited from working in any factory or mine or engaged in any other hazardous employment.
+2025-08-01 12:54:47,066 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 7: What is the significance of Article 21 in the Indian Constitution? ---
+2025-08-01 12:54:47,066 - ImprovedSemanticChunker - INFO - Searching for: 'What is the significance of Article 21 in the Indian Constitution?'
+2025-08-01 12:54:47,171 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:54:48,165 - ImprovedSemanticChunker - INFO - Final Answer: Article 21 of the Indian Constitution provides protection of life and personal liberty.
+2025-08-01 12:54:48,165 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 8: Article 15 prohibits discrimination on certain grounds. What are they? ---
+2025-08-01 12:54:48,165 - ImprovedSemanticChunker - INFO - Searching for: 'Article 15 prohibits discrimination on certain grounds. What are they?'
+2025-08-01 12:54:48,269 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:54:49,828 - ImprovedSemanticChunker - INFO - Final Answer: Article 15 prohibits discrimination on the grounds of religion, race, caste, sex, or place of birth.
+2025-08-01 12:54:49,828 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 9: Which Article allows Parliament to regulate the right to form associations? ---
+2025-08-01 12:54:49,829 - ImprovedSemanticChunker - INFO - Searching for: 'Which Article allows Parliament to regulate the right to form associations?'
+2025-08-01 12:54:49,940 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:54:50,954 - ImprovedSemanticChunker - INFO - Final Answer: Article 19(1)(c) grants citizens the right to form associations or unions.
+2025-08-01 12:54:50,954 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 10: What restrictions can the State impose on the right to freedom of speech? ---
+2025-08-01 12:54:50,954 - ImprovedSemanticChunker - INFO - Searching for: 'What restrictions can the State impose on the right to freedom of speech?'
+2025-08-01 12:54:51,056 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:54:52,060 - ImprovedSemanticChunker - INFO - Final Answer: The State can impose reasonable restrictions on freedom of speech in the interests of the sovereignty and integrity of India, the security of the State, friendly relations with foreign States, public order, decency or morality, or in relation to contempt of court, defamation, or incitement to an offence.
+2025-08-01 12:54:52,060 - ImprovedSemanticChunker - INFO - ✅ Transaction logs saved to directory: transaction_logs/20250801_125439
+2025-08-01 12:54:52,060 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-01 12:54:54,068 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-01 12:54:54,069 - ImprovedSemanticChunker - INFO - STARTING NEW PAYLOAD PROCESSING
+2025-08-01 12:54:54,069 - ImprovedSemanticChunker - INFO - Using pre-chunked collection: indian_constitution_collection
+2025-08-01 12:54:54,070 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 1: If my car is stolen, what case will it be in law? ---
+2025-08-01 12:54:54,070 - ImprovedSemanticChunker - INFO - Searching for: 'If my car is stolen, what case will it be in law?'
+2025-08-01 12:54:54,176 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:54:54,943 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-08-01 12:54:54,944 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 2: If I am arrested without a warrant, is that legal? ---
+2025-08-01 12:54:54,944 - ImprovedSemanticChunker - INFO - Searching for: 'If I am arrested without a warrant, is that legal?'
+2025-08-01 12:54:55,058 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:54:56,282 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-08-01 12:54:56,282 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 3: If someone denies me a job because of my caste, is that legal? ---
+2025-08-01 12:54:56,282 - ImprovedSemanticChunker - INFO - Searching for: 'If someone denies me a job because of my caste, is that legal?'
+2025-08-01 12:54:56,402 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:54:57,182 - ImprovedSemanticChunker - INFO - Final Answer: No, it is not legal to deny someone a job based on their caste, as it is prohibited by law.
+2025-08-01 12:54:57,183 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 4: If the government takes my land for a project, can I stop it? ---
+2025-08-01 12:54:57,183 - ImprovedSemanticChunker - INFO - Searching for: 'If the government takes my land for a project, can I stop it?'
+2025-08-01 12:54:57,294 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:54:58,471 - ImprovedSemanticChunker - INFO - Final Answer: The government can acquire private land for public purposes in accordance with the law for the time being in force, and nothing in these laws shall prevent such compulsory acquisition.
+2025-08-01 12:54:58,472 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 5: If my child is forced to work in a factory, is that legal? ---
+2025-08-01 12:54:58,472 - ImprovedSemanticChunker - INFO - Searching for: 'If my child is forced to work in a factory, is that legal?'
+2025-08-01 12:54:58,574 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:54:59,659 - ImprovedSemanticChunker - INFO - Final Answer: No child below the age of fourteen years shall be employed to work in any factory, mine, or other hazardous employment.
+2025-08-01 12:54:59,659 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 6: If I am stopped from speaking at a protest, is that a violation of my rights? ---
+2025-08-01 12:54:59,659 - ImprovedSemanticChunker - INFO - Searching for: 'If I am stopped from speaking at a protest, is that a violation of my rights?'
+2025-08-01 12:54:59,771 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:55:00,868 - ImprovedSemanticChunker - INFO - Final Answer: Your right to freedom of speech and expression, which includes speaking at a protest, can be subjected to reasonable restrictions in the interests of India's sovereignty and integrity, public order, decency, or morality.
+2025-08-01 12:55:00,868 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 7: If a religious place stops me from entering because of my caste, what can I do? ---
+2025-08-01 12:55:00,869 - ImprovedSemanticChunker - INFO - Searching for: 'If a religious place stops me from entering because of my caste, what can I do?'
+2025-08-01 12:55:00,995 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:55:02,121 - ImprovedSemanticChunker - INFO - Final Answer: No citizen shall be subject to any disability or restriction with regard to access to places of public resort maintained wholly or partly out of State funds or dedicated to the use of the general public, on grounds only of religion, race, caste, sex, place of birth or any of them.
+2025-08-01 12:55:02,121 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 8: If I change my religion, can the government stop me? ---
+2025-08-01 12:55:02,122 - ImprovedSemanticChunker - INFO - Searching for: 'If I change my religion, can the government stop me?'
+2025-08-01 12:55:02,229 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:55:03,216 - ImprovedSemanticChunker - INFO - Final Answer: Subject to public order, morality, and health, all persons are equally entitled to freedom of conscience and the right to freely profess, practice, and propagate religion.
+2025-08-01 12:55:03,216 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 9: If the police torture someone in custody, what right is violated? ---
+2025-08-01 12:55:03,216 - ImprovedSemanticChunker - INFO - Searching for: 'If the police torture someone in custody, what right is violated?'
+2025-08-01 12:55:03,327 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:55:04,484 - ImprovedSemanticChunker - INFO - Final Answer: The right to protection of life and personal liberty under Article 21 is violated if the police torture someone in custody.
+2025-08-01 12:55:04,485 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 10: If I'm denied admission to a public university because of my caste, what law applies? ---
+2025-08-01 12:55:04,485 - ImprovedSemanticChunker - INFO - Searching for: 'If I'm denied admission to a public university because of my caste, what law applies?'
+2025-08-01 12:55:04,609 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:55:06,506 - ImprovedSemanticChunker - INFO - Final Answer: Article 15(1) of the Constitution prohibits the State from discriminating against any citizen on grounds of caste.
+2025-08-01 12:55:06,507 - ImprovedSemanticChunker - INFO - ✅ Transaction logs saved to directory: transaction_logs/20250801_125454
+2025-08-01 12:55:06,508 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-01 12:55:08,517 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-01 12:55:08,518 - ImprovedSemanticChunker - INFO - STARTING NEW PAYLOAD PROCESSING
+2025-08-01 12:55:08,518 - ImprovedSemanticChunker - INFO - Using pre-chunked collection: principia_newton_collection
+2025-08-01 12:55:08,519 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 1: How does Newton define 'quantity of motion' and how is it distinct from 'force'? ---
+2025-08-01 12:55:08,520 - ImprovedSemanticChunker - INFO - Searching for: 'How does Newton define 'quantity of motion' and how is it distinct from 'force'?'
+2025-08-01 12:55:08,795 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:55:09,750 - ImprovedSemanticChunker - INFO - Final Answer: Newton defines the quantity of motion as the product of velocity and quantity of matter, distinct from force which is an action to change a body's state.
+2025-08-01 12:55:09,750 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 2: According to Newton, what are the three laws of motion and how do they apply in celestial mechanics? ---
+2025-08-01 12:55:09,751 - ImprovedSemanticChunker - INFO - Searching for: 'According to Newton, what are the three laws of motion and how do they apply in celestial mechanics?'
+2025-08-01 12:55:09,874 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:55:11,024 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-08-01 12:55:11,024 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 3: How does Newton derive Kepler's Second Law (equal areas in equal times) from his laws of motion and gravitation? ---
+2025-08-01 12:55:11,024 - ImprovedSemanticChunker - INFO - Searching for: 'How does Newton derive Kepler's Second Law (equal areas in equal times) from his laws of motion and gravitation?'
+2025-08-01 12:55:11,224 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:55:12,222 - ImprovedSemanticChunker - INFO - Final Answer: Newton derives Kepler's Second Law by demonstrating that a centripetal force, acting continuously to draw a body away from the tangent of its path, results in the continuous description of equal areas in equal times.
+2025-08-01 12:55:12,223 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 4: How does Newton demonstrate that gravity is inversely proportional to the square of the distance between two masses? ---
+2025-08-01 12:55:12,223 - ImprovedSemanticChunker - INFO - Searching for: 'How does Newton demonstrate that gravity is inversely proportional to the square of the distance between two masses?'
+2025-08-01 12:55:12,344 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:55:13,201 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-08-01 12:55:13,201 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 5: What is Newton's argument for why gravitational force must act on all masses universally? ---
+2025-08-01 12:55:13,201 - ImprovedSemanticChunker - INFO - Searching for: 'What is Newton's argument for why gravitational force must act on all masses universally?'
+2025-08-01 12:55:13,402 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:55:14,596 - ImprovedSemanticChunker - INFO - Final Answer: Newton's argument is that because gravity acts on all bodies on Earth in the same manner, and the nature of gravity towards planets is the same as towards Earth, it must act universally on all masses.
+2025-08-01 12:55:14,596 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 6: How does Newton explain the perturbation of planetary orbits due to other planets? ---
+2025-08-01 12:55:14,597 - ImprovedSemanticChunker - INFO - Searching for: 'How does Newton explain the perturbation of planetary orbits due to other planets?'
+2025-08-01 12:55:14,699 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:55:15,655 - ImprovedSemanticChunker - INFO - Final Answer: Newton explains that perturbations in planetary orbits are caused by the mutual attractions between celestial bodies, where the forces tend towards the centers of these bodies and decrease in proportion to the square of the distance.
+2025-08-01 12:55:15,656 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 7: What mathematical tools did Newton use in Principia that were precursors to calculus, and why didn't he use standard calculus notation? ---
+2025-08-01 12:55:15,656 - ImprovedSemanticChunker - INFO - Searching for: 'What mathematical tools did Newton use in Principia that were precursors to calculus, and why didn't he use standard calculus notation?'
+2025-08-01 12:55:15,823 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:55:17,068 - ImprovedSemanticChunker - INFO - Final Answer: Newton utilized geometrical synthesis, which he considered superior to algebraic methods, and did not employ standard calculus notation due to his preference for the geometrical approach and his inventor status of the method.
+2025-08-01 12:55:17,068 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 8: How does Newton use the concept of centripetal force to explain orbital motion? ---
+2025-08-01 12:55:17,068 - ImprovedSemanticChunker - INFO - Searching for: 'How does Newton use the concept of centripetal force to explain orbital motion?'
+2025-08-01 12:55:17,181 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:55:18,399 - ImprovedSemanticChunker - INFO - Final Answer: Newton explains orbital motion by demonstrating how a centripetal force, directed towards a central body, can deflect a projectile from its natural straight path, causing it to curve into an orbit.
+2025-08-01 12:55:18,400 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 9: How does Newton handle motion in resisting media, such as air or fluids? ---
+2025-08-01 12:55:18,400 - ImprovedSemanticChunker - INFO - Searching for: 'How does Newton handle motion in resisting media, such as air or fluids?'
+2025-08-01 12:55:18,520 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:55:19,388 - ImprovedSemanticChunker - INFO - Final Answer: Newton describes resistance in fluids as proportional to velocity and its square, depending on the medium's properties like fluidity, tenacity, and the density and elasticity of its parts.
+2025-08-01 12:55:19,388 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 10: In what way does Newton's notion of absolute space and time differ from relative motion, and how does it support his laws? ---
+2025-08-01 12:55:19,388 - ImprovedSemanticChunker - INFO - Searching for: 'In what way does Newton's notion of absolute space and time differ from relative motion, and how does it support his laws?'
+2025-08-01 12:55:19,522 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:55:21,067 - ImprovedSemanticChunker - INFO - Final Answer: Newton's absolute space and time are immutable frameworks that allow true motion to be determined by forces and their effects, unlike relative motion which is dependent on external bodies and their perceived states of rest or movement, thus providing a basis for universally applicable laws of motion.
+2025-08-01 12:55:21,067 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 11: Who was the grandfather of Isaac Newton? ---
+2025-08-01 12:55:21,067 - ImprovedSemanticChunker - INFO - Searching for: 'Who was the grandfather of Isaac Newton?'
+2025-08-01 12:55:21,157 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:55:21,935 - ImprovedSemanticChunker - INFO - Final Answer: The grandfather of Isaac Newton was Robert Newton.
+2025-08-01 12:55:21,936 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 12: Do we know any other descent of Isaac Newton apart from his grandfather? ---
+2025-08-01 12:55:21,936 - ImprovedSemanticChunker - INFO - Searching for: 'Do we know any other descent of Isaac Newton apart from his grandfather?'
+2025-08-01 12:55:22,038 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:55:23,379 - ImprovedSemanticChunker - INFO - Final Answer: Beyond his grandfather, Robert Newton, the descent of Sir Isaac cannot be traced with certainty.
+2025-08-01 12:55:23,380 - ImprovedSemanticChunker - INFO - ✅ Transaction logs saved to directory: transaction_logs/20250801_125508
+2025-08-01 12:55:23,381 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-01 12:55:23,398 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-01 12:55:23,398 - ImprovedSemanticChunker - INFO - STARTING NEW PAYLOAD PROCESSING
+2025-08-01 12:55:23,399 - ImprovedSemanticChunker - INFO - Using pre-chunked collection: doc_1
+2025-08-01 12:55:23,399 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 1: What is the grace period for premium payment under the National Parivar Mediclaim Plus Policy? ---
+2025-08-01 12:55:23,399 - ImprovedSemanticChunker - INFO - Searching for: 'What is the grace period for premium payment under the National Parivar Mediclaim Plus Policy?'
+2025-08-01 12:55:23,591 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:55:24,339 - ImprovedSemanticChunker - INFO - Final Answer: The grace period for premium payment under the National Parivar Mediclaim Plus Policy is thirty days.
+2025-08-01 12:55:24,339 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 2: What is the waiting period for pre-existing diseases (PED) to be covered? ---
+2025-08-01 12:55:24,339 - ImprovedSemanticChunker - INFO - Searching for: 'What is the waiting period for pre-existing diseases (PED) to be covered?'
+2025-08-01 12:55:24,447 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:55:25,770 - ImprovedSemanticChunker - INFO - Final Answer: Expenses related to the treatment of a Pre-Existing Disease and its direct complications are excluded until thirty-six months of continuous coverage after the policy inception.
+2025-08-01 12:55:25,770 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 3: Does this policy cover maternity expenses, and what are the conditions? ---
+2025-08-01 12:55:25,771 - ImprovedSemanticChunker - INFO - Searching for: 'Does this policy cover maternity expenses, and what are the conditions?'
+2025-08-01 12:55:25,868 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:55:27,513 - ImprovedSemanticChunker - INFO - Final Answer: This policy covers maternity expenses, including childbirth and lawful medical termination, provided the insured person is between 18 and 45 years old, delivery or termination occurs after a 24-month waiting period (waivable for accidental miscarriage/abortion), and no more than two deliveries or terminations have been paid under the policy, nor more than one in a single policy period.
+2025-08-01 12:55:27,513 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 4: What is the waiting period for cataract surgery? ---
+2025-08-01 12:55:27,514 - ImprovedSemanticChunker - INFO - Searching for: 'What is the waiting period for cataract surgery?'
+2025-08-01 12:55:27,605 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:55:28,560 - ImprovedSemanticChunker - INFO - Final Answer: The waiting period for cataract surgery is two years.
+2025-08-01 12:55:28,560 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 5: Are the medical expenses for an organ donor covered under this policy? ---
+2025-08-01 12:55:28,560 - ImprovedSemanticChunker - INFO - Searching for: 'Are the medical expenses for an organ donor covered under this policy?'
+2025-08-01 12:55:28,749 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:55:29,922 - ImprovedSemanticChunker - INFO - Final Answer: The medical expenses for an organ donor are covered under this policy provided certain conditions are met, including the organ donation conforming to the Transplantation of Human Organs Act, the organ being used for an insured person, the donor being hospitalized as an inpatient, and the claim being admitted under the In-patient Treatment Section.
+2025-08-01 12:55:29,923 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 6: What is the No Claim Discount (NCD) offered in this policy? ---
+2025-08-01 12:55:29,923 - ImprovedSemanticChunker - INFO - Searching for: 'What is the No Claim Discount (NCD) offered in this policy?'
+2025-08-01 12:55:30,113 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:55:31,095 - ImprovedSemanticChunker - INFO - Final Answer: The aggregate amount of No Claim Discount (NCD) allowed shall not exceed 5% of the total base premium for the term of the policy.
+2025-08-01 12:55:31,096 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 7: Is there a benefit for preventive health check-ups? ---
+2025-08-01 12:55:31,096 - ImprovedSemanticChunker - INFO - Searching for: 'Is there a benefit for preventive health check-ups?'
+2025-08-01 12:55:31,196 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:55:32,352 - ImprovedSemanticChunker - INFO - Final Answer: Yes, health check-up expenses are reimbursed at the end of a block of two continuous policy years, provided the policy has been continuously renewed without a break.
+2025-08-01 12:55:32,353 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 8: How does the policy define a 'Hospital'? ---
+2025-08-01 12:55:32,353 - ImprovedSemanticChunker - INFO - Searching for: 'How does the policy define a 'Hospital'?'
+2025-08-01 12:55:32,443 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:55:33,596 - ImprovedSemanticChunker - INFO - Final Answer: A hospital is defined as any institution established for inpatient care and day care treatment of disease/injuries that is registered with local authorities or meets specific criteria including qualified nursing and medical staff, a minimum number of inpatient beds, and equipped operation theatres.
+2025-08-01 12:55:33,596 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 9: What is the extent of coverage for AYUSH treatments? ---
+2025-08-01 12:55:33,597 - ImprovedSemanticChunker - INFO - Searching for: 'What is the extent of coverage for AYUSH treatments?'
+2025-08-01 12:55:33,693 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:55:34,751 - ImprovedSemanticChunker - INFO - Final Answer: AYUSH treatments are covered up to the sum insured for inpatient treatment, pre-hospitalization, post-hospitalization, domiciliary hospitalization, and day care procedures.
+2025-08-01 12:55:34,751 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 10: Are there any sub-limits on room rent and ICU charges for Plan A? ---
+2025-08-01 12:55:34,751 - ImprovedSemanticChunker - INFO - Searching for: 'Are there any sub-limits on room rent and ICU charges for Plan A?'
+2025-08-01 12:55:34,864 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:55:36,479 - ImprovedSemanticChunker - INFO - Final Answer: Room charges and intensive care unit charges per day for Plan A are payable up to the limit shown in the Table of Benefits, unless treatment is part of a package for a listed procedure in a Preferred Provider Network.
+2025-08-01 12:55:36,481 - ImprovedSemanticChunker - INFO - ✅ Transaction logs saved to directory: transaction_logs/20250801_125523
+2025-08-01 12:55:36,481 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-01 12:55:38,490 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-01 12:55:38,490 - ImprovedSemanticChunker - INFO - STARTING NEW PAYLOAD PROCESSING
+2025-08-01 12:55:38,490 - ImprovedSemanticChunker - INFO - Using pre-chunked collection: doc_2
+2025-08-01 12:55:38,491 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 1: When will my root canal claim of Rs 25,000 be settled? ---
+2025-08-01 12:55:38,491 - ImprovedSemanticChunker - INFO - Searching for: 'When will my root canal claim of Rs 25,000 be settled?'
+2025-08-01 12:55:38,675 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:55:39,902 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-08-01 12:55:39,903 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 2: I have done an IVF for Rs 56,000. Is it covered? ---
+2025-08-01 12:55:39,903 - ImprovedSemanticChunker - INFO - Searching for: 'I have done an IVF for Rs 56,000. Is it covered?'
+2025-08-01 12:55:40,009 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:55:41,438 - ImprovedSemanticChunker - INFO - Final Answer: Expenses related to assisted reproduction services, including IVF, are not covered under the policy.
+2025-08-01 12:55:41,438 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 3: I did a cataract treatment of Rs 100,000. Will you settle full? ---
+2025-08-01 12:55:41,438 - ImprovedSemanticChunker - INFO - Searching for: 'I did a cataract treatment of Rs 100,000. Will you settle full?'
+2025-08-01 12:55:41,571 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:55:43,108 - ImprovedSemanticChunker - INFO - Final Answer: Your cataract treatment of Rs 100,000 will be settled at 25% of the Sum Insured or INR 40,000 per eye, whichever is lower, per eye in one Policy Period.
+2025-08-01 12:55:43,109 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 4: Give me a list of documents to be uploaded for hospitalization due to heart surgery. ---
+2025-08-01 12:55:43,109 - ImprovedSemanticChunker - INFO - Searching for: 'Give me a list of documents to be uploaded for hospitalization due to heart surgery.'
+2025-08-01 12:55:43,223 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:55:44,818 - ImprovedSemanticChunker - INFO - Final Answer: For hospitalization due to heart surgery, documents to be uploaded include a duly completed claim form, photo identity proof of the patient, medical practitioner’s prescription advising admission, original itemized bills and payment receipts, discharge summary, investigation/diagnostic test reports, OT notes or surgeon's certificate, implant invoices, MLR/FIR if applicable, NEFT details and a cancelled cheque, KYC of the proposer if claim is over Rs. 1 Lakh, and any other relevant document required by the Company/TPA.
+2025-08-01 12:55:44,819 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 5: I have raised a claim for hospitalization for Rs 25,000. What will I get? ---
+2025-08-01 12:55:44,819 - ImprovedSemanticChunker - INFO - Searching for: 'I have raised a claim for hospitalization for Rs 25,000. What will I get?'
+2025-08-01 12:55:44,929 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:55:46,969 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-08-01 12:55:46,970 - ImprovedSemanticChunker - INFO - ✅ Transaction logs saved to directory: transaction_logs/20250801_125538
+2025-08-01 12:55:46,970 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-01 12:55:48,977 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-01 12:55:48,977 - ImprovedSemanticChunker - INFO - STARTING NEW PAYLOAD PROCESSING
+2025-08-01 12:55:48,977 - ImprovedSemanticChunker - INFO - Using pre-chunked collection: doc_3
+2025-08-01 12:55:48,977 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 1: What is the ideal spark plug gap recommended? ---
+2025-08-01 12:55:48,978 - ImprovedSemanticChunker - INFO - Searching for: 'What is the ideal spark plug gap recommended?'
+2025-08-01 12:55:49,074 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:55:49,964 - ImprovedSemanticChunker - INFO - Final Answer: The ideal spark plug gap recommended is 0.8 - 0.9 mm.
+2025-08-01 12:55:49,965 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 2: Does this come in tubeless tyre version? ---
+2025-08-01 12:55:49,965 - ImprovedSemanticChunker - INFO - Searching for: 'Does this come in tubeless tyre version?'
+2025-08-01 12:55:50,062 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:55:51,447 - ImprovedSemanticChunker - INFO - Final Answer: Yes, the vehicle is fitted with tubeless tyres, with recommended sizes being 80/100-18 47P for the front and 90/90-18 51P for the rear.
+2025-08-01 12:55:51,447 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 3: Is it compulsory to have a disc brake? ---
+2025-08-01 12:55:51,447 - ImprovedSemanticChunker - INFO - Searching for: 'Is it compulsory to have a disc brake?'
+2025-08-01 12:55:51,534 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:55:52,654 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-08-01 12:55:52,654 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 4: Can I put Thums Up instead of oil? ---
+2025-08-01 12:55:52,654 - ImprovedSemanticChunker - INFO - Searching for: 'Can I put Thums Up instead of oil?'
+2025-08-01 12:55:52,753 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:55:54,136 - ImprovedSemanticChunker - INFO - Final Answer: Non-detergent, vegetable, or castor-based racing oils are not recommended for use in the engine.
+2025-08-01 12:55:54,137 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 5: Give me JS code to generate a random number between 1 and 100 ---
+2025-08-01 12:55:54,137 - ImprovedSemanticChunker - INFO - Searching for: 'Give me JS code to generate a random number between 1 and 100'
+2025-08-01 12:55:54,363 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:55:55,493 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-08-01 12:55:55,494 - ImprovedSemanticChunker - INFO - ✅ Transaction logs saved to directory: transaction_logs/20250801_125548
+2025-08-01 12:55:55,494 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-01 12:55:57,506 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-01 12:55:57,506 - ImprovedSemanticChunker - INFO - STARTING NEW PAYLOAD PROCESSING
+2025-08-01 12:55:57,506 - ImprovedSemanticChunker - INFO - Using pre-chunked collection: doc_4
+2025-08-01 12:55:57,508 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 1: Is Non-infective Arthritis covered? ---
+2025-08-01 12:55:57,508 - ImprovedSemanticChunker - INFO - Searching for: 'Is Non-infective Arthritis covered?'
+2025-08-01 12:55:57,620 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:55:58,923 - ImprovedSemanticChunker - INFO - Final Answer: Non-infective Arthritis is not covered as it falls under a two-year waiting period for listed conditions.
+2025-08-01 12:55:58,923 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 2: I renewed my policy yesterday, and I have been a customer for 2 years. Is Hydrocele claimable? ---
+2025-08-01 12:55:58,923 - ImprovedSemanticChunker - INFO - Searching for: 'I renewed my policy yesterday, and I have been a customer for 2 years. Is Hydrocele claimable?'
+2025-08-01 12:55:59,120 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:56:00,268 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document
+2025-08-01 12:56:00,268 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 3: Is abortion covered? ---
+2025-08-01 12:56:00,268 - ImprovedSemanticChunker - INFO - Searching for: 'Is abortion covered?'
+2025-08-01 12:56:00,364 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:56:01,699 - ImprovedSemanticChunker - INFO - Final Answer: Expenses incurred in connection with voluntary medical termination of pregnancy during the first twelve weeks from the date of conception are not covered, but lawful medical termination of pregnancy is covered.
+2025-08-01 12:56:01,700 - ImprovedSemanticChunker - INFO - ✅ Transaction logs saved to directory: transaction_logs/20250801_125557
+2025-08-01 12:56:01,700 - ImprovedSemanticChunker - INFO - ================================================================================

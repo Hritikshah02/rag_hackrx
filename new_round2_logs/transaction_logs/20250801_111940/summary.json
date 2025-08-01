@@ -1,0 +1,56 @@
+{
+  "request_id": "20250801_111940",
+  "document_url": "https://hackrx.blob.core.windows.net/assets/indian_constitution.pdf?sv=2023-01-03&st=2025-07-28T06%3A42%3A00Z&se=2026-11-29T06%3A42%3A00Z&sr=b&sp=r&sig=5Gs%2FOXqP3zY00lgciu4BZjDV5QjTDIx7fgnfdz6Pu24%3D",
+  "results": [
+    {
+      "question": "What is the official name of India according to Article 1 of the Constitution?",
+      "answer": "According to Article 1 of the Constitution, the official name of India is India, that is Bharat.",
+      "retrieved_chunks_file": "transaction_logs/20250801_111940/query_1_chunks.json"
+    },
+    {
+      "question": "Which Article guarantees equality before the law and equal protection of laws to all persons?",
+      "answer": "Article 14 guarantees equality before the law and equal protection of the laws within the territory of India.",
+      "retrieved_chunks_file": "transaction_logs/20250801_111940/query_2_chunks.json"
+    },
+    {
+      "question": "What is abolished by Article 17 of the Constitution?",
+      "answer": "Information not found in the document",
+      "retrieved_chunks_file": "transaction_logs/20250801_111940/query_3_chunks.json"
+    },
+    {
+      "question": "What are the key ideals mentioned in the Preamble of the Constitution of India?",
+      "answer": "The key ideals mentioned in the Preamble of the Constitution of India are Justice, Liberty, Equality, and Fraternity.",
+      "retrieved_chunks_file": "transaction_logs/20250801_111940/query_4_chunks.json"
+    },
+    {
+      "question": "Under which Article can Parliament alter the boundaries, area, or name of an existing State?",
+      "answer": "Parliament may by law alter the boundaries, area, or name of an existing State under Article 3.",
+      "retrieved_chunks_file": "transaction_logs/20250801_111940/query_5_chunks.json"
+    },
+    {
+      "question": "According to Article 24, children below what age are prohibited from working in hazardous industries like factories or mines?",
+      "answer": "Children below the age of fourteen years are prohibited from working in any factory or mine or engaged in any other hazardous employment according to Article 24.",
+      "retrieved_chunks_file": "transaction_logs/20250801_111940/query_6_chunks.json"
+    },
+    {
+      "question": "What is the significance of Article 21 in the Indian Constitution?",
+      "answer": "Article 21 guarantees the protection of life and personal liberty.",
+      "retrieved_chunks_file": "transaction_logs/20250801_111940/query_7_chunks.json"
+    },
+    {
+      "question": "Article 15 prohibits discrimination on certain grounds. However, which groups can the State make special provisions for under this Article?",
+      "answer": "The State can make special provisions for women and children, and for the advancement of socially and educationally backward classes of citizens, Scheduled Castes, Scheduled Tribes, and economically weaker sections of citizens.",
+      "retrieved_chunks_file": "transaction_logs/20250801_111940/query_8_chunks.json"
+    },
+    {
+      "question": "Which Article allows Parliament to regulate the right of citizenship and override previous articles on citizenship (Articles 5 to 10)?",
+      "answer": "Article 11 allows Parliament to regulate the right of citizenship and override previous articles on citizenship (Articles 5 to 10).",
+      "retrieved_chunks_file": "transaction_logs/20250801_111940/query_9_chunks.json"
+    },
+    {
+      "question": "What restrictions can the State impose on the right to freedom of speech under Article 19(2)?",
+      "answer": "The State can impose reasonable restrictions on the right to freedom of speech and expression in the interests of the sovereignty and integrity of India, security of the State, friendly relations with foreign States, public order, decency or morality, or in relation to contempt of court, defamation or incitement to an offence.",
+      "retrieved_chunks_file": "transaction_logs/20250801_111940/query_10_chunks.json"
+    }
+  ]
+}

@@ -1,0 +1,175 @@
+2025-07-31 23:08:38,652 - ImprovedSemanticChunker - INFO - Loading BGE-large-EN embedding model (memory optimized)...
+2025-07-31 23:08:38,654 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: BAAI/bge-small-en-v1.5
+2025-07-31 23:08:59,431 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-07-31 23:08:59,432 - ImprovedSemanticChunker - INFO - STARTING NEW PAYLOAD PROCESSING
+2025-07-31 23:08:59,432 - ImprovedSemanticChunker - INFO - Downloading document from: https://hackrx.blob.core.windows.net/assets/policy.pdf?sv=2023-01-03&st=2025-07-04T09%3A11%3A24Z&se=2027-07-05T09%3A11%3A00Z&sr=b&sp=r&sig=N4a9OU0w0QXO6AOIBiu4bpl7AXvEZogeT%2FjUHNO7HzQ%3D
+2025-07-31 23:08:59,863 - ImprovedSemanticChunker - INFO - Extracting text from PDF...
+2025-07-31 23:09:02,823 - ImprovedSemanticChunker - INFO - Successfully extracted and cleaned text. Total characters: 109251
+2025-07-31 23:09:02,823 - ImprovedSemanticChunker - INFO - Creating token-based chunks...
+2025-07-31 23:09:02,840 - ImprovedSemanticChunker - INFO - Document tokenized: 25330 tokens
+2025-07-31 23:09:02,842 - ImprovedSemanticChunker - INFO - Created 102 token-based chunks
+2025-07-31 23:09:02,843 - ImprovedSemanticChunker - INFO - Creating vector embeddings and storing in ChromaDB...
+2025-07-31 23:09:04,419 - ImprovedSemanticChunker - INFO - Added 102 chunks to vector store: docs_4b601cb50bbf46f7819105e020682587
+2025-07-31 23:09:04,420 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 1: What is the grace period for premium payment under the National Parivar Mediclaim Plus Policy? ---
+2025-07-31 23:09:04,420 - ImprovedSemanticChunker - INFO - Searching for: 'What is the grace period for premium payment under the National Parivar Mediclaim Plus Policy?'
+2025-07-31 23:09:04,869 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-07-31 23:09:05,714 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-07-31 23:09:05,714 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 2: What is the waiting period for pre-existing diseases (PED) to be covered? ---
+2025-07-31 23:09:05,714 - ImprovedSemanticChunker - INFO - Searching for: 'What is the waiting period for pre-existing diseases (PED) to be covered?'
+2025-07-31 23:09:06,131 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-07-31 23:09:06,875 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-07-31 23:09:06,875 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 3: Does this policy cover maternity expenses, and what are the conditions? ---
+2025-07-31 23:09:06,876 - ImprovedSemanticChunker - INFO - Searching for: 'Does this policy cover maternity expenses, and what are the conditions?'
+2025-07-31 23:09:07,260 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-07-31 23:09:08,500 - ImprovedSemanticChunker - INFO - Final Answer: This policy covers maternity expenses for a maximum of two deliveries or terminations, excluding those of a surrogate mother unless covered under infertility provisions, and also excludes ectopic pregnancy and pre/post natal treatment other than for the mother.
+2025-07-31 23:09:08,501 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 4: What is the waiting period for cataract surgery? ---
+2025-07-31 23:09:08,501 - ImprovedSemanticChunker - INFO - Searching for: 'What is the waiting period for cataract surgery?'
+2025-07-31 23:09:08,917 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-07-31 23:09:09,596 - ImprovedSemanticChunker - INFO - Final Answer: Cataract surgery is covered after a two-year waiting period.
+2025-07-31 23:09:09,597 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 5: Are the medical expenses for an organ donor covered under this policy? ---
+2025-07-31 23:09:09,597 - ImprovedSemanticChunker - INFO - Searching for: 'Are the medical expenses for an organ donor covered under this policy?'
+2025-07-31 23:09:09,989 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-07-31 23:09:10,963 - ImprovedSemanticChunker - INFO - Final Answer: The medical expenses for an organ donor are covered for their hospitalization during the policy period for harvesting an organ to be used by an insured person, provided certain conditions are met.
+2025-07-31 23:09:10,964 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 6: What is the No Claim Discount (NCD) offered in this policy? ---
+2025-07-31 23:09:10,964 - ImprovedSemanticChunker - INFO - Searching for: 'What is the No Claim Discount (NCD) offered in this policy?'
+2025-07-31 23:09:11,381 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-07-31 23:09:12,147 - ImprovedSemanticChunker - INFO - Final Answer: A No Claim Discount (NCD) of flat 5% is allowed on the base premium at renewal of one-year policies with no claims in the expiring policy year, and for policies exceeding one year, NCD is aggregated up to a maximum of 5% of the total base premium.
+2025-07-31 23:09:12,148 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 7: Is there a benefit for preventive health check-ups? ---
+2025-07-31 23:09:12,148 - ImprovedSemanticChunker - INFO - Searching for: 'Is there a benefit for preventive health check-ups?'
+2025-07-31 23:09:12,595 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-07-31 23:09:13,634 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-07-31 23:09:13,635 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 8: How does the policy define a 'Hospital'? ---
+2025-07-31 23:09:13,635 - ImprovedSemanticChunker - INFO - Searching for: 'How does the policy define a 'Hospital'?'
+2025-07-31 23:09:14,040 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-07-31 23:09:14,892 - ImprovedSemanticChunker - INFO - Final Answer: A 'Hospital' is a nursing home or any healthcare facility where an insured person receives in-patient care, day care treatment, or domiciliary hospitalization.
+2025-07-31 23:09:14,893 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 9: What is the extent of coverage for AYUSH treatments? ---
+2025-07-31 23:09:14,893 - ImprovedSemanticChunker - INFO - Searching for: 'What is the extent of coverage for AYUSH treatments?'
+2025-07-31 23:09:15,280 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-07-31 23:09:16,075 - ImprovedSemanticChunker - INFO - Final Answer: The company shall indemnify Medical Expenses incurred for Inpatient Care for AYUSH treatments.
+2025-07-31 23:09:16,076 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 10: Are there any sub-limits on room rent and ICU charges for Plan A? ---
+2025-07-31 23:09:16,076 - ImprovedSemanticChunker - INFO - Searching for: 'Are there any sub-limits on room rent and ICU charges for Plan A?'
+2025-07-31 23:09:16,443 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-07-31 23:09:17,271 - ImprovedSemanticChunker - INFO - Final Answer: Room charges and intensive care unit charges per day for Plan A are payable up to the limit shown in the Table of Benefits, unless the treatment is for a listed procedure in a Preferred Provider Network (PPN) as a package.
+2025-07-31 23:09:17,273 - ImprovedSemanticChunker - INFO - ✅ Transaction logs saved to directory: transaction_logs/20250731_230859
+2025-07-31 23:09:17,273 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-07-31 23:09:17,334 - ImprovedSemanticChunker - INFO - Cleaned up ChromaDB collection: docs_4b601cb50bbf46f7819105e020682587
+2025-07-31 23:09:19,343 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-07-31 23:09:19,344 - ImprovedSemanticChunker - INFO - STARTING NEW PAYLOAD PROCESSING
+2025-07-31 23:09:19,344 - ImprovedSemanticChunker - INFO - Downloading document from: https://hackrx.blob.core.windows.net/assets/Arogya%20Sanjeevani%20Policy%20-%20CIN%20-%20U10200WB1906GOI001713%201.pdf?sv=2023-01-03&st=2025-07-21T08%3A29%3A02Z&se=2025-09-22T08%3A29%3A00Z&sr=b&sp=r&sig=nzrz1K9Iurt%2BBXom%2FB%2BMPTFMFP3PRnIvEsipAX10Ig4%3D
+2025-07-31 23:09:19,759 - ImprovedSemanticChunker - INFO - Extracting text from PDF...
+2025-07-31 23:09:22,123 - ImprovedSemanticChunker - INFO - Successfully extracted and cleaned text. Total characters: 76283
+2025-07-31 23:09:22,123 - ImprovedSemanticChunker - INFO - Creating token-based chunks...
+2025-07-31 23:09:22,133 - ImprovedSemanticChunker - INFO - Document tokenized: 17880 tokens
+2025-07-31 23:09:22,134 - ImprovedSemanticChunker - INFO - Created 72 token-based chunks
+2025-07-31 23:09:22,135 - ImprovedSemanticChunker - INFO - Creating vector embeddings and storing in ChromaDB...
+2025-07-31 23:09:23,029 - ImprovedSemanticChunker - INFO - Added 72 chunks to vector store: docs_999b9365a01f45ea940486dd6d72a03d
+2025-07-31 23:09:23,029 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 1: When will my root canal claim of Rs 25,000 be settled? ---
+2025-07-31 23:09:23,029 - ImprovedSemanticChunker - INFO - Searching for: 'When will my root canal claim of Rs 25,000 be settled?'
+2025-07-31 23:09:23,469 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-07-31 23:09:24,031 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document
+2025-07-31 23:09:24,032 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 2: I have done an IVF for Rs 56,000. Is it covered? ---
+2025-07-31 23:09:24,032 - ImprovedSemanticChunker - INFO - Searching for: 'I have done an IVF for Rs 56,000. Is it covered?'
+2025-07-31 23:09:24,655 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-07-31 23:09:25,547 - ImprovedSemanticChunker - INFO - Final Answer: Expenses related to assisted reproduction services including IVF are not covered under this policy.
+2025-07-31 23:09:25,547 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 3: I did a cataract treatment of Rs 100,000. Will you settle full? ---
+2025-07-31 23:09:25,548 - ImprovedSemanticChunker - INFO - Searching for: 'I did a cataract treatment of Rs 100,000. Will you settle full?'
+2025-07-31 23:09:25,978 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-07-31 23:09:26,827 - ImprovedSemanticChunker - INFO - Final Answer: Your cataract treatment will be settled up to 25% of the Sum Insured or Rs. 40,000, whichever is lower, per eye.
+2025-07-31 23:09:26,827 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 4: Give me a list of documents to be uploaded for hospitalization due to heart surgery. ---
+2025-07-31 23:09:26,828 - ImprovedSemanticChunker - INFO - Searching for: 'Give me a list of documents to be uploaded for hospitalization due to heart surgery.'
+2025-07-31 23:09:27,218 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-07-31 23:09:28,261 - ImprovedSemanticChunker - INFO - Final Answer: For hospitalization due to heart surgery, submit a completed claim form, patient's photo ID, medical practitioner's admission advice, original itemized bills, payment receipts, discharge summary with medical history, investigation reports, OT notes or surgeon's certificate, implant stickers/invoices if applicable, MLR/FIR if applicable, NEFT details with a cancelled cheque, KYC if claim exceeds Rs. 1 Lakh, legal heir certificate if applicable, and any other requested documents.
+2025-07-31 23:09:28,261 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 5: I have raised a claim for hospitalization for Rs 25,000. What will I get? ---
+2025-07-31 23:09:28,261 - ImprovedSemanticChunker - INFO - Searching for: 'I have raised a claim for hospitalization for Rs 25,000. What will I get?'
+2025-07-31 23:09:28,711 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-07-31 23:09:29,423 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-07-31 23:09:29,424 - ImprovedSemanticChunker - INFO - ✅ Transaction logs saved to directory: transaction_logs/20250731_230919
+2025-07-31 23:09:29,425 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-07-31 23:09:29,477 - ImprovedSemanticChunker - INFO - Cleaned up ChromaDB collection: docs_999b9365a01f45ea940486dd6d72a03d
+2025-07-31 23:09:31,489 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-07-31 23:09:31,489 - ImprovedSemanticChunker - INFO - STARTING NEW PAYLOAD PROCESSING
+2025-07-31 23:09:31,490 - ImprovedSemanticChunker - INFO - Downloading document from: https://hackrx.blob.core.windows.net/assets/Super_Splendor_(Feb_2023).pdf?sv=2023-01-03&st=2025-07-21T08%3A10%3A00Z&se=2025-09-22T08%3A10%3A00Z&sr=b&sp=r&sig=vhHrl63YtrEOCsAy%2BpVKr20b3ZUo5HMz1lF9%2BJh6LQ0%3D
+2025-07-31 23:09:34,070 - ImprovedSemanticChunker - INFO - Extracting text from PDF...
+2025-07-31 23:09:44,732 - ImprovedSemanticChunker - INFO - Successfully extracted and cleaned text. Total characters: 114467
+2025-07-31 23:09:44,732 - ImprovedSemanticChunker - INFO - Creating token-based chunks...
+2025-07-31 23:09:44,748 - ImprovedSemanticChunker - INFO - Document tokenized: 27496 tokens
+2025-07-31 23:09:44,750 - ImprovedSemanticChunker - INFO - Created 110 token-based chunks
+2025-07-31 23:09:44,750 - ImprovedSemanticChunker - INFO - Creating vector embeddings and storing in ChromaDB...
+2025-07-31 23:09:46,623 - ImprovedSemanticChunker - INFO - Added 110 chunks to vector store: docs_0240099549384560acd417fab8bd0fd2
+2025-07-31 23:09:46,624 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 1: What is the ideal spark plug gap recommended? ---
+2025-07-31 23:09:46,625 - ImprovedSemanticChunker - INFO - Searching for: 'What is the ideal spark plug gap recommended?'
+2025-07-31 23:09:47,062 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-07-31 23:09:47,815 - ImprovedSemanticChunker - INFO - Final Answer: The recommended spark plug gap is 0.8-0.9 mm.
+2025-07-31 23:09:47,816 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 2: Does this come in tubeless tyre version? ---
+2025-07-31 23:09:47,817 - ImprovedSemanticChunker - INFO - Searching for: 'Does this come in tubeless tyre version?'
+2025-07-31 23:09:48,462 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-07-31 23:09:49,343 - ImprovedSemanticChunker - INFO - Final Answer: Yes, the vehicle comes with tubeless tyres, specifically 80/100-18 47P for the front and 90/90-18 51P for the rear.
+2025-07-31 23:09:49,343 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 3: Is it compulsory to have a disc brake? ---
+2025-07-31 23:09:49,344 - ImprovedSemanticChunker - INFO - Searching for: 'Is it compulsory to have a disc brake?'
+2025-07-31 23:09:49,933 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-07-31 23:09:50,763 - ImprovedSemanticChunker - INFO - Final Answer: The document describes both disc and drum brake variants for the front brake.
+2025-07-31 23:09:50,763 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 4: Can I put Thums Up instead of oil? ---
+2025-07-31 23:09:50,763 - ImprovedSemanticChunker - INFO - Searching for: 'Can I put Thums Up instead of oil?'
+2025-07-31 23:09:51,181 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-07-31 23:09:52,023 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-07-31 23:09:52,023 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 5: Give me JS code to generate a random number between 1 and 100 ---
+2025-07-31 23:09:52,024 - ImprovedSemanticChunker - INFO - Searching for: 'Give me JS code to generate a random number between 1 and 100'
+2025-07-31 23:09:52,486 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-07-31 23:09:53,160 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document
+2025-07-31 23:09:53,161 - ImprovedSemanticChunker - INFO - ✅ Transaction logs saved to directory: transaction_logs/20250731_230931
+2025-07-31 23:09:53,161 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-07-31 23:09:53,224 - ImprovedSemanticChunker - INFO - Cleaned up ChromaDB collection: docs_0240099549384560acd417fab8bd0fd2
+2025-07-31 23:09:55,235 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-07-31 23:09:55,236 - ImprovedSemanticChunker - INFO - STARTING NEW PAYLOAD PROCESSING
+2025-07-31 23:09:55,236 - ImprovedSemanticChunker - INFO - Downloading document from: https://hackrx.blob.core.windows.net/assets/Family%20Medicare%20Policy%20(UIN-%20UIIHLIP22070V042122)%201.pdf?sv=2023-01-03&st=2025-07-22T10%3A17%3A39Z&se=2025-08-23T10%3A17%3A00Z&sr=b&sp=r&sig=dA7BEMIZg3WcePcckBOb4QjfxK%2B4rIfxBs2%2F%2BNwoPjQ%3D
+2025-07-31 23:09:55,674 - ImprovedSemanticChunker - INFO - Extracting text from PDF...
+2025-07-31 23:09:57,890 - ImprovedSemanticChunker - INFO - Successfully extracted and cleaned text. Total characters: 97094
+2025-07-31 23:09:57,890 - ImprovedSemanticChunker - INFO - Creating token-based chunks...
+2025-07-31 23:09:57,902 - ImprovedSemanticChunker - INFO - Document tokenized: 22753 tokens
+2025-07-31 23:09:57,904 - ImprovedSemanticChunker - INFO - Created 92 token-based chunks
+2025-07-31 23:09:57,904 - ImprovedSemanticChunker - INFO - Creating vector embeddings and storing in ChromaDB...
+2025-07-31 23:09:59,015 - ImprovedSemanticChunker - INFO - Added 92 chunks to vector store: docs_eaae8af8e3ae42259da25322e44d680f
+2025-07-31 23:09:59,016 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 1: Is Non-infective Arthritis covered? ---
+2025-07-31 23:09:59,016 - ImprovedSemanticChunker - INFO - Searching for: 'Is Non-infective Arthritis covered?'
+2025-07-31 23:09:59,438 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-07-31 23:10:00,511 - ImprovedSemanticChunker - INFO - Final Answer: Non-infective Arthritis is covered as it is listed under section VI.A.9 of the policy document.
+2025-07-31 23:10:00,511 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 2: I renewed my policy yesterday, and I have been a customer for 2 years. Is Hydrocele claimable? ---
+2025-07-31 23:10:00,511 - ImprovedSemanticChunker - INFO - Searching for: 'I renewed my policy yesterday, and I have been a customer for 2 years. Is Hydrocele claimable?'
+2025-07-31 23:10:01,023 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-07-31 23:10:01,765 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document
+2025-07-31 23:10:01,765 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 3: Is abortion covered? ---
+2025-07-31 23:10:01,765 - ImprovedSemanticChunker - INFO - Searching for: 'Is abortion covered?'
+2025-07-31 23:10:02,226 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-07-31 23:10:02,991 - ImprovedSemanticChunker - INFO - Final Answer: Lawful medical termination of pregnancy during the policy period is covered, unless it occurs during the first twelve weeks from the date of conception.
+2025-07-31 23:10:02,993 - ImprovedSemanticChunker - INFO - ✅ Transaction logs saved to directory: transaction_logs/20250731_230955
+2025-07-31 23:10:02,993 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-07-31 23:10:03,015 - ImprovedSemanticChunker - INFO - Cleaned up ChromaDB collection: docs_eaae8af8e3ae42259da25322e44d680f
+2025-07-31 23:10:05,023 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-07-31 23:10:05,024 - ImprovedSemanticChunker - INFO - STARTING NEW PAYLOAD PROCESSING
+2025-07-31 23:10:05,024 - ImprovedSemanticChunker - INFO - Using pre-chunked collection: indian_constitution_collection
+2025-07-31 23:10:07,037 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-07-31 23:10:07,037 - ImprovedSemanticChunker - INFO - STARTING NEW PAYLOAD PROCESSING
+2025-07-31 23:10:07,037 - ImprovedSemanticChunker - INFO - Using pre-chunked collection: indian_constitution_collection

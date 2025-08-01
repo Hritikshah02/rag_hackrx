@@ -1,0 +1,31 @@
+{
+  "request_id": "20250801_111753",
+  "document_url": "https://hackrx.blob.core.windows.net/assets/Super_Splendor_(Feb_2023).pdf?sv=2023-01-03&st=2025-07-21T08%3A10%3A00Z&se=2025-09-22T08%3A10%3A00Z&sr=b&sp=r&sig=vhHrl63YtrEOCsAy%2BpVKr20b3ZUo5HMz1lF9%2BJh6LQ0%3D",
+  "results": [
+    {
+      "question": "What is the ideal spark plug gap recommended?",
+      "answer": "The ideal spark plug gap recommended is 0.8-0.9 mm.",
+      "retrieved_chunks_file": "transaction_logs/20250801_111753/query_1_chunks.json"
+    },
+    {
+      "question": "Does this come in tubeless tyre version?",
+      "answer": "Yes, the vehicle is equipped with tubeless tires.",
+      "retrieved_chunks_file": "transaction_logs/20250801_111753/query_2_chunks.json"
+    },
+    {
+      "question": "Is it compulsory to have a disc brake?",
+      "answer": "Information not found in the document.",
+      "retrieved_chunks_file": "transaction_logs/20250801_111753/query_3_chunks.json"
+    },
+    {
+      "question": "Can I put Thums Up instead of oil?",
+      "answer": "Non-detergent, vegetable or castor based racing oils are not recommended for your vehicle.",
+      "retrieved_chunks_file": "transaction_logs/20250801_111753/query_4_chunks.json"
+    },
+    {
+      "question": "Give me JS code to generate a random number between 1 and 100",
+      "answer": "Information not found in the document.",
+      "retrieved_chunks_file": "transaction_logs/20250801_111753/query_5_chunks.json"
+    }
+  ]
+}

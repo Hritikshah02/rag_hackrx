@@ -1,0 +1,31 @@
+{
+  "request_id": "20250801_125538",
+  "document_url": "https://hackrx.blob.core.windows.net/assets/Arogya%20Sanjeevani%20Policy%20-%20CIN%20-%20U10200WB1906GOI001713%201.pdf?sv=2023-01-03&st=2025-07-21T08%3A29%3A02Z&se=2025-09-22T08%3A29%3A00Z&sr=b&sp=r&sig=nzrz1K9Iurt%2BBXom%2FB%2BMPTFMFP3PRnIvEsipAX10Ig4%3D",
+  "results": [
+    {
+      "question": "When will my root canal claim of Rs 25,000 be settled?",
+      "answer": "Information not found in the document.",
+      "retrieved_chunks_file": "transaction_logs/20250801_125538/query_1_chunks.json"
+    },
+    {
+      "question": "I have done an IVF for Rs 56,000. Is it covered?",
+      "answer": "Expenses related to assisted reproduction services, including IVF, are not covered under the policy.",
+      "retrieved_chunks_file": "transaction_logs/20250801_125538/query_2_chunks.json"
+    },
+    {
+      "question": "I did a cataract treatment of Rs 100,000. Will you settle full?",
+      "answer": "Your cataract treatment of Rs 100,000 will be settled at 25% of the Sum Insured or INR 40,000 per eye, whichever is lower, per eye in one Policy Period.",
+      "retrieved_chunks_file": "transaction_logs/20250801_125538/query_3_chunks.json"
+    },
+    {
+      "question": "Give me a list of documents to be uploaded for hospitalization due to heart surgery.",
+      "answer": "For hospitalization due to heart surgery, documents to be uploaded include a duly completed claim form, photo identity proof of the patient, medical practitioner’s prescription advising admission, original itemized bills and payment receipts, discharge summary, investigation/diagnostic test reports, OT notes or surgeon's certificate, implant invoices, MLR/FIR if applicable, NEFT details and a cancelled cheque, KYC of the proposer if claim is over Rs. 1 Lakh, and any other relevant document required by the Company/TPA.",
+      "retrieved_chunks_file": "transaction_logs/20250801_125538/query_4_chunks.json"
+    },
+    {
+      "question": "I have raised a claim for hospitalization for Rs 25,000. What will I get?",
+      "answer": "Information not found in the document.",
+      "retrieved_chunks_file": "transaction_logs/20250801_125538/query_5_chunks.json"
+    }
+  ]
+}
