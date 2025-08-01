@@ -1,0 +1,15 @@
+2025-07-31 23:24:37,525 - ImprovedSemanticChunker - INFO - Loading BGE-large-EN embedding model (memory optimized)...
+2025-07-31 23:24:37,525 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: BAAI/bge-large-en-v1.5
+2025-07-31 23:24:59,474 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-07-31 23:24:59,474 - ImprovedSemanticChunker - INFO - STARTING NEW PAYLOAD PROCESSING
+2025-07-31 23:24:59,474 - ImprovedSemanticChunker - INFO - Downloading document from: https://hackrx.blob.core.windows.net/assets/policy.pdf?sv=2023-01-03&st=2025-07-04T09%3A11%3A24Z&se=2027-07-05T09%3A11%3A00Z&sr=b&sp=r&sig=N4a9OU0w0QXO6AOIBiu4bpl7AXvEZogeT%2FjUHNO7HzQ%3D
+2025-07-31 23:24:59,852 - ImprovedSemanticChunker - INFO - Extracting text from PDF...
+2025-07-31 23:25:01,470 - ImprovedSemanticChunker - INFO - Successfully extracted and cleaned text. Total characters: 109251
+2025-07-31 23:25:01,470 - ImprovedSemanticChunker - INFO - Creating token-based chunks...
+2025-07-31 23:25:01,479 - ImprovedSemanticChunker - INFO - Document tokenized: 25330 tokens
+2025-07-31 23:25:01,480 - ImprovedSemanticChunker - INFO - Created 102 token-based chunks
+2025-07-31 23:25:01,481 - ImprovedSemanticChunker - INFO - Creating vector embeddings and storing in ChromaDB...
+2025-07-31 23:25:07,769 - ImprovedSemanticChunker - INFO - Added 102 chunks to vector store: docs_96578d87dd0b434ea728a172168660cb
+2025-07-31 23:25:07,769 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 1: What is the grace period for premium payment under the National Parivar Mediclaim Plus Policy? ---
+2025-07-31 23:25:07,769 - ImprovedSemanticChunker - INFO - Searching for: 'What is the grace period for premium payment under the National Parivar Mediclaim Plus Policy?'

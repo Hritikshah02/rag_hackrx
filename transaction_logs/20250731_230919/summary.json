@@ -1,0 +1,31 @@
+{
+  "request_id": "20250731_230919",
+  "document_url": "https://hackrx.blob.core.windows.net/assets/Arogya%20Sanjeevani%20Policy%20-%20CIN%20-%20U10200WB1906GOI001713%201.pdf?sv=2023-01-03&st=2025-07-21T08%3A29%3A02Z&se=2025-09-22T08%3A29%3A00Z&sr=b&sp=r&sig=nzrz1K9Iurt%2BBXom%2FB%2BMPTFMFP3PRnIvEsipAX10Ig4%3D",
+  "results": [
+    {
+      "question": "When will my root canal claim of Rs 25,000 be settled?",
+      "answer": "Information not found in the document",
+      "retrieved_chunks_file": "transaction_logs/20250731_230919/query_1_chunks.json"
+    },
+    {
+      "question": "I have done an IVF for Rs 56,000. Is it covered?",
+      "answer": "Expenses related to assisted reproduction services including IVF are not covered under this policy.",
+      "retrieved_chunks_file": "transaction_logs/20250731_230919/query_2_chunks.json"
+    },
+    {
+      "question": "I did a cataract treatment of Rs 100,000. Will you settle full?",
+      "answer": "Your cataract treatment will be settled up to 25% of the Sum Insured or Rs. 40,000, whichever is lower, per eye.",
+      "retrieved_chunks_file": "transaction_logs/20250731_230919/query_3_chunks.json"
+    },
+    {
+      "question": "Give me a list of documents to be uploaded for hospitalization due to heart surgery.",
+      "answer": "For hospitalization due to heart surgery, submit a completed claim form, patient's photo ID, medical practitioner's admission advice, original itemized bills, payment receipts, discharge summary with medical history, investigation reports, OT notes or surgeon's certificate, implant stickers/invoices if applicable, MLR/FIR if applicable, NEFT details with a cancelled cheque, KYC if claim exceeds Rs. 1 Lakh, legal heir certificate if applicable, and any other requested documents.",
+      "retrieved_chunks_file": "transaction_logs/20250731_230919/query_4_chunks.json"
+    },
+    {
+      "question": "I have raised a claim for hospitalization for Rs 25,000. What will I get?",
+      "answer": "Information not found in the document.",
+      "retrieved_chunks_file": "transaction_logs/20250731_230919/query_5_chunks.json"
+    }
+  ]
+}

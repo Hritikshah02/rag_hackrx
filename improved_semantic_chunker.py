@@ -56,12 +56,13 @@ class ImprovedSemanticChunker:
         print("Loading BGE-Small-EN embedding model (memory optimized)...")
         # Using BGE-Small-EN for good performance with lower memory usage
         device = "cuda" if torch.cuda.is_available() else "cpu"
-        self.embedding_model = SentenceTransformer('BAAI/bge-small-en-v1.5', device=device)
+        self.embedding_model = SentenceTransformer('BAAI/bge-large-en-v1.5', device=device)
         
         
         
-        # Initialize ChromaDB
-        self.chroma_client = chromadb.Client(Settings(anonymized_telemetry=False))
+        # Initialize ChromaDB with persistent storage
+        os.makedirs("vector_store", exist_ok=True)
+        self.chroma_client = chromadb.PersistentClient(path="vector_store")
         self.collection_name = "improved_documents_bge_small"
         
         # Create a ChromaDB compatible embedding function with BGE-Small model
@@ -310,7 +311,7 @@ class ImprovedSemanticChunker:
             pass
         
         # Create new collection with explicit embedding function to handle dimension issues
-        self.collection = self.chroma_client.create_collection(
+        self.collection = self.chroma_client.get_or_create_collection(
             name=self.collection_name,
             metadata={"hnsw:space": "cosine"},
             # embedding_function=self.embedding_function

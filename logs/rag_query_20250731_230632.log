@@ -1,0 +1,60 @@
+2025-07-31 23:06:32,431 - ImprovedSemanticChunker - INFO - Loading BGE-large-EN embedding model (memory optimized)...
+2025-07-31 23:06:32,432 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: BAAI/bge-large-en-v1.5
+2025-07-31 23:06:45,185 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-07-31 23:06:45,185 - ImprovedSemanticChunker - INFO - STARTING NEW PAYLOAD PROCESSING
+2025-07-31 23:06:45,186 - ImprovedSemanticChunker - INFO - Downloading document from: https://hackrx.blob.core.windows.net/assets/policy.pdf?sv=2023-01-03&st=2025-07-04T09%3A11%3A24Z&se=2027-07-05T09%3A11%3A00Z&sr=b&sp=r&sig=N4a9OU0w0QXO6AOIBiu4bpl7AXvEZogeT%2FjUHNO7HzQ%3D
+2025-07-31 23:06:45,573 - ImprovedSemanticChunker - INFO - Extracting text from PDF...
+2025-07-31 23:06:48,203 - ImprovedSemanticChunker - INFO - Successfully extracted and cleaned text. Total characters: 109251
+2025-07-31 23:06:48,203 - ImprovedSemanticChunker - INFO - Creating token-based chunks...
+2025-07-31 23:06:48,217 - ImprovedSemanticChunker - INFO - Document tokenized: 25330 tokens
+2025-07-31 23:06:48,219 - ImprovedSemanticChunker - INFO - Created 102 token-based chunks
+2025-07-31 23:06:48,219 - ImprovedSemanticChunker - INFO - Creating vector embeddings and storing in ChromaDB...
+2025-07-31 23:06:58,521 - ImprovedSemanticChunker - INFO - Added 102 chunks to vector store: docs_d2c5fbad4a264f2a9f167173551a9b07
+2025-07-31 23:06:58,522 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 1: What is the grace period for premium payment under the National Parivar Mediclaim Plus Policy? ---
+2025-07-31 23:06:58,523 - ImprovedSemanticChunker - INFO - Searching for: 'What is the grace period for premium payment under the National Parivar Mediclaim Plus Policy?'
+2025-07-31 23:07:01,109 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-07-31 23:07:01,109 - ImprovedSemanticChunker - INFO - STARTING NEW PAYLOAD PROCESSING
+2025-07-31 23:07:01,110 - ImprovedSemanticChunker - INFO - Downloading document from: https://hackrx.blob.core.windows.net/assets/Arogya%20Sanjeevani%20Policy%20-%20CIN%20-%20U10200WB1906GOI001713%201.pdf?sv=2023-01-03&st=2025-07-21T08%3A29%3A02Z&se=2025-09-22T08%3A29%3A00Z&sr=b&sp=r&sig=nzrz1K9Iurt%2BBXom%2FB%2BMPTFMFP3PRnIvEsipAX10Ig4%3D
+2025-07-31 23:07:01,494 - ImprovedSemanticChunker - INFO - Extracting text from PDF...
+2025-07-31 23:07:04,040 - ImprovedSemanticChunker - INFO - Successfully extracted and cleaned text. Total characters: 76283
+2025-07-31 23:07:04,041 - ImprovedSemanticChunker - INFO - Creating token-based chunks...
+2025-07-31 23:07:04,076 - ImprovedSemanticChunker - INFO - Document tokenized: 17880 tokens
+2025-07-31 23:07:04,083 - ImprovedSemanticChunker - INFO - Created 72 token-based chunks
+2025-07-31 23:07:04,087 - ImprovedSemanticChunker - INFO - Creating vector embeddings and storing in ChromaDB...
+2025-07-31 23:07:10,984 - ImprovedSemanticChunker - INFO - Added 72 chunks to vector store: docs_300343eb70d34d22931faf50ebb541ac
+2025-07-31 23:07:10,984 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 1: When will my root canal claim of Rs 25,000 be settled? ---
+2025-07-31 23:07:10,984 - ImprovedSemanticChunker - INFO - Searching for: 'When will my root canal claim of Rs 25,000 be settled?'
+2025-07-31 23:07:13,580 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-07-31 23:07:13,580 - ImprovedSemanticChunker - INFO - STARTING NEW PAYLOAD PROCESSING
+2025-07-31 23:07:13,581 - ImprovedSemanticChunker - INFO - Downloading document from: https://hackrx.blob.core.windows.net/assets/Super_Splendor_(Feb_2023).pdf?sv=2023-01-03&st=2025-07-21T08%3A10%3A00Z&se=2025-09-22T08%3A10%3A00Z&sr=b&sp=r&sig=vhHrl63YtrEOCsAy%2BpVKr20b3ZUo5HMz1lF9%2BJh6LQ0%3D
+2025-07-31 23:07:15,627 - ImprovedSemanticChunker - INFO - Extracting text from PDF...
+2025-07-31 23:07:26,400 - ImprovedSemanticChunker - INFO - Successfully extracted and cleaned text. Total characters: 114467
+2025-07-31 23:07:26,400 - ImprovedSemanticChunker - INFO - Creating token-based chunks...
+2025-07-31 23:07:26,416 - ImprovedSemanticChunker - INFO - Document tokenized: 27496 tokens
+2025-07-31 23:07:26,421 - ImprovedSemanticChunker - INFO - Created 110 token-based chunks
+2025-07-31 23:07:26,422 - ImprovedSemanticChunker - INFO - Creating vector embeddings and storing in ChromaDB...
+2025-07-31 23:07:41,962 - ImprovedSemanticChunker - INFO - Added 110 chunks to vector store: docs_b62144a7acd94af4baa8cc09e23d8f51
+2025-07-31 23:07:41,963 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 1: What is the ideal spark plug gap recommended? ---
+2025-07-31 23:07:41,963 - ImprovedSemanticChunker - INFO - Searching for: 'What is the ideal spark plug gap recommended?'
+2025-07-31 23:07:44,391 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-07-31 23:07:44,391 - ImprovedSemanticChunker - INFO - STARTING NEW PAYLOAD PROCESSING
+2025-07-31 23:07:44,392 - ImprovedSemanticChunker - INFO - Downloading document from: https://hackrx.blob.core.windows.net/assets/Family%20Medicare%20Policy%20(UIN-%20UIIHLIP22070V042122)%201.pdf?sv=2023-01-03&st=2025-07-22T10%3A17%3A39Z&se=2025-08-23T10%3A17%3A00Z&sr=b&sp=r&sig=dA7BEMIZg3WcePcckBOb4QjfxK%2B4rIfxBs2%2F%2BNwoPjQ%3D
+2025-07-31 23:07:44,816 - ImprovedSemanticChunker - INFO - Extracting text from PDF...
+2025-07-31 23:07:46,775 - ImprovedSemanticChunker - INFO - Successfully extracted and cleaned text. Total characters: 97094
+2025-07-31 23:07:46,775 - ImprovedSemanticChunker - INFO - Creating token-based chunks...
+2025-07-31 23:07:46,787 - ImprovedSemanticChunker - INFO - Document tokenized: 22753 tokens
+2025-07-31 23:07:46,789 - ImprovedSemanticChunker - INFO - Created 92 token-based chunks
+2025-07-31 23:07:46,790 - ImprovedSemanticChunker - INFO - Creating vector embeddings and storing in ChromaDB...
+2025-07-31 23:07:56,109 - ImprovedSemanticChunker - INFO - Added 92 chunks to vector store: docs_3c02260abf974b1a949441996a10f7cb
+2025-07-31 23:07:56,110 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 1: Is Non-infective Arthritis covered? ---
+2025-07-31 23:07:56,110 - ImprovedSemanticChunker - INFO - Searching for: 'Is Non-infective Arthritis covered?'
+2025-07-31 23:07:58,583 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-07-31 23:07:58,584 - ImprovedSemanticChunker - INFO - STARTING NEW PAYLOAD PROCESSING
+2025-07-31 23:07:58,584 - ImprovedSemanticChunker - INFO - Using pre-chunked collection: indian_constitution_collection
+2025-07-31 23:08:00,595 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-07-31 23:08:00,595 - ImprovedSemanticChunker - INFO - STARTING NEW PAYLOAD PROCESSING
+2025-07-31 23:08:00,595 - ImprovedSemanticChunker - INFO - Using pre-chunked collection: indian_constitution_collection

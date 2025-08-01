@@ -1,0 +1,8 @@
+2025-07-31 23:26:50,543 - ImprovedSemanticChunker - INFO - Loading BGE-large-EN embedding model (memory optimized)...
+2025-07-31 23:26:50,544 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: BAAI/bge-large-en-v1.5
+2025-07-31 23:27:07,638 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-07-31 23:27:07,638 - ImprovedSemanticChunker - INFO - STARTING NEW PAYLOAD PROCESSING
+2025-07-31 23:27:07,638 - ImprovedSemanticChunker - INFO - Using pre-chunked collection: indian_constitution_collection
+2025-07-31 23:27:09,649 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-07-31 23:27:09,650 - ImprovedSemanticChunker - INFO - STARTING NEW PAYLOAD PROCESSING
+2025-07-31 23:27:09,650 - ImprovedSemanticChunker - INFO - Using pre-chunked collection: indian_constitution_collection

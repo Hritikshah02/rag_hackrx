@@ -1,0 +1,66 @@
+{
+  "request_id": "20250731_234702",
+  "document_url": "https://hackrx.blob.core.windows.net/assets/principia_newton.pdf?sv=2023-01-03&st=2025-07-28T07%3A20%3A32Z&se=2026-07-29T07%3A20%3A00Z&sr=b&sp=r&sig=V5I1QYyigoxeUMbnUKsdEaST99F5%2FDfo7wpKg9XXF5w%3D",
+  "results": [
+    {
+      "question": "How does Newton define 'quantity of motion' and how is it distinct from 'force'?",
+      "answer": "Newton defines the quantity of motion as the product of celerity and the quantity of matter, distinguishing it from motive force which is the product of accelerative force and the quantity of matter.",
+      "retrieved_chunks_file": "transaction_logs/20250731_234702/query_1_chunks.json"
+    },
+    {
+      "question": "According to Newton, what are the three laws of motion and how do they apply in celestial mechanics?",
+      "answer": "Information not found in the document.",
+      "retrieved_chunks_file": "transaction_logs/20250731_234702/query_2_chunks.json"
+    },
+    {
+      "question": "How does Newton derive Kepler's Second Law (equal areas in equal times) from his laws of motion and gravitation?",
+      "answer": "Information not found in the document.",
+      "retrieved_chunks_file": "transaction_logs/20250731_234702/query_3_chunks.json"
+    },
+    {
+      "question": "How does Newton demonstrate that gravity is inversely proportional to the square of the distance between two masses?",
+      "answer": "Information not found in the document",
+      "retrieved_chunks_file": "transaction_logs/20250731_234702/query_4_chunks.json"
+    },
+    {
+      "question": "What is Newton's argument for why gravitational force must act on all masses universally?",
+      "answer": "Information not found in the document.",
+      "retrieved_chunks_file": "transaction_logs/20250731_234702/query_5_chunks.json"
+    },
+    {
+      "question": "How does Newton explain the perturbation of planetary orbits due to other planets?",
+      "answer": "Information not found in the document",
+      "retrieved_chunks_file": "transaction_logs/20250731_234702/query_6_chunks.json"
+    },
+    {
+      "question": "What mathematical tools did Newton use in Principia that were precursors to calculus, and why didn't he use standard calculus notation?",
+      "answer": "Newton used his method of fluxions, the fundamental principle of which was presented in the second lemma of the second book of the Principia, but its algorithm or notation did not appear until 1693 in Dr. Wallis's works.",
+      "retrieved_chunks_file": "transaction_logs/20250731_234702/query_7_chunks.json"
+    },
+    {
+      "question": "How does Newton use the concept of centripetal force to explain orbital motion?",
+      "answer": "Newton explains orbital motion by resolving centripetal forces into components, where one component acting within the plane of motion directs the body towards a central point, causing it to revolve as if acted upon by that force alone.",
+      "retrieved_chunks_file": "transaction_logs/20250731_234702/query_8_chunks.json"
+    },
+    {
+      "question": "How does Newton handle motion in resisting media, such as air or fluids?",
+      "answer": "Newton analyzes motion in resisting media by considering resistances proportional to velocity or the square of velocity, and how these affect motion, velocity, and spaces described.",
+      "retrieved_chunks_file": "transaction_logs/20250731_234702/query_9_chunks.json"
+    },
+    {
+      "question": "In what way does Newton's notion of absolute space and time differ from relative motion, and how does it support his laws?",
+      "answer": "Newton distinguishes absolute space and time as unchanging frameworks from relative motion, which depends on the observer's frame of reference, to establish a consistent basis for his laws of motion.",
+      "retrieved_chunks_file": "transaction_logs/20250731_234702/query_10_chunks.json"
+    },
+    {
+      "question": "Who was the grandfather of Isaac Newton?",
+      "answer": "Information not found in the document.",
+      "retrieved_chunks_file": "transaction_logs/20250731_234702/query_11_chunks.json"
+    },
+    {
+      "question": "Do we know any other descent of Isaac Newton apart from his grandfather?",
+      "answer": "Information not found in the document",
+      "retrieved_chunks_file": "transaction_logs/20250731_234702/query_12_chunks.json"
+    }
+  ]
+}

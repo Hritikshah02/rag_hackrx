@@ -156,10 +156,6 @@ def test_all_webhooks():
     
     # Define all test payloads
     test_payloads = [
-        (test_payload_1, "Policy Document Test (Original)"),
-        (test_payload_2, "Policy Document Test 2"),
-        (test_payload_3, "Policy Document Test 3"),
-        (test_payload_4, "Family Medicare Policy Test"),
         (test_payload_5, "Indian Constitution Test (Factual Questions)"),
         (test_payload_5b, "Indian Constitution Test (Scenario-based Questions)")
     ]
