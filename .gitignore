@@ -55,10 +55,10 @@ Thumbs.db
 
 
 
-# Vector store data
-vector_store/
-*.db
-*.sqlite
+# # Vector store data
+# vector_store/
+# *.db
+# *.sqlite
 
 # Temporary files
 *.tmp
