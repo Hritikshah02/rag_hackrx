@@ -71,9 +71,12 @@ class ImprovedSemanticChunker:
         
         # Initialize memory-efficient embedding model
         self.logger.info("Loading BGE-large-EN embedding model (memory optimized)...")
-        device = "cuda" if torch.cuda.is_available() else "cpu"
-        self.embedding_model = SentenceTransformer('BAAI/bge-large-en-v1.5', device=device)
-        
+        # device = "cuda" if torch.cuda.is_available() else "cpu"
+        # self.embedding_model = SentenceTransformer('BAAI/bge-large-en-v1.5', device=device)
+        self.embedding_model = SentenceTransformer('BAAI/bge-large-en-v1.5')
+        self.embedding_model = self.embedding_model.to("cuda" if torch.cuda.is_available() else "cpu")
+
+
         # Initialize ChromaDB with persistent storage
         os.makedirs("vector_store", exist_ok=True)
         self.chroma_client = chromadb.PersistentClient(path="vector_store")
@@ -154,7 +157,7 @@ class ImprovedSemanticChunker:
         with torch.no_grad():
             embeddings = self.embedding_model.encode(
                 texts, 
-                batch_size=64, 
+                batch_size=128, 
                 show_progress_bar=True, 
                 normalize_embeddings=True
             )

@@ -57,9 +57,11 @@ class ImprovedSemanticChunker:
         # Initialize memory-efficient embedding model
         print("Loading BGE-Small-EN embedding model (memory optimized)...")
         # Using BGE-Small-EN for good performance with lower memory usage
-        device = "cuda" if torch.cuda.is_available() else "cpu"
-        self.embedding_model = SentenceTransformer('BAAI/bge-large-en-v1.5', device=device)
-        
+        # device = "cuda" if torch.cuda.is_available() else "cpu"
+        # self.embedding_model = SentenceTransformer('BAAI/bge-large-en-v1.5', device=device)
+        self.embedding_model = SentenceTransformer('BAAI/bge-large-en-v1.5')
+        self.embedding_model = self.embedding_model.to("cuda" if torch.cuda.is_available() else "cpu")
+
         
         
         # Initialize ChromaDB with persistent storage
