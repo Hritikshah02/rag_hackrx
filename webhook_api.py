@@ -151,12 +151,14 @@ class ImprovedSemanticChunker:
             metadata={"hnsw:space": "cosine"}
         )
         texts = [chunk['text'] for chunk in chunks]
-        embeddings = self.embedding_model.encode(
-            texts, 
-            batch_size=64, 
-            show_progress_bar=True, 
-            normalize_embeddings=True
-        )
+        with torch.no_grad():
+            embeddings = self.embedding_model.encode(
+                texts, 
+                batch_size=64, 
+                show_progress_bar=True, 
+                normalize_embeddings=True
+            )
+
         self.collection.add(
             documents=texts,
             embeddings=embeddings.tolist(),
