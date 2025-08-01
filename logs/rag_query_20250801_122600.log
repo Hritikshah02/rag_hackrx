@@ -1,0 +1,114 @@
+2025-08-01 12:26:00,700 - ImprovedSemanticChunker - INFO - Loading BGE-large-EN embedding model (memory optimized)...
+2025-08-01 12:26:00,700 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: BAAI/bge-large-en-v1.5
+2025-08-01 12:26:08,296 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2025-08-01 12:29:56,700 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-01 12:29:56,700 - ImprovedSemanticChunker - INFO - STARTING NEW PAYLOAD PROCESSING
+2025-08-01 12:29:56,700 - ImprovedSemanticChunker - INFO - Using pre-chunked collection: indian_constitution_collection
+2025-08-01 12:29:56,701 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 1: What is the official name of India according to Article 1? ---
+2025-08-01 12:29:56,701 - ImprovedSemanticChunker - INFO - Searching for: 'What is the official name of India according to Article 1?'
+2025-08-01 12:29:56,702 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: BAAI/bge-large-en-v1.5
+2025-08-01 12:30:03,671 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:30:10,399 - ImprovedSemanticChunker - INFO - Final Answer: According to Article 1, the official name of India is India, that is Bharat.
+2025-08-01 12:30:10,399 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 2: Which Article guarantees equality before the law and equal protection of the laws? ---
+2025-08-01 12:30:10,400 - ImprovedSemanticChunker - INFO - Searching for: 'Which Article guarantees equality before the law and equal protection of the laws?'
+2025-08-01 12:30:10,506 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:30:11,626 - ImprovedSemanticChunker - INFO - Final Answer: Article 14 guarantees equality before the law and equal protection of the laws.
+2025-08-01 12:30:11,627 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 3: What is abolished by Article 17 of the Constitution? ---
+2025-08-01 12:30:11,627 - ImprovedSemanticChunker - INFO - Searching for: 'What is abolished by Article 17 of the Constitution?'
+2025-08-01 12:30:11,731 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:30:12,752 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-08-01 12:30:12,752 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 4: What are the key ideals mentioned in the Preamble of the Indian Constitution? ---
+2025-08-01 12:30:12,753 - ImprovedSemanticChunker - INFO - Searching for: 'What are the key ideals mentioned in the Preamble of the Indian Constitution?'
+2025-08-01 12:30:12,955 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:30:13,982 - ImprovedSemanticChunker - INFO - Final Answer: The key ideals mentioned in the Preamble of the Indian Constitution are Justice, Liberty, Equality, and Fraternity.
+2025-08-01 12:30:13,982 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 5: Under which Article can Parliament alter the boundaries of states? ---
+2025-08-01 12:30:13,982 - ImprovedSemanticChunker - INFO - Searching for: 'Under which Article can Parliament alter the boundaries of states?'
+2025-08-01 12:30:14,179 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:30:15,211 - ImprovedSemanticChunker - INFO - Final Answer: Parliament may alter the boundaries of states by law under Article 3 of the Constitution.
+2025-08-01 12:30:15,211 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 6: According to Article 24, children below what age are prohibited from working? ---
+2025-08-01 12:30:15,211 - ImprovedSemanticChunker - INFO - Searching for: 'According to Article 24, children below what age are prohibited from working?'
+2025-08-01 12:30:15,317 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:30:16,338 - ImprovedSemanticChunker - INFO - Final Answer: According to Article 24, children below the age of fourteen years are prohibited from working in any factory or mine or engaged in any other hazardous employment.
+2025-08-01 12:30:16,338 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 7: What is the significance of Article 21 in the Indian Constitution? ---
+2025-08-01 12:30:16,339 - ImprovedSemanticChunker - INFO - Searching for: 'What is the significance of Article 21 in the Indian Constitution?'
+2025-08-01 12:30:16,441 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:30:17,464 - ImprovedSemanticChunker - INFO - Final Answer: Article 21 protects life and personal liberty.
+2025-08-01 12:30:17,464 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 8: Article 15 prohibits discrimination on certain grounds. What are they? ---
+2025-08-01 12:30:17,464 - ImprovedSemanticChunker - INFO - Searching for: 'Article 15 prohibits discrimination on certain grounds. What are they?'
+2025-08-01 12:30:17,578 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:30:18,488 - ImprovedSemanticChunker - INFO - Final Answer: Article 15 prohibits discrimination on the grounds of religion, race, caste, sex, or place of birth.
+2025-08-01 12:30:18,488 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 9: Which Article allows Parliament to regulate the right to form associations? ---
+2025-08-01 12:30:18,489 - ImprovedSemanticChunker - INFO - Searching for: 'Which Article allows Parliament to regulate the right to form associations?'
+2025-08-01 12:30:18,596 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:30:19,906 - ImprovedSemanticChunker - INFO - Final Answer: Article 19(1)(c) of the Constitution guarantees the right to form associations, and Article 19(4) allows for reasonable restrictions on this right in the interests of sovereignty, integrity, public order, or morality.
+2025-08-01 12:30:19,906 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 10: What restrictions can the State impose on the right to freedom of speech? ---
+2025-08-01 12:30:19,906 - ImprovedSemanticChunker - INFO - Searching for: 'What restrictions can the State impose on the right to freedom of speech?'
+2025-08-01 12:30:20,101 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:30:21,023 - ImprovedSemanticChunker - INFO - Final Answer: The State may impose reasonable restrictions on the right to freedom of speech in the interests of the sovereignty and integrity of India, the security of the State, friendly relations with foreign States, public order, decency or morality, or in relation to contempt of court, defamation, or incitement to an offence.
+2025-08-01 12:30:21,024 - ImprovedSemanticChunker - INFO - ✅ Transaction logs saved to directory: transaction_logs/20250801_122956
+2025-08-01 12:30:21,024 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-01 12:30:23,033 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-01 12:30:23,033 - ImprovedSemanticChunker - INFO - STARTING NEW PAYLOAD PROCESSING
+2025-08-01 12:30:23,033 - ImprovedSemanticChunker - INFO - Using pre-chunked collection: indian_constitution_collection
+2025-08-01 12:30:23,034 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 1: If my car is stolen, what case will it be in law? ---
+2025-08-01 12:30:23,035 - ImprovedSemanticChunker - INFO - Searching for: 'If my car is stolen, what case will it be in law?'
+2025-08-01 12:30:23,214 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:30:24,325 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-08-01 12:30:24,325 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 2: If I am arrested without a warrant, is that legal? ---
+2025-08-01 12:30:24,335 - ImprovedSemanticChunker - INFO - Searching for: 'If I am arrested without a warrant, is that legal?'
+2025-08-01 12:30:24,447 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:30:25,560 - ImprovedSemanticChunker - INFO - Final Answer: No person arrested and detained in custody shall be detained beyond twenty-four hours without the authority of a magistrate.
+2025-08-01 12:30:25,560 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 3: If someone denies me a job because of my caste, is that legal? ---
+2025-08-01 12:30:25,561 - ImprovedSemanticChunker - INFO - Searching for: 'If someone denies me a job because of my caste, is that legal?'
+2025-08-01 12:30:25,678 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:30:27,400 - ImprovedSemanticChunker - INFO - Final Answer: No, it is illegal to deny someone a job based on their caste, as Article 16 prohibits discrimination in public employment on grounds of religion, race, caste, sex, descent, place of birth, or residence.
+2025-08-01 12:30:27,400 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 4: If the government takes my land for a project, can I stop it? ---
+2025-08-01 12:30:27,400 - ImprovedSemanticChunker - INFO - Searching for: 'If the government takes my land for a project, can I stop it?'
+2025-08-01 12:30:27,514 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:30:28,727 - ImprovedSemanticChunker - INFO - Final Answer: The government can compulsorily acquire land for public purposes in accordance with the law authorizing such acquisition.
+2025-08-01 12:30:28,728 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 5: If my child is forced to work in a factory, is that legal? ---
+2025-08-01 12:30:28,728 - ImprovedSemanticChunker - INFO - Searching for: 'If my child is forced to work in a factory, is that legal?'
+2025-08-01 12:30:28,949 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:30:30,161 - ImprovedSemanticChunker - INFO - Final Answer: No child below the age of fourteen years shall be employed to work in any factory or mine or engaged in any other hazardous employment.
+2025-08-01 12:30:30,161 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 6: If I am stopped from speaking at a protest, is that a violation of my rights? ---
+2025-08-01 12:30:30,161 - ImprovedSemanticChunker - INFO - Searching for: 'If I am stopped from speaking at a protest, is that a violation of my rights?'
+2025-08-01 12:30:30,352 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:30:31,805 - ImprovedSemanticChunker - INFO - Final Answer: Citizens have the right to freedom of speech and expression, but this right is subject to reasonable restrictions imposed in the interests of India's sovereignty and integrity, the security of the State, friendly relations with foreign States, public order, decency, or morality.
+2025-08-01 12:30:31,805 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 7: If a religious place stops me from entering because of my caste, what can I do? ---
+2025-08-01 12:30:31,805 - ImprovedSemanticChunker - INFO - Searching for: 'If a religious place stops me from entering because of my caste, what can I do?'
+2025-08-01 12:30:31,912 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:30:33,547 - ImprovedSemanticChunker - INFO - Final Answer: No citizen shall be denied access to places of public resort maintained wholly or partly out of State funds on grounds only of religion, race, caste, sex, place of birth or any of them.
+2025-08-01 12:30:33,547 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 8: If I change my religion, can the government stop me? ---
+2025-08-01 12:30:33,547 - ImprovedSemanticChunker - INFO - Searching for: 'If I change my religion, can the government stop me?'
+2025-08-01 12:30:33,658 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:30:34,972 - ImprovedSemanticChunker - INFO - Final Answer: The government cannot prevent you from changing your religion as all persons are equally entitled to freedom of conscience and the right to freely profess, practice, and propagate religion, subject to public order, morality, and health.
+2025-08-01 12:30:34,973 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 9: If the police torture someone in custody, what right is violated? ---
+2025-08-01 12:30:34,973 - ImprovedSemanticChunker - INFO - Searching for: 'If the police torture someone in custody, what right is violated?'
+2025-08-01 12:30:35,166 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:30:36,613 - ImprovedSemanticChunker - INFO - Final Answer: The right to life and personal liberty as per Article 21 is violated if the police torture someone in custody.
+2025-08-01 12:30:36,613 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 10: If I'm denied admission to a public university because of my caste, what law applies? ---
+2025-08-01 12:30:36,614 - ImprovedSemanticChunker - INFO - Searching for: 'If I'm denied admission to a public university because of my caste, what law applies?'
+2025-08-01 12:30:36,733 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-01 12:30:38,047 - ImprovedSemanticChunker - INFO - Final Answer: Article 15(1) of the Constitution prohibits discrimination against any citizen on grounds of religion, race, caste, sex, or place of birth.
+2025-08-01 12:30:38,049 - ImprovedSemanticChunker - INFO - ✅ Transaction logs saved to directory: transaction_logs/20250801_123023
+2025-08-01 12:30:38,049 - ImprovedSemanticChunker - INFO - ================================================================================

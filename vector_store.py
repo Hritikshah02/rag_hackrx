@@ -109,34 +109,13 @@ class VectorStore:
                     print(f"🔄 Trying next model...")
                     continue
                 else:
-                    print("❌ All models failed. Trying final fallback approach...")
-                    
-                    # Final fallback: Use a simple embedding approach
-                    try:
-                        print("🔄 Using minimal initialization approach...")
-                        
-                        # Clear any torch caches
-                        import torch
-                        if hasattr(torch, 'cuda') and torch.cuda.is_available():
-                            torch.cuda.empty_cache()
-                        
-                        # Try with no device specification at all
-                        self.embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
-                        
-                        # Test without device specification
-                        test_result = self.embedding_model.encode(["test"])
-                        
-                        print("✅ Minimal initialization successful!")
-                        return
-                        
-                    except Exception as final_e:
-                        print(f"❌ Final fallback failed: {str(final_e)}")
-                        print("💡 This appears to be a PyTorch/sentence-transformers compatibility issue.")
-                        print("💡 Recommended solutions:")
-                        print("   1. Restart your terminal/IDE completely")
-                        print("   2. Try: pip install sentence-transformers==2.2.2")
-                        print("   3. Clear cache: rm -rf ~/.cache/huggingface/")
-                        raise RuntimeError(f"Could not initialize sentence transformer model: {str(final_e)}")
+                    print(f"❌ Final fallback failed: {str(e)}")
+                    print("💡 This appears to be a PyTorch/sentence-transformers compatibility issue.")
+                    print("💡 Recommended solutions:")
+                    print("   1. Restart your terminal/IDE completely")
+                    print("   2. Try: pip install sentence-transformers==2.2.2")
+                    print("   3. Clear cache: rm -rf ~/.cache/huggingface/")
+                    raise RuntimeError(f"Could not initialize sentence transformer model: {str(e)}")
     
     def _ensure_embedding_model(self):
         """Ensure embedding model is initialized before use"""

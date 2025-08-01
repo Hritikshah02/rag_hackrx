@@ -36,7 +36,7 @@ logger = logging.getLogger("ImprovedSemanticChunker")
 
 from dotenv import load_dotenv
 import numpy as np
-
+from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction
 # Load environment variables
 load_dotenv()
 
@@ -44,6 +44,8 @@ class ImprovedSemanticChunker:
     def __init__(self):
         """Initialize the improved semantic chunker with better models and configurations"""
         # Configure Google Gemini - using the full model instead of lite
+        self.embedding_function = SentenceTransformerEmbeddingFunction(model_name="BAAI/bge-large-en-v1.5")  # or whichever 1024-dim model you're using
+
         self.google_api_key = os.getenv('GOOGLE_API_KEY')
         if not self.google_api_key:
             raise ValueError("GOOGLE_API_KEY environment variable is required")
@@ -307,37 +309,48 @@ class ImprovedSemanticChunker:
         # Delete existing collection if it exists
         try:
             self.chroma_client.delete_collection(self.collection_name)
-        except:
-            pass
+            print(f"Deleted existing collection: {self.collection_name}")
+        except Exception as e:
+            print(f"Failed to delete collection {self.collection_name}: {e}")
+
         
         # Create new collection with explicit embedding function to handle dimension issues
         self.collection = self.chroma_client.get_or_create_collection(
             name=self.collection_name,
             metadata={"hnsw:space": "cosine"},
-            # embedding_function=self.embedding_function
+            embedding_function=self.embedding_function
         )
         
         # Generate embeddings and add to collection
         texts = [chunk['text'] for chunk in chunks]
         
         # Step 1: Batched embedding on GPU using your initialized self.embedding_model
-        batch_size = 64  # You can increase this if memory allows (128 or 256)
-        embeddings = []
-        for i in range(0, len(texts), batch_size):
-            batch = texts[i:i + batch_size]
-            batch_embeddings = self.embedding_model.encode(batch, show_progress_bar=False, device='cuda', batch_size=batch_size, normalize_embeddings=True)
-            embeddings.extend(batch_embeddings)
-
-        # Step 2: Add manually to ChromaDB collection with precomputed embeddings
+        batch_size = 128  # You can increase this if memory allows (128 or 256)
         self.collection.add(
             documents=texts,
-            embeddings=embeddings,
             ids=[chunk['id'] for chunk in chunks],
             metadatas=[{
                 'size': chunk['size'], 
                 'section': chunk.get('section', 0)
             } for chunk in chunks]
         )
+
+        # embeddings = []
+        # for i in range(0, len(texts), batch_size):
+        #     batch = texts[i:i + batch_size]
+        #     batch_embeddings = self.embedding_model.encode(batch, show_progress_bar=False, device='cuda', batch_size=batch_size, normalize_embeddings=True)
+        #     embeddings.extend(batch_embeddings)
+
+        # # Step 2: Add manually to ChromaDB collection with precomputed embeddings
+        # self.collection.add(
+        #     documents=texts,
+        #     embeddings=embeddings,
+        #     ids=[chunk['id'] for chunk in chunks],
+        #     metadatas=[{
+        #         'size': chunk['size'], 
+        #         'section': chunk.get('section', 0)
+        #     } for chunk in chunks]
+        # )
 
         
         print(f"Added {len(chunks)} chunks to vector store")

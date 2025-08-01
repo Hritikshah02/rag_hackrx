@@ -1,0 +1,3 @@
+2025-08-01 12:51:37,328 - ImprovedSemanticChunker - INFO - Loading BGE-large-EN embedding model (memory optimized)...
+2025-08-01 12:51:37,328 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: BAAI/bge-large-en-v1.5
+2025-08-01 12:51:45,278 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
