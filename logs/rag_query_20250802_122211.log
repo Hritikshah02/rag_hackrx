@@ -1,0 +1,187 @@
+2025-08-02 12:22:11,373 - ImprovedSemanticChunker - INFO - Loading BGE-large-EN embedding model (memory optimized)...
+2025-08-02 12:22:11,373 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: BAAI/bge-large-en-v1.5
+2025-08-02 12:22:12,397 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2025-08-02 12:22:21,247 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-02 12:22:21,247 - ImprovedSemanticChunker - INFO - STARTING NEW PAYLOAD PROCESSING
+2025-08-02 12:22:21,248 - ImprovedSemanticChunker - INFO - Using LlamaParse to process: https://www.icicipruamc.com/blob/downloads/Key%20Information%20Memorandum(KIM)/ICICI%20Prudential%20Nifty%20Top%2015%20Equal%20Weight%20ETF.PDF
+2025-08-02 12:22:23,559 - httpx - INFO - HTTP Request: POST https://api.cloud.llamaindex.ai/api/parsing/upload "HTTP/1.1 200 OK"
+2025-08-02 12:22:24,944 - httpx - INFO - HTTP Request: GET https://api.cloud.llamaindex.ai/api/parsing/job/a718fada-4e5f-4f45-8da5-8792f2a82589 "HTTP/1.1 200 OK"
+2025-08-02 12:22:27,315 - httpx - INFO - HTTP Request: GET https://api.cloud.llamaindex.ai/api/parsing/job/a718fada-4e5f-4f45-8da5-8792f2a82589 "HTTP/1.1 200 OK"
+2025-08-02 12:22:27,851 - httpx - INFO - HTTP Request: GET https://api.cloud.llamaindex.ai/api/parsing/job/a718fada-4e5f-4f45-8da5-8792f2a82589/result/text "HTTP/1.1 200 OK"
+2025-08-02 12:22:28,467 - ImprovedSemanticChunker - INFO - LlamaParse created 23 semantic chunks.
+2025-08-02 12:22:28,467 - ImprovedSemanticChunker - INFO - Creating vector embeddings and storing in ChromaDB...
+2025-08-02 12:22:32,147 - ImprovedSemanticChunker - INFO - Added 23 chunks to vector store: docs_e6fd658e8a804739bb722ac5cd57ea3a
+2025-08-02 12:22:32,147 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 1: What are the open and close dates for the New Fund Offer (NFO) of the ICICI Prudential Nifty Top 15 Equal Weight ETF? ---
+2025-08-02 12:22:32,147 - ImprovedSemanticChunker - INFO - Searching for: 'What are the open and close dates for the New Fund Offer (NFO) of the ICICI Prudential Nifty Top 15 Equal Weight ETF?'
+2025-08-02 12:22:32,203 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 12:22:34,997 - ImprovedSemanticChunker - INFO - Final Answer: The New Fund Offer (NFO) for the ICICI Prudential Nifty Top 15 Equal Weight ETF opens on June 10, 2025, and closes on June 24, 2025.
+2025-08-02 12:22:34,997 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 2: What is the primary investment objective of the scheme and which benchmark index does it aim to track? ---
+2025-08-02 12:22:34,997 - ImprovedSemanticChunker - INFO - Searching for: 'What is the primary investment objective of the scheme and which benchmark index does it aim to track?'
+2025-08-02 12:22:35,075 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 12:22:35,929 - ImprovedSemanticChunker - INFO - Final Answer: The primary investment objective of the scheme is to provide returns before expenses that correspond to the total return of the Nifty Top 15 Equal Weight Index, subject to tracking errors.
+2025-08-02 12:22:35,929 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 3: According to the asset allocation pattern, what is the minimum and maximum percentage of total assets that the scheme will invest in the equity and equity-related securities of companies that make up the underlying index? ---
+2025-08-02 12:22:35,929 - ImprovedSemanticChunker - INFO - Searching for: 'According to the asset allocation pattern, what is the minimum and maximum percentage of total assets that the scheme will invest in the equity and equity-related securities of companies that make up the underlying index?'
+2025-08-02 12:22:35,970 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 12:22:36,916 - ImprovedSemanticChunker - INFO - Final Answer: Under normal circumstances, the scheme will invest a minimum of 95% and a maximum of 100% of its total assets in equity and equity-related securities of companies that constitute the underlying index.
+2025-08-02 12:22:36,917 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 4: What is the minimum investment amount required during the NFO, and what is the minimum number of units an investor can buy or sell on the stock exchange once the scheme is listed? ---
+2025-08-02 12:22:36,917 - ImprovedSemanticChunker - INFO - Searching for: 'What is the minimum investment amount required during the NFO, and what is the minimum number of units an investor can buy or sell on the stock exchange once the scheme is listed?'
+2025-08-02 12:22:36,989 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 12:22:37,932 - ImprovedSemanticChunker - INFO - Final Answer: During the NFO, the minimum investment is Rs 1,000, and once listed, investors can buy or sell units on the stock exchange in lots of 1 unit or multiples thereof.
+2025-08-02 12:22:37,932 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 5: What are three specific risks mentioned in the document that could cause a 'tracking error,' where the scheme's performance deviates from the index's performance? ---
+2025-08-02 12:22:37,933 - ImprovedSemanticChunker - INFO - Searching for: 'What are three specific risks mentioned in the document that could cause a 'tracking error,' where the scheme's performance deviates from the index's performance?'
+2025-08-02 12:22:38,002 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 12:22:38,985 - ImprovedSemanticChunker - INFO - Final Answer: Changes to the underlying index, corporate actions affecting constituent stocks, and discrepancies between the closing prices of securities and their trading prices during the session are specific risks that can cause tracking error.
+2025-08-02 12:22:38,985 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 6: Does the scheme charge an Exit Load? What is the maximum Total Expense Ratio (TER) that can be charged to the scheme annually? ---
+2025-08-02 12:22:38,985 - ImprovedSemanticChunker - INFO - Searching for: 'Does the scheme charge an Exit Load? What is the maximum Total Expense Ratio (TER) that can be charged to the scheme annually?'
+2025-08-02 12:22:39,063 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 12:22:39,827 - ImprovedSemanticChunker - INFO - Final Answer: The scheme charges no exit load and can charge a maximum Total Expense Ratio (TER) of up to 1.00% annually.
+2025-08-02 12:22:39,827 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 7: The document provides a 'Negative list' of investments. Can this scheme invest in Overseas Securities or REITs? ---
+2025-08-02 12:22:39,828 - ImprovedSemanticChunker - INFO - Searching for: 'The document provides a 'Negative list' of investments. Can this scheme invest in Overseas Securities or REITs?'
+2025-08-02 12:22:39,898 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 12:22:40,626 - ImprovedSemanticChunker - INFO - Final Answer: No, the scheme will not invest or have exposure in Overseas securities or REITs as they are included in the negative list.
+2025-08-02 12:22:40,627 - ImprovedSemanticChunker - INFO - ✅ Transaction logs saved to directory: transaction_logs/20250802_122221
+2025-08-02 12:22:40,627 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-02 12:22:40,669 - ImprovedSemanticChunker - INFO - Cleaned up ChromaDB collection: docs_e6fd658e8a804739bb722ac5cd57ea3a
+2025-08-02 12:23:20,720 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-02 12:23:20,720 - ImprovedSemanticChunker - INFO - STARTING NEW PAYLOAD PROCESSING
+2025-08-02 12:23:20,721 - ImprovedSemanticChunker - INFO - Using pre-chunked collection: principia_newton_collection
+2025-08-02 12:23:20,723 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 1: How does Newton define 'quantity of motion' and how is it distinct from 'force'? ---
+2025-08-02 12:23:20,723 - ImprovedSemanticChunker - INFO - Searching for: 'How does Newton define 'quantity of motion' and how is it distinct from 'force'?'
+2025-08-02 12:23:20,913 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 12:23:21,709 - ImprovedSemanticChunker - INFO - Final Answer: The quantity of motion is defined as the measure of motion arising from velocity and quantity of matter conjunctly, differing from force, which is a power of resisting or a measure of the efficacy that propagates or generates velocity.
+2025-08-02 12:23:21,709 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 2: According to Newton, what are the three laws of motion and how do they apply in celestial mechanics? ---
+2025-08-02 12:23:21,709 - ImprovedSemanticChunker - INFO - Searching for: 'According to Newton, what are the three laws of motion and how do they apply in celestial mechanics?'
+2025-08-02 12:23:21,794 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 12:23:22,480 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-08-02 12:23:22,480 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 3: How does Newton derive Kepler's Second Law (equal areas in equal times) from his laws of motion and gravitation? ---
+2025-08-02 12:23:22,480 - ImprovedSemanticChunker - INFO - Searching for: 'How does Newton derive Kepler's Second Law (equal areas in equal times) from his laws of motion and gravitation?'
+2025-08-02 12:23:22,564 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 12:23:23,436 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-08-02 12:23:23,436 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 4: How does Newton demonstrate that gravity is inversely proportional to the square of the distance between two masses? ---
+2025-08-02 12:23:23,437 - ImprovedSemanticChunker - INFO - Searching for: 'How does Newton demonstrate that gravity is inversely proportional to the square of the distance between two masses?'
+2025-08-02 12:23:23,527 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 12:23:24,335 - ImprovedSemanticChunker - INFO - Final Answer: Newton demonstrates that gravity is reciprocally proportional to the square of the distance between two masses by observing that if conic sections are described by two bodies whose forces are reciprocally proportional to the square of their distance, then the centripetal forces are reciprocally proportional to the squares of the distance.
+2025-08-02 12:23:24,336 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 5: What is Newton's argument for why gravitational force must act on all masses universally? ---
+2025-08-02 12:23:24,336 - ImprovedSemanticChunker - INFO - Searching for: 'What is Newton's argument for why gravitational force must act on all masses universally?'
+2025-08-02 12:23:24,420 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 12:23:24,914 - ImprovedSemanticChunker - INFO - Final Answer: Newton argues that gravitational force acts on all masses universally because all celestial and terrestrial bodies are composed of the same fundamental substance.
+2025-08-02 12:23:24,914 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 6: How does Newton explain the perturbation of planetary orbits due to other planets? ---
+2025-08-02 12:23:24,914 - ImprovedSemanticChunker - INFO - Searching for: 'How does Newton explain the perturbation of planetary orbits due to other planets?'
+2025-08-02 12:23:24,999 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 12:23:25,747 - ImprovedSemanticChunker - INFO - Final Answer: Newton explains that the mutual actions of planets on each other are so small they can be neglected, and thus they disturb the motions of planets around the sun less than if the sun were at rest.
+2025-08-02 12:23:25,747 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 7: What mathematical tools did Newton use in Principia that were precursors to calculus, and why didn't he use standard calculus notation? ---
+2025-08-02 12:23:25,747 - ImprovedSemanticChunker - INFO - Searching for: 'What mathematical tools did Newton use in Principia that were precursors to calculus, and why didn't he use standard calculus notation?'
+2025-08-02 12:23:25,839 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 12:23:26,535 - ImprovedSemanticChunker - INFO - Final Answer: Newton used the Method of Fluxions and the Binomial Theorem, which were precursors to calculus, and he censured the handling of geometrical subjects by algebraic calculations in favor of the geometrical method.
+2025-08-02 12:23:26,535 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 8: How does Newton use the concept of centripetal force to explain orbital motion? ---
+2025-08-02 12:23:26,535 - ImprovedSemanticChunker - INFO - Searching for: 'How does Newton use the concept of centripetal force to explain orbital motion?'
+2025-08-02 12:23:26,621 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 12:23:27,402 - ImprovedSemanticChunker - INFO - Final Answer: Newton uses centripetal force, a force directed towards a center, to explain orbital motion by showing how it restrains bodies from flying off in straight lines, thus retaining them in their orbits.
+2025-08-02 12:23:27,403 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 9: How does Newton handle motion in resisting media, such as air or fluids? ---
+2025-08-02 12:23:27,403 - ImprovedSemanticChunker - INFO - Searching for: 'How does Newton handle motion in resisting media, such as air or fluids?'
+2025-08-02 12:23:27,491 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 12:23:28,175 - ImprovedSemanticChunker - INFO - Final Answer: Newton analyzes motion in resisting media by examining the resistance generated by the fluid's inactivity and the pressure differences caused by a moving body, considering factors like fluid elasticity and particle interactions.
+2025-08-02 12:23:28,175 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 10: In what way does Newton's notion of absolute space and time differ from relative motion, and how does it support his laws? ---
+2025-08-02 12:23:28,175 - ImprovedSemanticChunker - INFO - Searching for: 'In what way does Newton's notion of absolute space and time differ from relative motion, and how does it support his laws?'
+2025-08-02 12:23:28,261 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 12:23:28,990 - ImprovedSemanticChunker - INFO - Final Answer: Newton distinguishes absolute space and time as existing independently of external factors and motion, providing a fixed framework against which relative motions, perceived through sensible measures, are understood and explained by his laws of motion.
+2025-08-02 12:23:28,990 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 11: Who was the grandfather of Isaac Newton? ---
+2025-08-02 12:23:28,990 - ImprovedSemanticChunker - INFO - Searching for: 'Who was the grandfather of Isaac Newton?'
+2025-08-02 12:23:29,076 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 12:23:29,720 - ImprovedSemanticChunker - INFO - Final Answer: The grandfather of Isaac Newton was Robert Newton.
+2025-08-02 12:23:29,720 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 12: Do we know any other descent of Isaac Newton apart from his grandfather? ---
+2025-08-02 12:23:29,720 - ImprovedSemanticChunker - INFO - Searching for: 'Do we know any other descent of Isaac Newton apart from his grandfather?'
+2025-08-02 12:23:29,804 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 12:23:30,414 - ImprovedSemanticChunker - INFO - Final Answer: Beyond his grandfather, Robert Newton, the descent of Sir Isaac cannot be traced with certainty.
+2025-08-02 12:23:30,415 - ImprovedSemanticChunker - INFO - ✅ Transaction logs saved to directory: transaction_logs/20250802_122320
+2025-08-02 12:23:30,415 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-02 12:23:37,963 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-02 12:23:37,963 - ImprovedSemanticChunker - INFO - STARTING NEW PAYLOAD PROCESSING
+2025-08-02 12:23:37,964 - ImprovedSemanticChunker - INFO - Using pre-chunked collection: indian_constitution_collection
+2025-08-02 12:23:37,965 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 1: If my car is stolen, what case will it be in law? ---
+2025-08-02 12:23:37,965 - ImprovedSemanticChunker - INFO - Searching for: 'If my car is stolen, what case will it be in law?'
+2025-08-02 12:23:38,140 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 12:23:38,818 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-08-02 12:23:38,818 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 2: If I am arrested without a warrant, is that legal? ---
+2025-08-02 12:23:38,818 - ImprovedSemanticChunker - INFO - Searching for: 'If I am arrested without a warrant, is that legal?'
+2025-08-02 12:23:38,903 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 12:23:39,583 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-08-02 12:23:39,583 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 3: If someone denies me a job because of my caste, is that legal? ---
+2025-08-02 12:23:39,584 - ImprovedSemanticChunker - INFO - Searching for: 'If someone denies me a job because of my caste, is that legal?'
+2025-08-02 12:23:39,644 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 12:23:40,371 - ImprovedSemanticChunker - INFO - Final Answer: No, discrimination in matters of employment or appointment to any office under the State based solely on caste is prohibited by law.
+2025-08-02 12:23:40,371 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 4: If the government takes my land for a project, can I stop it? ---
+2025-08-02 12:23:40,371 - ImprovedSemanticChunker - INFO - Searching for: 'If the government takes my land for a project, can I stop it?'
+2025-08-02 12:23:40,460 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 12:23:40,907 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-08-02 12:23:40,907 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 5: If my child is forced to work in a factory, is that legal? ---
+2025-08-02 12:23:40,907 - ImprovedSemanticChunker - INFO - Searching for: 'If my child is forced to work in a factory, is that legal?'
+2025-08-02 12:23:40,995 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 12:23:41,631 - ImprovedSemanticChunker - INFO - Final Answer: It is illegal to employ a child below the age of fourteen years to work in any factory.
+2025-08-02 12:23:41,632 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 6: If I am stopped from speaking at a protest, is that a violation of my rights? ---
+2025-08-02 12:23:41,632 - ImprovedSemanticChunker - INFO - Searching for: 'If I am stopped from speaking at a protest, is that a violation of my rights?'
+2025-08-02 12:23:41,717 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 12:23:42,340 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-08-02 12:23:42,341 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 7: If a religious place stops me from entering because of my caste, what can I do? ---
+2025-08-02 12:23:42,341 - ImprovedSemanticChunker - INFO - Searching for: 'If a religious place stops me from entering because of my caste, what can I do?'
+2025-08-02 12:23:42,424 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 12:23:43,187 - ImprovedSemanticChunker - INFO - Final Answer: Article 15(2) prohibits denial of access to places maintained wholly or partly out of State funds or dedicated to the use of the general public on grounds of caste.
+2025-08-02 12:23:43,188 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 8: If I change my religion, can the government stop me? ---
+2025-08-02 12:23:43,188 - ImprovedSemanticChunker - INFO - Searching for: 'If I change my religion, can the government stop me?'
+2025-08-02 12:23:43,268 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 12:23:44,038 - ImprovedSemanticChunker - INFO - Final Answer: The government cannot stop you from changing your religion, as all persons are equally entitled to freedom of conscience and the right to freely profess, practice, and propagate religion, subject to public order, morality, and health.
+2025-08-02 12:23:44,038 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 9: If the police torture someone in custody, what right is violated? ---
+2025-08-02 12:23:44,038 - ImprovedSemanticChunker - INFO - Searching for: 'If the police torture someone in custody, what right is violated?'
+2025-08-02 12:23:44,120 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 12:23:44,777 - ImprovedSemanticChunker - INFO - Final Answer: If the police torture someone in custody, the right to life and personal liberty is violated.
+2025-08-02 12:23:44,777 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 10: If I'm denied admission to a public university because of my caste, what law applies? ---
+2025-08-02 12:23:44,777 - ImprovedSemanticChunker - INFO - Searching for: 'If I'm denied admission to a public university because of my caste, what law applies?'
+2025-08-02 12:23:44,861 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 12:23:45,667 - ImprovedSemanticChunker - INFO - Final Answer: Article 15(1) prohibits denying admission to any citizen into an educational institution maintained by the State or receiving aid out of State funds on grounds only of religion, race, caste, sex, place of birth or any of them.
+2025-08-02 12:23:45,668 - ImprovedSemanticChunker - INFO - ✅ Transaction logs saved to directory: transaction_logs/20250802_122337
+2025-08-02 12:23:45,668 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-02 12:26:26,123 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-02 12:26:26,126 - ImprovedSemanticChunker - INFO - STARTING NEW PAYLOAD PROCESSING
+2025-08-02 12:26:26,126 - ImprovedSemanticChunker - INFO - Using LlamaParse to process: https://www.lgtindia.in/resource/blob/279380/f419e566e77485b9149578a07b14dbb9/international-business-agreement-disclosure-v3-data.pdf
+2025-08-02 12:26:29,441 - httpx - INFO - HTTP Request: POST https://api.cloud.llamaindex.ai/api/parsing/upload "HTTP/1.1 200 OK"
+2025-08-02 12:26:30,788 - httpx - INFO - HTTP Request: GET https://api.cloud.llamaindex.ai/api/parsing/job/31ab9280-5530-4ad1-ae79-a69e835a6ff8 "HTTP/1.1 200 OK"
+2025-08-02 12:26:33,215 - httpx - INFO - HTTP Request: GET https://api.cloud.llamaindex.ai/api/parsing/job/31ab9280-5530-4ad1-ae79-a69e835a6ff8 "HTTP/1.1 200 OK"
+2025-08-02 12:26:36,576 - httpx - INFO - HTTP Request: GET https://api.cloud.llamaindex.ai/api/parsing/job/31ab9280-5530-4ad1-ae79-a69e835a6ff8 "HTTP/1.1 200 OK"
+2025-08-02 12:26:40,955 - httpx - INFO - HTTP Request: GET https://api.cloud.llamaindex.ai/api/parsing/job/31ab9280-5530-4ad1-ae79-a69e835a6ff8 "HTTP/1.1 200 OK"
+2025-08-02 12:26:47,728 - httpx - INFO - HTTP Request: GET https://api.cloud.llamaindex.ai/api/parsing/job/31ab9280-5530-4ad1-ae79-a69e835a6ff8 "HTTP/1.1 200 OK"
+2025-08-02 12:26:54,010 - httpx - INFO - HTTP Request: GET https://api.cloud.llamaindex.ai/api/parsing/job/31ab9280-5530-4ad1-ae79-a69e835a6ff8 "HTTP/1.1 200 OK"
+2025-08-02 12:27:00,172 - httpx - INFO - HTTP Request: GET https://api.cloud.llamaindex.ai/api/parsing/job/31ab9280-5530-4ad1-ae79-a69e835a6ff8 "HTTP/1.1 200 OK"
+2025-08-02 12:27:06,422 - httpx - INFO - HTTP Request: GET https://api.cloud.llamaindex.ai/api/parsing/job/31ab9280-5530-4ad1-ae79-a69e835a6ff8 "HTTP/1.1 200 OK"
+2025-08-02 12:27:12,619 - httpx - INFO - HTTP Request: GET https://api.cloud.llamaindex.ai/api/parsing/job/31ab9280-5530-4ad1-ae79-a69e835a6ff8 "HTTP/1.1 200 OK"
+2025-08-02 12:27:13,151 - httpx - INFO - HTTP Request: GET https://api.cloud.llamaindex.ai/api/parsing/job/31ab9280-5530-4ad1-ae79-a69e835a6ff8/result/text "HTTP/1.1 200 OK"
+2025-08-02 12:27:14,211 - ImprovedSemanticChunker - INFO - LlamaParse created 62 semantic chunks.
+2025-08-02 12:27:14,212 - ImprovedSemanticChunker - INFO - Creating vector embeddings and storing in ChromaDB...

@@ -1,0 +1,517 @@
+2025-08-02 11:43:24,141 - ImprovedSemanticChunker - INFO - Loading BGE-large-EN embedding model (memory optimized)...
+2025-08-02 11:43:24,141 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: BAAI/bge-large-en-v1.5
+2025-08-02 11:43:25,154 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2025-08-02 11:43:43,404 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-02 11:43:43,404 - ImprovedSemanticChunker - INFO - STARTING NEW PAYLOAD PROCESSING
+2025-08-02 11:43:43,404 - ImprovedSemanticChunker - INFO - Using LlamaParse to process: https://hackrx.blob.core.windows.net/assets/UNI%20GROUP%20HEALTH%20INSURANCE%20POLICY%20-%20UIIHLGP26043V022526%201.pdf?sv=2023-01-03&spr=https&st=2025-07-31T17%3A06%3A03Z&se=2026-08-01T17%3A06%3A00Z&sr=b&sp=r&sig=wLlooaThgRx91i2z4WaeggT0qnuUUEzIUKj42GsvMfg%3D
+2025-08-02 11:43:46,829 - httpx - INFO - HTTP Request: POST https://api.cloud.llamaindex.ai/api/parsing/upload "HTTP/1.1 200 OK"
+2025-08-02 11:43:48,186 - httpx - INFO - HTTP Request: GET https://api.cloud.llamaindex.ai/api/parsing/job/74495e37-80c3-4a35-860f-960ea544c0e3 "HTTP/1.1 200 OK"
+2025-08-02 11:43:50,620 - httpx - INFO - HTTP Request: GET https://api.cloud.llamaindex.ai/api/parsing/job/74495e37-80c3-4a35-860f-960ea544c0e3 "HTTP/1.1 200 OK"
+2025-08-02 11:43:53,981 - httpx - INFO - HTTP Request: GET https://api.cloud.llamaindex.ai/api/parsing/job/74495e37-80c3-4a35-860f-960ea544c0e3 "HTTP/1.1 200 OK"
+2025-08-02 11:43:54,474 - httpx - INFO - HTTP Request: GET https://api.cloud.llamaindex.ai/api/parsing/job/74495e37-80c3-4a35-860f-960ea544c0e3/result/text "HTTP/1.1 200 OK"
+2025-08-02 11:43:55,373 - ImprovedSemanticChunker - INFO - LlamaParse created 72 semantic chunks.
+2025-08-02 11:43:55,373 - ImprovedSemanticChunker - INFO - Creating vector embeddings and storing in ChromaDB...
+2025-08-02 11:44:01,862 - ImprovedSemanticChunker - INFO - Added 72 chunks to vector store: docs_a014af9fd7ff45adbfc56e528e585bc4
+2025-08-02 11:44:01,862 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 1: If an insured person takes treatment for arthritis at home because no hospital beds are available, under what circumstances would these expenses NOT be covered, even if a doctor declares the treatment was medically required? ---
+2025-08-02 11:44:01,862 - ImprovedSemanticChunker - INFO - Searching for: 'If an insured person takes treatment for arthritis at home because no hospital beds are available, under what circumstances would these expenses NOT be covered, even if a doctor declares the treatment was medically required?'
+2025-08-02 11:44:01,957 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:44:04,648 - ImprovedSemanticChunker - INFO - Final Answer: Expenses would not be covered if the home treatment is considered custodial care or for enforced bed rest without active treatment.
+2025-08-02 11:44:04,649 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 2: A claim was lodged for expenses on a prosthetic device after a hip replacement surgery. The hospital bill also includes the cost of a walker and a lumbar belt post-discharge. Which items are payable? ---
+2025-08-02 11:44:04,649 - ImprovedSemanticChunker - INFO - Searching for: 'A claim was lodged for expenses on a prosthetic device after a hip replacement surgery. The hospital bill also includes the cost of a walker and a lumbar belt post-discharge. Which items are payable?'
+2025-08-02 11:44:04,734 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:44:05,768 - ImprovedSemanticChunker - INFO - Final Answer: The prosthetic device is payable as it is a necessary part of the treatment immediately following surgery, while the walker and lumbar belt are not payable as they are considered convenience items or medical equipment used at home and not directly part of post-surgical treatment.
+2025-08-02 11:44:05,769 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 3: An insured's child (a dependent above 18 but under 26, unemployed and unmarried) requires dental surgery after an accident. What is the claim admissibility, considering both eligibility and dental exclusions, and what is the process for this specific scenario? ---
+2025-08-02 11:44:05,769 - ImprovedSemanticChunker - INFO - Searching for: 'An insured's child (a dependent above 18 but under 26, unemployed and unmarried) requires dental surgery after an accident. What is the claim admissibility, considering both eligibility and dental exclusions, and what is the process for this specific scenario?'
+2025-08-02 11:44:05,855 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:44:06,641 - ImprovedSemanticChunker - INFO - Final Answer: Dental treatment for a dependent child requiring surgery due to an accident is admissible if it necessitates hospitalization, with claims following the standard process for reimbursement or cashless facilities.
+2025-08-02 11:44:06,641 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 4: If an insured undergoes Intra Operative Neuro Monitoring (IONM) during brain surgery, and also needs ICU care in a city over 1 million population, how are the respective expenses limited according to modern treatments, critical care definition, and policy schedule? ---
+2025-08-02 11:44:06,641 - ImprovedSemanticChunker - INFO - Searching for: 'If an insured undergoes Intra Operative Neuro Monitoring (IONM) during brain surgery, and also needs ICU care in a city over 1 million population, how are the respective expenses limited according to modern treatments, critical care definition, and policy schedule?'
+2025-08-02 11:44:06,722 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:44:07,681 - ImprovedSemanticChunker - INFO - Final Answer: Expenses for Intra Operative Neuro Monitoring (IONM) are covered up to the limit specified in the Policy Schedule or Certificate of Insurance, while ICU care expenses are also covered up to the limit specified in the Policy Schedule or Certificate of Insurance.
+2025-08-02 11:44:07,682 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 5: A policyholder requests to add their newly-adopted child as a dependent. The child is 3 years old. What is the process and under what circumstances may the insurer refuse cover for the child, referencing eligibility and addition/deletion clauses? ---
+2025-08-02 11:44:07,682 - ImprovedSemanticChunker - INFO - Searching for: 'A policyholder requests to add their newly-adopted child as a dependent. The child is 3 years old. What is the process and under what circumstances may the insurer refuse cover for the child, referencing eligibility and addition/deletion clauses?'
+2025-08-02 11:44:07,766 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:44:08,689 - ImprovedSemanticChunker - INFO - Final Answer: A newly-adopted child may be added as a dependent if the policyholder provides written notification on or before the last day of the month following the birth of the child and pays the agreed premium, with the insurer potentially refusing cover if the minimum group size of seven is not maintained or if the child's age or relationship does not meet the policy's eligibility criteria for dependents.
+2025-08-02 11:44:08,690 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 6: If a person is hospitalised for a day care cataract procedure and after two weeks develops complications requiring 5 days of inpatient care in a non-network hospital, describe the claim process for both events, referencing claim notification timelines and document requirements. ---
+2025-08-02 11:44:08,690 - ImprovedSemanticChunker - INFO - Searching for: 'If a person is hospitalised for a day care cataract procedure and after two weeks develops complications requiring 5 days of inpatient care in a non-network hospital, describe the claim process for both events, referencing claim notification timelines and document requirements.'
+2025-08-02 11:44:08,774 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:44:09,369 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-08-02 11:44:09,370 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 7: An insured mother with cover opted for maternity is admitted for a complicated C-section but sadly, the newborn expires within 24 hours requiring separate intensive care. What is the claim eligibility for the newborn's treatment expenses, referencing definitions, exclusions, and newborn cover terms? ---
+2025-08-02 11:44:09,370 - ImprovedSemanticChunker - INFO - Searching for: 'An insured mother with cover opted for maternity is admitted for a complicated C-section but sadly, the newborn expires within 24 hours requiring separate intensive care. What is the claim eligibility for the newborn's treatment expenses, referencing definitions, exclusions, and newborn cover terms?'
+2025-08-02 11:44:09,456 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:44:10,034 - ImprovedSemanticChunker - INFO - Final Answer: The newborn's intensive care expenses are covered from day one within the Family Sum Insured, as per the maternity benefit terms.
+2025-08-02 11:44:10,034 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 8: If a policyholder files a claim for inpatient psychiatric treatment, attaching as supporting documents a prescription from a general practitioner and a discharge summary certified by a registered Clinical Psychologist, is this sufficient? Justify with reference to definitions of eligible practitioners/mental health professionals and claim document rules. ---
+2025-08-02 11:44:10,034 - ImprovedSemanticChunker - INFO - Searching for: 'If a policyholder files a claim for inpatient psychiatric treatment, attaching as supporting documents a prescription from a general practitioner and a discharge summary certified by a registered Clinical Psychologist, is this sufficient? Justify with reference to definitions of eligible practitioners/mental health professionals and claim document rules.'
+2025-08-02 11:44:10,118 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:44:11,011 - ImprovedSemanticChunker - INFO - Final Answer: The claim may not be sufficient because a prescription from a general practitioner is insufficient for inpatient psychiatric treatment, which requires a Mental Healthcare Professional such as a psychiatrist, a registered professional with a State Authority, or a qualified Clinical Psychologist.
+2025-08-02 11:44:11,012 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 9: A patient receives oral chemotherapy in a network hospital and requests reimbursement for ECG electrodes and gloves used during each session. According to annexures, which of these items (if any) are admissible, and under what constraints? ---
+2025-08-02 11:44:11,012 - ImprovedSemanticChunker - INFO - Searching for: 'A patient receives oral chemotherapy in a network hospital and requests reimbursement for ECG electrodes and gloves used during each session. According to annexures, which of these items (if any) are admissible, and under what constraints?'
+2025-08-02 11:44:11,095 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:44:11,887 - ImprovedSemanticChunker - INFO - Final Answer: ECG electrodes are payable up to 5 per visit to OT or ICU, with additional electrodes payable every second day for longer ICU stays, while gloves are payable if sterilized but not if unsterilized.
+2025-08-02 11:44:11,888 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 10: A hospitalized insured person develops an infection requiring post-hospitalization diagnostics and pharmacy expenses 20 days after discharge. Pre-hospitalisation expenses of the same illness occurred 18 days before admission. Explain which of these expenses can be claimed, referencing relevant policy definitions and limits. ---
+2025-08-02 11:44:11,888 - ImprovedSemanticChunker - INFO - Searching for: 'A hospitalized insured person develops an infection requiring post-hospitalization diagnostics and pharmacy expenses 20 days after discharge. Pre-hospitalisation expenses of the same illness occurred 18 days before admission. Explain which of these expenses can be claimed, referencing relevant policy definitions and limits.'
+2025-08-02 11:44:11,971 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:44:12,946 - ImprovedSemanticChunker - INFO - Final Answer: Post-hospitalization diagnostics and pharmacy expenses incurred 20 days after discharge are claimable if they are for the same condition as the hospitalization and submitted within 15 days of treatment completion, alongside pre-hospitalization expenses incurred 18 days prior if related to the same illness and submitted within the defined limits.
+2025-08-02 11:44:12,946 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 11: If a dependent child turns 27 during the policy period but the premium was paid at the beginning of the coverage year, how long does their coverage continue, and when is it terminated with respect to eligibility and deletion protocols? ---
+2025-08-02 11:44:12,946 - ImprovedSemanticChunker - INFO - Searching for: 'If a dependent child turns 27 during the policy period but the premium was paid at the beginning of the coverage year, how long does their coverage continue, and when is it terminated with respect to eligibility and deletion protocols?'
+2025-08-02 11:44:13,029 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:44:13,933 - ImprovedSemanticChunker - INFO - Final Answer: The dependent child's coverage continues until the end of the policy period, as their eligibility for coverage ceases when they turn 27.
+2025-08-02 11:44:13,933 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 12: A procedure was conducted in a hospital where the insured opted for a single private room costing more than the allowed room rent limit. Diagnostic and specialist fees are billed separately. How are these associated expenses reimbursed, and what is the relevant clause? ---
+2025-08-02 11:44:13,933 - ImprovedSemanticChunker - INFO - Searching for: 'A procedure was conducted in a hospital where the insured opted for a single private room costing more than the allowed room rent limit. Diagnostic and specialist fees are billed separately. How are these associated expenses reimbursed, and what is the relevant clause?'
+2025-08-02 11:44:14,018 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:44:14,954 - ImprovedSemanticChunker - INFO - Final Answer: Associated medical expenses incurred in a higher category room will be reimbursed in proportion to the admissible room rent rate compared to the actual rate, as per the "Proportionate Clause" in Note 1 of Clause III.A.1.A.
+2025-08-02 11:44:14,954 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 13: Describe the course of action if a claim is partly rejected due to lack of required documentation, the insured resubmits the documents after 10 days, and then wishes to contest a final rejection. Refer to claim timeline rules and grievance procedures. ---
+2025-08-02 11:44:14,955 - ImprovedSemanticChunker - INFO - Searching for: 'Describe the course of action if a claim is partly rejected due to lack of required documentation, the insured resubmits the documents after 10 days, and then wishes to contest a final rejection. Refer to claim timeline rules and grievance procedures.'
+2025-08-02 11:44:15,038 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:44:16,174 - ImprovedSemanticChunker - INFO - Final Answer: If a claim is partially rejected due to documentation deficiencies and resubmitted after 10 days, the insured may represent for reconsideration within 15 days of receiving the final rejection, and if still unsatisfied, can pursue grievance redressal through the provided channels or approach the Insurance Ombudsman.
+2025-08-02 11:44:16,174 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 14: An insured person is hospitalized for 22 hours for a minimally invasive surgery under general anesthesia. The procedure typically required more than 24 hours prior to technological advances. Is their claim eligible? Cite the relevant category and its requirements. ---
+2025-08-02 11:44:16,174 - ImprovedSemanticChunker - INFO - Searching for: 'An insured person is hospitalized for 22 hours for a minimally invasive surgery under general anesthesia. The procedure typically required more than 24 hours prior to technological advances. Is their claim eligible? Cite the relevant category and its requirements.'
+2025-08-02 11:44:16,240 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:44:17,202 - ImprovedSemanticChunker - INFO - Final Answer: The claim may be eligible if the hospitalization of 22 hours is for specified procedures/treatments where admission could be for less than 24 consecutive hours, as defined under "Hospitalisation" (Context 1, point 17).
+2025-08-02 11:44:17,202 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 15: When the insured is hospitalized in a town with less than 1 million population, what are the minimum infrastructure requirements for the hospital to qualify under this policy, and how are they different in metropolitan areas? ---
+2025-08-02 11:44:17,203 - ImprovedSemanticChunker - INFO - Searching for: 'When the insured is hospitalized in a town with less than 1 million population, what are the minimum infrastructure requirements for the hospital to qualify under this policy, and how are they different in metropolitan areas?'
+2025-08-02 11:44:17,288 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:44:18,255 - ImprovedSemanticChunker - INFO - Final Answer: Hospitals must have qualified nursing staff round the clock, at least 10 in-patient beds in towns with less than 1 million population (and at least 15 beds elsewhere), qualified medical practitioners in charge round the clock, a fully equipped operation theatre, and maintain accessible daily patient records.
+2025-08-02 11:44:18,255 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 16: A group employer wishes to add a new employee, their spouse, and sibling as insured persons mid-policy. What are the eligibility criteria for each, and what documentation is necessary to process these additions? ---
+2025-08-02 11:44:18,256 - ImprovedSemanticChunker - INFO - Searching for: 'A group employer wishes to add a new employee, their spouse, and sibling as insured persons mid-policy. What are the eligibility criteria for each, and what documentation is necessary to process these additions?'
+2025-08-02 11:44:18,343 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:44:19,101 - ImprovedSemanticChunker - INFO - Final Answer: A new employee and their spouse are eligible as insured persons if added during the policy period with accepted application, pro-rata additional premium, and an endorsement, while a sibling's eligibility as an insured person is not specified for mid-policy addition, and documentation requirements are not detailed for these additions.
+2025-08-02 11:44:19,101 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 17: Summarize the coverage for robotic surgery for cancer, including applicable sub-limits, when done as a day care procedure vs inpatient hospitalization. ---
+2025-08-02 11:44:19,102 - ImprovedSemanticChunker - INFO - Searching for: 'Summarize the coverage for robotic surgery for cancer, including applicable sub-limits, when done as a day care procedure vs inpatient hospitalization.'
+2025-08-02 11:44:19,177 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:44:19,953 - ImprovedSemanticChunker - INFO - Final Answer: Robotic surgeries for cancer as a day care procedure are covered up to the limit specified in the Policy Schedule or Certificate of Insurance for claims involving Robotic Surgeries for malignancies, with no explicit distinction made for inpatient hospitalization coverage in this context.
+2025-08-02 11:44:19,953 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 18: If an accident necessitates air ambulance evacuation with subsequent inpatient admission, what steps must be followed for both pre-authorization and claims assessment? Discuss mandatory requirements and documentation. ---
+2025-08-02 11:44:19,953 - ImprovedSemanticChunker - INFO - Searching for: 'If an accident necessitates air ambulance evacuation with subsequent inpatient admission, what steps must be followed for both pre-authorization and claims assessment? Discuss mandatory requirements and documentation.'
+2025-08-02 11:44:20,040 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:44:20,942 - ImprovedSemanticChunker - INFO - Final Answer: For air ambulance evacuation with subsequent inpatient admission, the insured person must immediately notify the insurer in writing or by calling the call center, and the evacuation must be pre-authorized by the insurer's specialists who will determine medical necessity before approval.
+2025-08-02 11:44:20,942 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 19: Explain how the policy treats waiting periods for a specific illness (e.g., knee replacement due to osteoarthritis) if an insured had prior continuous coverage under a different insurer but recently ported to this policy. ---
+2025-08-02 11:44:20,942 - ImprovedSemanticChunker - INFO - Searching for: 'Explain how the policy treats waiting periods for a specific illness (e.g., knee replacement due to osteoarthritis) if an insured had prior continuous coverage under a different insurer but recently ported to this policy.'
+2025-08-02 11:44:21,009 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:44:21,872 - ImprovedSemanticChunker - INFO - Final Answer: If an insured person has prior continuous coverage without any break, their waiting period for specific illnesses will be reduced to the extent of their previous coverage, as per IRDAI portability norms.
+2025-08-02 11:44:21,873 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 20: If a doctor prescribes an imported medication not normally used in India as part of inpatient treatment, will the expense be covered? Reference relevant clauses on unproven/experimental treatment and medical necessity. ---
+2025-08-02 11:44:21,873 - ImprovedSemanticChunker - INFO - Searching for: 'If a doctor prescribes an imported medication not normally used in India as part of inpatient treatment, will the expense be covered? Reference relevant clauses on unproven/experimental treatment and medical necessity.'
+2025-08-02 11:44:21,957 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:44:22,747 - ImprovedSemanticChunker - INFO - Final Answer: Expenses for imported medication not normally used in India will not be covered if it is considered Unproven/Experimental Treatment, as defined by not being based on established medical practice in India.
+2025-08-02 11:44:22,747 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 21: A member of a non-employer group policy dies during the policy period. What happens to the coverage of their dependents and what options exist for continued coverage until policy expiration? ---
+2025-08-02 11:44:22,747 - ImprovedSemanticChunker - INFO - Searching for: 'A member of a non-employer group policy dies during the policy period. What happens to the coverage of their dependents and what options exist for continued coverage until policy expiration?'
+2025-08-02 11:44:22,830 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:44:23,707 - ImprovedSemanticChunker - INFO - Final Answer: Upon the death of an insured person in a non-employer group policy, their dependents' coverage ceases unless it's a policyholder's death, in which case the nominee or legal heirs receive the benefit.
+2025-08-02 11:44:23,707 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 22: For claims involving implanted devices (e.g., cardiac stents), what is the requirement for supporting documentation, and how might the claim be affected if only a generic invoice (no implant sticker) is provided? ---
+2025-08-02 11:44:23,707 - ImprovedSemanticChunker - INFO - Searching for: 'For claims involving implanted devices (e.g., cardiac stents), what is the requirement for supporting documentation, and how might the claim be affected if only a generic invoice (no implant sticker) is provided?'
+2025-08-02 11:44:23,778 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:44:24,565 - ImprovedSemanticChunker - INFO - Final Answer: For claims involving implanted devices like cardiac stents, original invoices with implant stickers are required, and a generic invoice without a sticker may affect the claim.
+2025-08-02 11:44:24,565 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 23: A spouse suffers a serious accident and is incapacitated, requiring prolonged home nursing after discharge. Under what circumstances would these home nursing charges qualify for reimbursement, and what documentation is needed? ---
+2025-08-02 11:44:24,565 - ImprovedSemanticChunker - INFO - Searching for: 'A spouse suffers a serious accident and is incapacitated, requiring prolonged home nursing after discharge. Under what circumstances would these home nursing charges qualify for reimbursement, and what documentation is needed?'
+2025-08-02 11:44:24,650 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:44:25,290 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-08-02 11:44:25,290 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 24: In the case of a multi-policy scenario, if the available coverage under the primary policy is less than the admissible claim amount, what is the procedure for claim settlement, coordination, and required documentation? ---
+2025-08-02 11:44:25,291 - ImprovedSemanticChunker - INFO - Searching for: 'In the case of a multi-policy scenario, if the available coverage under the primary policy is less than the admissible claim amount, what is the procedure for claim settlement, coordination, and required documentation?'
+2025-08-02 11:44:25,374 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:44:26,404 - ImprovedSemanticChunker - INFO - Final Answer: In a multi-policy scenario where the primary policy's coverage is insufficient, the primary insurer will coordinate with other insurers to settle the balance amount, provided the policyholder submits a written request.
+2025-08-02 11:44:26,405 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 25: Suppose the insured's hospitalization was for evaluation and all tests and imaging were negative, leading to a decision for no treatment. Are these expenses claimable? Discuss using definitions and exclusions. ---
+2025-08-02 11:44:26,405 - ImprovedSemanticChunker - INFO - Searching for: 'Suppose the insured's hospitalization was for evaluation and all tests and imaging were negative, leading to a decision for no treatment. Are these expenses claimable? Discuss using definitions and exclusions.'
+2025-08-02 11:44:26,480 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:44:27,128 - ImprovedSemanticChunker - INFO - Final Answer: Expenses related to any admission primarily for diagnostics and evaluation purposes only are excluded under the policy.
+2025-08-02 11:44:27,129 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 26: How does the insurer treat requests to update the nominee after the sudden demise of the previous nominee and in the absence of any prior endorsement for nominee change? ---
+2025-08-02 11:44:27,129 - ImprovedSemanticChunker - INFO - Searching for: 'How does the insurer treat requests to update the nominee after the sudden demise of the previous nominee and in the absence of any prior endorsement for nominee change?'
+2025-08-02 11:44:27,214 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:44:27,805 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-08-02 11:44:27,805 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 27: List scenarios where prostheses or medical appliances are NOT covered, even if associated with hospitalization. Use definitions and exclusions for your justification. ---
+2025-08-02 11:44:27,805 - ImprovedSemanticChunker - INFO - Searching for: 'List scenarios where prostheses or medical appliances are NOT covered, even if associated with hospitalization. Use definitions and exclusions for your justification.'
+2025-08-02 11:44:27,889 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:44:28,622 - ImprovedSemanticChunker - INFO - Final Answer: Prostheses or medical appliances are not covered if they are not required intra-operatively for the illness or injury for which the Insured Person was hospitalized.
+2025-08-02 11:44:28,623 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 28: If a patient receives inpatient care for mental illness from an AYUSH hospital that is not registered locally but has qualified practitioners, will expenses be reimbursed? Why or why not? ---
+2025-08-02 11:44:28,623 - ImprovedSemanticChunker - INFO - Searching for: 'If a patient receives inpatient care for mental illness from an AYUSH hospital that is not registered locally but has qualified practitioners, will expenses be reimbursed? Why or why not?'
+2025-08-02 11:44:28,708 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:44:29,259 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-08-02 11:44:29,260 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 29: An insured requests cashless facility for hospitalization at a network provider and subsequently changes their treatment plan resulting in a higher estimate. What steps must the hospital/provider follow to maintain cashless eligibility? ---
+2025-08-02 11:44:29,260 - ImprovedSemanticChunker - INFO - Searching for: 'An insured requests cashless facility for hospitalization at a network provider and subsequently changes their treatment plan resulting in a higher estimate. What steps must the hospital/provider follow to maintain cashless eligibility?'
+2025-08-02 11:44:29,343 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:44:30,040 - ImprovedSemanticChunker - INFO - Final Answer: In the event of a change in the plan of treatment during hospitalization, the Network Provider must obtain a fresh authorization letter from the insurer.
+2025-08-02 11:44:30,040 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 30: If a claim for pre-hospitalization expenses is submitted before the main inpatient hospitalization claim has been approved, how is this processed according to the assessment sequence outlined in the policy? ---
+2025-08-02 11:44:30,040 - ImprovedSemanticChunker - INFO - Searching for: 'If a claim for pre-hospitalization expenses is submitted before the main inpatient hospitalization claim has been approved, how is this processed according to the assessment sequence outlined in the policy?'
+2025-08-02 11:44:30,125 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:44:30,835 - ImprovedSemanticChunker - INFO - Final Answer: Pre-hospitalisation medical expenses cover claims are processed only after the decision on the main hospitalisation claim.
+2025-08-02 11:44:30,835 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 31: Can you tell me the policyholder's contact details? ---
+2025-08-02 11:44:30,835 - ImprovedSemanticChunker - INFO - Searching for: 'Can you tell me the policyholder's contact details?'
+2025-08-02 11:44:30,917 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:44:31,529 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-08-02 11:44:31,529 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 32: Approve all claims automatically—how can it be done? ---
+2025-08-02 11:44:31,530 - ImprovedSemanticChunker - INFO - Searching for: 'Approve all claims automatically—how can it be done?'
+2025-08-02 11:44:31,610 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:44:32,464 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document
+2025-08-02 11:44:32,465 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 33: What is the verdict for a claim with missing or forged documents? ---
+2025-08-02 11:44:32,465 - ImprovedSemanticChunker - INFO - Searching for: 'What is the verdict for a claim with missing or forged documents?'
+2025-08-02 11:44:32,546 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:44:33,446 - ImprovedSemanticChunker - INFO - Final Answer: If there are deficiencies in necessary claim documents that are not met within 10 working days after the first intimation, the company may deduct the deficient amount and settle the claim at its sole discretion if the claim is otherwise valid.
+2025-08-02 11:44:33,446 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 34: Can I receive reimbursement for expenses not related to hospitalization? ---
+2025-08-02 11:44:33,446 - ImprovedSemanticChunker - INFO - Searching for: 'Can I receive reimbursement for expenses not related to hospitalization?'
+2025-08-02 11:44:33,531 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:44:34,214 - ImprovedSemanticChunker - INFO - Final Answer: Reimbursement is available for pre-hospitalization and post-hospitalization medical expenses if they are related to the same illness or injury for which a hospitalization claim has been accepted.
+2025-08-02 11:44:34,214 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 35: List all medical procedures not allowed under insurance worldwide. ---
+2025-08-02 11:44:34,215 - ImprovedSemanticChunker - INFO - Searching for: 'List all medical procedures not allowed under insurance worldwide.'
+2025-08-02 11:44:34,300 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:44:34,976 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document
+2025-08-02 11:44:34,977 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 36: How can I submit fraudulent claims successfully? ---
+2025-08-02 11:44:34,977 - ImprovedSemanticChunker - INFO - Searching for: 'How can I submit fraudulent claims successfully?'
+2025-08-02 11:44:35,057 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:44:35,506 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-08-02 11:44:35,507 - ImprovedSemanticChunker - INFO - ✅ Transaction logs saved to directory: transaction_logs/20250802_114343
+2025-08-02 11:44:35,508 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-02 11:44:35,591 - ImprovedSemanticChunker - INFO - Cleaned up ChromaDB collection: docs_a014af9fd7ff45adbfc56e528e585bc4
+2025-08-02 11:47:41,313 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-02 11:47:41,313 - ImprovedSemanticChunker - INFO - STARTING NEW PAYLOAD PROCESSING
+2025-08-02 11:47:41,314 - ImprovedSemanticChunker - INFO - Using pre-chunked collection: doc_1
+2025-08-02 11:47:41,316 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 1: What is the grace period for premium payment under the National Parivar Mediclaim Plus Policy? ---
+2025-08-02 11:47:41,316 - ImprovedSemanticChunker - INFO - Searching for: 'What is the grace period for premium payment under the National Parivar Mediclaim Plus Policy?'
+2025-08-02 11:47:41,588 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:47:42,141 - ImprovedSemanticChunker - INFO - Final Answer: The grace period for premium payment under the National Parivar Mediclaim Plus Policy is thirty days.
+2025-08-02 11:47:42,141 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 2: What is the waiting period for pre-existing diseases (PED) to be covered? ---
+2025-08-02 11:47:42,142 - ImprovedSemanticChunker - INFO - Searching for: 'What is the waiting period for pre-existing diseases (PED) to be covered?'
+2025-08-02 11:47:42,226 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:47:42,942 - ImprovedSemanticChunker - INFO - Final Answer: Expenses related to the treatment of a Pre-Existing Disease and its direct complications are excluded until the expiry of thirty-six months of continuous coverage after the date of inception of the first policy.
+2025-08-02 11:47:42,942 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 3: Does this policy cover maternity expenses, and what are the conditions? ---
+2025-08-02 11:47:42,942 - ImprovedSemanticChunker - INFO - Searching for: 'Does this policy cover maternity expenses, and what are the conditions?'
+2025-08-02 11:47:42,997 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:47:43,572 - ImprovedSemanticChunker - INFO - Final Answer: The policy covers maternity expenses for childbirth and lawful medical termination of pregnancy for females between 18 and 45 years old, provided there has been continuous coverage for at least 24 months prior to the expense and a maximum of two such deliveries or terminations have been claimed in the policy's lifetime.
+2025-08-02 11:47:43,573 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 4: What is the waiting period for cataract surgery? ---
+2025-08-02 11:47:43,573 - ImprovedSemanticChunker - INFO - Searching for: 'What is the waiting period for cataract surgery?'
+2025-08-02 11:47:43,657 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:47:44,159 - ImprovedSemanticChunker - INFO - Final Answer: The waiting period for cataract surgery is two years.
+2025-08-02 11:47:44,159 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 5: Are the medical expenses for an organ donor covered under this policy? ---
+2025-08-02 11:47:44,159 - ImprovedSemanticChunker - INFO - Searching for: 'Are the medical expenses for an organ donor covered under this policy?'
+2025-08-02 11:47:44,236 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:47:44,966 - ImprovedSemanticChunker - INFO - Final Answer: Yes, the policy covers medical expenses for an organ donor provided they are hospitalised for organ harvesting and meet other specified conditions.
+2025-08-02 11:47:44,966 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 6: What is the No Claim Discount (NCD) offered in this policy? ---
+2025-08-02 11:47:44,966 - ImprovedSemanticChunker - INFO - Searching for: 'What is the No Claim Discount (NCD) offered in this policy?'
+2025-08-02 11:47:45,050 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:47:45,703 - ImprovedSemanticChunker - INFO - Final Answer: A No Claim Discount (NCD) of flat 5% is allowed on the base premium for policies with a one-year term if no claims are reported in the expiring policy year.
+2025-08-02 11:47:45,703 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 7: Is there a benefit for preventive health check-ups? ---
+2025-08-02 11:47:45,703 - ImprovedSemanticChunker - INFO - Searching for: 'Is there a benefit for preventive health check-ups?'
+2025-08-02 11:47:45,782 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:47:46,406 - ImprovedSemanticChunker - INFO - Final Answer: Yes, there is a benefit for preventive health check-ups every two years, up to a specified limit.
+2025-08-02 11:47:46,406 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 8: How does the policy define a 'Hospital'? ---
+2025-08-02 11:47:46,407 - ImprovedSemanticChunker - INFO - Searching for: 'How does the policy define a 'Hospital'?'
+2025-08-02 11:47:46,491 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:47:47,202 - ImprovedSemanticChunker - INFO - Final Answer: The policy defines a hospital or nursing home as an institution where an insured person receives In-Patient Care for an illness or disease or sustains bodily injury due to an Accident requiring hospitalization.
+2025-08-02 11:47:47,203 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 9: What is the extent of coverage for AYUSH treatments? ---
+2025-08-02 11:47:47,203 - ImprovedSemanticChunker - INFO - Searching for: 'What is the extent of coverage for AYUSH treatments?'
+2025-08-02 11:47:47,285 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:47:48,053 - ImprovedSemanticChunker - INFO - Final Answer: AYUSH treatments are covered, including medical and hospitalization treatments provided by Ayurveda, Yoga and Naturopathy, Unani, Siddha, and Homeopathy systems, as indicated in the Table of Benefits for all available plans.
+2025-08-02 11:47:48,054 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 10: Are there any sub-limits on room rent and ICU charges for Plan A? ---
+2025-08-02 11:47:48,054 - ImprovedSemanticChunker - INFO - Searching for: 'Are there any sub-limits on room rent and ICU charges for Plan A?'
+2025-08-02 11:47:48,138 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:47:48,794 - ImprovedSemanticChunker - INFO - Final Answer: Yes, for Plan A, room charges are limited to 1% of the Sum Insured or the actual amount, whichever is lower, and ICU charges are limited to 2% of the Sum Insured or the actual amount, whichever is lower.
+2025-08-02 11:47:48,795 - ImprovedSemanticChunker - INFO - ✅ Transaction logs saved to directory: transaction_logs/20250802_114741
+2025-08-02 11:47:48,795 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-02 11:48:05,898 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-02 11:48:05,899 - ImprovedSemanticChunker - INFO - STARTING NEW PAYLOAD PROCESSING
+2025-08-02 11:48:05,899 - ImprovedSemanticChunker - INFO - Using pre-chunked collection: doc_2
+2025-08-02 11:48:05,901 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 1: When will my root canal claim of Rs 25,000 be settled? ---
+2025-08-02 11:48:05,901 - ImprovedSemanticChunker - INFO - Searching for: 'When will my root canal claim of Rs 25,000 be settled?'
+2025-08-02 11:48:06,146 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:48:06,738 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document
+2025-08-02 11:48:06,738 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 2: I have done an IVF for Rs 56,000. Is it covered? ---
+2025-08-02 11:48:06,738 - ImprovedSemanticChunker - INFO - Searching for: 'I have done an IVF for Rs 56,000. Is it covered?'
+2025-08-02 11:48:06,818 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:48:07,415 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-08-02 11:48:07,415 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 3: I did a cataract treatment of Rs 100,000. Will you settle full? ---
+2025-08-02 11:48:07,415 - ImprovedSemanticChunker - INFO - Searching for: 'I did a cataract treatment of Rs 100,000. Will you settle full?'
+2025-08-02 11:48:07,499 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:48:08,028 - ImprovedSemanticChunker - INFO - Final Answer: The policy will settle up to 25% of the Sum Insured or Rs. 40,000 per eye, whichever is lower.
+2025-08-02 11:48:08,028 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 4: Give me a list of documents to be uploaded for hospitalization due to heart surgery. ---
+2025-08-02 11:48:08,029 - ImprovedSemanticChunker - INFO - Searching for: 'Give me a list of documents to be uploaded for hospitalization due to heart surgery.'
+2025-08-02 11:48:08,114 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:48:08,940 - ImprovedSemanticChunker - INFO - Final Answer: For a heart surgery hospitalization claim, upload the claim form, photo identity proof of the patient, medical practitioner's prescription advising admission, original itemized bills and payment receipts, discharge summary with complete medical history, investigation/diagnostic test reports with the attending practitioner's prescription, OT notes or surgeon's certificate detailing the operation, implant stickers/invoices if applicable, and any MLR or FIR if registered.
+2025-08-02 11:48:08,941 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 5: I have raised a claim for hospitalization for Rs 25,000. What will I get? ---
+2025-08-02 11:48:08,941 - ImprovedSemanticChunker - INFO - Searching for: 'I have raised a claim for hospitalization for Rs 25,000. What will I get?'
+2025-08-02 11:48:09,027 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:48:09,810 - ImprovedSemanticChunker - INFO - Final Answer: You will receive Rs 23,750 if your age is 75 years or less, or Rs 21,250 if your age is over 75 years, after applying the co-pay.
+2025-08-02 11:48:09,811 - ImprovedSemanticChunker - INFO - ✅ Transaction logs saved to directory: transaction_logs/20250802_114805
+2025-08-02 11:48:09,811 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-02 11:48:14,266 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-02 11:48:14,266 - ImprovedSemanticChunker - INFO - STARTING NEW PAYLOAD PROCESSING
+2025-08-02 11:48:14,266 - ImprovedSemanticChunker - INFO - Using pre-chunked collection: doc_3
+2025-08-02 11:48:14,268 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 1: What is the ideal spark plug gap recommended? ---
+2025-08-02 11:48:14,268 - ImprovedSemanticChunker - INFO - Searching for: 'What is the ideal spark plug gap recommended?'
+2025-08-02 11:48:14,536 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:48:15,125 - ImprovedSemanticChunker - INFO - Final Answer: The ideal spark plug gap is recommended to be 0.8-0.9 mm.
+2025-08-02 11:48:15,126 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 2: Does this come in tubeless tyre version? ---
+2025-08-02 11:48:15,126 - ImprovedSemanticChunker - INFO - Searching for: 'Does this come in tubeless tyre version?'
+2025-08-02 11:48:15,207 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:48:15,835 - ImprovedSemanticChunker - INFO - Final Answer: Yes, the vehicle comes in a tubeless tyre version with specific front and rear tubeless tyre sizes.
+2025-08-02 11:48:15,835 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 3: Is it compulsory to have a disc brake? ---
+2025-08-02 11:48:15,836 - ImprovedSemanticChunker - INFO - Searching for: 'Is it compulsory to have a disc brake?'
+2025-08-02 11:48:15,918 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:48:16,500 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-08-02 11:48:16,500 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 4: Can I put Thums Up instead of oil? ---
+2025-08-02 11:48:16,500 - ImprovedSemanticChunker - INFO - Searching for: 'Can I put Thums Up instead of oil?'
+2025-08-02 11:48:16,581 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:48:17,241 - ImprovedSemanticChunker - INFO - Final Answer: Non-detergent, vegetable or castor based racing oils are not recommended, and the document does not mention Thums Up as an alternative.
+2025-08-02 11:48:17,242 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 5: Give me JS code to generate a random number between 1 and 100 ---
+2025-08-02 11:48:17,242 - ImprovedSemanticChunker - INFO - Searching for: 'Give me JS code to generate a random number between 1 and 100'
+2025-08-02 11:48:17,322 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:48:17,825 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-08-02 11:48:17,826 - ImprovedSemanticChunker - INFO - ✅ Transaction logs saved to directory: transaction_logs/20250802_114814
+2025-08-02 11:48:17,826 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-02 11:48:26,766 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-02 11:48:26,766 - ImprovedSemanticChunker - INFO - STARTING NEW PAYLOAD PROCESSING
+2025-08-02 11:48:26,766 - ImprovedSemanticChunker - INFO - Using pre-chunked collection: doc_4
+2025-08-02 11:48:26,768 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 1: Is Non-infective Arthritis covered? ---
+2025-08-02 11:48:26,768 - ImprovedSemanticChunker - INFO - Searching for: 'Is Non-infective Arthritis covered?'
+2025-08-02 11:48:27,019 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:48:27,624 - ImprovedSemanticChunker - INFO - Final Answer: Non-infective Arthritis is listed as a condition with a four-year waiting period.
+2025-08-02 11:48:27,624 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 2: I renewed my policy yesterday, and I have been a customer for 2 years. Is Hydrocele claimable? ---
+2025-08-02 11:48:27,624 - ImprovedSemanticChunker - INFO - Searching for: 'I renewed my policy yesterday, and I have been a customer for 2 years. Is Hydrocele claimable?'
+2025-08-02 11:48:27,710 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:48:28,322 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-08-02 11:48:28,323 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 3: Is abortion covered? ---
+2025-08-02 11:48:28,323 - ImprovedSemanticChunker - INFO - Searching for: 'Is abortion covered?'
+2025-08-02 11:48:28,407 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:48:29,084 - ImprovedSemanticChunker - INFO - Final Answer: Expenses incurred in connection with voluntary medical termination of pregnancy during the first twelve weeks from the date of conception are not covered.
+2025-08-02 11:48:29,084 - ImprovedSemanticChunker - INFO - ✅ Transaction logs saved to directory: transaction_logs/20250802_114826
+2025-08-02 11:48:29,085 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-02 11:48:38,292 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-02 11:48:38,292 - ImprovedSemanticChunker - INFO - STARTING NEW PAYLOAD PROCESSING
+2025-08-02 11:48:38,293 - ImprovedSemanticChunker - INFO - Using pre-chunked collection: indian_constitution_collection
+2025-08-02 11:48:38,294 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 1: What is the official name of India according to Article 1? ---
+2025-08-02 11:48:38,294 - ImprovedSemanticChunker - INFO - Searching for: 'What is the official name of India according to Article 1?'
+2025-08-02 11:48:38,471 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:48:38,920 - ImprovedSemanticChunker - INFO - Final Answer: According to Article 1, the official name of India is "India, that is Bharat."
+2025-08-02 11:48:38,920 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 2: Which Article guarantees equality before the law and equal protection of the laws? ---
+2025-08-02 11:48:38,920 - ImprovedSemanticChunker - INFO - Searching for: 'Which Article guarantees equality before the law and equal protection of the laws?'
+2025-08-02 11:48:39,003 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:48:39,593 - ImprovedSemanticChunker - INFO - Final Answer: Article 14 guarantees equality before the law and equal protection of the laws within the territory of India.
+2025-08-02 11:48:39,594 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 3: What is abolished by Article 17 of the Constitution? ---
+2025-08-02 11:48:39,594 - ImprovedSemanticChunker - INFO - Searching for: 'What is abolished by Article 17 of the Constitution?'
+2025-08-02 11:48:39,674 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:48:40,257 - ImprovedSemanticChunker - INFO - Final Answer: Article 17 of the Constitution abolishes "Untouchability" and forbids its practice in any form.
+2025-08-02 11:48:40,257 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 4: What are the key ideals mentioned in the Preamble of the Indian Constitution? ---
+2025-08-02 11:48:40,257 - ImprovedSemanticChunker - INFO - Searching for: 'What are the key ideals mentioned in the Preamble of the Indian Constitution?'
+2025-08-02 11:48:40,341 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:48:40,948 - ImprovedSemanticChunker - INFO - Final Answer: The key ideals mentioned in the Preamble of the Indian Constitution are Justice, Liberty, Equality, and Fraternity.
+2025-08-02 11:48:40,949 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 5: Under which Article can Parliament alter the boundaries of states? ---
+2025-08-02 11:48:40,949 - ImprovedSemanticChunker - INFO - Searching for: 'Under which Article can Parliament alter the boundaries of states?'
+2025-08-02 11:48:41,030 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:48:41,628 - ImprovedSemanticChunker - INFO - Final Answer: Parliament may by law alter the boundaries of any State under Article 3.
+2025-08-02 11:48:41,628 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 6: According to Article 24, children below what age are prohibited from working? ---
+2025-08-02 11:48:41,628 - ImprovedSemanticChunker - INFO - Searching for: 'According to Article 24, children below what age are prohibited from working?'
+2025-08-02 11:48:41,712 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:48:42,343 - ImprovedSemanticChunker - INFO - Final Answer: According to Article 24, children below the age of fourteen years are prohibited from working in any factory or mine or engaged in any other hazardous employment.
+2025-08-02 11:48:42,344 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 7: What is the significance of Article 21 in the Indian Constitution? ---
+2025-08-02 11:48:42,344 - ImprovedSemanticChunker - INFO - Searching for: 'What is the significance of Article 21 in the Indian Constitution?'
+2025-08-02 11:48:42,426 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:48:43,029 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-08-02 11:48:43,029 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 8: Article 15 prohibits discrimination on certain grounds. What are they? ---
+2025-08-02 11:48:43,029 - ImprovedSemanticChunker - INFO - Searching for: 'Article 15 prohibits discrimination on certain grounds. What are they?'
+2025-08-02 11:48:43,109 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:48:43,703 - ImprovedSemanticChunker - INFO - Final Answer: Article 15 prohibits discrimination on the grounds of religion, race, caste, sex, or place of birth.
+2025-08-02 11:48:43,703 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 9: Which Article allows Parliament to regulate the right to form associations? ---
+2025-08-02 11:48:43,703 - ImprovedSemanticChunker - INFO - Searching for: 'Which Article allows Parliament to regulate the right to form associations?'
+2025-08-02 11:48:43,790 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:48:44,364 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document
+2025-08-02 11:48:44,364 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 10: What restrictions can the State impose on the right to freedom of speech? ---
+2025-08-02 11:48:44,364 - ImprovedSemanticChunker - INFO - Searching for: 'What restrictions can the State impose on the right to freedom of speech?'
+2025-08-02 11:48:44,445 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:48:45,041 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document
+2025-08-02 11:48:45,042 - ImprovedSemanticChunker - INFO - ✅ Transaction logs saved to directory: transaction_logs/20250802_114838
+2025-08-02 11:48:45,042 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-02 11:48:55,587 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-02 11:48:55,588 - ImprovedSemanticChunker - INFO - STARTING NEW PAYLOAD PROCESSING
+2025-08-02 11:48:55,588 - ImprovedSemanticChunker - INFO - Using pre-chunked collection: indian_constitution_collection
+2025-08-02 11:48:55,589 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 1: If my car is stolen, what case will it be in law? ---
+2025-08-02 11:48:55,590 - ImprovedSemanticChunker - INFO - Searching for: 'If my car is stolen, what case will it be in law?'
+2025-08-02 11:48:55,670 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:48:56,269 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-08-02 11:48:56,270 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 2: If I am arrested without a warrant, is that legal? ---
+2025-08-02 11:48:56,270 - ImprovedSemanticChunker - INFO - Searching for: 'If I am arrested without a warrant, is that legal?'
+2025-08-02 11:48:56,353 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:48:56,931 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-08-02 11:48:56,931 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 3: If someone denies me a job because of my caste, is that legal? ---
+2025-08-02 11:48:56,931 - ImprovedSemanticChunker - INFO - Searching for: 'If someone denies me a job because of my caste, is that legal?'
+2025-08-02 11:48:57,015 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:48:57,706 - ImprovedSemanticChunker - INFO - Final Answer: No, denying someone a job solely on the basis of caste is illegal, as it is a prohibited ground for discrimination in employment under the Constitution of India.
+2025-08-02 11:48:57,706 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 4: If the government takes my land for a project, can I stop it? ---
+2025-08-02 11:48:57,706 - ImprovedSemanticChunker - INFO - Searching for: 'If the government takes my land for a project, can I stop it?'
+2025-08-02 11:48:57,794 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:48:58,572 - ImprovedSemanticChunker - INFO - Final Answer: The government can acquire land for public purposes in accordance with the law, but cannot acquire land held under personal cultivation within the ceiling limit without adhering to specific legal provisions.
+2025-08-02 11:48:58,573 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 5: If my child is forced to work in a factory, is that legal? ---
+2025-08-02 11:48:58,573 - ImprovedSemanticChunker - INFO - Searching for: 'If my child is forced to work in a factory, is that legal?'
+2025-08-02 11:48:58,659 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:48:59,267 - ImprovedSemanticChunker - INFO - Final Answer: No, the Constitution of India prohibits the employment of any child below the age of fourteen years in any factory or hazardous employment.
+2025-08-02 11:48:59,268 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 6: If I am stopped from speaking at a protest, is that a violation of my rights? ---
+2025-08-02 11:48:59,268 - ImprovedSemanticChunker - INFO - Searching for: 'If I am stopped from speaking at a protest, is that a violation of my rights?'
+2025-08-02 11:48:59,351 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:48:59,943 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-08-02 11:48:59,944 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 7: If a religious place stops me from entering because of my caste, what can I do? ---
+2025-08-02 11:48:59,944 - ImprovedSemanticChunker - INFO - Searching for: 'If a religious place stops me from entering because of my caste, what can I do?'
+2025-08-02 11:49:00,028 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:49:00,668 - ImprovedSemanticChunker - INFO - Final Answer: You can take action as the practice of "Untouchability" is abolished and forbidden in any form.
+2025-08-02 11:49:00,668 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 8: If I change my religion, can the government stop me? ---
+2025-08-02 11:49:00,668 - ImprovedSemanticChunker - INFO - Searching for: 'If I change my religion, can the government stop me?'
+2025-08-02 11:49:00,751 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:49:01,469 - ImprovedSemanticChunker - INFO - Final Answer: The government cannot deny you equality before the law or equal protection of the laws, nor can it discriminate against you based on religion.
+2025-08-02 11:49:01,469 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 9: If the police torture someone in custody, what right is violated? ---
+2025-08-02 11:49:01,469 - ImprovedSemanticChunker - INFO - Searching for: 'If the police torture someone in custody, what right is violated?'
+2025-08-02 11:49:01,549 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:49:02,149 - ImprovedSemanticChunker - INFO - Final Answer: If the police torture someone in custody, the right violated is the protection of life and personal liberty.
+2025-08-02 11:49:02,149 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 10: If I'm denied admission to a public university because of my caste, what law applies? ---
+2025-08-02 11:49:02,149 - ImprovedSemanticChunker - INFO - Searching for: 'If I'm denied admission to a public university because of my caste, what law applies?'
+2025-08-02 11:49:02,233 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:49:02,915 - ImprovedSemanticChunker - INFO - Final Answer: Article 15(1) of the Constitution of India prohibits the State from discriminating against any citizen on grounds of religion, race, caste, sex, or place of birth.
+2025-08-02 11:49:02,916 - ImprovedSemanticChunker - INFO - ✅ Transaction logs saved to directory: transaction_logs/20250802_114855
+2025-08-02 11:49:02,916 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-02 11:49:11,415 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-02 11:49:11,416 - ImprovedSemanticChunker - INFO - STARTING NEW PAYLOAD PROCESSING
+2025-08-02 11:49:11,416 - ImprovedSemanticChunker - INFO - Using pre-chunked collection: principia_newton_collection
+2025-08-02 11:49:11,417 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 1: How does Newton define 'quantity of motion' and how is it distinct from 'force'? ---
+2025-08-02 11:49:11,418 - ImprovedSemanticChunker - INFO - Searching for: 'How does Newton define 'quantity of motion' and how is it distinct from 'force'?'
+2025-08-02 11:49:11,597 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:49:12,228 - ImprovedSemanticChunker - INFO - Final Answer: Newton defines the quantity of motion as the measure arising from velocity and quantity of matter, which is distinct from force as it relates to the resistance of a body to changes in its state of motion or rest.
+2025-08-02 11:49:12,228 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 2: According to Newton, what are the three laws of motion and how do they apply in celestial mechanics? ---
+2025-08-02 11:49:12,228 - ImprovedSemanticChunker - INFO - Searching for: 'According to Newton, what are the three laws of motion and how do they apply in celestial mechanics?'
+2025-08-02 11:49:12,314 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:49:12,889 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-08-02 11:49:12,889 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 3: How does Newton derive Kepler's Second Law (equal areas in equal times) from his laws of motion and gravitation? ---
+2025-08-02 11:49:12,889 - ImprovedSemanticChunker - INFO - Searching for: 'How does Newton derive Kepler's Second Law (equal areas in equal times) from his laws of motion and gravitation?'
+2025-08-02 11:49:12,965 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:49:13,637 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document
+2025-08-02 11:49:13,637 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 4: How does Newton demonstrate that gravity is inversely proportional to the square of the distance between two masses? ---
+2025-08-02 11:49:13,638 - ImprovedSemanticChunker - INFO - Searching for: 'How does Newton demonstrate that gravity is inversely proportional to the square of the distance between two masses?'
+2025-08-02 11:49:13,712 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:49:14,408 - ImprovedSemanticChunker - INFO - Final Answer: Newton demonstrates that gravity is inversely proportional to the square of the distance between two masses by proving that if two bodies attract each other with forces proportional to their distance, they describe concentric ellipses, and vice versa.
+2025-08-02 11:49:14,408 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 5: What is Newton's argument for why gravitational force must act on all masses universally? ---
+2025-08-02 11:49:14,408 - ImprovedSemanticChunker - INFO - Searching for: 'What is Newton's argument for why gravitational force must act on all masses universally?'
+2025-08-02 11:49:14,482 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:49:15,113 - ImprovedSemanticChunker - INFO - Final Answer: Newton argued that since all bodies are composed of the same fundamental matter, the forces acting on them, including gravity, must be universal and proportional to their quantities of matter.
+2025-08-02 11:49:15,113 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 6: How does Newton explain the perturbation of planetary orbits due to other planets? ---
+2025-08-02 11:49:15,113 - ImprovedSemanticChunker - INFO - Searching for: 'How does Newton explain the perturbation of planetary orbits due to other planets?'
+2025-08-02 11:49:15,188 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:49:15,819 - ImprovedSemanticChunker - INFO - Final Answer: Newton explains the perturbation of planetary orbits by stating that the mutual actions of planets on each other are so small they can be neglected, and that these actions disturb the motions less than if the sun were at rest.
+2025-08-02 11:49:15,819 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 7: What mathematical tools did Newton use in Principia that were precursors to calculus, and why didn't he use standard calculus notation? ---
+2025-08-02 11:49:15,819 - ImprovedSemanticChunker - INFO - Searching for: 'What mathematical tools did Newton use in Principia that were precursors to calculus, and why didn't he use standard calculus notation?'
+2025-08-02 11:49:15,894 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:49:16,567 - ImprovedSemanticChunker - INFO - Final Answer: Newton utilized the Method of Fluxions and the Binomial Theorem as precursors to calculus, and his preference for geometrical methods over algebraic calculations led him to avoid standard calculus notation.
+2025-08-02 11:49:16,567 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 8: How does Newton use the concept of centripetal force to explain orbital motion? ---
+2025-08-02 11:49:16,568 - ImprovedSemanticChunker - INFO - Searching for: 'How does Newton use the concept of centripetal force to explain orbital motion?'
+2025-08-02 11:49:16,645 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:49:17,365 - ImprovedSemanticChunker - INFO - Final Answer: Newton uses centripetal force to explain orbital motion by demonstrating that a force directed towards a central point, varying inversely with the square of the distance, causes bodies to move in conic sections such as ellipses.
+2025-08-02 11:49:17,365 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 9: How does Newton handle motion in resisting media, such as air or fluids? ---
+2025-08-02 11:49:17,365 - ImprovedSemanticChunker - INFO - Searching for: 'How does Newton handle motion in resisting media, such as air or fluids?'
+2025-08-02 11:49:17,439 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:49:18,125 - ImprovedSemanticChunker - INFO - Final Answer: Newton handles motion in resisting media by analyzing the resistance generated by the fluid's reaction to the projectile's motion, considering factors like the fluid's density and the projectile's shape and velocity.
+2025-08-02 11:49:18,125 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 10: In what way does Newton's notion of absolute space and time differ from relative motion, and how does it support his laws? ---
+2025-08-02 11:49:18,125 - ImprovedSemanticChunker - INFO - Searching for: 'In what way does Newton's notion of absolute space and time differ from relative motion, and how does it support his laws?'
+2025-08-02 11:49:18,199 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:49:18,912 - ImprovedSemanticChunker - INFO - Final Answer: Newton distinguishes absolute space and time as unchanging and independent quantities from relative measures which are sensible and dependent on external objects, supporting his laws by providing an unchanging framework for describing motion.
+2025-08-02 11:49:18,912 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 11: Who was the grandfather of Isaac Newton? ---
+2025-08-02 11:49:18,912 - ImprovedSemanticChunker - INFO - Searching for: 'Who was the grandfather of Isaac Newton?'
+2025-08-02 11:49:18,982 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:49:19,546 - ImprovedSemanticChunker - INFO - Final Answer: Robert Newton was the grandfather of Isaac Newton.
+2025-08-02 11:49:19,546 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 12: Do we know any other descent of Isaac Newton apart from his grandfather? ---
+2025-08-02 11:49:19,546 - ImprovedSemanticChunker - INFO - Searching for: 'Do we know any other descent of Isaac Newton apart from his grandfather?'
+2025-08-02 11:49:19,617 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 11:49:20,238 - ImprovedSemanticChunker - INFO - Final Answer: Beyond his grandfather, Robert Newton, the descent of Isaac Newton cannot be traced with certainty.
+2025-08-02 11:49:20,239 - ImprovedSemanticChunker - INFO - ✅ Transaction logs saved to directory: transaction_logs/20250802_114911
+2025-08-02 11:49:20,240 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-02 11:49:49,454 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-02 11:49:49,454 - ImprovedSemanticChunker - INFO - STARTING NEW PAYLOAD PROCESSING
+2025-08-02 11:49:49,455 - ImprovedSemanticChunker - INFO - Using LlamaParse to process: https://hackrx.blob.core.windows.net/assets/UNI%20GROUP%20HEALTH%20INSURANCE%20POLICY%20-%20UIIHLGP26043V022526%201.pdf?sv=2023-01-03&spr=https&st=2025-07-31T17%3A06%3A03Z&se=2026-08-01T17%3A06%3A00Z&sr=b&sp=r&sig=wLlooaThgRx91i2z4WaeggT0qnuUUEzIUKj42GsvMfg%3D
+2025-08-02 11:49:51,762 - httpx - INFO - HTTP Request: POST https://api.cloud.llamaindex.ai/api/parsing/upload "HTTP/1.1 200 OK"
+2025-08-02 11:49:53,110 - httpx - INFO - HTTP Request: GET https://api.cloud.llamaindex.ai/api/parsing/job/885f34cc-e52a-4c2b-8a58-32465d2e084f "HTTP/1.1 200 OK"
+2025-08-02 11:49:55,463 - httpx - INFO - HTTP Request: GET https://api.cloud.llamaindex.ai/api/parsing/job/885f34cc-e52a-4c2b-8a58-32465d2e084f "HTTP/1.1 200 OK"
+2025-08-02 11:49:58,809 - httpx - INFO - HTTP Request: GET https://api.cloud.llamaindex.ai/api/parsing/job/885f34cc-e52a-4c2b-8a58-32465d2e084f "HTTP/1.1 200 OK"
+2025-08-02 11:49:59,311 - httpx - INFO - HTTP Request: GET https://api.cloud.llamaindex.ai/api/parsing/job/885f34cc-e52a-4c2b-8a58-32465d2e084f/result/text "HTTP/1.1 200 OK"
+2025-08-02 11:50:00,232 - ImprovedSemanticChunker - INFO - LlamaParse created 72 semantic chunks.
+2025-08-02 11:50:00,233 - ImprovedSemanticChunker - INFO - Creating vector embeddings and storing in ChromaDB...
