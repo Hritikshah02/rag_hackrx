@@ -1,0 +1,9 @@
+2025-08-02 13:32:11,694 - ImprovedSemanticChunker - INFO - Loading BGE-large-EN embedding model (memory optimized)...
+2025-08-02 13:32:11,720 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: BAAI/bge-large-en-v1.5
+2025-08-02 13:32:16,273 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2025-08-02 13:32:18,355 - httpx - INFO - HTTP Request: POST https://api.cloud.llamaindex.ai/api/parsing/upload "HTTP/1.1 200 OK"
+2025-08-02 13:32:19,683 - httpx - INFO - HTTP Request: GET https://api.cloud.llamaindex.ai/api/parsing/job/4c6f3029-fc84-4191-8391-6f13df568f8b "HTTP/1.1 200 OK"
+2025-08-02 13:32:22,006 - httpx - INFO - HTTP Request: GET https://api.cloud.llamaindex.ai/api/parsing/job/4c6f3029-fc84-4191-8391-6f13df568f8b "HTTP/1.1 200 OK"
+2025-08-02 13:32:25,373 - httpx - INFO - HTTP Request: GET https://api.cloud.llamaindex.ai/api/parsing/job/4c6f3029-fc84-4191-8391-6f13df568f8b "HTTP/1.1 200 OK"
+2025-08-02 13:32:25,854 - httpx - INFO - HTTP Request: GET https://api.cloud.llamaindex.ai/api/parsing/job/4c6f3029-fc84-4191-8391-6f13df568f8b/result/text "HTTP/1.1 200 OK"
+2025-08-02 13:32:29,751 - ImprovedSemanticChunker - INFO - Creating vector embeddings and storing in ChromaDB...

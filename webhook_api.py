@@ -24,7 +24,9 @@ import google.generativeai as genai
 from sentence_transformers import SentenceTransformer
 import chromadb
 from chromadb.config import Settings
-import PyPDF2
+from llama_parse import LlamaParse
+from llama_index.core.node_parser import SimpleNodeParser
+from llama_index.core import Document as LlamaDocument
 import tiktoken
 from dotenv import load_dotenv
 
@@ -71,10 +73,8 @@ class ImprovedSemanticChunker:
         
         # Initialize memory-efficient embedding model
         self.logger.info("Loading BGE-large-EN embedding model (memory optimized)...")
-        # device = "cuda" if torch.cuda.is_available() else "cpu"
-        # self.embedding_model = SentenceTransformer('BAAI/bge-large-en-v1.5', device=device)
-        self.embedding_model = SentenceTransformer('BAAI/bge-large-en-v1.5')
-        self.embedding_model = self.embedding_model.to("cuda" if torch.cuda.is_available() else "cpu")
+        # Force CPU usage for embeddings to avoid GPU memory issues during pre-chunking
+        self.embedding_model = SentenceTransformer('BAAI/bge-large-en-v1.5', device='cpu')
 
 
         # Initialize ChromaDB with persistent storage
@@ -99,28 +99,36 @@ class ImprovedSemanticChunker:
             "https://hackrx.blob.core.windows.net/assets/hackrx_6/policies/HDFHLIP23024V072223.pdf?sv=2023-01-03&st=2025-07-30T06%3A46%3A49Z&se=2025-09-01T06%3A46%3A00Z&sr=c&sp=rl&sig=9szykRKdGYj0BVm1skP%2BX8N9%2FRENEn2k7MQPUp33jyQ%3D": "doc_5"
         }
 
-    def download_document(self, url: str) -> bytes:
-        self.logger.info(f"Downloading document from: {url}")
-        response = requests.get(url)
-        response.raise_for_status()
-        return response.content
-
-    def extract_text_from_pdf(self, pdf_content: bytes) -> str:
-        self.logger.info("Extracting text from PDF...")
-        text = ""
-        try:
-            reader = PyPDF2.PdfReader(BytesIO(pdf_content))
-            for page in reader.pages:
-                page_text = page.extract_text()
-                if page_text:
-                    text += page_text + "\n\n"
+    def parse_and_chunk_with_llamaparse(self, file_url: str) -> List[Dict[str, Any]]:
+        """Use LlamaParse to extract and chunk document content semantically."""
+        self.logger.info(f"Using LlamaParse to process: {file_url}")
+        parser = LlamaParse()
+        
+        # LlamaParse can ingest URLs directly
+        docs = parser.load_data(file_url)
+        
+        # Each doc is a LlamaDocument, which contains nodes (chunks)
+        all_chunks = []
+        chunk_id = 0
+        
+        for doc in docs:
+            # Use LlamaIndex's SimpleNodeParser to get semantic chunks
+            node_parser = SimpleNodeParser.from_defaults()
+            nodes = node_parser.get_nodes_from_documents([doc])
             
-            text = re.sub(r'\s+', ' ', text).strip()
-            self.logger.info(f"Successfully extracted and cleaned text. Total characters: {len(text)}")
-        except Exception as e:
-            self.logger.error(f"Error extracting text from PDF: {e}")
-            return ""
-        return text
+            for node in nodes:
+                chunk_text = node.get_content().strip()
+                if chunk_text:
+                    all_chunks.append({
+                        'id': f'chunk_{chunk_id}',
+                        'text': chunk_text,
+                        'size': len(chunk_text),
+                        'section': getattr(node, 'metadata', {}).get('section', 0)
+                    })
+                    chunk_id += 1
+        
+        self.logger.info(f"LlamaParse created {len(all_chunks)} semantic chunks.")
+        return all_chunks
 
     def token_based_chunking(self, text: str) -> List[Dict[str, Any]]:
         self.logger.info("Creating token-based chunks...")
@@ -148,19 +156,19 @@ class ImprovedSemanticChunker:
         # Use externally set collection_name if present, otherwise generate a new one
         if not hasattr(self, "collection_name") or not self.collection_name:
             self.collection_name = f"docs_{uuid.uuid4().hex}"
-        self.collection = self.chroma_client.get_or_create_collection(
-
+        self.collection = self.chroma_client.create_collection(
             name=self.collection_name,
             metadata={"hnsw:space": "cosine"}
         )
         texts = [chunk['text'] for chunk in chunks]
         with torch.no_grad():
-            embeddings = self.embedding_model.encode(
-                texts, 
-                batch_size=128, 
-                show_progress_bar=True, 
-                normalize_embeddings=True
-            )
+                    embeddings = self.embedding_model.encode(
+            texts, 
+            batch_size=16,  # Reduced batch size for memory efficiency
+            show_progress_bar=True, 
+            normalize_embeddings=True,
+            device='cpu'  # Force CPU usage
+        )
 
         self.collection.add(
             documents=texts,
@@ -260,12 +268,15 @@ ANSWER:"""
             # DO NOT delete pre-chunked collections!
             return {'answers': final_answers}
         # --- NORMAL FLOW FOR OTHER DOCS ---
-        doc_content = self.download_document(doc_url)
-        text = self.extract_text_from_pdf(doc_content)
-        if not text:
-            answers = ["Failed to extract text from the PDF document."] * len(questions)
+        try:
+            chunks = self.parse_and_chunk_with_llamaparse(doc_url)
+            if not chunks:
+                answers = ["Failed to extract content from the document."] * len(questions)
+                return {'answers': answers}
+        except Exception as e:
+            self.logger.error(f"LlamaParse failed: {e}")
+            answers = [f"Document processing failed: {str(e)}"] * len(questions)
             return {'answers': answers}
-        chunks = self.token_based_chunking(text)
         self.create_vector_store(chunks)
         all_results_data = []
         final_answers = []

@@ -1,6 +1,0 @@
-# Google API Key for Gemini LLM
-GOOGLE_API_KEY="AIzaSyDG27xVeLX_B8BI9cRY6tX3JX1L5UHgMdg"
-
-# Optional: Other configuration
-VECTOR_STORE_PATH=./vector_store
-COLLECTION_NAME=documents

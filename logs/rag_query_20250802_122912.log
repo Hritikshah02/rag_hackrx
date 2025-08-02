@@ -1,0 +1,59 @@
+2025-08-02 12:29:12,880 - ImprovedSemanticChunker - INFO - Loading BGE-large-EN embedding model (memory optimized)...
+2025-08-02 12:29:12,881 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cuda:0
+2025-08-02 12:29:12,881 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: BAAI/bge-large-en-v1.5
+2025-08-02 12:29:19,090 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2025-08-02 12:29:32,792 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-02 12:29:32,792 - ImprovedSemanticChunker - INFO - STARTING NEW PAYLOAD PROCESSING
+2025-08-02 12:29:32,792 - ImprovedSemanticChunker - INFO - Using pre-chunked collection: indian_constitution_collection
+2025-08-02 12:29:32,793 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 1: What is the official name of India according to Article 1? ---
+2025-08-02 12:29:32,793 - ImprovedSemanticChunker - INFO - Searching for: 'What is the official name of India according to Article 1?'
+2025-08-02 12:29:33,331 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 12:29:33,331 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-08-02 12:29:33,331 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 2: Which Article guarantees equality before the law and equal protection of the laws? ---
+2025-08-02 12:29:33,331 - ImprovedSemanticChunker - INFO - Searching for: 'Which Article guarantees equality before the law and equal protection of the laws?'
+2025-08-02 12:29:33,646 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 12:29:33,646 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-08-02 12:29:33,647 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 3: What is abolished by Article 17 of the Constitution? ---
+2025-08-02 12:29:33,647 - ImprovedSemanticChunker - INFO - Searching for: 'What is abolished by Article 17 of the Constitution?'
+2025-08-02 12:29:33,928 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 12:29:33,929 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-08-02 12:29:33,929 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 4: What are the key ideals mentioned in the Preamble of the Indian Constitution? ---
+2025-08-02 12:29:33,929 - ImprovedSemanticChunker - INFO - Searching for: 'What are the key ideals mentioned in the Preamble of the Indian Constitution?'
+2025-08-02 12:29:34,187 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 12:29:34,187 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-08-02 12:29:34,187 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 5: Under which Article can Parliament alter the boundaries of states? ---
+2025-08-02 12:29:34,187 - ImprovedSemanticChunker - INFO - Searching for: 'Under which Article can Parliament alter the boundaries of states?'
+2025-08-02 12:29:34,509 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 12:29:34,509 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-08-02 12:29:34,509 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 6: According to Article 24, children below what age are prohibited from working? ---
+2025-08-02 12:29:34,509 - ImprovedSemanticChunker - INFO - Searching for: 'According to Article 24, children below what age are prohibited from working?'
+2025-08-02 12:29:34,757 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 12:29:34,758 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-08-02 12:29:34,758 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 7: What is the significance of Article 21 in the Indian Constitution? ---
+2025-08-02 12:29:34,758 - ImprovedSemanticChunker - INFO - Searching for: 'What is the significance of Article 21 in the Indian Constitution?'
+2025-08-02 12:29:35,024 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 12:29:35,026 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-08-02 12:29:35,026 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 8: Article 15 prohibits discrimination on certain grounds. What are they? ---
+2025-08-02 12:29:35,026 - ImprovedSemanticChunker - INFO - Searching for: 'Article 15 prohibits discrimination on certain grounds. What are they?'
+2025-08-02 12:29:35,295 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 12:29:35,295 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-08-02 12:29:35,295 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 9: Which Article allows Parliament to regulate the right to form associations? ---
+2025-08-02 12:29:35,295 - ImprovedSemanticChunker - INFO - Searching for: 'Which Article allows Parliament to regulate the right to form associations?'
+2025-08-02 12:29:35,564 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 12:29:35,564 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-08-02 12:29:35,564 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 10: What restrictions can the State impose on the right to freedom of speech? ---
+2025-08-02 12:29:35,565 - ImprovedSemanticChunker - INFO - Searching for: 'What restrictions can the State impose on the right to freedom of speech?'
+2025-08-02 12:29:35,839 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 12:29:35,839 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-08-02 12:29:35,839 - ImprovedSemanticChunker - INFO - ✅ Transaction logs saved to directory: transaction_logs/20250802_122932
+2025-08-02 12:29:35,839 - ImprovedSemanticChunker - INFO - ================================================================================

@@ -9,9 +9,12 @@ from sentence_transformers import SentenceTransformer
 import chromadb
 from chromadb.config import Settings
 from chromadb.utils import embedding_functions
-import PyPDF2
-from io import BytesIO
 import re
+from llama_parse import LlamaParse
+from llama_index.core.node_parser import SimpleNodeParser
+from llama_index.core import Document as LlamaDocument
+from llama_index.core.schema import TextNode
+
 import google.generativeai as genai
 import tiktoken
 import torch
@@ -55,19 +58,17 @@ class ImprovedSemanticChunker:
         self.llm_model = genai.GenerativeModel('gemini-2.5-flash-lite')
         
         # Initialize memory-efficient embedding model
-        print("Loading BGE-Small-EN embedding model (memory optimized)...")
-        # Using BGE-Small-EN for good performance with lower memory usage
-        # device = "cuda" if torch.cuda.is_available() else "cpu"
-        # self.embedding_model = SentenceTransformer('BAAI/bge-large-en-v1.5', device=device)
-        self.embedding_model = SentenceTransformer('BAAI/bge-large-en-v1.5')
-        self.embedding_model = self.embedding_model.to("cuda" if torch.cuda.is_available() else "cpu")
+        print("Loading BGE-Large-EN embedding model (memory optimized)...")
+        # Using BGE-Large-EN for better performance
+        device = "cuda" if torch.cuda.is_available() else "cpu"
+        self.embedding_model = SentenceTransformer('BAAI/bge-large-en-v1.5', device=device)
 
         
         
         # Initialize ChromaDB with persistent storage
         os.makedirs("vector_store", exist_ok=True)
         self.chroma_client = chromadb.PersistentClient(path="vector_store")
-        self.collection_name = "improved_documents_bge_small"
+        self.collection_name = "improved_documents_bge_large"
         
         # Create a ChromaDB compatible embedding function with BGE-Small model
         # self.embedding_function = embedding_functions.SentenceTransformerEmbeddingFunction(model_name="BAAI/bge-small-en-v1.5")
@@ -79,229 +80,33 @@ class ImprovedSemanticChunker:
         self.chunk_size_tokens = 500  # Larger chunk size to reduce total chunk count
         self.overlap_tokens = 100       # Overlap size in tokens
         
-    def download_document(self, url: str) -> bytes:
-        """Download document from URL"""
-        print(f"Downloading document from: {url}")
-        response = requests.get(url)
-        response.raise_for_status()
-        return response.content
-    
-    def extract_text_from_pdf(self, pdf_content: bytes) -> str:
-        """Extract and clean text from PDF content"""
-        print("Extracting text from PDF...")
-        text = ""
-        try:
-            reader = PyPDF2.PdfReader(BytesIO(pdf_content))
-            num_pages = len(reader.pages)
-            print(f"PDF has {num_pages} pages.")
-            
-            for i, page in enumerate(reader.pages):
-                page_text = page.extract_text()
-                if page_text:
-                    text += page_text + "\n\n" # Add space between pages
-            
-            # Normalize whitespace and clean up text
-            text = re.sub(r'\s+', ' ', text).strip()
-            text = re.sub(r'(\n\s*)+', '\n', text).strip() # Normalize newlines
-            
-            print(f"Successfully extracted and cleaned text. Total characters: {len(text)}")
-            
-        except Exception as e:
-            print(f"Error extracting text from PDF: {e}")
-            # Return empty string or handle error as appropriate
-            return ""
-            
-            text += f"\n--- Page {page_num + 1} ---\n{page_text}\n"
-        
-        return text
-    
-    def token_based_chunking(self, text: str) -> List[Dict[str, Any]]:
-        """Create chunks based on token count with specified overlap, with safeguards"""
-        
-        print(f"Creating token-based chunks with dynamic overlap...")
-
-        # Tokenize the entire text (with memory optimization)
-        try:
-            tokens = self.tokenizer.encode(text)
-            total_tokens = len(tokens)
-            print(f"Document tokenized: {total_tokens} tokens")
-        except Exception as e:
-            print(f"Tokenization error: {e}")
-            # Fallback to character-based chunking if tokenization fails
-            return self.fallback_character_chunking(text)
-
-        # Adjust overlap based on chunk size
-        self.overlap_tokens = 100  # ~10% of chunk size is good for context continuity
-
-
-        chunks = []
+    def parse_and_chunk_with_llamaparse(self, file_path_or_url: str) -> List[Dict[str, Any]]:
+        """Use LlamaParse to extract and chunk document content semantically."""
+        parser = LlamaParse()
+        # LlamaParse can ingest local files or URLs
+        if file_path_or_url.startswith("http"):
+            docs = parser.load_data(file_path_or_url)
+        else:
+            docs = parser.load_data(file_path_or_url)
+        # Each doc is a LlamaDocument, which contains nodes (chunks)
+        all_chunks = []
         chunk_id = 0
-        start_idx = 0
-        max_chunks = 2000  # Prevent crazy chunk counts
-        previous_start_idx = -1
-
-        while start_idx < total_tokens:
-            end_idx = min(start_idx + self.chunk_size_tokens, total_tokens)
-            chunk_tokens = tokens[start_idx:end_idx]
-
-            try:
-                chunk_text = self.tokenizer.decode(chunk_tokens).strip()
-                if not chunk_text or len(chunk_text) < 50:
-                    print(f"⚠️ Skipping chunk {chunk_id} due to insufficient content.")
-                    start_idx = end_idx
-                    continue
-            except Exception as e:
-                print(f"Decoding error for chunk {chunk_id}: {e}")
-                start_idx = end_idx
-                continue
-
-            chunks.append({
-                'id': f'chunk_{chunk_id}',
-                'text': chunk_text,
-                'size': len(chunk_tokens),
-                'token_start': start_idx,
-                'token_end': end_idx,
-                'section': chunk_id // 10
-            })
-            chunk_id += 1
-
-            if chunk_id % 100 == 0:
-                print(f"Processed {chunk_id} chunks...")
-
-            if chunk_id >= max_chunks:
-                print(f"⚠️ Reached max chunk limit ({max_chunks}). Stopping chunking.")
-                break
-
-            previous_start_idx = start_idx
-            start_idx = end_idx - self.overlap_tokens
-
-            if start_idx <= previous_start_idx:
-                print("⚠️ Infinite loop prevention triggered. Advancing start_idx.")
-                start_idx = end_idx
-
-            if start_idx >= total_tokens:
-                break
-
-        avg_tokens = total_tokens // len(chunks) if chunks else 0
-        print(f"✅ Created {len(chunks)} token-based chunks (avg {avg_tokens} tokens per chunk)")
-        return chunks
-
-    
-    def fallback_character_chunking(self, text: str) -> List[Dict[str, Any]]:
-        """Fallback character-based chunking if tokenization fails"""
-        print("Using fallback character-based chunking...")
-        
-        chunk_size = 1500  # Character-based chunk size
-        overlap = 200      # Character-based overlap
-        
-        chunks = []
-        chunk_id = 0
-        start = 0
-        
-        while start < len(text):
-            end = min(start + chunk_size, len(text))
-            chunk_text = text[start:end].strip()
-            
-            if len(chunk_text) > 50:
-                chunks.append({
-                    'id': f'chunk_{chunk_id}',
-                    'text': chunk_text,
-                    'size': len(chunk_text),
-                    'char_start': start,
-                    'char_end': end,
-                    'section': chunk_id // 10
-                })
-                if chunk_id >= max_chunks:
-                    print(f"⚠️ Reached max chunk limit ({max_chunks}). Stopping chunking.")
-                    break
-                chunk_id += 1
-            
-            start = end - overlap
-            if start >= end:
-                break
-        
-        print(f"Created {len(chunks)} character-based chunks")
-        return chunks
-    
-    def intelligent_chunking(self, text: str) -> List[Dict[str, Any]]:
-        """Create intelligent chunks based on document structure"""
-        print("Creating intelligent semantic chunks...")
-        
-        # Clean text
-        text = re.sub(r'\n+', '\n', text)
-        text = re.sub(r'\s+', ' ', text)
-        
-        # Split by common section markers in insurance documents
-        section_patterns = [
-            r'(?i)\b(?:section|clause|article|part|chapter)\s+\d+',
-            r'(?i)\b(?:definitions?|terms?|conditions?|benefits?|exclusions?|limitations?)\b',
-            r'(?i)\b(?:waiting period|grace period|premium|coverage|claim|deductible)\b',
-            r'\d+\.\s+[A-Z]',  # Numbered sections
-            r'[A-Z][a-z]+\s*:',  # Title-like patterns
-        ]
-        
-        chunks = []
-        chunk_id = 0
-        
-        # First, try to split by major sections
-        sections = re.split(r'(?i)(?:section|clause|article)\s+\d+', text)
-        
-        for section_idx, section in enumerate(sections):
-            if len(section.strip()) < 50:  # Skip very short sections
-                continue
-                
-            # Further split large sections into smaller semantic chunks
-            if len(section) > 2000:
-                # Split by sentences but keep related content together
-                sentences = re.split(r'(?<=[.!?])\s+(?=[A-Z])', section)
-                
-                current_chunk = ""
-                current_size = 0
-                
-                for sentence in sentences:
-                    sentence = sentence.strip()
-                    if not sentence:
-                        continue
-                        
-                    # If adding this sentence would make chunk too large, save current chunk
-                    if current_size + len(sentence) > 1500 and current_chunk:
-                        chunks.append({
-                            'id': f'chunk_{chunk_id}',
-                            'text': current_chunk.strip(),
-                            'size': current_size,
-                            'section': section_idx
-                        })
-                        
-                        # Start new chunk with increased overlap (30-40% overlap)
-                        overlap_sentences = sentences[-4:] if len(sentences) > 4 else sentences
-                        current_chunk = ' '.join(overlap_sentences) + ' ' + sentence
-                        current_size = len(current_chunk)
-                        chunk_id += 1
-                    else:
-                        current_chunk += ' ' + sentence
-                        current_size += len(sentence)
-                
-                # Add the last chunk
-                if current_chunk.strip():
-                    chunks.append({
+        for doc in docs:
+            # Use LlamaIndex's SimpleNodeParser to get semantic chunks
+            node_parser = SimpleNodeParser.from_defaults()
+            nodes = node_parser.get_nodes_from_documents([doc])
+            for node in nodes:
+                chunk_text = node.get_content().strip()
+                if chunk_text:
+                    all_chunks.append({
                         'id': f'chunk_{chunk_id}',
-                        'text': current_chunk.strip(),
-                        'size': current_size,
-                        'section': section_idx
+                        'text': chunk_text,
+                        'size': len(chunk_text),
+                        'section': getattr(node, 'metadata', {}).get('section', 0)
                     })
                     chunk_id += 1
-            else:
-                # Small section, add as single chunk
-                chunks.append({
-                    'id': f'chunk_{chunk_id}',
-                    'text': section.strip(),
-                    'size': len(section),
-                    'section': section_idx
-                })
-                chunk_id += 1
-        
-        print(f"Created {len(chunks)} intelligent semantic chunks")
-        return chunks
+        logger.info(f"LlamaParse created {len(all_chunks)} semantic chunks.")
+        return all_chunks
     
     def create_vector_store(self, chunks: List[Dict[str, Any]]) -> None:
         """Create vector store from chunks with metadata"""
@@ -319,8 +124,8 @@ class ImprovedSemanticChunker:
         # Create new collection with explicit embedding function to handle dimension issues
         self.collection = self.chroma_client.get_or_create_collection(
             name=self.collection_name,
-            metadata={"hnsw:space": "cosine"},
-            embedding_function=self.embedding_function
+            embedding_function=self.embedding_function,  # <-- ADD THIS
+            metadata={"hnsw:space": "cosine"}
         )
         
         # Generate embeddings and add to collection
@@ -479,17 +284,10 @@ ANSWER:"""
         logger.info(f"Document URL: {doc_url}")
         logger.info(f"Number of questions: {len(questions)}")
         
-        # Download document
-        doc_content = self.download_document(doc_url)
-        
-        # Extract text
-        text = self.extract_text_from_pdf(doc_content)
-        print(f"Extracted {len(text)} characters from document")
-        logger.info(f"Extracted {len(text)} characters from document")
-        
-        # Create token-based chunks with overlap
-        chunks = self.token_based_chunking(text)
-        logger.info(f"Created {len(chunks)} token-based chunks with {self.overlap_tokens} token overlap")
+        # Use LlamaParse for extraction and chunking
+        logger.info("Using LlamaParse for extraction and chunking...")
+        chunks = self.parse_and_chunk_with_llamaparse(doc_url)
+        logger.info(f"Created {len(chunks)} LlamaParse semantic chunks.")
         
         # Log sample chunks
         for i, chunk in enumerate(chunks[:3]):
