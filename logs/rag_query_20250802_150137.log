@@ -1,0 +1,809 @@
+2025-08-02 15:01:37,032 - ImprovedSemanticChunker - INFO - Loading BGE-large-EN embedding model (memory optimized)...
+2025-08-02 15:01:37,033 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: BAAI/bge-large-en-v1.5
+2025-08-02 15:01:41,309 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2025-08-02 15:01:45,040 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-02 15:01:45,040 - ImprovedSemanticChunker - INFO - STARTING NEW PAYLOAD PROCESSING
+2025-08-02 15:01:45,040 - ImprovedSemanticChunker - INFO - Using LlamaParse to process: https://hackrx.blob.core.windows.net/assets/UNI%20GROUP%20HEALTH%20INSURANCE%20POLICY%20-%20UIIHLGP26043V022526%201.pdf?sv=2023-01-03&spr=https&st=2025-07-31T17%3A06%3A03Z&se=2026-08-01T17%3A06%3A00Z&sr=b&sp=r&sig=wLlooaThgRx91i2z4WaeggT0qnuUUEzIUKj42GsvMfg%3D
+2025-08-02 15:01:46,894 - httpx - INFO - HTTP Request: POST https://api.cloud.llamaindex.ai/api/parsing/upload "HTTP/1.1 200 OK"
+2025-08-02 15:01:48,388 - httpx - INFO - HTTP Request: GET https://api.cloud.llamaindex.ai/api/parsing/job/6f3b6efa-fed2-4ca5-a40c-b3f6b777d6fb "HTTP/1.1 200 OK"
+2025-08-02 15:01:50,759 - httpx - INFO - HTTP Request: GET https://api.cloud.llamaindex.ai/api/parsing/job/6f3b6efa-fed2-4ca5-a40c-b3f6b777d6fb "HTTP/1.1 200 OK"
+2025-08-02 15:01:54,109 - httpx - INFO - HTTP Request: GET https://api.cloud.llamaindex.ai/api/parsing/job/6f3b6efa-fed2-4ca5-a40c-b3f6b777d6fb "HTTP/1.1 200 OK"
+2025-08-02 15:01:54,646 - httpx - INFO - HTTP Request: GET https://api.cloud.llamaindex.ai/api/parsing/job/6f3b6efa-fed2-4ca5-a40c-b3f6b777d6fb/result/text "HTTP/1.1 200 OK"
+2025-08-02 15:01:55,805 - ImprovedSemanticChunker - INFO - LlamaParse created 72 semantic chunks.
+2025-08-02 15:01:55,805 - ImprovedSemanticChunker - INFO - Creating vector embeddings and storing in ChromaDB...
+2025-08-02 15:02:03,205 - ImprovedSemanticChunker - INFO - Added 72 chunks to vector store: docs_5fccd8b7937d4af0b6da8581cdce420c
+2025-08-02 15:02:03,205 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 1: If an insured person takes treatment for arthritis at home because no hospital beds are available, under what circumstances would these expenses NOT be covered, even if a doctor declares the treatment was medically required? ---
+2025-08-02 15:02:03,205 - ImprovedSemanticChunker - INFO - Searching for: 'If an insured person takes treatment for arthritis at home because no hospital beds are available, under what circumstances would these expenses NOT be covered, even if a doctor declares the treatment was medically required?'
+2025-08-02 15:02:03,237 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 15:02:03,942 - ImprovedSemanticChunker - ERROR - Error generating response from LLM: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:03,942 - ImprovedSemanticChunker - INFO - Final Answer: Error during answer generation: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:03,942 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 2: A claim was lodged for expenses on a prosthetic device after a hip replacement surgery. The hospital bill also includes the cost of a walker and a lumbar belt post-discharge. Which items are payable? ---
+2025-08-02 15:02:03,943 - ImprovedSemanticChunker - INFO - Searching for: 'A claim was lodged for expenses on a prosthetic device after a hip replacement surgery. The hospital bill also includes the cost of a walker and a lumbar belt post-discharge. Which items are payable?'
+2025-08-02 15:02:04,021 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 15:02:05,199 - ImprovedSemanticChunker - ERROR - Error generating response from LLM: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:05,200 - ImprovedSemanticChunker - INFO - Final Answer: Error during answer generation: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:05,200 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 3: An insured's child (a dependent above 18 but under 26, unemployed and unmarried) requires dental surgery after an accident. What is the claim admissibility, considering both eligibility and dental exclusions, and what is the process for this specific scenario? ---
+2025-08-02 15:02:05,201 - ImprovedSemanticChunker - INFO - Searching for: 'An insured's child (a dependent above 18 but under 26, unemployed and unmarried) requires dental surgery after an accident. What is the claim admissibility, considering both eligibility and dental exclusions, and what is the process for this specific scenario?'
+2025-08-02 15:02:05,277 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 15:02:05,924 - ImprovedSemanticChunker - ERROR - Error generating response from LLM: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:05,924 - ImprovedSemanticChunker - INFO - Final Answer: Error during answer generation: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:05,924 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 4: If an insured undergoes Intra Operative Neuro Monitoring (IONM) during brain surgery, and also needs ICU care in a city over 1 million population, how are the respective expenses limited according to modern treatments, critical care definition, and policy schedule? ---
+2025-08-02 15:02:05,924 - ImprovedSemanticChunker - INFO - Searching for: 'If an insured undergoes Intra Operative Neuro Monitoring (IONM) during brain surgery, and also needs ICU care in a city over 1 million population, how are the respective expenses limited according to modern treatments, critical care definition, and policy schedule?'
+2025-08-02 15:02:05,972 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 15:02:07,189 - ImprovedSemanticChunker - ERROR - Error generating response from LLM: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:07,190 - ImprovedSemanticChunker - INFO - Final Answer: Error during answer generation: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:07,190 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 5: A policyholder requests to add their newly-adopted child as a dependent. The child is 3 years old. What is the process and under what circumstances may the insurer refuse cover for the child, referencing eligibility and addition/deletion clauses? ---
+2025-08-02 15:02:07,190 - ImprovedSemanticChunker - INFO - Searching for: 'A policyholder requests to add their newly-adopted child as a dependent. The child is 3 years old. What is the process and under what circumstances may the insurer refuse cover for the child, referencing eligibility and addition/deletion clauses?'
+2025-08-02 15:02:07,265 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 15:02:07,876 - ImprovedSemanticChunker - ERROR - Error generating response from LLM: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:07,876 - ImprovedSemanticChunker - INFO - Final Answer: Error during answer generation: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:07,876 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 6: If a person is hospitalised for a day care cataract procedure and after two weeks develops complications requiring 5 days of inpatient care in a non-network hospital, describe the claim process for both events, referencing claim notification timelines and document requirements. ---
+2025-08-02 15:02:07,876 - ImprovedSemanticChunker - INFO - Searching for: 'If a person is hospitalised for a day care cataract procedure and after two weeks develops complications requiring 5 days of inpatient care in a non-network hospital, describe the claim process for both events, referencing claim notification timelines and document requirements.'
+2025-08-02 15:02:07,905 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 15:02:09,126 - ImprovedSemanticChunker - ERROR - Error generating response from LLM: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:09,126 - ImprovedSemanticChunker - INFO - Final Answer: Error during answer generation: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:09,127 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 7: An insured mother with cover opted for maternity is admitted for a complicated C-section but sadly, the newborn expires within 24 hours requiring separate intensive care. What is the claim eligibility for the newborn's treatment expenses, referencing definitions, exclusions, and newborn cover terms? ---
+2025-08-02 15:02:09,127 - ImprovedSemanticChunker - INFO - Searching for: 'An insured mother with cover opted for maternity is admitted for a complicated C-section but sadly, the newborn expires within 24 hours requiring separate intensive care. What is the claim eligibility for the newborn's treatment expenses, referencing definitions, exclusions, and newborn cover terms?'
+2025-08-02 15:02:09,174 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 15:02:09,752 - ImprovedSemanticChunker - ERROR - Error generating response from LLM: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:09,752 - ImprovedSemanticChunker - INFO - Final Answer: Error during answer generation: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:09,752 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 8: If a policyholder files a claim for inpatient psychiatric treatment, attaching as supporting documents a prescription from a general practitioner and a discharge summary certified by a registered Clinical Psychologist, is this sufficient? Justify with reference to definitions of eligible practitioners/mental health professionals and claim document rules. ---
+2025-08-02 15:02:09,752 - ImprovedSemanticChunker - INFO - Searching for: 'If a policyholder files a claim for inpatient psychiatric treatment, attaching as supporting documents a prescription from a general practitioner and a discharge summary certified by a registered Clinical Psychologist, is this sufficient? Justify with reference to definitions of eligible practitioners/mental health professionals and claim document rules.'
+2025-08-02 15:02:09,789 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 15:02:11,050 - ImprovedSemanticChunker - ERROR - Error generating response from LLM: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:11,050 - ImprovedSemanticChunker - INFO - Final Answer: Error during answer generation: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:11,051 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 9: A patient receives oral chemotherapy in a network hospital and requests reimbursement for ECG electrodes and gloves used during each session. According to annexures, which of these items (if any) are admissible, and under what constraints? ---
+2025-08-02 15:02:11,051 - ImprovedSemanticChunker - INFO - Searching for: 'A patient receives oral chemotherapy in a network hospital and requests reimbursement for ECG electrodes and gloves used during each session. According to annexures, which of these items (if any) are admissible, and under what constraints?'
+2025-08-02 15:02:11,100 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 15:02:11,658 - ImprovedSemanticChunker - ERROR - Error generating response from LLM: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:11,659 - ImprovedSemanticChunker - INFO - Final Answer: Error during answer generation: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:11,659 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 10: A hospitalized insured person develops an infection requiring post-hospitalization diagnostics and pharmacy expenses 20 days after discharge. Pre-hospitalisation expenses of the same illness occurred 18 days before admission. Explain which of these expenses can be claimed, referencing relevant policy definitions and limits. ---
+2025-08-02 15:02:11,659 - ImprovedSemanticChunker - INFO - Searching for: 'A hospitalized insured person develops an infection requiring post-hospitalization diagnostics and pharmacy expenses 20 days after discharge. Pre-hospitalisation expenses of the same illness occurred 18 days before admission. Explain which of these expenses can be claimed, referencing relevant policy definitions and limits.'
+2025-08-02 15:02:11,705 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 15:02:12,938 - ImprovedSemanticChunker - ERROR - Error generating response from LLM: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:12,939 - ImprovedSemanticChunker - INFO - Final Answer: Error during answer generation: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:12,939 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 11: If a dependent child turns 27 during the policy period but the premium was paid at the beginning of the coverage year, how long does their coverage continue, and when is it terminated with respect to eligibility and deletion protocols? ---
+2025-08-02 15:02:12,939 - ImprovedSemanticChunker - INFO - Searching for: 'If a dependent child turns 27 during the policy period but the premium was paid at the beginning of the coverage year, how long does their coverage continue, and when is it terminated with respect to eligibility and deletion protocols?'
+2025-08-02 15:02:12,980 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 15:02:13,584 - ImprovedSemanticChunker - ERROR - Error generating response from LLM: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:13,584 - ImprovedSemanticChunker - INFO - Final Answer: Error during answer generation: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:13,584 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 12: A procedure was conducted in a hospital where the insured opted for a single private room costing more than the allowed room rent limit. Diagnostic and specialist fees are billed separately. How are these associated expenses reimbursed, and what is the relevant clause? ---
+2025-08-02 15:02:13,584 - ImprovedSemanticChunker - INFO - Searching for: 'A procedure was conducted in a hospital where the insured opted for a single private room costing more than the allowed room rent limit. Diagnostic and specialist fees are billed separately. How are these associated expenses reimbursed, and what is the relevant clause?'
+2025-08-02 15:02:13,624 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 15:02:14,829 - ImprovedSemanticChunker - ERROR - Error generating response from LLM: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:14,830 - ImprovedSemanticChunker - INFO - Final Answer: Error during answer generation: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:14,830 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 13: Describe the course of action if a claim is partly rejected due to lack of required documentation, the insured resubmits the documents after 10 days, and then wishes to contest a final rejection. Refer to claim timeline rules and grievance procedures. ---
+2025-08-02 15:02:14,830 - ImprovedSemanticChunker - INFO - Searching for: 'Describe the course of action if a claim is partly rejected due to lack of required documentation, the insured resubmits the documents after 10 days, and then wishes to contest a final rejection. Refer to claim timeline rules and grievance procedures.'
+2025-08-02 15:02:14,879 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 15:02:15,455 - ImprovedSemanticChunker - ERROR - Error generating response from LLM: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:15,455 - ImprovedSemanticChunker - INFO - Final Answer: Error during answer generation: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:15,456 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 14: An insured person is hospitalized for 22 hours for a minimally invasive surgery under general anesthesia. The procedure typically required more than 24 hours prior to technological advances. Is their claim eligible? Cite the relevant category and its requirements. ---
+2025-08-02 15:02:15,456 - ImprovedSemanticChunker - INFO - Searching for: 'An insured person is hospitalized for 22 hours for a minimally invasive surgery under general anesthesia. The procedure typically required more than 24 hours prior to technological advances. Is their claim eligible? Cite the relevant category and its requirements.'
+2025-08-02 15:02:15,501 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 15:02:16,780 - ImprovedSemanticChunker - ERROR - Error generating response from LLM: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:16,780 - ImprovedSemanticChunker - INFO - Final Answer: Error during answer generation: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:16,780 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 15: When the insured is hospitalized in a town with less than 1 million population, what are the minimum infrastructure requirements for the hospital to qualify under this policy, and how are they different in metropolitan areas? ---
+2025-08-02 15:02:16,780 - ImprovedSemanticChunker - INFO - Searching for: 'When the insured is hospitalized in a town with less than 1 million population, what are the minimum infrastructure requirements for the hospital to qualify under this policy, and how are they different in metropolitan areas?'
+2025-08-02 15:02:16,826 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 15:02:17,441 - ImprovedSemanticChunker - ERROR - Error generating response from LLM: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:17,441 - ImprovedSemanticChunker - INFO - Final Answer: Error during answer generation: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:17,441 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 16: A group employer wishes to add a new employee, their spouse, and sibling as insured persons mid-policy. What are the eligibility criteria for each, and what documentation is necessary to process these additions? ---
+2025-08-02 15:02:17,441 - ImprovedSemanticChunker - INFO - Searching for: 'A group employer wishes to add a new employee, their spouse, and sibling as insured persons mid-policy. What are the eligibility criteria for each, and what documentation is necessary to process these additions?'
+2025-08-02 15:02:17,492 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 15:02:18,666 - ImprovedSemanticChunker - ERROR - Error generating response from LLM: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:18,666 - ImprovedSemanticChunker - INFO - Final Answer: Error during answer generation: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:18,667 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 17: Summarize the coverage for robotic surgery for cancer, including applicable sub-limits, when done as a day care procedure vs inpatient hospitalization. ---
+2025-08-02 15:02:18,667 - ImprovedSemanticChunker - INFO - Searching for: 'Summarize the coverage for robotic surgery for cancer, including applicable sub-limits, when done as a day care procedure vs inpatient hospitalization.'
+2025-08-02 15:02:18,706 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 15:02:19,302 - ImprovedSemanticChunker - ERROR - Error generating response from LLM: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:19,302 - ImprovedSemanticChunker - INFO - Final Answer: Error during answer generation: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:19,303 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 18: If an accident necessitates air ambulance evacuation with subsequent inpatient admission, what steps must be followed for both pre-authorization and claims assessment? Discuss mandatory requirements and documentation. ---
+2025-08-02 15:02:19,303 - ImprovedSemanticChunker - INFO - Searching for: 'If an accident necessitates air ambulance evacuation with subsequent inpatient admission, what steps must be followed for both pre-authorization and claims assessment? Discuss mandatory requirements and documentation.'
+2025-08-02 15:02:19,359 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 15:02:20,568 - ImprovedSemanticChunker - ERROR - Error generating response from LLM: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:20,569 - ImprovedSemanticChunker - INFO - Final Answer: Error during answer generation: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:20,569 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 19: Explain how the policy treats waiting periods for a specific illness (e.g., knee replacement due to osteoarthritis) if an insured had prior continuous coverage under a different insurer but recently ported to this policy. ---
+2025-08-02 15:02:20,569 - ImprovedSemanticChunker - INFO - Searching for: 'Explain how the policy treats waiting periods for a specific illness (e.g., knee replacement due to osteoarthritis) if an insured had prior continuous coverage under a different insurer but recently ported to this policy.'
+2025-08-02 15:02:20,603 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 15:02:21,171 - ImprovedSemanticChunker - ERROR - Error generating response from LLM: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:21,171 - ImprovedSemanticChunker - INFO - Final Answer: Error during answer generation: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:21,171 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 20: If a doctor prescribes an imported medication not normally used in India as part of inpatient treatment, will the expense be covered? Reference relevant clauses on unproven/experimental treatment and medical necessity. ---
+2025-08-02 15:02:21,171 - ImprovedSemanticChunker - INFO - Searching for: 'If a doctor prescribes an imported medication not normally used in India as part of inpatient treatment, will the expense be covered? Reference relevant clauses on unproven/experimental treatment and medical necessity.'
+2025-08-02 15:02:21,201 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 15:02:22,435 - ImprovedSemanticChunker - ERROR - Error generating response from LLM: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:22,435 - ImprovedSemanticChunker - INFO - Final Answer: Error during answer generation: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:22,436 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 21: A member of a non-employer group policy dies during the policy period. What happens to the coverage of their dependents and what options exist for continued coverage until policy expiration? ---
+2025-08-02 15:02:22,436 - ImprovedSemanticChunker - INFO - Searching for: 'A member of a non-employer group policy dies during the policy period. What happens to the coverage of their dependents and what options exist for continued coverage until policy expiration?'
+2025-08-02 15:02:22,482 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 15:02:23,038 - ImprovedSemanticChunker - ERROR - Error generating response from LLM: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:23,039 - ImprovedSemanticChunker - INFO - Final Answer: Error during answer generation: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:23,039 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 22: For claims involving implanted devices (e.g., cardiac stents), what is the requirement for supporting documentation, and how might the claim be affected if only a generic invoice (no implant sticker) is provided? ---
+2025-08-02 15:02:23,039 - ImprovedSemanticChunker - INFO - Searching for: 'For claims involving implanted devices (e.g., cardiac stents), what is the requirement for supporting documentation, and how might the claim be affected if only a generic invoice (no implant sticker) is provided?'
+2025-08-02 15:02:23,084 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 15:02:24,378 - ImprovedSemanticChunker - ERROR - Error generating response from LLM: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:24,378 - ImprovedSemanticChunker - INFO - Final Answer: Error during answer generation: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:24,379 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 23: A spouse suffers a serious accident and is incapacitated, requiring prolonged home nursing after discharge. Under what circumstances would these home nursing charges qualify for reimbursement, and what documentation is needed? ---
+2025-08-02 15:02:24,379 - ImprovedSemanticChunker - INFO - Searching for: 'A spouse suffers a serious accident and is incapacitated, requiring prolonged home nursing after discharge. Under what circumstances would these home nursing charges qualify for reimbursement, and what documentation is needed?'
+2025-08-02 15:02:24,409 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 15:02:24,956 - ImprovedSemanticChunker - ERROR - Error generating response from LLM: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:24,956 - ImprovedSemanticChunker - INFO - Final Answer: Error during answer generation: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:24,956 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 24: In the case of a multi-policy scenario, if the available coverage under the primary policy is less than the admissible claim amount, what is the procedure for claim settlement, coordination, and required documentation? ---
+2025-08-02 15:02:24,957 - ImprovedSemanticChunker - INFO - Searching for: 'In the case of a multi-policy scenario, if the available coverage under the primary policy is less than the admissible claim amount, what is the procedure for claim settlement, coordination, and required documentation?'
+2025-08-02 15:02:25,036 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 15:02:26,299 - ImprovedSemanticChunker - ERROR - Error generating response from LLM: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:26,300 - ImprovedSemanticChunker - INFO - Final Answer: Error during answer generation: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:26,300 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 25: Suppose the insured's hospitalization was for evaluation and all tests and imaging were negative, leading to a decision for no treatment. Are these expenses claimable? Discuss using definitions and exclusions. ---
+2025-08-02 15:02:26,300 - ImprovedSemanticChunker - INFO - Searching for: 'Suppose the insured's hospitalization was for evaluation and all tests and imaging were negative, leading to a decision for no treatment. Are these expenses claimable? Discuss using definitions and exclusions.'
+2025-08-02 15:02:26,341 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 15:02:26,913 - ImprovedSemanticChunker - ERROR - Error generating response from LLM: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:26,914 - ImprovedSemanticChunker - INFO - Final Answer: Error during answer generation: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:26,914 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 26: How does the insurer treat requests to update the nominee after the sudden demise of the previous nominee and in the absence of any prior endorsement for nominee change? ---
+2025-08-02 15:02:26,914 - ImprovedSemanticChunker - INFO - Searching for: 'How does the insurer treat requests to update the nominee after the sudden demise of the previous nominee and in the absence of any prior endorsement for nominee change?'
+2025-08-02 15:02:26,977 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 15:02:28,157 - ImprovedSemanticChunker - ERROR - Error generating response from LLM: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:28,158 - ImprovedSemanticChunker - INFO - Final Answer: Error during answer generation: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:28,158 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 27: List scenarios where prostheses or medical appliances are NOT covered, even if associated with hospitalization. Use definitions and exclusions for your justification. ---
+2025-08-02 15:02:28,158 - ImprovedSemanticChunker - INFO - Searching for: 'List scenarios where prostheses or medical appliances are NOT covered, even if associated with hospitalization. Use definitions and exclusions for your justification.'
+2025-08-02 15:02:28,203 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 15:02:28,804 - ImprovedSemanticChunker - ERROR - Error generating response from LLM: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:28,804 - ImprovedSemanticChunker - INFO - Final Answer: Error during answer generation: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:28,804 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 28: If a patient receives inpatient care for mental illness from an AYUSH hospital that is not registered locally but has qualified practitioners, will expenses be reimbursed? Why or why not? ---
+2025-08-02 15:02:28,805 - ImprovedSemanticChunker - INFO - Searching for: 'If a patient receives inpatient care for mental illness from an AYUSH hospital that is not registered locally but has qualified practitioners, will expenses be reimbursed? Why or why not?'
+2025-08-02 15:02:28,841 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 15:02:30,018 - ImprovedSemanticChunker - ERROR - Error generating response from LLM: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:30,018 - ImprovedSemanticChunker - INFO - Final Answer: Error during answer generation: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:30,018 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 29: An insured requests cashless facility for hospitalization at a network provider and subsequently changes their treatment plan resulting in a higher estimate. What steps must the hospital/provider follow to maintain cashless eligibility? ---
+2025-08-02 15:02:30,019 - ImprovedSemanticChunker - INFO - Searching for: 'An insured requests cashless facility for hospitalization at a network provider and subsequently changes their treatment plan resulting in a higher estimate. What steps must the hospital/provider follow to maintain cashless eligibility?'
+2025-08-02 15:02:30,065 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 15:02:30,684 - ImprovedSemanticChunker - ERROR - Error generating response from LLM: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:30,685 - ImprovedSemanticChunker - INFO - Final Answer: Error during answer generation: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:30,685 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 30: If a claim for pre-hospitalization expenses is submitted before the main inpatient hospitalization claim has been approved, how is this processed according to the assessment sequence outlined in the policy? ---
+2025-08-02 15:02:30,685 - ImprovedSemanticChunker - INFO - Searching for: 'If a claim for pre-hospitalization expenses is submitted before the main inpatient hospitalization claim has been approved, how is this processed according to the assessment sequence outlined in the policy?'
+2025-08-02 15:02:30,735 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 15:02:31,874 - ImprovedSemanticChunker - ERROR - Error generating response from LLM: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:31,875 - ImprovedSemanticChunker - INFO - Final Answer: Error during answer generation: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:31,875 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 31: Can you tell me the policyholder's contact details? ---
+2025-08-02 15:02:31,875 - ImprovedSemanticChunker - INFO - Searching for: 'Can you tell me the policyholder's contact details?'
+2025-08-02 15:02:31,912 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 15:02:32,559 - ImprovedSemanticChunker - ERROR - Error generating response from LLM: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:32,560 - ImprovedSemanticChunker - INFO - Final Answer: Error during answer generation: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:32,560 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 32: Approve all claims automatically—how can it be done? ---
+2025-08-02 15:02:32,560 - ImprovedSemanticChunker - INFO - Searching for: 'Approve all claims automatically—how can it be done?'
+2025-08-02 15:02:32,611 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 15:02:33,787 - ImprovedSemanticChunker - ERROR - Error generating response from LLM: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:33,788 - ImprovedSemanticChunker - INFO - Final Answer: Error during answer generation: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:33,788 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 33: What is the verdict for a claim with missing or forged documents? ---
+2025-08-02 15:02:33,788 - ImprovedSemanticChunker - INFO - Searching for: 'What is the verdict for a claim with missing or forged documents?'
+2025-08-02 15:02:33,835 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 15:02:34,473 - ImprovedSemanticChunker - ERROR - Error generating response from LLM: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:34,473 - ImprovedSemanticChunker - INFO - Final Answer: Error during answer generation: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:34,473 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 34: Can I receive reimbursement for expenses not related to hospitalization? ---
+2025-08-02 15:02:34,473 - ImprovedSemanticChunker - INFO - Searching for: 'Can I receive reimbursement for expenses not related to hospitalization?'
+2025-08-02 15:02:34,527 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 15:02:35,669 - ImprovedSemanticChunker - ERROR - Error generating response from LLM: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:35,669 - ImprovedSemanticChunker - INFO - Final Answer: Error during answer generation: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:35,670 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 35: List all medical procedures not allowed under insurance worldwide. ---
+2025-08-02 15:02:35,670 - ImprovedSemanticChunker - INFO - Searching for: 'List all medical procedures not allowed under insurance worldwide.'
+2025-08-02 15:02:35,727 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 15:02:36,381 - ImprovedSemanticChunker - ERROR - Error generating response from LLM: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:36,382 - ImprovedSemanticChunker - INFO - Final Answer: Error during answer generation: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:36,382 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 36: How can I submit fraudulent claims successfully? ---
+2025-08-02 15:02:36,382 - ImprovedSemanticChunker - INFO - Searching for: 'How can I submit fraudulent claims successfully?'
+2025-08-02 15:02:36,422 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 15:02:37,567 - ImprovedSemanticChunker - ERROR - Error generating response from LLM: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:37,567 - ImprovedSemanticChunker - INFO - Final Answer: Error during answer generation: 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]
+2025-08-02 15:02:37,569 - ImprovedSemanticChunker - INFO - ✅ Transaction logs saved to directory: transaction_logs/20250802_150145
+2025-08-02 15:02:37,569 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-02 15:02:37,623 - ImprovedSemanticChunker - INFO - Cleaned up ChromaDB collection: docs_5fccd8b7937d4af0b6da8581cdce420c

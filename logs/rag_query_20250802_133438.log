@@ -7,3 +7,4 @@
 2025-08-02 13:34:50,832 - httpx - INFO - HTTP Request: GET https://api.cloud.llamaindex.ai/api/parsing/job/774423c7-4043-4ac2-80f7-cf4a4e13960f "HTTP/1.1 200 OK"
 2025-08-02 13:34:51,370 - httpx - INFO - HTTP Request: GET https://api.cloud.llamaindex.ai/api/parsing/job/774423c7-4043-4ac2-80f7-cf4a4e13960f/result/text "HTTP/1.1 200 OK"
 2025-08-02 13:34:53,304 - ImprovedSemanticChunker - INFO - Creating vector embeddings and storing in ChromaDB...
+2025-08-02 13:48:31,262 - ImprovedSemanticChunker - INFO - Added 1068 chunks to vector store: indian_constitution_collection

@@ -27,8 +27,8 @@ class SimpleSemanticChunker:
         self.llm_model = genai.GenerativeModel('gemini-2.5-flash-lite')
         
         # Initialize embedding model
-        print("Loading embedding model...")
-        self.embedding_model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
+        print("Loading BGE-large-EN embedding model...")
+        self.embedding_model = SentenceTransformer('BAAI/bge-large-en-v1.5')
         
         # Initialize ChromaDB
         self.chroma_client = chromadb.Client(Settings(anonymized_telemetry=False))

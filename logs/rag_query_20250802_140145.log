@@ -1,0 +1,11 @@
+2025-08-02 14:01:45,203 - ImprovedSemanticChunker - INFO - Loading BGE-large-EN embedding model (memory optimized)...
+2025-08-02 14:01:45,203 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: BAAI/bge-large-en-v1.5
+2025-08-02 14:01:49,794 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2025-08-02 14:01:51,858 - httpx - INFO - HTTP Request: POST https://api.cloud.llamaindex.ai/api/parsing/upload "HTTP/1.1 200 OK"
+2025-08-02 14:01:53,416 - httpx - INFO - HTTP Request: GET https://api.cloud.llamaindex.ai/api/parsing/job/3b80bab4-d943-41f1-aeb6-4b1c97aa21c7 "HTTP/1.1 200 OK"
+2025-08-02 14:01:55,908 - httpx - INFO - HTTP Request: GET https://api.cloud.llamaindex.ai/api/parsing/job/3b80bab4-d943-41f1-aeb6-4b1c97aa21c7 "HTTP/1.1 200 OK"
+2025-08-02 14:01:59,283 - httpx - INFO - HTTP Request: GET https://api.cloud.llamaindex.ai/api/parsing/job/3b80bab4-d943-41f1-aeb6-4b1c97aa21c7 "HTTP/1.1 200 OK"
+2025-08-02 14:02:03,667 - httpx - INFO - HTTP Request: GET https://api.cloud.llamaindex.ai/api/parsing/job/3b80bab4-d943-41f1-aeb6-4b1c97aa21c7 "HTTP/1.1 200 OK"
+2025-08-02 14:02:04,365 - httpx - INFO - HTTP Request: GET https://api.cloud.llamaindex.ai/api/parsing/job/3b80bab4-d943-41f1-aeb6-4b1c97aa21c7/result/text "HTTP/1.1 200 OK"
+2025-08-02 14:02:06,348 - ImprovedSemanticChunker - INFO - Creating vector embeddings and storing in ChromaDB...
+2025-08-02 14:03:15,149 - ImprovedSemanticChunker - INFO - Added 1068 chunks to vector store: indian_constitution_collection

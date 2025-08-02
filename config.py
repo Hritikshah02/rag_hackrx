@@ -11,7 +11,7 @@ class Config:
     GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY', '')
     
     # Model configurations
-    EMBEDDING_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
+    EMBEDDING_MODEL = "BAAI/bge-large-en-v1.5"
     LLM_MODEL = "gemini-2.5-flash-lite"
     
     # Document processing

@@ -1,0 +1,56 @@
+{
+  "request_id": "20250802_142617",
+  "document_url": "https://hackrx.blob.core.windows.net/assets/indian_constitution.pdf?sv=2023-01-03&st=2025-07-28T06%3A42%3A00Z&se=2026-11-29T06%3A42%3A00Z&sr=b&sp=r&sig=5Gs%2FOXqP3zY00lgciu4BZjDV5QjTDIx7fgnfdz6Pu24%3D",
+  "results": [
+    {
+      "question": "If my car is stolen, what case will it be in law?",
+      "answer": "Information not found in the document",
+      "retrieved_chunks_file": "transaction_logs/20250802_142617/query_1_chunks.json"
+    },
+    {
+      "question": "If I am arrested without a warrant, is that legal?",
+      "answer": "The provided context does not contain information about arrests made without a warrant.",
+      "retrieved_chunks_file": "transaction_logs/20250802_142617/query_2_chunks.json"
+    },
+    {
+      "question": "If someone denies me a job because of my caste, is that legal?",
+      "answer": "No, it is illegal to deny someone a job based solely on their caste as per Article 16(2).",
+      "retrieved_chunks_file": "transaction_logs/20250802_142617/query_3_chunks.json"
+    },
+    {
+      "question": "If the government takes my land for a project, can I stop it?",
+      "answer": "The government can acquire land for public purposes according to the law, and such acquisition cannot be stopped if it complies with the governing legislation for compensation.",
+      "retrieved_chunks_file": "transaction_logs/20250802_142617/query_4_chunks.json"
+    },
+    {
+      "question": "If my child is forced to work in a factory, is that legal?",
+      "answer": "No, a child below the age of fourteen years cannot be employed to work in any factory or engaged in any other hazardous employment, as this is prohibited by law.",
+      "retrieved_chunks_file": "transaction_logs/20250802_142617/query_5_chunks.json"
+    },
+    {
+      "question": "If I am stopped from speaking at a protest, is that a violation of my rights?",
+      "answer": "Information not found in the document.",
+      "retrieved_chunks_file": "transaction_logs/20250802_142617/query_6_chunks.json"
+    },
+    {
+      "question": "If a religious place stops me from entering because of my caste, what can I do?",
+      "answer": "Error during answer generation: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {\n  quota_metric: \"generativelanguage.googleapis.com/generate_content_free_tier_requests\"\n  quota_id: \"GenerateRequestsPerMinutePerProjectPerModel-FreeTier\"\n  quota_dimensions {\n    key: \"model\"\n    value: \"gemini-2.5-flash-lite\"\n  }\n  quota_dimensions {\n    key: \"location\"\n    value: \"global\"\n  }\n  quota_value: 15\n}\n, links {\n  description: \"Learn more about Gemini API quotas\"\n  url: \"https://ai.google.dev/gemini-api/docs/rate-limits\"\n}\n, retry_delay {\n  seconds: 35\n}\n]",
+      "retrieved_chunks_file": "transaction_logs/20250802_142617/query_7_chunks.json"
+    },
+    {
+      "question": "If I change my religion, can the government stop me?",
+      "answer": "Error during answer generation: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {\n  quota_metric: \"generativelanguage.googleapis.com/generate_content_free_tier_requests\"\n  quota_id: \"GenerateRequestsPerMinutePerProjectPerModel-FreeTier\"\n  quota_dimensions {\n    key: \"model\"\n    value: \"gemini-2.5-flash-lite\"\n  }\n  quota_dimensions {\n    key: \"location\"\n    value: \"global\"\n  }\n  quota_value: 15\n}\n, links {\n  description: \"Learn more about Gemini API quotas\"\n  url: \"https://ai.google.dev/gemini-api/docs/rate-limits\"\n}\n, retry_delay {\n  seconds: 34\n}\n]",
+      "retrieved_chunks_file": "transaction_logs/20250802_142617/query_8_chunks.json"
+    },
+    {
+      "question": "If the police torture someone in custody, what right is violated?",
+      "answer": "Error during answer generation: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {\n  quota_metric: \"generativelanguage.googleapis.com/generate_content_free_tier_requests\"\n  quota_id: \"GenerateRequestsPerMinutePerProjectPerModel-FreeTier\"\n  quota_dimensions {\n    key: \"model\"\n    value: \"gemini-2.5-flash-lite\"\n  }\n  quota_dimensions {\n    key: \"location\"\n    value: \"global\"\n  }\n  quota_value: 15\n}\n, links {\n  description: \"Learn more about Gemini API quotas\"\n  url: \"https://ai.google.dev/gemini-api/docs/rate-limits\"\n}\n, retry_delay {\n  seconds: 34\n}\n]",
+      "retrieved_chunks_file": "transaction_logs/20250802_142617/query_9_chunks.json"
+    },
+    {
+      "question": "If I'm denied admission to a public university because of my caste, what law applies?",
+      "answer": "Error during answer generation: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {\n  quota_metric: \"generativelanguage.googleapis.com/generate_content_free_tier_requests\"\n  quota_id: \"GenerateRequestsPerMinutePerProjectPerModel-FreeTier\"\n  quota_dimensions {\n    key: \"model\"\n    value: \"gemini-2.5-flash-lite\"\n  }\n  quota_dimensions {\n    key: \"location\"\n    value: \"global\"\n  }\n  quota_value: 15\n}\n, links {\n  description: \"Learn more about Gemini API quotas\"\n  url: \"https://ai.google.dev/gemini-api/docs/rate-limits\"\n}\n, retry_delay {\n  seconds: 32\n}\n]",
+      "retrieved_chunks_file": "transaction_logs/20250802_142617/query_10_chunks.json"
+    }
+  ]
+}

@@ -71,10 +71,11 @@ class ImprovedSemanticChunker:
         genai.configure(api_key=self.google_api_key)
         self.llm_model = genai.GenerativeModel('gemini-2.5-flash-lite')
         
-        # Initialize memory-efficient embedding model
+        # Initialize memory-efficient embedding model  
         self.logger.info("Loading BGE-large-EN embedding model (memory optimized)...")
-        # Force CPU usage for embeddings to avoid GPU memory issues during pre-chunking
-        self.embedding_model = SentenceTransformer('BAAI/bge-large-en-v1.5', device='cpu')
+        # Use GPU if available, otherwise CPU
+        device = 'cuda' if torch.cuda.is_available() else 'cpu'
+        self.embedding_model = SentenceTransformer('BAAI/bge-large-en-v1.5', device=device)
 
 
         # Initialize ChromaDB with persistent storage
@@ -162,13 +163,14 @@ class ImprovedSemanticChunker:
         )
         texts = [chunk['text'] for chunk in chunks]
         with torch.no_grad():
-                    embeddings = self.embedding_model.encode(
-            texts, 
-            batch_size=16,  # Reduced batch size for memory efficiency
-            show_progress_bar=True, 
-            normalize_embeddings=True,
-            device='cpu'  # Force CPU usage
-        )
+            device = 'cuda' if torch.cuda.is_available() else 'cpu'
+            embeddings = self.embedding_model.encode(
+                texts,
+                batch_size=64,  # Adjust batch size if you get out-of-memory errors
+                show_progress_bar=True,
+                normalize_embeddings=True,
+                device=device
+            )
 
         self.collection.add(
             documents=texts,
@@ -179,7 +181,12 @@ class ImprovedSemanticChunker:
         self.logger.info(f"Added {len(chunks)} chunks to vector store: {self.collection_name}")
     def advanced_semantic_search(self, query: str, top_k: int = 8) -> List[Dict[str, Any]]:
         self.logger.info(f"Searching for: '{query}'")
-        results = self.collection.query(query_texts=[query], n_results=top_k)
+        
+        # # Generate query embedding explicitly using our BGE-large model
+        query_embedding = self.embedding_model.encode([query], normalize_embeddings=True)
+        # Use the explicit embedding instead of letting ChromaDB use its default function
+        results = self.collection.query(query_embeddings=query_embedding.tolist(), n_results=top_k)
+        # results = self.collection.query(query_texts=[query], n_results=top_k)
         retrieved_chunks = []
         if results and results['documents']:
             for i, (doc, dist) in enumerate(zip(results['documents'][0], results['distances'][0])):

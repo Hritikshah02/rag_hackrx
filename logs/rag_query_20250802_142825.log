@@ -1,0 +1,58 @@
+2025-08-02 14:28:25,061 - ImprovedSemanticChunker - INFO - Loading BGE-large-EN embedding model (memory optimized)...
+2025-08-02 14:28:25,061 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: BAAI/bge-large-en-v1.5
+2025-08-02 14:28:29,261 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2025-08-02 14:28:33,074 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-02 14:28:33,074 - ImprovedSemanticChunker - INFO - STARTING NEW PAYLOAD PROCESSING
+2025-08-02 14:28:33,074 - ImprovedSemanticChunker - INFO - Using pre-chunked collection: indian_constitution_collection
+2025-08-02 14:28:33,075 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 1: If my car is stolen, what case will it be in law? ---
+2025-08-02 14:28:33,075 - ImprovedSemanticChunker - INFO - Searching for: 'If my car is stolen, what case will it be in law?'
+2025-08-02 14:28:33,293 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 14:28:33,894 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document
+2025-08-02 14:28:33,894 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 2: If I am arrested without a warrant, is that legal? ---
+2025-08-02 14:28:33,894 - ImprovedSemanticChunker - INFO - Searching for: 'If I am arrested without a warrant, is that legal?'
+2025-08-02 14:28:33,915 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 14:28:35,283 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document
+2025-08-02 14:28:35,284 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 3: If someone denies me a job because of my caste, is that legal? ---
+2025-08-02 14:28:35,284 - ImprovedSemanticChunker - INFO - Searching for: 'If someone denies me a job because of my caste, is that legal?'
+2025-08-02 14:28:35,325 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 14:28:35,935 - ImprovedSemanticChunker - INFO - Final Answer: No, it is illegal to deny someone a job solely based on their caste.
+2025-08-02 14:28:35,936 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 4: If the government takes my land for a project, can I stop it? ---
+2025-08-02 14:28:35,936 - ImprovedSemanticChunker - INFO - Searching for: 'If the government takes my land for a project, can I stop it?'
+2025-08-02 14:28:35,966 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 14:28:37,291 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-08-02 14:28:37,291 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 5: If my child is forced to work in a factory, is that legal? ---
+2025-08-02 14:28:37,292 - ImprovedSemanticChunker - INFO - Searching for: 'If my child is forced to work in a factory, is that legal?'
+2025-08-02 14:28:37,327 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 14:28:38,167 - ImprovedSemanticChunker - INFO - Final Answer: Traffic in human beings and forced labor, including the employment of children below fourteen years in hazardous employment, is prohibited by law.
+2025-08-02 14:28:38,167 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 6: If I am stopped from speaking at a protest, is that a violation of my rights? ---
+2025-08-02 14:28:38,167 - ImprovedSemanticChunker - INFO - Searching for: 'If I am stopped from speaking at a protest, is that a violation of my rights?'
+2025-08-02 14:28:38,214 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 14:28:39,273 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-08-02 14:28:39,273 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 7: If a religious place stops me from entering because of my caste, what can I do? ---
+2025-08-02 14:28:39,273 - ImprovedSemanticChunker - INFO - Searching for: 'If a religious place stops me from entering because of my caste, what can I do?'
+2025-08-02 14:28:39,305 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 14:28:40,416 - ImprovedSemanticChunker - INFO - Final Answer: According to Article 15, no citizen can be denied access to places of public resort maintained by the State on grounds of caste, and Article 7 provides that the use of wells, tanks, bathing ghats, roads and places of public resort maintained wholly or partly out of State funds or dedicated to the use of the general public is open to all citizens.
+2025-08-02 14:28:40,417 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 8: If I change my religion, can the government stop me? ---
+2025-08-02 14:28:40,417 - ImprovedSemanticChunker - INFO - Searching for: 'If I change my religion, can the government stop me?'
+2025-08-02 14:28:40,449 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 14:28:41,202 - ImprovedSemanticChunker - INFO - Final Answer: The government cannot discriminate against you based on your religion when it comes to equality before the law or the equal protection of laws.
+2025-08-02 14:28:41,202 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 9: If the police torture someone in custody, what right is violated? ---
+2025-08-02 14:28:41,202 - ImprovedSemanticChunker - INFO - Searching for: 'If the police torture someone in custody, what right is violated?'
+2025-08-02 14:28:41,231 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 14:28:42,388 - ImprovedSemanticChunker - INFO - Final Answer: If the police torture someone in custody, the right to life and personal liberty, as protected by Article 21, is violated.
+2025-08-02 14:28:42,388 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 10: If I'm denied admission to a public university because of my caste, what law applies? ---
+2025-08-02 14:28:42,388 - ImprovedSemanticChunker - INFO - Searching for: 'If I'm denied admission to a public university because of my caste, what law applies?'
+2025-08-02 14:28:42,412 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 14:28:43,176 - ImprovedSemanticChunker - INFO - Final Answer: Article 15 prohibits discrimination by the State against any citizen based on caste for admission into educational institutions.
+2025-08-02 14:28:43,177 - ImprovedSemanticChunker - INFO - ✅ Transaction logs saved to directory: transaction_logs/20250802_142833
+2025-08-02 14:28:43,177 - ImprovedSemanticChunker - INFO - ================================================================================

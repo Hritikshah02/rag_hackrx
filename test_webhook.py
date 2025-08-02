@@ -330,26 +330,6 @@ if __name__ == "__main__":
 
     qa_coverage_summary()
 
-if __name__ == "__main__":
-    print("🧪 HackRX Webhook API Test")
-    print("=" * 50)
-    
-    # Test health check first
-    if not test_health_check():
-        print("❌ Health check failed. Make sure the API is running.")
-        exit(1)
-    
-    # Test authentication
-    test_auth()
-    
-    # Test all webhook payloads
-    success = test_all_webhooks()
-    
-    if success:
-        print("\n✅ All tests passed! Webhook is ready for submission.")
-    else:
-        print("\n❌ Tests failed. Check the API logs for details.")
 
-    qa_coverage_summary()
 
 

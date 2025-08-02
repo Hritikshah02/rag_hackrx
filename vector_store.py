@@ -51,43 +51,50 @@ class VectorStore:
         self._initialize_embedding_model()
     
     def _initialize_embedding_model(self):
-        """Initialize the sentence transformer embedding model with direct meta tensor bypass"""
-        # Set environment variables to avoid PyTorch issues
+        """Initialize the sentence transformer embedding model on GPU if available"""
+        import torch
+        from sentence_transformers import SentenceTransformer
+        import importlib
+        import sys
         os.environ['TOKENIZERS_PARALLELISM'] = 'false'
         os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
-        os.environ['CUDA_VISIBLE_DEVICES'] = ''
-        
+        # Do not set CUDA_VISIBLE_DEVICES to allow GPU usage
+
         print("🔄 Attempting to initialize sentence transformer model...")
-        
-        # Try multiple approaches to avoid meta tensor issues
-        models_to_try = [
-            self.config.EMBEDDING_MODEL,
-            'all-MiniLM-L6-v2',
-            'sentence-transformers/all-MiniLM-L6-v2'
-        ]
-        
-        for i, model_name in enumerate(models_to_try):
-            try:
-                print(f"🔄 Attempt {i+1}: Trying model '{model_name}'...")
-                
-                # Import fresh each time to avoid cached issues
-                import importlib
-                import sys
-                if 'sentence_transformers' in sys.modules:
-                    importlib.reload(sys.modules['sentence_transformers'])
-                
-                from sentence_transformers import SentenceTransformer
-                import torch
+        model_name = self.config.EMBEDDING_MODEL
+        device = 'cuda' if torch.cuda.is_available() else 'cpu'
+        print(f"🔄 Loading model '{model_name}' on device: {device}")
+        try:
+            # Reload module to avoid meta tensor issues (rare, but safe)
+            if 'sentence_transformers' in sys.modules:
+                importlib.reload(sys.modules['sentence_transformers'])
+            self.embedding_model = SentenceTransformer(model_name, device=device)
+            # Test embedding
+            test_result = self.embedding_model.encode(["test embedding"], device=device)
+            if test_result is not None and len(test_result) > 0:
+                print(f"✅ Model '{model_name}' initialized and tested successfully on {device}!")
+                print(f"📊 Test embedding shape: {test_result.shape}")
+                return
+            else:
+                raise Exception("Model test failed - no embeddings generated")
+        except Exception as e:
+            print(f"❌ Failed to load model '{model_name}' on {device}: {str(e)}")
+            print("💡 This appears to be a PyTorch/sentence-transformers compatibility issue.")
+            print("💡 Recommended solutions:")
+            print("   1. Restart your terminal/IDE completely")
+            print("   2. Try: pip install sentence-transformers==2.2.2")
+            print("   3. Clear cache: rm -rf ~/.cache/huggingface/")
+            raise RuntimeError(f"Could not initialize sentence transformer model: {str(e)}")
                 
                 # Force CPU device without using .to() method that causes meta tensor issues
                 # Initialize without specifying device first, then handle device separately
-                self.embedding_model = SentenceTransformer(model_name)
+            self.embedding_model = SentenceTransformer(model_name)
                 
                 # Manually move all parameters to CPU to avoid meta tensor issues
-                if hasattr(self.embedding_model, '_modules'):
-                    for module in self.embedding_model._modules.values():
-                        if hasattr(module, 'cpu'):
-                            module.cpu()
+            if hasattr(self.embedding_model, '_modules'):
+                for module in self.embedding_model._modules.values():
+                    if hasattr(module, 'cpu'):
+                        module.cpu()
                 
                 # Test the model with a simple encoding
                 test_result = self.embedding_model.encode(
@@ -103,11 +110,10 @@ class VectorStore:
                 else:
                     raise Exception("Model test failed - no embeddings generated")
                     
-            except Exception as e:
+        except Exception as e:
                 print(f"❌ Attempt {i+1} failed: {str(e)}")
                 if i < len(models_to_try) - 1:
                     print(f"🔄 Trying next model...")
-                    continue
                 else:
                     print(f"❌ Final fallback failed: {str(e)}")
                     print("💡 This appears to be a PyTorch/sentence-transformers compatibility issue.")

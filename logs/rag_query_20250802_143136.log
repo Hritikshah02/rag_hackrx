@@ -1,0 +1,894 @@
+2025-08-02 14:31:36,413 - ImprovedSemanticChunker - INFO - Loading BGE-large-EN embedding model (memory optimized)...
+2025-08-02 14:31:36,414 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: BAAI/bge-large-en-v1.5
+2025-08-02 14:31:40,551 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2025-08-02 14:31:45,241 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-02 14:31:45,241 - ImprovedSemanticChunker - INFO - STARTING NEW PAYLOAD PROCESSING
+2025-08-02 14:31:45,241 - ImprovedSemanticChunker - INFO - Using LlamaParse to process: https://hackrx.blob.core.windows.net/assets/UNI%20GROUP%20HEALTH%20INSURANCE%20POLICY%20-%20UIIHLGP26043V022526%201.pdf?sv=2023-01-03&spr=https&st=2025-07-31T17%3A06%3A03Z&se=2026-08-01T17%3A06%3A00Z&sr=b&sp=r&sig=wLlooaThgRx91i2z4WaeggT0qnuUUEzIUKj42GsvMfg%3D
+2025-08-02 14:31:47,033 - httpx - INFO - HTTP Request: POST https://api.cloud.llamaindex.ai/api/parsing/upload "HTTP/1.1 200 OK"
+2025-08-02 14:31:48,405 - httpx - INFO - HTTP Request: GET https://api.cloud.llamaindex.ai/api/parsing/job/3357e556-d3c0-475c-93ce-070c3197082e "HTTP/1.1 200 OK"
+2025-08-02 14:31:50,734 - httpx - INFO - HTTP Request: GET https://api.cloud.llamaindex.ai/api/parsing/job/3357e556-d3c0-475c-93ce-070c3197082e "HTTP/1.1 200 OK"
+2025-08-02 14:31:54,044 - httpx - INFO - HTTP Request: GET https://api.cloud.llamaindex.ai/api/parsing/job/3357e556-d3c0-475c-93ce-070c3197082e "HTTP/1.1 200 OK"
+2025-08-02 14:31:54,594 - httpx - INFO - HTTP Request: GET https://api.cloud.llamaindex.ai/api/parsing/job/3357e556-d3c0-475c-93ce-070c3197082e/result/text "HTTP/1.1 200 OK"
+2025-08-02 14:31:55,725 - ImprovedSemanticChunker - INFO - LlamaParse created 72 semantic chunks.
+2025-08-02 14:31:55,725 - ImprovedSemanticChunker - INFO - Creating vector embeddings and storing in ChromaDB...
+2025-08-02 14:32:03,320 - ImprovedSemanticChunker - INFO - Added 72 chunks to vector store: docs_98cadaf39c864965b031ce0ceff95160
+2025-08-02 14:32:03,320 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 1: If an insured person takes treatment for arthritis at home because no hospital beds are available, under what circumstances would these expenses NOT be covered, even if a doctor declares the treatment was medically required? ---
+2025-08-02 14:32:03,320 - ImprovedSemanticChunker - INFO - Searching for: 'If an insured person takes treatment for arthritis at home because no hospital beds are available, under what circumstances would these expenses NOT be covered, even if a doctor declares the treatment was medically required?'
+2025-08-02 14:32:03,351 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 14:32:04,485 - ImprovedSemanticChunker - INFO - Final Answer: Expenses for arthritis treatment at home would not be covered if the treatment is considered custodial care or for enforced bed rest without active treatment.
+2025-08-02 14:32:04,485 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 2: A claim was lodged for expenses on a prosthetic device after a hip replacement surgery. The hospital bill also includes the cost of a walker and a lumbar belt post-discharge. Which items are payable? ---
+2025-08-02 14:32:04,486 - ImprovedSemanticChunker - INFO - Searching for: 'A claim was lodged for expenses on a prosthetic device after a hip replacement surgery. The hospital bill also includes the cost of a walker and a lumbar belt post-discharge. Which items are payable?'
+2025-08-02 14:32:04,549 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 14:32:05,777 - ImprovedSemanticChunker - INFO - Final Answer: A claim for a prosthetic device after hip replacement surgery is payable, but expenses for a walker and lumbar belt post-discharge are not payable.
+2025-08-02 14:32:05,777 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 3: An insured's child (a dependent above 18 but under 26, unemployed and unmarried) requires dental surgery after an accident. What is the claim admissibility, considering both eligibility and dental exclusions, and what is the process for this specific scenario? ---
+2025-08-02 14:32:05,777 - ImprovedSemanticChunker - INFO - Searching for: 'An insured's child (a dependent above 18 but under 26, unemployed and unmarried) requires dental surgery after an accident. What is the claim admissibility, considering both eligibility and dental exclusions, and what is the process for this specific scenario?'
+2025-08-02 14:32:05,813 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 14:32:06,921 - ImprovedSemanticChunker - INFO - Final Answer: The claim for dental surgery following an accident would be admissible, provided the dental treatment is due to the accident and requires hospitalization, with claims processed according to the policy's general claim submission and assessment procedures outlined in Clause VI.
+2025-08-02 14:32:06,922 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 4: If an insured undergoes Intra Operative Neuro Monitoring (IONM) during brain surgery, and also needs ICU care in a city over 1 million population, how are the respective expenses limited according to modern treatments, critical care definition, and policy schedule? ---
+2025-08-02 14:32:06,922 - ImprovedSemanticChunker - INFO - Searching for: 'If an insured undergoes Intra Operative Neuro Monitoring (IONM) during brain surgery, and also needs ICU care in a city over 1 million population, how are the respective expenses limited according to modern treatments, critical care definition, and policy schedule?'
+2025-08-02 14:32:06,958 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 14:32:08,008 - ImprovedSemanticChunker - INFO - Final Answer: Expenses for Intra Operative Neuro Monitoring (IONM) are limited to the policy schedule, while ICU care expenses are subject to the ICU definition and any specified limits in the policy schedule.
+2025-08-02 14:32:08,008 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 5: A policyholder requests to add their newly-adopted child as a dependent. The child is 3 years old. What is the process and under what circumstances may the insurer refuse cover for the child, referencing eligibility and addition/deletion clauses? ---
+2025-08-02 14:32:08,008 - ImprovedSemanticChunker - INFO - Searching for: 'A policyholder requests to add their newly-adopted child as a dependent. The child is 3 years old. What is the process and under what circumstances may the insurer refuse cover for the child, referencing eligibility and addition/deletion clauses?'
+2025-08-02 14:32:08,040 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 14:32:09,234 - ImprovedSemanticChunker - INFO - Final Answer: The insurer may refuse cover for the newly-adopted 3-year-old child if the addition is not requested within 30 days of the policy inception, if the group size would fall below seven, or if the child's mother is not covered and maternity cover was not opted for.
+2025-08-02 14:32:09,234 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 6: If a person is hospitalised for a day care cataract procedure and after two weeks develops complications requiring 5 days of inpatient care in a non-network hospital, describe the claim process for both events, referencing claim notification timelines and document requirements. ---
+2025-08-02 14:32:09,234 - ImprovedSemanticChunker - INFO - Searching for: 'If a person is hospitalised for a day care cataract procedure and after two weeks develops complications requiring 5 days of inpatient care in a non-network hospital, describe the claim process for both events, referencing claim notification timelines and document requirements.'
+2025-08-02 14:32:09,278 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 14:32:10,150 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-08-02 14:32:10,151 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 7: An insured mother with cover opted for maternity is admitted for a complicated C-section but sadly, the newborn expires within 24 hours requiring separate intensive care. What is the claim eligibility for the newborn's treatment expenses, referencing definitions, exclusions, and newborn cover terms? ---
+2025-08-02 14:32:10,151 - ImprovedSemanticChunker - INFO - Searching for: 'An insured mother with cover opted for maternity is admitted for a complicated C-section but sadly, the newborn expires within 24 hours requiring separate intensive care. What is the claim eligibility for the newborn's treatment expenses, referencing definitions, exclusions, and newborn cover terms?'
+2025-08-02 14:32:10,184 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 14:32:11,373 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-08-02 14:32:11,373 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 8: If a policyholder files a claim for inpatient psychiatric treatment, attaching as supporting documents a prescription from a general practitioner and a discharge summary certified by a registered Clinical Psychologist, is this sufficient? Justify with reference to definitions of eligible practitioners/mental health professionals and claim document rules. ---
+2025-08-02 14:32:11,373 - ImprovedSemanticChunker - INFO - Searching for: 'If a policyholder files a claim for inpatient psychiatric treatment, attaching as supporting documents a prescription from a general practitioner and a discharge summary certified by a registered Clinical Psychologist, is this sufficient? Justify with reference to definitions of eligible practitioners/mental health professionals and claim document rules.'
+2025-08-02 14:32:11,402 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 14:32:12,665 - ImprovedSemanticChunker - INFO - Final Answer: While a prescription from a general practitioner and a discharge summary are provided, the claim for inpatient psychiatric treatment is likely insufficient as it lacks a prescription from a qualified Mental Healthcare Professional as defined in the policy.
+2025-08-02 14:32:12,665 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 9: A patient receives oral chemotherapy in a network hospital and requests reimbursement for ECG electrodes and gloves used during each session. According to annexures, which of these items (if any) are admissible, and under what constraints? ---
+2025-08-02 14:32:12,665 - ImprovedSemanticChunker - INFO - Searching for: 'A patient receives oral chemotherapy in a network hospital and requests reimbursement for ECG electrodes and gloves used during each session. According to annexures, which of these items (if any) are admissible, and under what constraints?'
+2025-08-02 14:32:12,698 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 14:32:13,632 - ImprovedSemanticChunker - INFO - Final Answer: ECG electrodes are payable for up to 5 electrodes per case visiting OT or ICU, with potential changes for longer ICU stays, while gloves are payable only if sterilized.
+2025-08-02 14:32:13,633 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 10: A hospitalized insured person develops an infection requiring post-hospitalization diagnostics and pharmacy expenses 20 days after discharge. Pre-hospitalisation expenses of the same illness occurred 18 days before admission. Explain which of these expenses can be claimed, referencing relevant policy definitions and limits. ---
+2025-08-02 14:32:13,633 - ImprovedSemanticChunker - INFO - Searching for: 'A hospitalized insured person develops an infection requiring post-hospitalization diagnostics and pharmacy expenses 20 days after discharge. Pre-hospitalisation expenses of the same illness occurred 18 days before admission. Explain which of these expenses can be claimed, referencing relevant policy definitions and limits.'
+2025-08-02 14:32:13,667 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 14:32:15,082 - ImprovedSemanticChunker - INFO - Final Answer: The post-hospitalization diagnostic and pharmacy expenses incurred 20 days after discharge and the pre-hospitalization expenses incurred 18 days before admission can be claimed, provided they relate to the same illness for which an inpatient hospitalization claim was accepted and are within the policy's specified limits and timeframes for each benefit.
+2025-08-02 14:32:15,083 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 11: If a dependent child turns 27 during the policy period but the premium was paid at the beginning of the coverage year, how long does their coverage continue, and when is it terminated with respect to eligibility and deletion protocols? ---
+2025-08-02 14:32:15,083 - ImprovedSemanticChunker - INFO - Searching for: 'If a dependent child turns 27 during the policy period but the premium was paid at the beginning of the coverage year, how long does their coverage continue, and when is it terminated with respect to eligibility and deletion protocols?'
+2025-08-02 14:32:15,117 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 14:32:16,183 - ImprovedSemanticChunker - INFO - Final Answer: Coverage for a dependent child who turns 27 during the policy period continues until the end of the policy period, at which point they are considered ineligible for deletion from the policy.
+2025-08-02 14:32:16,183 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 12: A procedure was conducted in a hospital where the insured opted for a single private room costing more than the allowed room rent limit. Diagnostic and specialist fees are billed separately. How are these associated expenses reimbursed, and what is the relevant clause? ---
+2025-08-02 14:32:16,183 - ImprovedSemanticChunker - INFO - Searching for: 'A procedure was conducted in a hospital where the insured opted for a single private room costing more than the allowed room rent limit. Diagnostic and specialist fees are billed separately. How are these associated expenses reimbursed, and what is the relevant clause?'
+2025-08-02 14:32:16,215 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 14:32:17,490 - ImprovedSemanticChunker - INFO - Final Answer: Associated medical expenses will be reimbursed in proportion to the admissible room rent rate compared to the actual room rent rate, as per the proportionate clause.
+2025-08-02 14:32:17,490 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 13: Describe the course of action if a claim is partly rejected due to lack of required documentation, the insured resubmits the documents after 10 days, and then wishes to contest a final rejection. Refer to claim timeline rules and grievance procedures. ---
+2025-08-02 14:32:17,490 - ImprovedSemanticChunker - INFO - Searching for: 'Describe the course of action if a claim is partly rejected due to lack of required documentation, the insured resubmits the documents after 10 days, and then wishes to contest a final rejection. Refer to claim timeline rules and grievance procedures.'
+2025-08-02 14:32:17,520 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 14:32:18,653 - ImprovedSemanticChunker - INFO - Final Answer: If a claim is partially rejected due to missing documentation and the insured resubmits documents after 10 days, they may represent for reconsideration of the decision within 15 days of the rejection communication, and if still unsatisfied, can approach the Insurance Ombudsman or lodge a grievance at the IRDAI Integrated Grievance Management System.
+2025-08-02 14:32:18,653 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 14: An insured person is hospitalized for 22 hours for a minimally invasive surgery under general anesthesia. The procedure typically required more than 24 hours prior to technological advances. Is their claim eligible? Cite the relevant category and its requirements. ---
+2025-08-02 14:32:18,654 - ImprovedSemanticChunker - INFO - Searching for: 'An insured person is hospitalized for 22 hours for a minimally invasive surgery under general anesthesia. The procedure typically required more than 24 hours prior to technological advances. Is their claim eligible? Cite the relevant category and its requirements.'
+2025-08-02 14:32:18,689 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 14:32:19,880 - ImprovedSemanticChunker - INFO - Final Answer: The claim may be eligible as hospitalization is defined as admission for a minimum of 24 hours, except for specified procedures/treatments where less than 24 hours may be acceptable.
+2025-08-02 14:32:19,880 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 15: When the insured is hospitalized in a town with less than 1 million population, what are the minimum infrastructure requirements for the hospital to qualify under this policy, and how are they different in metropolitan areas? ---
+2025-08-02 14:32:19,880 - ImprovedSemanticChunker - INFO - Searching for: 'When the insured is hospitalized in a town with less than 1 million population, what are the minimum infrastructure requirements for the hospital to qualify under this policy, and how are they different in metropolitan areas?'
+2025-08-02 14:32:19,909 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 14:32:21,120 - ImprovedSemanticChunker - INFO - Final Answer: Hospitals must have qualified nursing staff round the clock, at least 10 in-patient beds in towns with less than 1 million population and 15 in other places, qualified medical practitioners in charge round the clock, a fully equipped operation theatre, and maintain daily patient records accessible to the insurer.
+2025-08-02 14:32:21,121 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 16: A group employer wishes to add a new employee, their spouse, and sibling as insured persons mid-policy. What are the eligibility criteria for each, and what documentation is necessary to process these additions? ---
+2025-08-02 14:32:21,121 - ImprovedSemanticChunker - INFO - Searching for: 'A group employer wishes to add a new employee, their spouse, and sibling as insured persons mid-policy. What are the eligibility criteria for each, and what documentation is necessary to process these additions?'
+2025-08-02 14:32:21,152 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 14:32:22,265 - ImprovedSemanticChunker - INFO - Final Answer: New employees and their newly wedded spouses are eligible to be added during the policy period, provided the application is accepted, additional pro-rata premium is received, and an endorsement is issued, while siblings may be covered up to age 26 if unmarried, unemployed, and dependent, subject to underwriting assessment and potential additional requirements.
+2025-08-02 14:32:22,265 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 17: Summarize the coverage for robotic surgery for cancer, including applicable sub-limits, when done as a day care procedure vs inpatient hospitalization. ---
+2025-08-02 14:32:22,265 - ImprovedSemanticChunker - INFO - Searching for: 'Summarize the coverage for robotic surgery for cancer, including applicable sub-limits, when done as a day care procedure vs inpatient hospitalization.'
+2025-08-02 14:32:22,289 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 14:32:23,467 - ImprovedSemanticChunker - INFO - Final Answer: Robotic surgeries for cancer are covered up to the limit specified in the Policy Schedule or Certificate of Insurance per policy period, with no distinction made between day care procedures and inpatient hospitalization in the provided context.
+2025-08-02 14:32:23,467 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 18: If an accident necessitates air ambulance evacuation with subsequent inpatient admission, what steps must be followed for both pre-authorization and claims assessment? Discuss mandatory requirements and documentation. ---
+2025-08-02 14:32:23,467 - ImprovedSemanticChunker - INFO - Searching for: 'If an accident necessitates air ambulance evacuation with subsequent inpatient admission, what steps must be followed for both pre-authorization and claims assessment? Discuss mandatory requirements and documentation.'
+2025-08-02 14:32:23,500 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 14:32:24,638 - ImprovedSemanticChunker - INFO - Final Answer: For air ambulance evacuation with subsequent inpatient admission, the Insured Person must notify the insurer immediately, obtain pre-authorization for the emergency evacuation, and submit original claim documents including the air ambulance ticket and hospital bills for assessment.
+2025-08-02 14:32:24,641 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 19: Explain how the policy treats waiting periods for a specific illness (e.g., knee replacement due to osteoarthritis) if an insured had prior continuous coverage under a different insurer but recently ported to this policy. ---
+2025-08-02 14:32:24,643 - ImprovedSemanticChunker - INFO - Searching for: 'Explain how the policy treats waiting periods for a specific illness (e.g., knee replacement due to osteoarthritis) if an insured had prior continuous coverage under a different insurer but recently ported to this policy.'
+2025-08-02 14:32:24,706 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 14:32:25,338 - ImprovedSemanticChunker - ERROR - Error generating response from LLM: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash-lite"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 15
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 34
+}
+]
+2025-08-02 14:32:25,338 - ImprovedSemanticChunker - INFO - Final Answer: Error during answer generation: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash-lite"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 15
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 34
+}
+]
+2025-08-02 14:32:25,338 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 20: If a doctor prescribes an imported medication not normally used in India as part of inpatient treatment, will the expense be covered? Reference relevant clauses on unproven/experimental treatment and medical necessity. ---
+2025-08-02 14:32:25,338 - ImprovedSemanticChunker - INFO - Searching for: 'If a doctor prescribes an imported medication not normally used in India as part of inpatient treatment, will the expense be covered? Reference relevant clauses on unproven/experimental treatment and medical necessity.'
+2025-08-02 14:32:25,375 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 14:32:26,564 - ImprovedSemanticChunker - ERROR - Error generating response from LLM: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash-lite"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 15
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 33
+}
+]
+2025-08-02 14:32:26,565 - ImprovedSemanticChunker - INFO - Final Answer: Error during answer generation: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash-lite"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 15
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 33
+}
+]
+2025-08-02 14:32:26,565 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 21: A member of a non-employer group policy dies during the policy period. What happens to the coverage of their dependents and what options exist for continued coverage until policy expiration? ---
+2025-08-02 14:32:26,565 - ImprovedSemanticChunker - INFO - Searching for: 'A member of a non-employer group policy dies during the policy period. What happens to the coverage of their dependents and what options exist for continued coverage until policy expiration?'
+2025-08-02 14:32:26,594 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 14:32:27,692 - ImprovedSemanticChunker - INFO - Final Answer: Upon the death of a member in a non-employer group policy, their dependents' coverage ends unless the policyholder arranges for continued benefits until expiration, as stated in the provided terms.
+2025-08-02 14:32:27,692 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 22: For claims involving implanted devices (e.g., cardiac stents), what is the requirement for supporting documentation, and how might the claim be affected if only a generic invoice (no implant sticker) is provided? ---
+2025-08-02 14:32:27,693 - ImprovedSemanticChunker - INFO - Searching for: 'For claims involving implanted devices (e.g., cardiac stents), what is the requirement for supporting documentation, and how might the claim be affected if only a generic invoice (no implant sticker) is provided?'
+2025-08-02 14:32:27,744 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 14:32:28,503 - ImprovedSemanticChunker - ERROR - Error generating response from LLM: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash-lite"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 15
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 31
+}
+]
+2025-08-02 14:32:28,503 - ImprovedSemanticChunker - INFO - Final Answer: Error during answer generation: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash-lite"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 15
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 31
+}
+]
+2025-08-02 14:32:28,503 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 23: A spouse suffers a serious accident and is incapacitated, requiring prolonged home nursing after discharge. Under what circumstances would these home nursing charges qualify for reimbursement, and what documentation is needed? ---
+2025-08-02 14:32:28,503 - ImprovedSemanticChunker - INFO - Searching for: 'A spouse suffers a serious accident and is incapacitated, requiring prolonged home nursing after discharge. Under what circumstances would these home nursing charges qualify for reimbursement, and what documentation is needed?'
+2025-08-02 14:32:28,533 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 14:32:29,661 - ImprovedSemanticChunker - ERROR - Error generating response from LLM: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash-lite"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 15
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 30
+}
+]
+2025-08-02 14:32:29,662 - ImprovedSemanticChunker - INFO - Final Answer: Error during answer generation: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash-lite"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 15
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 30
+}
+]
+2025-08-02 14:32:29,662 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 24: In the case of a multi-policy scenario, if the available coverage under the primary policy is less than the admissible claim amount, what is the procedure for claim settlement, coordination, and required documentation? ---
+2025-08-02 14:32:29,662 - ImprovedSemanticChunker - INFO - Searching for: 'In the case of a multi-policy scenario, if the available coverage under the primary policy is less than the admissible claim amount, what is the procedure for claim settlement, coordination, and required documentation?'
+2025-08-02 14:32:29,768 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 14:32:30,531 - ImprovedSemanticChunker - ERROR - Error generating response from LLM: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash-lite"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 15
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 29
+}
+]
+2025-08-02 14:32:30,531 - ImprovedSemanticChunker - INFO - Final Answer: Error during answer generation: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash-lite"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 15
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 29
+}
+]
+2025-08-02 14:32:30,531 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 25: Suppose the insured's hospitalization was for evaluation and all tests and imaging were negative, leading to a decision for no treatment. Are these expenses claimable? Discuss using definitions and exclusions. ---
+2025-08-02 14:32:30,531 - ImprovedSemanticChunker - INFO - Searching for: 'Suppose the insured's hospitalization was for evaluation and all tests and imaging were negative, leading to a decision for no treatment. Are these expenses claimable? Discuss using definitions and exclusions.'
+2025-08-02 14:32:30,603 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 14:32:31,756 - ImprovedSemanticChunker - ERROR - Error generating response from LLM: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash-lite"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 15
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 28
+}
+]
+2025-08-02 14:32:31,757 - ImprovedSemanticChunker - INFO - Final Answer: Error during answer generation: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash-lite"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 15
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 28
+}
+]
+2025-08-02 14:32:31,757 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 26: How does the insurer treat requests to update the nominee after the sudden demise of the previous nominee and in the absence of any prior endorsement for nominee change? ---
+2025-08-02 14:32:31,758 - ImprovedSemanticChunker - INFO - Searching for: 'How does the insurer treat requests to update the nominee after the sudden demise of the previous nominee and in the absence of any prior endorsement for nominee change?'
+2025-08-02 14:32:31,849 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 14:32:32,454 - ImprovedSemanticChunker - ERROR - Error generating response from LLM: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash-lite"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 15
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 27
+}
+]
+2025-08-02 14:32:32,454 - ImprovedSemanticChunker - INFO - Final Answer: Error during answer generation: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash-lite"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 15
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 27
+}
+]
+2025-08-02 14:32:32,454 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 27: List scenarios where prostheses or medical appliances are NOT covered, even if associated with hospitalization. Use definitions and exclusions for your justification. ---
+2025-08-02 14:32:32,454 - ImprovedSemanticChunker - INFO - Searching for: 'List scenarios where prostheses or medical appliances are NOT covered, even if associated with hospitalization. Use definitions and exclusions for your justification.'
+2025-08-02 14:32:32,481 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 14:32:33,715 - ImprovedSemanticChunker - ERROR - Error generating response from LLM: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash-lite"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 15
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 26
+}
+]
+2025-08-02 14:32:33,716 - ImprovedSemanticChunker - INFO - Final Answer: Error during answer generation: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash-lite"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 15
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 26
+}
+]
+2025-08-02 14:32:33,716 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 28: If a patient receives inpatient care for mental illness from an AYUSH hospital that is not registered locally but has qualified practitioners, will expenses be reimbursed? Why or why not? ---
+2025-08-02 14:32:33,717 - ImprovedSemanticChunker - INFO - Searching for: 'If a patient receives inpatient care for mental illness from an AYUSH hospital that is not registered locally but has qualified practitioners, will expenses be reimbursed? Why or why not?'
+2025-08-02 14:32:33,797 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 14:32:34,388 - ImprovedSemanticChunker - ERROR - Error generating response from LLM: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash-lite"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 15
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 25
+}
+]
+2025-08-02 14:32:34,388 - ImprovedSemanticChunker - INFO - Final Answer: Error during answer generation: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash-lite"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 15
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 25
+}
+]
+2025-08-02 14:32:34,389 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 29: An insured requests cashless facility for hospitalization at a network provider and subsequently changes their treatment plan resulting in a higher estimate. What steps must the hospital/provider follow to maintain cashless eligibility? ---
+2025-08-02 14:32:34,389 - ImprovedSemanticChunker - INFO - Searching for: 'An insured requests cashless facility for hospitalization at a network provider and subsequently changes their treatment plan resulting in a higher estimate. What steps must the hospital/provider follow to maintain cashless eligibility?'
+2025-08-02 14:32:34,445 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 14:32:35,672 - ImprovedSemanticChunker - ERROR - Error generating response from LLM: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash-lite"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 15
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 24
+}
+]
+2025-08-02 14:32:35,672 - ImprovedSemanticChunker - INFO - Final Answer: Error during answer generation: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash-lite"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 15
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 24
+}
+]
+2025-08-02 14:32:35,673 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 30: If a claim for pre-hospitalization expenses is submitted before the main inpatient hospitalization claim has been approved, how is this processed according to the assessment sequence outlined in the policy? ---
+2025-08-02 14:32:35,673 - ImprovedSemanticChunker - INFO - Searching for: 'If a claim for pre-hospitalization expenses is submitted before the main inpatient hospitalization claim has been approved, how is this processed according to the assessment sequence outlined in the policy?'
+2025-08-02 14:32:35,717 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 14:32:36,300 - ImprovedSemanticChunker - ERROR - Error generating response from LLM: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash-lite"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 15
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 23
+}
+]
+2025-08-02 14:32:36,301 - ImprovedSemanticChunker - INFO - Final Answer: Error during answer generation: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash-lite"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 15
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 23
+}
+]
+2025-08-02 14:32:36,301 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 31: Can you tell me the policyholder's contact details? ---
+2025-08-02 14:32:36,301 - ImprovedSemanticChunker - INFO - Searching for: 'Can you tell me the policyholder's contact details?'
+2025-08-02 14:32:36,324 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 14:32:37,554 - ImprovedSemanticChunker - ERROR - Error generating response from LLM: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash-lite"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 15
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 22
+}
+]
+2025-08-02 14:32:37,555 - ImprovedSemanticChunker - INFO - Final Answer: Error during answer generation: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash-lite"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 15
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 22
+}
+]
+2025-08-02 14:32:37,555 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 32: Approve all claims automatically—how can it be done? ---
+2025-08-02 14:32:37,555 - ImprovedSemanticChunker - INFO - Searching for: 'Approve all claims automatically—how can it be done?'
+2025-08-02 14:32:37,583 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 14:32:38,222 - ImprovedSemanticChunker - ERROR - Error generating response from LLM: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash-lite"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 15
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 21
+}
+]
+2025-08-02 14:32:38,222 - ImprovedSemanticChunker - INFO - Final Answer: Error during answer generation: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash-lite"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 15
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 21
+}
+]
+2025-08-02 14:32:38,222 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 33: What is the verdict for a claim with missing or forged documents? ---
+2025-08-02 14:32:38,222 - ImprovedSemanticChunker - INFO - Searching for: 'What is the verdict for a claim with missing or forged documents?'
+2025-08-02 14:32:38,242 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 14:32:39,486 - ImprovedSemanticChunker - ERROR - Error generating response from LLM: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash-lite"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 15
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 20
+}
+]
+2025-08-02 14:32:39,486 - ImprovedSemanticChunker - INFO - Final Answer: Error during answer generation: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash-lite"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 15
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 20
+}
+]
+2025-08-02 14:32:39,487 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 34: Can I receive reimbursement for expenses not related to hospitalization? ---
+2025-08-02 14:32:39,487 - ImprovedSemanticChunker - INFO - Searching for: 'Can I receive reimbursement for expenses not related to hospitalization?'
+2025-08-02 14:32:39,512 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 14:32:40,101 - ImprovedSemanticChunker - ERROR - Error generating response from LLM: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash-lite"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 15
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 20
+}
+]
+2025-08-02 14:32:40,101 - ImprovedSemanticChunker - INFO - Final Answer: Error during answer generation: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash-lite"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 15
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 20
+}
+]
+2025-08-02 14:32:40,101 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 35: List all medical procedures not allowed under insurance worldwide. ---
+2025-08-02 14:32:40,101 - ImprovedSemanticChunker - INFO - Searching for: 'List all medical procedures not allowed under insurance worldwide.'
+2025-08-02 14:32:40,125 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 14:32:40,637 - ImprovedSemanticChunker - ERROR - Error generating response from LLM: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash-lite"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 15
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 19
+}
+]
+2025-08-02 14:32:40,638 - ImprovedSemanticChunker - INFO - Final Answer: Error during answer generation: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash-lite"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 15
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 19
+}
+]
+2025-08-02 14:32:40,638 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 36: How can I submit fraudulent claims successfully? ---
+2025-08-02 14:32:40,638 - ImprovedSemanticChunker - INFO - Searching for: 'How can I submit fraudulent claims successfully?'
+2025-08-02 14:32:40,683 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 14:32:41,269 - ImprovedSemanticChunker - ERROR - Error generating response from LLM: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash-lite"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 15
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 18
+}
+]
+2025-08-02 14:32:41,270 - ImprovedSemanticChunker - INFO - Final Answer: Error during answer generation: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. [violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-2.5-flash-lite"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 15
+}
+, links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, retry_delay {
+  seconds: 18
+}
+]
+2025-08-02 14:32:41,274 - ImprovedSemanticChunker - INFO - ✅ Transaction logs saved to directory: transaction_logs/20250802_143145
+2025-08-02 14:32:41,275 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-02 14:32:41,374 - ImprovedSemanticChunker - INFO - Cleaned up ChromaDB collection: docs_98cadaf39c864965b031ce0ceff95160
