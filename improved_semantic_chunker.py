@@ -50,6 +50,7 @@ class ImprovedSemanticChunker:
         self.embedding_function = SentenceTransformerEmbeddingFunction(model_name="BAAI/bge-large-en-v1.5")  # or whichever 1024-dim model you're using
 
         self.google_api_key = os.getenv('GOOGLE_API_KEY')
+        print(f"GOOGLE_API_KEY: {self.google_api_key}")
         if not self.google_api_key:
             raise ValueError("GOOGLE_API_KEY environment variable is required")
         

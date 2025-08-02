@@ -9,6 +9,7 @@ class Config:
     
     # API Keys
     GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY', '')
+    print(f"GOOGLE_API_KEY: {GOOGLE_API_KEY}")
     
     # Model configurations
     EMBEDDING_MODEL = "BAAI/bge-large-en-v1.5"

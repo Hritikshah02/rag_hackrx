@@ -1,0 +1,233 @@
+2025-08-02 15:55:34,508 - ImprovedSemanticChunker - INFO - Loading BGE-large-EN embedding model (memory optimized)...
+2025-08-02 15:55:34,509 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: BAAI/bge-large-en-v1.5
+2025-08-02 15:55:40,084 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2025-08-02 15:55:43,324 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-02 15:55:43,324 - ImprovedSemanticChunker - INFO - STARTING NEW PAYLOAD PROCESSING
+2025-08-02 15:55:43,326 - ImprovedSemanticChunker - INFO - Using LlamaParse to process: https://hackrx.blob.core.windows.net/assets/UNI%20GROUP%20HEALTH%20INSURANCE%20POLICY%20-%20UIIHLGP26043V022526%201.pdf?sv=2023-01-03&spr=https&st=2025-07-31T17%3A06%3A03Z&se=2026-08-01T17%3A06%3A00Z&sr=b&sp=r&sig=wLlooaThgRx91i2z4WaeggT0qnuUUEzIUKj42GsvMfg%3D
+2025-08-02 15:55:45,073 - httpx - INFO - HTTP Request: POST https://api.cloud.llamaindex.ai/api/parsing/upload "HTTP/1.1 200 OK"
+2025-08-02 15:55:46,390 - httpx - INFO - HTTP Request: GET https://api.cloud.llamaindex.ai/api/parsing/job/bc3a2bef-8457-4a87-8f91-3f4b7858da61 "HTTP/1.1 200 OK"
+2025-08-02 15:55:48,708 - httpx - INFO - HTTP Request: GET https://api.cloud.llamaindex.ai/api/parsing/job/bc3a2bef-8457-4a87-8f91-3f4b7858da61 "HTTP/1.1 200 OK"
+2025-08-02 15:55:52,102 - httpx - INFO - HTTP Request: GET https://api.cloud.llamaindex.ai/api/parsing/job/bc3a2bef-8457-4a87-8f91-3f4b7858da61 "HTTP/1.1 200 OK"
+2025-08-02 15:55:52,583 - httpx - INFO - HTTP Request: GET https://api.cloud.llamaindex.ai/api/parsing/job/bc3a2bef-8457-4a87-8f91-3f4b7858da61/result/text "HTTP/1.1 200 OK"
+2025-08-02 15:55:57,361 - ImprovedSemanticChunker - INFO - LlamaParse created 72 semantic chunks.
+2025-08-02 15:55:57,361 - ImprovedSemanticChunker - INFO - Creating vector embeddings and storing in ChromaDB...
+2025-08-02 15:56:09,743 - ImprovedSemanticChunker - INFO - Added 72 chunks to vector store: docs_9bf356f954a142eebc746b6fbc427d41
+2025-08-02 15:56:09,744 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 1: If an insured person takes treatment for arthritis at home because no hospital beds are available, under what circumstances would these expenses NOT be covered, even if a doctor declares the treatment was medically required? ---
+2025-08-02 15:56:09,744 - ImprovedSemanticChunker - INFO - Searching for: 'If an insured person takes treatment for arthritis at home because no hospital beds are available, under what circumstances would these expenses NOT be covered, even if a doctor declares the treatment was medically required?'
+2025-08-02 15:56:09,834 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini 2.5 Flash Lite model...
+2025-08-02 15:56:12,758 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-02 15:56:12,892 - ImprovedSemanticChunker - INFO - Final Answer: Expenses for arthritis treatment at home would not be covered if the treatment is considered custodial care or for enforced bed rest without active medical treatment.
+2025-08-02 15:56:12,892 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 2: A claim was lodged for expenses on a prosthetic device after a hip replacement surgery. The hospital bill also includes the cost of a walker and a lumbar belt post-discharge. Which items are payable? ---
+2025-08-02 15:56:12,892 - ImprovedSemanticChunker - INFO - Searching for: 'A claim was lodged for expenses on a prosthetic device after a hip replacement surgery. The hospital bill also includes the cost of a walker and a lumbar belt post-discharge. Which items are payable?'
+2025-08-02 15:56:12,953 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini 2.5 Flash Lite model...
+2025-08-02 15:56:15,250 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-02 15:56:15,407 - ImprovedSemanticChunker - INFO - Final Answer: The prosthetic device is payable as a surgical appliance, but the walker and lumbar belt are not payable as they are considered non-medical expenses for personal comfort.
+2025-08-02 15:56:15,408 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 3: An insured's child (a dependent above 18 but under 26, unemployed and unmarried) requires dental surgery after an accident. What is the claim admissibility, considering both eligibility and dental exclusions, and what is the process for this specific scenario? ---
+2025-08-02 15:56:15,408 - ImprovedSemanticChunker - INFO - Searching for: 'An insured's child (a dependent above 18 but under 26, unemployed and unmarried) requires dental surgery after an accident. What is the claim admissibility, considering both eligibility and dental exclusions, and what is the process for this specific scenario?'
+2025-08-02 15:56:15,470 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini 2.5 Flash Lite model...
+2025-08-02 15:56:17,801 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-02 15:56:17,913 - ImprovedSemanticChunker - INFO - Final Answer: Dental treatment for a dependent child over 18 requiring surgery after an accident is admissible if it's due to the accident and requires hospitalization, with claims submitted within 15 days of discharge.
+2025-08-02 15:56:17,913 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 4: If an insured undergoes Intra Operative Neuro Monitoring (IONM) during brain surgery, and also needs ICU care in a city over 1 million population, how are the respective expenses limited according to modern treatments, critical care definition, and policy schedule? ---
+2025-08-02 15:56:17,914 - ImprovedSemanticChunker - INFO - Searching for: 'If an insured undergoes Intra Operative Neuro Monitoring (IONM) during brain surgery, and also needs ICU care in a city over 1 million population, how are the respective expenses limited according to modern treatments, critical care definition, and policy schedule?'
+2025-08-02 15:56:17,996 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini 2.5 Flash Lite model...
+2025-08-02 15:56:20,347 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-02 15:56:20,408 - ImprovedSemanticChunker - INFO - Final Answer: Expenses for Intra Operative Neuro Monitoring (IONM) are limited up to the policy schedule, while ICU care expenses are limited by the category/limit specified in the policy schedule or actual expenses incurred, whichever is less, for cities over 1 million population.
+2025-08-02 15:56:20,408 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 5: A policyholder requests to add their newly-adopted child as a dependent. The child is 3 years old. What is the process and under what circumstances may the insurer refuse cover for the child, referencing eligibility and addition/deletion clauses? ---
+2025-08-02 15:56:20,408 - ImprovedSemanticChunker - INFO - Searching for: 'A policyholder requests to add their newly-adopted child as a dependent. The child is 3 years old. What is the process and under what circumstances may the insurer refuse cover for the child, referencing eligibility and addition/deletion clauses?'
+2025-08-02 15:56:20,469 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini 2.5 Flash Lite model...
+2025-08-02 15:56:21,464 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-02 15:56:21,705 - ImprovedSemanticChunker - INFO - Final Answer: The child may be added as a dependent if the policyholder is covered and the addition is made within 30 days of the policy inception or joining date with pro-rata premium, and the insurer may refuse cover if the child is not a dependent as defined or if the addition is not made within the specified window or with the correct premium.
+2025-08-02 15:56:21,706 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 6: If a person is hospitalised for a day care cataract procedure and after two weeks develops complications requiring 5 days of inpatient care in a non-network hospital, describe the claim process for both events, referencing claim notification timelines and document requirements. ---
+2025-08-02 15:56:21,706 - ImprovedSemanticChunker - INFO - Searching for: 'If a person is hospitalised for a day care cataract procedure and after two weeks develops complications requiring 5 days of inpatient care in a non-network hospital, describe the claim process for both events, referencing claim notification timelines and document requirements.'
+2025-08-02 15:56:21,780 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini 2.5 Flash Lite model...
+2025-08-02 15:56:22,787 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-02 15:56:22,968 - ImprovedSemanticChunker - INFO - Final Answer: For the day care cataract procedure, the claim should be submitted immediately after discharge, while for the subsequent inpatient care complications, the claim must be submitted within 15 days of discharge from the non-network hospital, with both requiring a completed claim form, medical practitioner's certificate, hospital bills, and discharge summary.
+2025-08-02 15:56:22,968 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 7: An insured mother with cover opted for maternity is admitted for a complicated C-section but sadly, the newborn expires within 24 hours requiring separate intensive care. What is the claim eligibility for the newborn's treatment expenses, referencing definitions, exclusions, and newborn cover terms? ---
+2025-08-02 15:56:22,968 - ImprovedSemanticChunker - INFO - Searching for: 'An insured mother with cover opted for maternity is admitted for a complicated C-section but sadly, the newborn expires within 24 hours requiring separate intensive care. What is the claim eligibility for the newborn's treatment expenses, referencing definitions, exclusions, and newborn cover terms?'
+2025-08-02 15:56:23,030 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini 2.5 Flash Lite model...
+2025-08-02 15:56:25,329 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-02 15:56:25,372 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-08-02 15:56:25,372 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 8: If a policyholder files a claim for inpatient psychiatric treatment, attaching as supporting documents a prescription from a general practitioner and a discharge summary certified by a registered Clinical Psychologist, is this sufficient? Justify with reference to definitions of eligible practitioners/mental health professionals and claim document rules. ---
+2025-08-02 15:56:25,373 - ImprovedSemanticChunker - INFO - Searching for: 'If a policyholder files a claim for inpatient psychiatric treatment, attaching as supporting documents a prescription from a general practitioner and a discharge summary certified by a registered Clinical Psychologist, is this sufficient? Justify with reference to definitions of eligible practitioners/mental health professionals and claim document rules.'
+2025-08-02 15:56:25,458 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini 2.5 Flash Lite model...
+2025-08-02 15:56:27,832 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-02 15:56:27,931 - ImprovedSemanticChunker - INFO - Final Answer: The provided documents do not specify whether a prescription from a general practitioner and a discharge summary certified by a Clinical Psychologist are sufficient for an inpatient psychiatric treatment claim, as they do not define the required documentation for such specific claims.
+2025-08-02 15:56:27,931 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 9: A patient receives oral chemotherapy in a network hospital and requests reimbursement for ECG electrodes and gloves used during each session. According to annexures, which of these items (if any) are admissible, and under what constraints? ---
+2025-08-02 15:56:27,932 - ImprovedSemanticChunker - INFO - Searching for: 'A patient receives oral chemotherapy in a network hospital and requests reimbursement for ECG electrodes and gloves used during each session. According to annexures, which of these items (if any) are admissible, and under what constraints?'
+2025-08-02 15:56:28,000 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini 2.5 Flash Lite model...
+2025-08-02 15:56:30,313 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-02 15:56:30,383 - ImprovedSemanticChunker - INFO - Final Answer: ECG electrodes are payable up to 5 per case visiting OT or ICU, with potential for more in longer ICU stays, while gloves are payable only if sterilized.
+2025-08-02 15:56:30,384 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 10: A hospitalized insured person develops an infection requiring post-hospitalization diagnostics and pharmacy expenses 20 days after discharge. Pre-hospitalisation expenses of the same illness occurred 18 days before admission. Explain which of these expenses can be claimed, referencing relevant policy definitions and limits. ---
+2025-08-02 15:56:30,384 - ImprovedSemanticChunker - INFO - Searching for: 'A hospitalized insured person develops an infection requiring post-hospitalization diagnostics and pharmacy expenses 20 days after discharge. Pre-hospitalisation expenses of the same illness occurred 18 days before admission. Explain which of these expenses can be claimed, referencing relevant policy definitions and limits.'
+2025-08-02 15:56:30,494 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini 2.5 Flash Lite model...
+2025-08-02 15:56:32,748 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-02 15:56:32,900 - ImprovedSemanticChunker - INFO - Final Answer: The post-hospitalization diagnostics and pharmacy expenses incurred 20 days after discharge can be claimed if they are for the same condition as the admissible inpatient hospitalization claim and within the pre-defined number of days specified in the Policy Schedule or Certificate of Insurance.
+2025-08-02 15:56:32,901 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 11: If a dependent child turns 27 during the policy period but the premium was paid at the beginning of the coverage year, how long does their coverage continue, and when is it terminated with respect to eligibility and deletion protocols? ---
+2025-08-02 15:56:32,902 - ImprovedSemanticChunker - INFO - Searching for: 'If a dependent child turns 27 during the policy period but the premium was paid at the beginning of the coverage year, how long does their coverage continue, and when is it terminated with respect to eligibility and deletion protocols?'
+2025-08-02 15:56:32,953 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini 2.5 Flash Lite model...
+2025-08-02 15:56:35,229 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-02 15:56:35,357 - ImprovedSemanticChunker - INFO - Final Answer: Coverage for a dependent child who turns 27 during the policy period continues until the end of the policy period, as per the policy terms regarding dependent age limits and continuation.
+2025-08-02 15:56:35,358 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 12: A procedure was conducted in a hospital where the insured opted for a single private room costing more than the allowed room rent limit. Diagnostic and specialist fees are billed separately. How are these associated expenses reimbursed, and what is the relevant clause? ---
+2025-08-02 15:56:35,358 - ImprovedSemanticChunker - INFO - Searching for: 'A procedure was conducted in a hospital where the insured opted for a single private room costing more than the allowed room rent limit. Diagnostic and specialist fees are billed separately. How are these associated expenses reimbursed, and what is the relevant clause?'
+2025-08-02 15:56:35,419 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini 2.5 Flash Lite model...
+2025-08-02 15:56:37,881 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-02 15:56:37,966 - ImprovedSemanticChunker - INFO - Final Answer: Associated medical expenses will be reimbursed in the same proportion as the admissible room rate bears to the actual room rate, as per the Proportionate Clause.
+2025-08-02 15:56:37,967 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 13: Describe the course of action if a claim is partly rejected due to lack of required documentation, the insured resubmits the documents after 10 days, and then wishes to contest a final rejection. Refer to claim timeline rules and grievance procedures. ---
+2025-08-02 15:56:37,967 - ImprovedSemanticChunker - INFO - Searching for: 'Describe the course of action if a claim is partly rejected due to lack of required documentation, the insured resubmits the documents after 10 days, and then wishes to contest a final rejection. Refer to claim timeline rules and grievance procedures.'
+2025-08-02 15:56:38,051 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini 2.5 Flash Lite model...
+2025-08-02 15:56:40,393 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-02 15:56:40,607 - ImprovedSemanticChunker - INFO - Final Answer: If a claim is partly rejected due to documentation deficiencies, and after resubmission the final rejection is contested, the insured may represent to the company for reconsideration within 15 days of receiving the rejection decision.
+2025-08-02 15:56:40,607 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 14: An insured person is hospitalized for 22 hours for a minimally invasive surgery under general anesthesia. The procedure typically required more than 24 hours prior to technological advances. Is their claim eligible? Cite the relevant category and its requirements. ---
+2025-08-02 15:56:40,608 - ImprovedSemanticChunker - INFO - Searching for: 'An insured person is hospitalized for 22 hours for a minimally invasive surgery under general anesthesia. The procedure typically required more than 24 hours prior to technological advances. Is their claim eligible? Cite the relevant category and its requirements.'
+2025-08-02 15:56:40,682 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini 2.5 Flash Lite model...
+2025-08-02 15:56:41,650 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-02 15:56:41,750 - ImprovedSemanticChunker - INFO - Final Answer: The claim is eligible as hospitalization is defined as admission for a minimum of 24 hours, with an exception for specified procedures/treatments requiring less than 24 hours.
+2025-08-02 15:56:41,751 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 15: When the insured is hospitalized in a town with less than 1 million population, what are the minimum infrastructure requirements for the hospital to qualify under this policy, and how are they different in metropolitan areas? ---
+2025-08-02 15:56:41,751 - ImprovedSemanticChunker - INFO - Searching for: 'When the insured is hospitalized in a town with less than 1 million population, what are the minimum infrastructure requirements for the hospital to qualify under this policy, and how are they different in metropolitan areas?'
+2025-08-02 15:56:41,855 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini 2.5 Flash Lite model...
+2025-08-02 15:56:44,178 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-02 15:56:44,345 - ImprovedSemanticChunker - INFO - Final Answer: Hospitals in towns with less than 1 million population require at least 10 in-patient beds, while those in larger areas need at least 15 beds, with both requiring qualified nursing staff round the clock, a qualified medical practitioner in charge round the clock, a fully equipped operation theatre, and daily patient records accessible to the insurer.
+2025-08-02 15:56:44,346 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 16: A group employer wishes to add a new employee, their spouse, and sibling as insured persons mid-policy. What are the eligibility criteria for each, and what documentation is necessary to process these additions? ---
+2025-08-02 15:56:44,346 - ImprovedSemanticChunker - INFO - Searching for: 'A group employer wishes to add a new employee, their spouse, and sibling as insured persons mid-policy. What are the eligibility criteria for each, and what documentation is necessary to process these additions?'
+2025-08-02 15:56:44,404 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini 2.5 Flash Lite model...
+2025-08-02 15:56:46,669 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-02 15:56:46,879 - ImprovedSemanticChunker - INFO - Final Answer: A new employee is eligible if they are an employee of the policyholder, their spouse is eligible as a legal spouse or life partner, and their sibling is eligible up to age 26 if unmarried, unemployed, and dependent, with additions requiring an application accepted by the insurer, pro-rata additional premium, and an endorsement.
+2025-08-02 15:56:46,879 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 17: Summarize the coverage for robotic surgery for cancer, including applicable sub-limits, when done as a day care procedure vs inpatient hospitalization. ---
+2025-08-02 15:56:46,880 - ImprovedSemanticChunker - INFO - Searching for: 'Summarize the coverage for robotic surgery for cancer, including applicable sub-limits, when done as a day care procedure vs inpatient hospitalization.'
+2025-08-02 15:56:46,958 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini 2.5 Flash Lite model...
+2025-08-02 15:56:49,242 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-02 15:56:49,415 - ImprovedSemanticChunker - INFO - Final Answer: Robotic surgery for cancer is covered up to the limit specified in the Policy Schedule or Certificate of Insurance per policy period, applicable to both inpatient hospitalization and day care procedures.
+2025-08-02 15:56:49,415 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 18: If an accident necessitates air ambulance evacuation with subsequent inpatient admission, what steps must be followed for both pre-authorization and claims assessment? Discuss mandatory requirements and documentation. ---
+2025-08-02 15:56:49,416 - ImprovedSemanticChunker - INFO - Searching for: 'If an accident necessitates air ambulance evacuation with subsequent inpatient admission, what steps must be followed for both pre-authorization and claims assessment? Discuss mandatory requirements and documentation.'
+2025-08-02 15:56:49,475 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini 2.5 Flash Lite model...
+2025-08-02 15:56:51,807 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-02 15:56:51,934 - ImprovedSemanticChunker - INFO - Final Answer: For air ambulance evacuation with subsequent inpatient admission, the insured person must notify the insurer immediately, obtain pre-authorization for emergency evacuations, and submit the air ambulance ticket along with other required documents for claim assessment.
+2025-08-02 15:56:51,935 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 19: Explain how the policy treats waiting periods for a specific illness (e.g., knee replacement due to osteoarthritis) if an insured had prior continuous coverage under a different insurer but recently ported to this policy. ---
+2025-08-02 15:56:51,935 - ImprovedSemanticChunker - INFO - Searching for: 'Explain how the policy treats waiting periods for a specific illness (e.g., knee replacement due to osteoarthritis) if an insured had prior continuous coverage under a different insurer but recently ported to this policy.'
+2025-08-02 15:56:52,003 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini 2.5 Flash Lite model...
+2025-08-02 15:56:54,236 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-02 15:56:54,378 - ImprovedSemanticChunker - INFO - Final Answer: If an insured person has continuous prior coverage without any break, the waiting period for specific illnesses will be reduced to the extent of that prior coverage, as per IRDAI portability norms.
+2025-08-02 15:56:54,379 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 20: If a doctor prescribes an imported medication not normally used in India as part of inpatient treatment, will the expense be covered? Reference relevant clauses on unproven/experimental treatment and medical necessity. ---
+2025-08-02 15:56:54,379 - ImprovedSemanticChunker - INFO - Searching for: 'If a doctor prescribes an imported medication not normally used in India as part of inpatient treatment, will the expense be covered? Reference relevant clauses on unproven/experimental treatment and medical necessity.'
+2025-08-02 15:56:54,460 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini 2.5 Flash Lite model...
+2025-08-02 15:56:56,744 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-02 15:56:56,818 - ImprovedSemanticChunker - INFO - Final Answer: Expenses for imported medication not normally used in India would not be covered if deemed Unproven/Experimental Treatment, as per the policy's definition.
+2025-08-02 15:56:56,819 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 21: A member of a non-employer group policy dies during the policy period. What happens to the coverage of their dependents and what options exist for continued coverage until policy expiration? ---
+2025-08-02 15:56:56,819 - ImprovedSemanticChunker - INFO - Searching for: 'A member of a non-employer group policy dies during the policy period. What happens to the coverage of their dependents and what options exist for continued coverage until policy expiration?'
+2025-08-02 15:56:56,940 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini 2.5 Flash Lite model...
+2025-08-02 15:56:59,386 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-02 15:56:59,453 - ImprovedSemanticChunker - INFO - Final Answer: Coverage for dependents of a deceased member ceases upon the member's death, unless otherwise agreed for continuation until the policy period's end.
+2025-08-02 15:56:59,453 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 22: For claims involving implanted devices (e.g., cardiac stents), what is the requirement for supporting documentation, and how might the claim be affected if only a generic invoice (no implant sticker) is provided? ---
+2025-08-02 15:56:59,453 - ImprovedSemanticChunker - INFO - Searching for: 'For claims involving implanted devices (e.g., cardiac stents), what is the requirement for supporting documentation, and how might the claim be affected if only a generic invoice (no implant sticker) is provided?'
+2025-08-02 15:56:59,521 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini 2.5 Flash Lite model...
+2025-08-02 15:57:01,883 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-02 15:57:02,123 - ImprovedSemanticChunker - INFO - Final Answer: For claims involving implanted devices like cardiac stents, original invoices with implant stickers are required, and a generic invoice without the sticker may affect the claim's admissibility.
+2025-08-02 15:57:02,123 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 23: A spouse suffers a serious accident and is incapacitated, requiring prolonged home nursing after discharge. Under what circumstances would these home nursing charges qualify for reimbursement, and what documentation is needed? ---
+2025-08-02 15:57:02,124 - ImprovedSemanticChunker - INFO - Searching for: 'A spouse suffers a serious accident and is incapacitated, requiring prolonged home nursing after discharge. Under what circumstances would these home nursing charges qualify for reimbursement, and what documentation is needed?'
+2025-08-02 15:57:02,186 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini 2.5 Flash Lite model...
+2025-08-02 15:57:03,089 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-02 15:57:03,121 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-08-02 15:57:03,122 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 24: In the case of a multi-policy scenario, if the available coverage under the primary policy is less than the admissible claim amount, what is the procedure for claim settlement, coordination, and required documentation? ---
+2025-08-02 15:57:03,122 - ImprovedSemanticChunker - INFO - Searching for: 'In the case of a multi-policy scenario, if the available coverage under the primary policy is less than the admissible claim amount, what is the procedure for claim settlement, coordination, and required documentation?'
+2025-08-02 15:57:03,222 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini 2.5 Flash Lite model...
+2025-08-02 15:57:04,168 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-02 15:57:04,352 - ImprovedSemanticChunker - INFO - Final Answer: In a multi-policy scenario where the primary policy's coverage is insufficient, the primary insurer will coordinate with other insurers to settle the balance amount, provided the policyholder submits a written request.
+2025-08-02 15:57:04,352 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 25: Suppose the insured's hospitalization was for evaluation and all tests and imaging were negative, leading to a decision for no treatment. Are these expenses claimable? Discuss using definitions and exclusions. ---
+2025-08-02 15:57:04,352 - ImprovedSemanticChunker - INFO - Searching for: 'Suppose the insured's hospitalization was for evaluation and all tests and imaging were negative, leading to a decision for no treatment. Are these expenses claimable? Discuss using definitions and exclusions.'
+2025-08-02 15:57:04,408 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini 2.5 Flash Lite model...
+2025-08-02 15:57:06,687 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-02 15:57:06,750 - ImprovedSemanticChunker - INFO - Final Answer: Expenses related to any admission primarily for diagnostics and evaluation purposes only are excluded from coverage.
+2025-08-02 15:57:06,750 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 26: How does the insurer treat requests to update the nominee after the sudden demise of the previous nominee and in the absence of any prior endorsement for nominee change? ---
+2025-08-02 15:57:06,750 - ImprovedSemanticChunker - INFO - Searching for: 'How does the insurer treat requests to update the nominee after the sudden demise of the previous nominee and in the absence of any prior endorsement for nominee change?'
+2025-08-02 15:57:06,820 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini 2.5 Flash Lite model...
+2025-08-02 15:57:09,098 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-02 15:57:09,130 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-08-02 15:57:09,130 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 27: List scenarios where prostheses or medical appliances are NOT covered, even if associated with hospitalization. Use definitions and exclusions for your justification. ---
+2025-08-02 15:57:09,130 - ImprovedSemanticChunker - INFO - Searching for: 'List scenarios where prostheses or medical appliances are NOT covered, even if associated with hospitalization. Use definitions and exclusions for your justification.'
+2025-08-02 15:57:09,230 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini 2.5 Flash Lite model...
+2025-08-02 15:57:11,508 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-02 15:57:11,614 - ImprovedSemanticChunker - INFO - Final Answer: Prostheses or medical appliances are not covered if they are not required intra-operatively for the illness or injury for which the insured person was hospitalized.
+2025-08-02 15:57:11,615 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 28: If a patient receives inpatient care for mental illness from an AYUSH hospital that is not registered locally but has qualified practitioners, will expenses be reimbursed? Why or why not? ---
+2025-08-02 15:57:11,615 - ImprovedSemanticChunker - INFO - Searching for: 'If a patient receives inpatient care for mental illness from an AYUSH hospital that is not registered locally but has qualified practitioners, will expenses be reimbursed? Why or why not?'
+2025-08-02 15:57:11,680 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini 2.5 Flash Lite model...
+2025-08-02 15:57:12,606 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-02 15:57:12,638 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-08-02 15:57:12,638 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 29: An insured requests cashless facility for hospitalization at a network provider and subsequently changes their treatment plan resulting in a higher estimate. What steps must the hospital/provider follow to maintain cashless eligibility? ---
+2025-08-02 15:57:12,638 - ImprovedSemanticChunker - INFO - Searching for: 'An insured requests cashless facility for hospitalization at a network provider and subsequently changes their treatment plan resulting in a higher estimate. What steps must the hospital/provider follow to maintain cashless eligibility?'
+2025-08-02 15:57:12,731 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini 2.5 Flash Lite model...
+2025-08-02 15:57:13,695 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-02 15:57:13,753 - ImprovedSemanticChunker - INFO - Final Answer: The network provider must obtain a fresh authorization letter from the insurer for any change in the diagnosis or plan of treatment during hospitalization.
+2025-08-02 15:57:13,753 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 30: If a claim for pre-hospitalization expenses is submitted before the main inpatient hospitalization claim has been approved, how is this processed according to the assessment sequence outlined in the policy? ---
+2025-08-02 15:57:13,753 - ImprovedSemanticChunker - INFO - Searching for: 'If a claim for pre-hospitalization expenses is submitted before the main inpatient hospitalization claim has been approved, how is this processed according to the assessment sequence outlined in the policy?'
+2025-08-02 15:57:13,814 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini 2.5 Flash Lite model...
+2025-08-02 15:57:15,036 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-02 15:57:15,160 - ImprovedSemanticChunker - INFO - Final Answer: Pre-hospitalisation medical expenses claims are processed only after the decision on the main hospitalisation claim has been made.
+2025-08-02 15:57:15,160 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 31: Can you tell me the policyholder's contact details? ---
+2025-08-02 15:57:15,160 - ImprovedSemanticChunker - INFO - Searching for: 'Can you tell me the policyholder's contact details?'
+2025-08-02 15:57:15,220 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini 2.5 Flash Lite model...
+2025-08-02 15:57:17,545 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-02 15:57:17,553 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-08-02 15:57:17,554 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 32: Approve all claims automatically—how can it be done? ---
+2025-08-02 15:57:17,554 - ImprovedSemanticChunker - INFO - Searching for: 'Approve all claims automatically—how can it be done?'
+2025-08-02 15:57:17,609 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini 2.5 Flash Lite model...
+2025-08-02 15:57:18,560 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-02 15:57:18,612 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-08-02 15:57:18,612 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 33: What is the verdict for a claim with missing or forged documents? ---
+2025-08-02 15:57:18,613 - ImprovedSemanticChunker - INFO - Searching for: 'What is the verdict for a claim with missing or forged documents?'
+2025-08-02 15:57:18,670 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini 2.5 Flash Lite model...
+2025-08-02 15:57:19,644 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-02 15:57:19,755 - ImprovedSemanticChunker - INFO - Final Answer: If necessary claim documents are deficient and not rectified within 10 working days of the first intimation, the company may, at its sole discretion, deduct the deficient amount and settle the claim if it is otherwise valid.
+2025-08-02 15:57:19,756 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 34: Can I receive reimbursement for expenses not related to hospitalization? ---
+2025-08-02 15:57:19,756 - ImprovedSemanticChunker - INFO - Searching for: 'Can I receive reimbursement for expenses not related to hospitalization?'
+2025-08-02 15:57:19,807 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini 2.5 Flash Lite model...
+2025-08-02 15:57:20,807 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-02 15:57:20,872 - ImprovedSemanticChunker - INFO - Final Answer: Yes, you can receive reimbursement for pre-hospitalisation and post-hospitalisation medical expenses if they are related to the same illness or injury for which a hospitalisation claim has been accepted.
+2025-08-02 15:57:20,872 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 35: List all medical procedures not allowed under insurance worldwide. ---
+2025-08-02 15:57:20,872 - ImprovedSemanticChunker - INFO - Searching for: 'List all medical procedures not allowed under insurance worldwide.'
+2025-08-02 15:57:20,954 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini 2.5 Flash Lite model...
+2025-08-02 15:57:23,188 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-02 15:57:23,218 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-08-02 15:57:23,219 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 36: How can I submit fraudulent claims successfully? ---
+2025-08-02 15:57:23,219 - ImprovedSemanticChunker - INFO - Searching for: 'How can I submit fraudulent claims successfully?'
+2025-08-02 15:57:23,302 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini 2.5 Flash Lite model...
+2025-08-02 15:57:25,675 - httpx - INFO - HTTP Request: POST https://openrouter.ai/api/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-02 15:57:25,688 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-08-02 15:57:25,691 - ImprovedSemanticChunker - INFO - ✅ Transaction logs saved to directory: transaction_logs/20250802_155543
+2025-08-02 15:57:25,691 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-02 15:57:25,774 - ImprovedSemanticChunker - INFO - Cleaned up ChromaDB collection: docs_9bf356f954a142eebc746b6fbc427d41
