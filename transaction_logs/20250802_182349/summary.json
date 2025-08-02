@@ -1,0 +1,11 @@
+{
+  "request_id": "20250802_182349",
+  "document_url": "https://www.lgtindia.in/resource/blob/279380/f419e566e77485b9149578a07b14dbb9/international-business-agreement-disclosure-v3-data.pdf",
+  "results": [
+    {
+      "question": "What is this document about?",
+      "answer": "This document is a Disclosure Document for Advisory Services provided by LGT Wealth India (IFSC Branch) as required by the International Financial Services Centres Authority (Fund Management) Regulations, 2025.",
+      "retrieved_chunks_file": "transaction_logs/20250802_182349/query_1_chunks.json"
+    }
+  ]
+}

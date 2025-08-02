@@ -1,0 +1,38 @@
+2025-08-02 18:23:12,098 - ImprovedSemanticChunker - INFO - Loading BGE-large-EN embedding model (memory optimized)...
+2025-08-02 18:23:12,100 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: BAAI/bge-large-en-v1.5
+2025-08-02 18:23:16,497 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2025-08-02 18:23:32,314 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-02 18:23:32,314 - ImprovedSemanticChunker - INFO - STARTING NEW PAYLOAD PROCESSING
+2025-08-02 18:23:32,314 - ImprovedSemanticChunker - INFO - Using pre-chunked collection: uni_group_health_collection
+2025-08-02 18:23:32,316 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 1: What is the policy number? ---
+2025-08-02 18:23:32,316 - ImprovedSemanticChunker - INFO - Searching for: 'What is the policy number?'
+2025-08-02 18:23:32,700 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 18:23:33,747 - ImprovedSemanticChunker - INFO - Final Answer: The policy number is 1106002825P104574949.
+2025-08-02 18:23:33,747 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 2: What is the sum insured amount? ---
+2025-08-02 18:23:33,747 - ImprovedSemanticChunker - INFO - Searching for: 'What is the sum insured amount?'
+2025-08-02 18:23:33,780 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 18:23:34,840 - ImprovedSemanticChunker - INFO - Final Answer: The total sum insured for the policy is Eight crores seventy-six lakhs rupees only.
+2025-08-02 18:23:34,840 - ImprovedSemanticChunker - INFO - ✅ Transaction logs saved to directory: transaction_logs/20250802_182332
+2025-08-02 18:23:34,841 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-02 18:23:49,791 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-02 18:23:49,791 - ImprovedSemanticChunker - INFO - STARTING NEW PAYLOAD PROCESSING
+2025-08-02 18:23:49,791 - ImprovedSemanticChunker - INFO - Using LlamaParse to process: https://www.lgtindia.in/resource/blob/279380/f419e566e77485b9149578a07b14dbb9/international-business-agreement-disclosure-v3-data.pdf
+2025-08-02 18:23:52,351 - httpx - INFO - HTTP Request: POST https://api.cloud.llamaindex.ai/api/parsing/upload "HTTP/1.1 200 OK"
+2025-08-02 18:23:53,741 - httpx - INFO - HTTP Request: GET https://api.cloud.llamaindex.ai/api/parsing/job/bb614b77-82ca-4400-9740-5cd68af70cf7 "HTTP/1.1 200 OK"
+2025-08-02 18:23:56,051 - httpx - INFO - HTTP Request: GET https://api.cloud.llamaindex.ai/api/parsing/job/bb614b77-82ca-4400-9740-5cd68af70cf7 "HTTP/1.1 200 OK"
+2025-08-02 18:23:59,363 - httpx - INFO - HTTP Request: GET https://api.cloud.llamaindex.ai/api/parsing/job/bb614b77-82ca-4400-9740-5cd68af70cf7 "HTTP/1.1 200 OK"
+2025-08-02 18:23:59,839 - httpx - INFO - HTTP Request: GET https://api.cloud.llamaindex.ai/api/parsing/job/bb614b77-82ca-4400-9740-5cd68af70cf7/result/text "HTTP/1.1 200 OK"
+2025-08-02 18:24:00,929 - ImprovedSemanticChunker - INFO - LlamaParse created 62 semantic chunks.
+2025-08-02 18:24:00,929 - ImprovedSemanticChunker - INFO - Creating new collection: docs_03988231e580496bbe80c7d59b35fd54
+2025-08-02 18:24:00,929 - ImprovedSemanticChunker - INFO - Creating vector embeddings and storing in ChromaDB...
+2025-08-02 18:24:06,804 - ImprovedSemanticChunker - INFO - Added 62 chunks to vector store: docs_03988231e580496bbe80c7d59b35fd54
+2025-08-02 18:24:06,804 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 1: What is this document about? ---
+2025-08-02 18:24:06,804 - ImprovedSemanticChunker - INFO - Searching for: 'What is this document about?'
+2025-08-02 18:24:06,832 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 18:24:07,731 - ImprovedSemanticChunker - INFO - Final Answer: This document is a Disclosure Document for Advisory Services provided by LGT Wealth India (IFSC Branch) as required by the International Financial Services Centres Authority (Fund Management) Regulations, 2025.
+2025-08-02 18:24:07,731 - ImprovedSemanticChunker - INFO - ✅ Transaction logs saved to directory: transaction_logs/20250802_182349
+2025-08-02 18:24:07,731 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-02 18:24:07,804 - ImprovedSemanticChunker - INFO - Cleaned up ChromaDB collection: docs_03988231e580496bbe80c7d59b35fd54

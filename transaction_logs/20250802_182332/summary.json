@@ -1,0 +1,16 @@
+{
+  "request_id": "20250802_182332",
+  "document_url": "https://hackrx.blob.core.windows.net/assets/UNI%20GROUP%20HEALTH%20INSURANCE%20POLICY%20-%20UIIHLGP26043V022526%201.pdf?sv=2023-01-03&spr=https&st=2025-07-31T17%3A06%3A03Z&se=2026-08-01T17%3A06%3A00Z&sr=b&sp=r&sig=wLlooaThgRx91i2z4WaeggT0qnuUUEzIUKj42GsvMfg%3D",
+  "results": [
+    {
+      "question": "What is the policy number?",
+      "answer": "The policy number is 1106002825P104574949.",
+      "retrieved_chunks_file": "transaction_logs/20250802_182332/query_1_chunks.json"
+    },
+    {
+      "question": "What is the sum insured amount?",
+      "answer": "The total sum insured for the policy is Eight crores seventy-six lakhs rupees only.",
+      "retrieved_chunks_file": "transaction_logs/20250802_182332/query_2_chunks.json"
+    }
+  ]
+}

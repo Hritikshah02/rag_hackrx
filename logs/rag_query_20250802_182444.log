@@ -1,0 +1,123 @@
+2025-08-02 18:24:44,556 - ImprovedSemanticChunker - INFO - Loading BGE-large-EN embedding model (memory optimized)...
+2025-08-02 18:24:44,556 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: BAAI/bge-large-en-v1.5
+2025-08-02 18:24:48,513 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2025-08-02 18:24:53,805 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-02 18:24:53,805 - ImprovedSemanticChunker - INFO - STARTING NEW PAYLOAD PROCESSING
+2025-08-02 18:24:53,805 - ImprovedSemanticChunker - INFO - Using pre-chunked collection: indian_constitution_collection
+2025-08-02 18:24:53,806 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 1: What is the official name of India according to Article 1? ---
+2025-08-02 18:24:53,807 - ImprovedSemanticChunker - INFO - Searching for: 'What is the official name of India according to Article 1?'
+2025-08-02 18:24:54,095 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 18:24:54,781 - ImprovedSemanticChunker - INFO - Final Answer: According to Article 1, the official name of India is "India, that is Bharat".
+2025-08-02 18:24:54,781 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 2: Which Article guarantees equality before the law and equal protection of the laws? ---
+2025-08-02 18:24:54,781 - ImprovedSemanticChunker - INFO - Searching for: 'Which Article guarantees equality before the law and equal protection of the laws?'
+2025-08-02 18:24:54,821 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 18:24:56,093 - ImprovedSemanticChunker - INFO - Final Answer: Article 14 guarantees equality before the law and equal protection of the laws within the territory of India.
+2025-08-02 18:24:56,093 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 3: What is abolished by Article 17 of the Constitution? ---
+2025-08-02 18:24:56,093 - ImprovedSemanticChunker - INFO - Searching for: 'What is abolished by Article 17 of the Constitution?'
+2025-08-02 18:24:56,122 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 18:24:56,872 - ImprovedSemanticChunker - INFO - Final Answer: Article 17 of the Constitution abolishes untouchability and forbids its practice in any form.
+2025-08-02 18:24:56,872 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 4: What are the key ideals mentioned in the Preamble of the Indian Constitution? ---
+2025-08-02 18:24:56,872 - ImprovedSemanticChunker - INFO - Searching for: 'What are the key ideals mentioned in the Preamble of the Indian Constitution?'
+2025-08-02 18:24:56,892 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 18:24:58,088 - ImprovedSemanticChunker - INFO - Final Answer: The key ideals mentioned in the Preamble of the Indian Constitution are Justice, Liberty, Equality, and Fraternity.
+2025-08-02 18:24:58,089 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 5: Under which Article can Parliament alter the boundaries of states? ---
+2025-08-02 18:24:58,089 - ImprovedSemanticChunker - INFO - Searching for: 'Under which Article can Parliament alter the boundaries of states?'
+2025-08-02 18:24:58,113 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 18:24:58,698 - ImprovedSemanticChunker - INFO - Final Answer: Parliament can alter the boundaries of states under Article 3.
+2025-08-02 18:24:58,698 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 6: According to Article 24, children below what age are prohibited from working? ---
+2025-08-02 18:24:58,698 - ImprovedSemanticChunker - INFO - Searching for: 'According to Article 24, children below what age are prohibited from working?'
+2025-08-02 18:24:58,718 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 18:25:00,119 - ImprovedSemanticChunker - INFO - Final Answer: According to Article 24, children below the age of fourteen years are prohibited from working in any factory or mine or engaged in any other hazardous employment.
+2025-08-02 18:25:00,119 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 7: What is the significance of Article 21 in the Indian Constitution? ---
+2025-08-02 18:25:00,119 - ImprovedSemanticChunker - INFO - Searching for: 'What is the significance of Article 21 in the Indian Constitution?'
+2025-08-02 18:25:00,138 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 18:25:00,899 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-08-02 18:25:00,899 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 8: Article 15 prohibits discrimination on certain grounds. What are they? ---
+2025-08-02 18:25:00,899 - ImprovedSemanticChunker - INFO - Searching for: 'Article 15 prohibits discrimination on certain grounds. What are they?'
+2025-08-02 18:25:00,921 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 18:25:02,061 - ImprovedSemanticChunker - INFO - Final Answer: Article 15 prohibits discrimination on the grounds of religion, race, caste, sex, or place of birth.
+2025-08-02 18:25:02,061 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 9: Which Article allows Parliament to regulate the right to form associations? ---
+2025-08-02 18:25:02,061 - ImprovedSemanticChunker - INFO - Searching for: 'Which Article allows Parliament to regulate the right to form associations?'
+2025-08-02 18:25:02,109 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 18:25:02,932 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-08-02 18:25:02,932 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 10: What restrictions can the State impose on the right to freedom of speech? ---
+2025-08-02 18:25:02,932 - ImprovedSemanticChunker - INFO - Searching for: 'What restrictions can the State impose on the right to freedom of speech?'
+2025-08-02 18:25:02,961 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 18:25:04,031 - ImprovedSemanticChunker - INFO - Final Answer: Information not found in the document.
+2025-08-02 18:25:04,031 - ImprovedSemanticChunker - INFO - ✅ Transaction logs saved to directory: transaction_logs/20250802_182453
+2025-08-02 18:25:04,032 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-02 18:25:09,944 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-02 18:25:09,944 - ImprovedSemanticChunker - INFO - STARTING NEW PAYLOAD PROCESSING
+2025-08-02 18:25:09,944 - ImprovedSemanticChunker - INFO - Using LlamaParse to process: https://www.lgtindia.in/resource/blob/279380/f419e566e77485b9149578a07b14dbb9/international-business-agreement-disclosure-v3-data.pdf
+2025-08-02 18:25:11,734 - httpx - INFO - HTTP Request: POST https://api.cloud.llamaindex.ai/api/parsing/upload "HTTP/1.1 200 OK"
+2025-08-02 18:25:13,053 - httpx - INFO - HTTP Request: GET https://api.cloud.llamaindex.ai/api/parsing/job/acd13233-f6ef-4312-af71-aead6a8378ec "HTTP/1.1 200 OK"
+2025-08-02 18:25:15,391 - httpx - INFO - HTTP Request: GET https://api.cloud.llamaindex.ai/api/parsing/job/acd13233-f6ef-4312-af71-aead6a8378ec "HTTP/1.1 200 OK"
+2025-08-02 18:25:18,720 - httpx - INFO - HTTP Request: GET https://api.cloud.llamaindex.ai/api/parsing/job/acd13233-f6ef-4312-af71-aead6a8378ec "HTTP/1.1 200 OK"
+2025-08-02 18:25:19,162 - httpx - INFO - HTTP Request: GET https://api.cloud.llamaindex.ai/api/parsing/job/acd13233-f6ef-4312-af71-aead6a8378ec/result/text "HTTP/1.1 200 OK"
+2025-08-02 18:25:20,046 - ImprovedSemanticChunker - INFO - LlamaParse created 62 semantic chunks.
+2025-08-02 18:25:20,046 - ImprovedSemanticChunker - INFO - Creating new collection: docs_f44ac254932546a0b3a2a9cdb5c7016b
+2025-08-02 18:25:20,046 - ImprovedSemanticChunker - INFO - Creating vector embeddings and storing in ChromaDB...
+2025-08-02 18:25:25,901 - ImprovedSemanticChunker - INFO - Added 62 chunks to vector store: docs_f44ac254932546a0b3a2a9cdb5c7016b
+2025-08-02 18:25:25,901 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 1: According to the document, under which regulatory authority is LGT Wealth India Private Limited (IFSC Branch) registered, and what is its registration number? ---
+2025-08-02 18:25:25,901 - ImprovedSemanticChunker - INFO - Searching for: 'According to the document, under which regulatory authority is LGT Wealth India Private Limited (IFSC Branch) registered, and what is its registration number?'
+2025-08-02 18:25:25,929 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 18:25:26,957 - ImprovedSemanticChunker - INFO - Final Answer: LGT Wealth India Private Limited (IFSC Branch) is registered with the International Financial Services Centres Authority (IFSCA) as a Fund Management Entity (Non-Retail) bearing registration number IFSCA/FME/II/2023-24/074.
+2025-08-02 18:25:26,958 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 2: What are the three distinct types of services offered by the company through its IFSC Branch? ---
+2025-08-02 18:25:26,958 - ImprovedSemanticChunker - INFO - Searching for: 'What are the three distinct types of services offered by the company through its IFSC Branch?'
+2025-08-02 18:25:26,977 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 18:25:28,091 - ImprovedSemanticChunker - INFO - Final Answer: The company offers Discretionary, Non-Discretionary, and Advisory services through its IFSC Branch.
+2025-08-02 18:25:28,091 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 3: What is the minimum portfolio value in USD required for a client to avail the company's services? ---
+2025-08-02 18:25:28,091 - ImprovedSemanticChunker - INFO - Searching for: 'What is the minimum portfolio value in USD required for a client to avail the company's services?'
+2025-08-02 18:25:28,113 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 18:25:29,294 - ImprovedSemanticChunker - INFO - Final Answer: The services will be subject to a minimum portfolio value of USD 75,000 or such other limit as may be prescribed under the Applicable Regulations.
+2025-08-02 18:25:29,294 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 4: Who are the two promoter entities of LGT Wealth India Private Limited as mentioned in the document? ---
+2025-08-02 18:25:29,294 - ImprovedSemanticChunker - INFO - Searching for: 'Who are the two promoter entities of LGT Wealth India Private Limited as mentioned in the document?'
+2025-08-02 18:25:29,315 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 18:25:30,432 - ImprovedSemanticChunker - INFO - Final Answer: LGT Investment Holding (Singapore) Pte. Ltd. and LGT Group Holding Ltd. are the two promoter entities of LGT Wealth India Private Limited.
+2025-08-02 18:25:30,432 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 5: As per the 'Nature of expenses' section, what is the maximum percentage for the Management Fee, Performance Fee, and Exit Load that can be charged to a client? ---
+2025-08-02 18:25:30,433 - ImprovedSemanticChunker - INFO - Searching for: 'As per the 'Nature of expenses' section, what is the maximum percentage for the Management Fee, Performance Fee, and Exit Load that can be charged to a client?'
+2025-08-02 18:25:30,459 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 18:25:31,535 - ImprovedSemanticChunker - INFO - Final Answer: The Management Fee can be up to 2% p.a., the Performance Fee up to 20% of returns over a hurdle rate, and the Exit Load up to 2% of the redeemed portfolio value.
+2025-08-02 18:25:31,535 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 6: What does the document state about the Portfolio Manager's previous experience and track record in portfolio management services? ---
+2025-08-02 18:25:31,535 - ImprovedSemanticChunker - INFO - Searching for: 'What does the document state about the Portfolio Manager's previous experience and track record in portfolio management services?'
+2025-08-02 18:25:31,557 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 18:25:32,765 - ImprovedSemanticChunker - INFO - Final Answer: The Portfolio Manager has no previous experience or track record in portfolio management services, although its key management personnel have rich individual experience.
+2025-08-02 18:25:32,766 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 7: Which entity, a sister concern of the company, is mentioned for facilitating 'Implementation Services' through its platform? ---
+2025-08-02 18:25:32,766 - ImprovedSemanticChunker - INFO - Searching for: 'Which entity, a sister concern of the company, is mentioned for facilitating 'Implementation Services' through its platform?'
+2025-08-02 18:25:32,786 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 18:25:33,690 - ImprovedSemanticChunker - INFO - Final Answer: LGT Bank (Singapore) Ltd. is mentioned as a sister concern facilitating 'Implementation Services' through its platform.
+2025-08-02 18:25:33,690 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 8: What is the recommended minimum investment horizon or tenure for the Investment Approach described in Annexure I? ---
+2025-08-02 18:25:33,690 - ImprovedSemanticChunker - INFO - Searching for: 'What is the recommended minimum investment horizon or tenure for the Investment Approach described in Annexure I?'
+2025-08-02 18:25:33,712 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 18:25:35,095 - ImprovedSemanticChunker - INFO - Final Answer: The recommended minimum investment horizon for the Investment Approach described in Annexure I is three years.
+2025-08-02 18:25:35,096 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 9: If a client's grievance is not resolved by the company's internal mechanism, to which authority can the complaint be filed, and what is the email address provided for it? ---
+2025-08-02 18:25:35,096 - ImprovedSemanticChunker - INFO - Searching for: 'If a client's grievance is not resolved by the company's internal mechanism, to which authority can the complaint be filed, and what is the email address provided for it?'
+2025-08-02 18:25:35,133 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 18:25:36,137 - ImprovedSemanticChunker - INFO - Final Answer: If a client's grievance is not resolved internally, the complaint can be filed with IFSCA via email at grievance-redressal@ifsca.gov.in.
+2025-08-02 18:25:36,137 - ImprovedSemanticChunker - INFO - 
+--- Processing Question 10: According to the 'Standard Agreement', if a dispute cannot be resolved amicably, what is the specified method for dispute resolution and where is its seat and venue? ---
+2025-08-02 18:25:36,137 - ImprovedSemanticChunker - INFO - Searching for: 'According to the 'Standard Agreement', if a dispute cannot be resolved amicably, what is the specified method for dispute resolution and where is its seat and venue?'
+2025-08-02 18:25:36,166 - ImprovedSemanticChunker - INFO - Generating final answer with Gemini model...
+2025-08-02 18:25:37,341 - ImprovedSemanticChunker - INFO - Final Answer: If a dispute cannot be resolved amicably, it must be settled by arbitration under the MCIA Rules, with the seat and venue of arbitration in Mumbai, India.
+2025-08-02 18:25:37,341 - ImprovedSemanticChunker - INFO - ✅ Transaction logs saved to directory: transaction_logs/20250802_182509
+2025-08-02 18:25:37,341 - ImprovedSemanticChunker - INFO - ================================================================================
+2025-08-02 18:25:37,387 - ImprovedSemanticChunker - INFO - Cleaned up ChromaDB collection: docs_f44ac254932546a0b3a2a9cdb5c7016b

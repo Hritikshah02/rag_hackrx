@@ -155,16 +155,14 @@ class ImprovedSemanticChunker:
 
     def create_vector_store(self, chunks: List[Dict[str, Any]]) -> None:
         self.logger.info("Creating vector embeddings and storing in ChromaDB...")
-        # Use externally set collection_name if present, otherwise generate a new one
-        self.collection_name = None
+        # Collection name should be set before calling this method
         if not hasattr(self, "collection_name") or not self.collection_name:
-            self.collection_name = f"docs_{uuid.uuid4().hex}"
-            self.collection = self.chroma_client.create_collection(
-                name=self.collection_name,
-                metadata={"hnsw:space": "cosine"}
-            )
-        else:
-            self.collection = self.chroma_client.get_collection(self.collection_name)
+            raise ValueError("collection_name must be set before creating vector store")
+        
+        self.collection = self.chroma_client.create_collection(
+            name=self.collection_name,
+            metadata={"hnsw:space": "cosine"}
+        )
 
         texts = [chunk['text'] for chunk in chunks]
         with torch.no_grad():
@@ -289,6 +287,10 @@ ANSWER:"""
             self.logger.error(f"LlamaParse failed: {e}")
             answers = [f"Document processing failed: {str(e)}"] * len(questions)
             return {'answers': answers}
+        
+        # Reset collection name for new documents to avoid persistence from previous requests
+        self.collection_name = f"docs_{uuid.uuid4().hex}"
+        self.logger.info(f"Creating new collection: {self.collection_name}")
         self.create_vector_store(chunks)
         all_results_data = []
         final_answers = []
