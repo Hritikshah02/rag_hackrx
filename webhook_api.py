@@ -206,18 +206,47 @@ class ImprovedSemanticChunker:
             return "Information not found in the document."
 
         context = "\n\n".join([f"Context {c['rank']}: {c['text']}" for c in context_chunks])
-        prompt = f"""You are an expert insurance policy analyst. Based on the provided context from a policy document, answer the question in one single, precise sentence.
+        print(f"the context is : {context}")
+        prompt = f"""You are a document analysis expert trained to extract precise, reliable, and contextually accurate information from any type of document (legal, technical, financial, academic, policy, medical, etc.).
 
-CONTEXT:
-{context}
+Your job is to analyze the document context and answer the associated question in one concise line, based strictly on the information available in the context.
 
+INPUTS:
+CONTEXT: {context}
 QUESTION: {query}
 
-INSTRUCTIONS:
-- Provide ONLY ONE concise sentence that directly answers the question.
-- If the information is not in the context, respond with "Information not found in the document".
+🔎 RESPONSE STRATEGY
+Step 1: Classify the Question
 
-ANSWER:"""
+If it asks for a definition, limit, step, rule, date, amount, or name → FACTUAL
+If it presents a situation or condition needing judgment based on the document → SCENARIO-BASED
+If it seeks information about individuals, contact details, or internal statistics → SENSITIVE/DENIABLE
+
+Step 2: Map to the Context
+
+FACTUAL → Locate and extract exact matching content
+SCENARIO-BASED → Identify and apply all relevant document rules or logic
+SENSITIVE/DENIABLE → Clearly and confidently deny access due to privacy, confidentiality, or scope boundaries
+
+Step 3: Generate Answer
+
+FACTUAL → One-line direct extraction using original terms (e.g., “The document defines X as...”)
+SCENARIO-BASED → One-line verdict + reasoning (e.g., “Not permitted, as Section 3.4 excludes this case after 30 days.”)
+SENSITIVE/DENIABLE → One-line refusal using confident, professional language (e.g., “This information is confidential and not disclosed in the document.”)
+
+📌 RESPONSE RULES
+
+Only use information present in the given {context}
+Do not assume, extrapolate, or generalize beyond the text
+Firmly deny requests for personal data, contact info, internal metrics, or external actions not covered
+If information is missing or unclear, say so clearly 
+Reference document sections or clauses if available and relevant
+Use formal, domain-appropriate language
+
+Final answer must be exactly one sentence
+
+✅ OUTPUT
+ANSWER: <One-line answer derived strictly from the context above>"""
         try:
             response = self.llm_model.generate_content(prompt)
             return response.text.strip() if response.text else "Error: No response generated from LLM."

@@ -5,6 +5,12 @@
 .env.test.local
 .env.production.local
 
+logs/
+new_round2_logs/
+transaction_logs/
+vector_store/
+vector_store_backup_1754021656/
+
 # Python
 __pycache__/
 *.py[cod]
