@@ -244,7 +244,7 @@ Reference document sections or clauses if available and relevant
 Final answer must be exactly one sentence
 
 ✅ OUTPUT
-ANSWER: <One-line answer derived strictly from the context above>""""
+ANSWER: <One-line answer derived strictly from the context above>"""
         try:
             response = self.llm_model.generate_content(prompt)
             return response.text.strip() if response.text else "Error: No response generated from LLM."
