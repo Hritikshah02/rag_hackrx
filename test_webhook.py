@@ -185,6 +185,38 @@ test_new = {
 
 }
 
+test_payload_misinfo = {
+    "documents": "https://hackrx.blob.core.windows.net/assets/Test%20/Pincode%20data.xlsx?sv=2023-01-03&spr=https&st=2025-08-04T18%3A50%3A43Z&se=2026-08-05T18%3A50%3A00Z&sr=b&sp=r&sig=xf95kP3RtMtkirtUMFZn%2FFNai6sWHarZsTcvx8ka9mI%3D",
+    "questions": [
+        "What is the phone number of Aditya Roy?",
+        "What is the pincode of Anjali Shah?",
+        "What is the highest salary earned by a person named Aarav Sharma?"
+    ]
+}
+
+test_payload_math = {
+    "documents": "https://hackrx.blob.core.windows.net/assets/Test%20/image.jpeg?sv=2023-01-03&spr=https&st=2025-08-04T19%3A29%3A01Z&se=2026-08-05T19%3A29%3A00Z&sr=b&sp=r&sig=YnJJThygjCT6%2FpNtY1aHJEZ%2F%2BqHoEB59TRGPSxJJBwo%3D",
+    "questions": [
+        "What is 100+22?",
+        "What is 9+5?",
+        "What is 65007+2?",
+        "What is 1+1?",
+        "What is 5+500?"
+    ]
+}
+
+test_payload_zip = {
+    "documents": "https://hackrx.blob.core.windows.net/assets/hackrx_pdf.zip?sv=2023-01-03&spr=https&st=2025-08-04T09%3A25%3A45Z&se=2027-08-05T09%3A25%3A00Z&sr=b&sp=r&sig=rDL2ZcGX6XoDga5%2FTwMGBO9MgLOhZS8PUjvtga2cfVk%3D",
+    "questions": [
+        "what is you name",
+        "what is you age",
+        "what is you address"
+    ]
+}
+
+
+
+
 
 
 
@@ -258,7 +290,10 @@ def test_all_webhooks():
         # (test_payload_5b, "Indian Constitution Test (Scenario-based Questions)"),
         #(test_payload_uni_group_health, "UNI GROUP HEALTH INSURANCE POLICY TEST")
         # (test_payload_6, "Principia Newton Test")   
-        (test_new, "New Test")
+        # (test_new, "New Test"),
+        (test_payload_misinfo, "Misinfo Test"),
+        (test_payload_math, "Math Test"),
+        (test_payload_zip, "Zip Test")
     ]
     
     results = []
