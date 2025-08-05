@@ -291,9 +291,9 @@ def test_all_webhooks():
         #(test_payload_uni_group_health, "UNI GROUP HEALTH INSURANCE POLICY TEST")
         # (test_payload_6, "Principia Newton Test")   
         # (test_new, "New Test"),
-        (test_payload_misinfo, "Misinfo Test"),
+        # (test_payload_misinfo, "Misinfo Test"),
         (test_payload_math, "Math Test"),
-        (test_payload_zip, "Zip Test")
+        # (test_payload_zip, "Zip Test")
     ]
     
     results = []
