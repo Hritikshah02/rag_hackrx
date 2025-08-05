@@ -201,7 +201,9 @@ test_payload_math = {
         "What is 9+5?",
         "What is 65007+2?",
         "What is 1+1?",
-        "What is 5+500?"
+        "What is 5+500?",
+        "What is 300+22?",
+        "What is 22+22?"
     ]
 }
 
@@ -222,20 +224,20 @@ test_payload_zip = {
 
 def test_health_check():
     """Test the health check endpoint"""
-    print("🔍 Testing health check...")
+    print("[CHECK] Testing health check...")
     try:
         response = requests.get(f"{BASE_URL}/health")
         print(f"Status: {response.status_code}")
         print(f"Response: {response.json()}")
         return response.status_code == 200
     except Exception as e:
-        print(f"❌ Health check failed: {e}")
+        print(f"[ERROR] Health check failed: {e}")
         return False
 
 def test_webhook_payload(payload, test_name):
     """Test a single webhook payload"""
-    print(f"\n🚀 Testing {test_name}...")
-    print(f"📋 Questions: {len(payload['questions'])}")
+    print(f"\n[TEST] Testing {test_name}...")
+    print(f"[INFO] Questions: {len(payload['questions'])}")
     
     headers = {
         "Authorization": f"Bearer {BEARER_TOKEN}",
@@ -243,7 +245,7 @@ def test_webhook_payload(payload, test_name):
     }
     
     try:
-        print(f"📤 Sending request to {BASE_URL}/hackrx/run")
+        print(f"[SEND] Sending request to {BASE_URL}/hackrx/run")
         
         response = requests.post(
             f"{BASE_URL}/hackrx/run",
@@ -252,32 +254,32 @@ def test_webhook_payload(payload, test_name):
             timeout=120  # Increased timeout for larger documents
         )
         
-        print(f"📥 Status: {response.status_code}")
+        print(f"[STATUS] Status: {response.status_code}")
         
         if response.status_code == 200:
             result = response.json()
-            print(f"✅ Success! Got {len(result['answers'])} answers")
+            print(f"[SUCCESS] Success! Got {len(result['answers'])} answers")
             
             # Print first few answers
             for i, answer in enumerate(result['answers'][:2], 1):
-                print(f"\n📝 Answer {i}: {answer[:150]}...")
+                print(f"\n[ANSWER] Answer {i}: {answer[:150]}...")
             
             if len(result['answers']) > 2:
                 print(f"\n... and {len(result['answers']) - 2} more answers")
                 
             return True
         else:
-            print(f"❌ Error: {response.status_code}")
+            print(f"[ERROR] Error: {response.status_code}")
             print(f"Response: {response.text}")
             return False
             
     except Exception as e:
-        print(f"❌ Webhook test failed: {e}")
+        print(f"[ERROR] Webhook test failed: {e}")
         return False
 
 def test_all_webhooks():
     """Test all webhook payloads sequentially"""
-    print("\n🧪 Testing All Webhook Payloads")
+    print("\n[TEST] Testing All Webhook Payloads")
     print("=" * 50)
     
     # Define all test payloads
@@ -379,7 +381,7 @@ def qa_coverage_summary():
     print(f"--------------------------\n")
 
 if __name__ == "__main__":
-    print("🧪 HackRX Webhook API Test")
+    print("[TEST] HackRX Webhook API Test")
     print("=" * 50)
     
     # Test health check first
