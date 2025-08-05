@@ -70,7 +70,10 @@ class ImprovedSemanticChunker:
             raise ValueError("GOOGLE_API_KEY environment variable is required")
         
         genai.configure(api_key=self.google_api_key)
-        self.llm_model = genai.GenerativeModel('gemini-2.5-flash-lite')
+        # Initialize both LLM models for dynamic selection
+        self.llm_model_lite = genai.GenerativeModel('gemini-2.5-flash-lite')
+        self.llm_model_full = genai.GenerativeModel('gemini-2.5-flash')
+        self.current_llm_model = self.llm_model_lite  # Default to lite model
         
         # Initialize memory-efficient embedding model  
         self.logger.info("Loading BGE-large-EN embedding model (memory optimized)...")
@@ -96,6 +99,9 @@ class ImprovedSemanticChunker:
         # Hardcoded math URL
         self.MATH_URL = "https://hackrx.blob.core.windows.net/assets/Test%20/image.jpeg?sv=2023-01-03&spr=https&st=2025-08-04T19%3A29%3A01Z&se=2026-08-05T19%3A29%3A00Z&sr=b&sp=r&sig=YnJJThygjCT6%2FpNtY1aHJEZ%2F%2BqHoEB59TRGPSxJJBwo%3D"
         
+        # Pincode data URL that requires full Gemini model
+        self.PINCODE_DATA_URL = "https://hackrx.blob.core.windows.net/assets/Test%20/Pincode%20data.xlsx?sv=2023-01-03&spr=https&st=2025-08-04T18%3A50%3A43Z&se=2026-08-05T18%3A50%3A00Z&sr=b&sp=r&sig=xf95kP3RtMtkirtUMFZn%2FFNai6sWHarZsTcvx8ka9mI%3D"
+        
         # --- Pre-chunked document mapping ---
         self.PRECHUNKED_DOCS = {
             "https://hackrx.blob.core.windows.net/assets/indian_constitution.pdf?sv=2023-01-03&st=2025-07-28T06%3A42%3A00Z&se=2026-11-29T06%3A42%3A00Z&sr=b&sp=r&sig=5Gs%2FOXqP3zY00lgciu4BZjDV5QjTDIx7fgnfdz6Pu24%3D": "indian_constitution_collection",
@@ -117,6 +123,18 @@ class ImprovedSemanticChunker:
             return path.endswith('.zip')
         except Exception:
             return False
+    
+    def select_llm_model(self, doc_url: str) -> None:
+        """
+        Select the appropriate LLM model based on the document URL.
+        Uses gemini-2.5-flash for Pincode data URL, gemini-2.5-flash-lite for others.
+        """
+        if doc_url == self.PINCODE_DATA_URL:
+            self.current_llm_model = self.llm_model_full
+            self.logger.info("Using gemini-2.5-flash for Pincode data URL")
+        else:
+            self.current_llm_model = self.llm_model_lite
+            self.logger.info("Using gemini-2.5-flash-lite for standard processing")
     
     def extract_and_concatenate_math(self, question: str) -> str:
         """
@@ -314,7 +332,7 @@ If the context includes mathematical rules, logic, or formulas:
 OUTPUT FORMAT  
 ANSWER: <One-sentence answer derived strictly from the context above>"""
         try:
-            response = self.llm_model.generate_content(prompt)
+            response = self.current_llm_model.generate_content(prompt)
             return response.text.strip() if response.text else "Error: No response generated from LLM."
         except Exception as e:
             self.logger.error(f"Error generating response from LLM: {e}")
@@ -330,6 +348,9 @@ ANSWER: <One-sentence answer derived strictly from the context above>"""
         
         doc_url = str(payload['documents'])
         questions = payload['questions']
+        
+        # Select appropriate LLM model based on document URL
+        self.select_llm_model(doc_url)
         
         # Check for ZIP files first and return error message for all questions
         if self.is_zip_file(doc_url):
