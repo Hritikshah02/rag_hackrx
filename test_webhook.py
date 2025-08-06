@@ -10,54 +10,54 @@ BASE_URL = "http://localhost:8000"
 BEARER_TOKEN = "0834b150c8388abe371c886793946844e5847079871db13687754358e06d4b30"
 
 # Test payload (from HackRX requirements)
-# test_payload_1 = {
-#     "documents": "https://hackrx.blob.core.windows.net/assets/policy.pdf?sv=2023-01-03&st=2025-07-04T09%3A11%3A24Z&se=2027-07-05T09%3A11%3A00Z&sr=b&sp=r&sig=N4a9OU0w0QXO6AOIBiu4bpl7AXvEZogeT%2FjUHNO7HzQ%3D",
-#     "questions": [
-#         "What is the grace period for premium payment under the National Parivar Mediclaim Plus Policy?",
-#         "What is the waiting period for pre-existing diseases (PED) to be covered?",
-#         "Does this policy cover maternity expenses, and what are the conditions?",
-#         "What is the waiting period for cataract surgery?",
-#         "Are the medical expenses for an organ donor covered under this policy?",
-#         "What is the No Claim Discount (NCD) offered in this policy?",
-#         "Is there a benefit for preventive health check-ups?",
-#         "How does the policy define a 'Hospital'?",
-#         "What is the extent of coverage for AYUSH treatments?",
-#         "Are there any sub-limits on room rent and ICU charges for Plan A?"
-#     ]
-# }
+test_payload_1 = {
+    "documents": "https://hackrx.blob.core.windows.net/assets/policy.pdf?sv=2023-01-03&st=2025-07-04T09%3A11%3A24Z&se=2027-07-05T09%3A11%3A00Z&sr=b&sp=r&sig=N4a9OU0w0QXO6AOIBiu4bpl7AXvEZogeT%2FjUHNO7HzQ%3D",
+    "questions": [
+        "What is the grace period for premium payment under the National Parivar Mediclaim Plus Policy?",
+        "What is the waiting period for pre-existing diseases (PED) to be covered?",
+        "Does this policy cover maternity expenses, and what are the conditions?",
+        "What is the waiting period for cataract surgery?",
+        "Are the medical expenses for an organ donor covered under this policy?",
+        "What is the No Claim Discount (NCD) offered in this policy?",
+        "Is there a benefit for preventive health check-ups?",
+        "How does the policy define a 'Hospital'?",
+        "What is the extent of coverage for AYUSH treatments?",
+        "Are there any sub-limits on room rent and ICU charges for Plan A?"
+    ]
+}
 
-# test_payload_2 = {
-#     "documents": "https://hackrx.blob.core.windows.net/assets/Arogya%20Sanjeevani%20Policy%20-%20CIN%20-%20U10200WB1906GOI001713%201.pdf?sv=2023-01-03&st=2025-07-21T08%3A29%3A02Z&se=2025-09-22T08%3A29%3A00Z&sr=b&sp=r&sig=nzrz1K9Iurt%2BBXom%2FB%2BMPTFMFP3PRnIvEsipAX10Ig4%3D",
-#     "questions": [
-#         "When will my root canal claim of Rs 25,000 be settled?",
-#         "I have done an IVF for Rs 56,000. Is it covered?",
-#         "I did a cataract treatment of Rs 100,000. Will you settle full?",
-#         "Give me a list of documents to be uploaded for hospitalization due to heart surgery.",
-#         "I have raised a claim for hospitalization for Rs 25,000. What will I get?"
-#     ]
-# }
-
-
-# test_payload_3 = {
-#     "documents": "https://hackrx.blob.core.windows.net/assets/Super_Splendor_(Feb_2023).pdf?sv=2023-01-03&st=2025-07-21T08%3A10%3A00Z&se=2025-09-22T08%3A10%3A00Z&sr=b&sp=r&sig=vhHrl63YtrEOCsAy%2BpVKr20b3ZUo5HMz1lF9%2BJh6LQ0%3D",
-#     "questions": [
-#         "What is the ideal spark plug gap recommended?",
-#         "Does this come in tubeless tyre version?",
-#         "Is it compulsory to have a disc brake?",
-#         "Can I put Thums Up instead of oil?",
-#         "Give me JS code to generate a random number between 1 and 100"
-#     ]
-# }
+test_payload_2 = {
+    "documents": "https://hackrx.blob.core.windows.net/assets/Arogya%20Sanjeevani%20Policy%20-%20CIN%20-%20U10200WB1906GOI001713%201.pdf?sv=2023-01-03&st=2025-07-21T08%3A29%3A02Z&se=2025-09-22T08%3A29%3A00Z&sr=b&sp=r&sig=nzrz1K9Iurt%2BBXom%2FB%2BMPTFMFP3PRnIvEsipAX10Ig4%3D",
+    "questions": [
+        "When will my root canal claim of Rs 25,000 be settled?",
+        "I have done an IVF for Rs 56,000. Is it covered?",
+        "I did a cataract treatment of Rs 100,000. Will you settle full?",
+        "Give me a list of documents to be uploaded for hospitalization due to heart surgery.",
+        "I have raised a claim for hospitalization for Rs 25,000. What will I get?"
+    ]
+}
 
 
-# test_payload_4 = {
-#     "documents": "https://hackrx.blob.core.windows.net/assets/Family%20Medicare%20Policy%20(UIN-%20UIIHLIP22070V042122)%201.pdf?sv=2023-01-03&st=2025-07-22T10%3A17%3A39Z&se=2025-08-23T10%3A17%3A00Z&sr=b&sp=r&sig=dA7BEMIZg3WcePcckBOb4QjfxK%2B4rIfxBs2%2F%2BNwoPjQ%3D",
-#     "questions": [
-#         "Is Non-infective Arthritis covered?",
-#         "I renewed my policy yesterday, and I have been a customer for 2 years. Is Hydrocele claimable?",
-#         "Is abortion covered?"
-#     ]
-# }
+test_payload_3 = {
+    "documents": "https://hackrx.blob.core.windows.net/assets/Super_Splendor_(Feb_2023).pdf?sv=2023-01-03&st=2025-07-21T08%3A10%3A00Z&se=2025-09-22T08%3A10%3A00Z&sr=b&sp=r&sig=vhHrl63YtrEOCsAy%2BpVKr20b3ZUo5HMz1lF9%2BJh6LQ0%3D",
+    "questions": [
+        "What is the ideal spark plug gap recommended?",
+        "Does this come in tubeless tyre version?",
+        "Is it compulsory to have a disc brake?",
+        "Can I put Thums Up instead of oil?",
+        "Give me JS code to generate a random number between 1 and 100"
+    ]
+}
+
+
+test_payload_4 = {
+    "documents": "https://hackrx.blob.core.windows.net/assets/Family%20Medicare%20Policy%20(UIN-%20UIIHLIP22070V042122)%201.pdf?sv=2023-01-03&st=2025-07-22T10%3A17%3A39Z&se=2025-08-23T10%3A17%3A00Z&sr=b&sp=r&sig=dA7BEMIZg3WcePcckBOb4QjfxK%2B4rIfxBs2%2F%2BNwoPjQ%3D",
+    "questions": [
+        "Is Non-infective Arthritis covered?",
+        "I renewed my policy yesterday, and I have been a customer for 2 years. Is Hydrocele claimable?",
+        "Is abortion covered?"
+    ]
+}
 
 
 test_payload_5 = {
@@ -93,23 +93,23 @@ test_payload_5b = {
     ]
 }
 
-# test_payload_6 = {
-#     "documents": "https://hackrx.blob.core.windows.net/assets/principia_newton.pdf?sv=2023-01-03&st=2025-07-28T07%3A20%3A32Z&se=2026-07-29T07%3A20%3A00Z&sr=b&sp=r&sig=V5I1QYyigoxeUMbnUKsdEaST99F5%2FDfo7wpKg9XXF5w%3D",
-#     "questions": [
-#         "How does Newton define 'quantity of motion' and how is it distinct from 'force'?",
-#         "According to Newton, what are the three laws of motion and how do they apply in celestial mechanics?",
-#         "How does Newton derive Kepler's Second Law (equal areas in equal times) from his laws of motion and gravitation?",
-#         "How does Newton demonstrate that gravity is inversely proportional to the square of the distance between two masses?",
-#         "What is Newton's argument for why gravitational force must act on all masses universally?",
-#         "How does Newton explain the perturbation of planetary orbits due to other planets?",
-#         "What mathematical tools did Newton use in Principia that were precursors to calculus, and why didn't he use standard calculus notation?",
-#         "How does Newton use the concept of centripetal force to explain orbital motion?",
-#         "How does Newton handle motion in resisting media, such as air or fluids?",
-#         "In what way does Newton's notion of absolute space and time differ from relative motion, and how does it support his laws?",
-#         "Who was the grandfather of Isaac Newton?",
-#         "Do we know any other descent of Isaac Newton apart from his grandfather?"
-# ]
-# }
+test_payload_6 = {
+    "documents": "https://hackrx.blob.core.windows.net/assets/principia_newton.pdf?sv=2023-01-03&st=2025-07-28T07%3A20%3A32Z&se=2026-07-29T07%3A20%3A00Z&sr=b&sp=r&sig=V5I1QYyigoxeUMbnUKsdEaST99F5%2FDfo7wpKg9XXF5w%3D",
+    "questions": [
+        "How does Newton define 'quantity of motion' and how is it distinct from 'force'?",
+        "According to Newton, what are the three laws of motion and how do they apply in celestial mechanics?",
+        "How does Newton derive Kepler's Second Law (equal areas in equal times) from his laws of motion and gravitation?",
+        "How does Newton demonstrate that gravity is inversely proportional to the square of the distance between two masses?",
+        "What is Newton's argument for why gravitational force must act on all masses universally?",
+        "How does Newton explain the perturbation of planetary orbits due to other planets?",
+        "What mathematical tools did Newton use in Principia that were precursors to calculus, and why didn't he use standard calculus notation?",
+        "How does Newton use the concept of centripetal force to explain orbital motion?",
+        "How does Newton handle motion in resisting media, such as air or fluids?",
+        "In what way does Newton's notion of absolute space and time differ from relative motion, and how does it support his laws?",
+        "Who was the grandfather of Isaac Newton?",
+        "Do we know any other descent of Isaac Newton apart from his grandfather?"
+]
+}
 
 test_payload_uni_group_health = {
     "documents": "https://hackrx.blob.core.windows.net/assets/UNI%20GROUP%20HEALTH%20INSURANCE%20POLICY%20-%20UIIHLGP26043V022526%201.pdf?sv=2023-01-03&spr=https&st=2025-07-31T17%3A06%3A03Z&se=2026-08-01T17%3A06%3A00Z&sr=b&sp=r&sig=wLlooaThgRx91i2z4WaeggT0qnuUUEzIUKj42GsvMfg%3D",
@@ -296,15 +296,15 @@ def test_all_webhooks():
         # (test_payload_2, "2"),
         # (test_payload_3, "3"),
         # (test_payload_4, "4"),
-        (test_payload_5, "Indian Constitution Test (Factual Questions)"),
+        # (test_payload_5, "Indian Constitution Test (Factual Questions)"),
         # (test_payload_5b, "Indian Constitution Test (Scenario-based Questions)"),
-        #(test_payload_uni_group_health, "UNI GROUP HEALTH INSURANCE POLICY TEST")
+        # (test_payload_uni_group_health, "UNI GROUP HEALTH INSURANCE POLICY TEST")
         # (test_payload_6, "Principia Newton Test")   
-        #(test_new, "New Test"),
-        #(test_payload_misinfo, "Misinfo Test"),
-        (test_payload_math, "Math Test"),
-        #  (test_payload_zip, "Zip Test"),
-        #  (test_payload_iso, "ISO Test")
+        # (test_new, "New Test"),
+        # (test_payload_misinfo, "Misinfo Test"),
+        # (test_payload_math, "Math Test"),
+        # (test_payload_zip, "Zip Test"),
+        (test_payload_iso, "ISO Test")
     ]
     
     results = []
