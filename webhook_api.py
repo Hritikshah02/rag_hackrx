@@ -8,6 +8,8 @@ import logging
 import datetime
 import time
 import re
+import signal
+from contextlib import contextmanager
 from io import BytesIO
 from typing import List, Dict, Any, Optional, Tuple
 from urllib.parse import urlparse
@@ -96,6 +98,12 @@ class ImprovedSemanticChunker:
         # ZIP file error message
         self.ZIP_ERROR_MESSAGE = "ZIP file is not allowed, please upload a valid file"
         
+        # BIN file error message  
+        self.BIN_ERROR_MESSAGE = "BIN file is not allowed, please upload a valid file"
+        
+        # Archive file error message
+        self.ARCHIVE_ERROR_MESSAGE = "Archive files (RAR, 7Z) are not allowed, please upload a valid file"
+        
         # Hardcoded math URL
         self.MATH_URL = "https://hackrx.blob.core.windows.net/assets/Test%20/image.jpeg?sv=2023-01-03&spr=https&st=2025-08-04T19%3A29%3A01Z&se=2026-08-05T19%3A29%3A00Z&sr=b&sp=r&sig=YnJJThygjCT6%2FpNtY1aHJEZ%2F%2BqHoEB59TRGPSxJJBwo%3D"
         
@@ -115,6 +123,23 @@ class ImprovedSemanticChunker:
             "https://hackrx.blob.core.windows.net/assets/Happy%20Family%20Floater%20-%202024%20OICHLIP25046V062425%201.pdf?sv=2023-01-03&spr=https&st=2025-07-31T17%3A24%3A30Z&se=2026-08-01T17%3A24%3A00Z&sr=b&sp=r&sig=VNMTTQUjdXGYb2F4Di4P0zNvmM2rTBoEHr%2BnkUXIqpQ%3D": "happy_collection"
         }
 
+    @contextmanager
+    def timeout_context(self, seconds):
+        """Context manager for implementing timeout on operations."""
+        def timeout_handler(signum, frame):
+            raise TimeoutError(f"Operation timed out after {seconds} seconds")
+        
+        # Set up the signal handler
+        old_handler = signal.signal(signal.SIGALRM, timeout_handler)
+        signal.alarm(seconds)
+        
+        try:
+            yield
+        finally:
+            # Clean up
+            signal.alarm(0)
+            signal.signal(signal.SIGALRM, old_handler)
+
     def is_zip_file(self, file_url: str) -> bool:
         """Check if the file URL points to a ZIP file."""
         try:
@@ -123,6 +148,34 @@ class ImprovedSemanticChunker:
             return path.endswith('.zip')
         except Exception:
             return False
+
+    def is_bin_file(self, file_url: str) -> bool:
+        """Check if the file URL points to a BIN file."""
+        try:
+            parsed_url = urlparse(file_url)
+            path = parsed_url.path.lower()
+            return path.endswith('.bin')
+        except Exception:
+            return False
+
+    def is_archive_file(self, file_url: str) -> bool:
+        """Check if the file URL points to an archive file (RAR, 7Z)."""
+        try:
+            parsed_url = urlparse(file_url)
+            path = parsed_url.path.lower()
+            return path.endswith(('.rar', '.7z'))
+        except Exception:
+            return False
+
+    def is_unsupported_file(self, file_url: str) -> tuple[bool, str]:
+        """Check if the file URL points to an unsupported file type and return error message."""
+        if self.is_zip_file(file_url):
+            return True, self.ZIP_ERROR_MESSAGE
+        elif self.is_bin_file(file_url):
+            return True, self.BIN_ERROR_MESSAGE
+        elif self.is_archive_file(file_url):
+            return True, self.ARCHIVE_ERROR_MESSAGE
+        return False, ""
     
     def select_llm_model(self, doc_url: str) -> None:
         """
@@ -162,16 +215,26 @@ class ImprovedSemanticChunker:
     def parse_and_chunk_with_llamaparse(self, file_url: str) -> List[Dict[str, Any]]:
         """Use LlamaParse to extract and chunk document content semantically."""
 
-        # Check if the file is a .zip and skip
-        if self.is_zip_file(file_url):
-            self.logger.warning(f"Skipping .zip file: {file_url}")
+        # Check if the file is unsupported and skip
+        is_unsupported, error_message = self.is_unsupported_file(file_url)
+        if is_unsupported:
+            self.logger.warning(f"Skipping unsupported file: {file_url} - {error_message}")
             return []
         
         self.logger.info(f"Using LlamaParse to process: {file_url}")
         parser = LlamaParse()
         
-        # LlamaParse can ingest URLs directly
-        docs = parser.load_data(file_url)
+        # Use timeout context manager for LlamaParse operations
+        try:
+            with self.timeout_context(60):  # 60 second timeout
+                # LlamaParse can ingest URLs directly
+                docs = parser.load_data(file_url)
+        except TimeoutError as e:
+            self.logger.error(f"LlamaParse timed out for {file_url}: {e}")
+            return []
+        except Exception as e:
+            self.logger.error(f"LlamaParse failed for {file_url}: {e}")
+            return []
         
         # Each doc is a LlamaDocument, which contains nodes (chunks)
         all_chunks = []
@@ -352,11 +415,12 @@ ANSWER: <One-sentence answer derived strictly from the context above>"""
         # Select appropriate LLM model based on document URL
         self.select_llm_model(doc_url)
         
-        # Check for ZIP files first and return error message for all questions
-        if self.is_zip_file(doc_url):
-            self.logger.warning(f"ZIP file detected: {doc_url}")
-            zip_error_answers = [self.ZIP_ERROR_MESSAGE] * len(questions)
-            return {'answers': zip_error_answers}
+        # Check for unsupported files first and return error message for all questions
+        is_unsupported, error_message = self.is_unsupported_file(doc_url)
+        if is_unsupported:
+            self.logger.warning(f"Unsupported file detected: {doc_url} - {error_message}")
+            error_answers = [error_message] * len(questions)
+            return {'answers': error_answers}
         
         # Check for hardcoded math URL and handle math concatenation
         if doc_url == self.MATH_URL:

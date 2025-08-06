@@ -208,7 +208,7 @@ test_payload_math = {
 }
 
 test_payload_zip = {
-    "documents": "https://hackrx.blob.core.windows.net/assets/hackrx_pdf.zip?sv=2023-01-03&spr=https&st=2025-08-04T09%3A25%3A45Z&se=2027-08-05T09%3A25%3A00Z&sr=b&sp=r&sig=rDL2ZcGX6XoDga5%2FTwMGBO9MgLOhZS8PUjvtga2cfVk%3D",
+    "documents": "https://hackrx.blob.core.windows.net/assets/hackrx_pdf.bin?sv=2023-01-03&spr=https&st=2025-08-04T09%3A25%3A45Z&se=2027-08-05T09%3A25%3A00Z&sr=b&sp=r&sig=rDL2ZcGX6XoDga5%2FTwMGBO9MgLOhZS8PUjvtga2cfVk%3D",
     "questions": [
         "what is you name",
         "what is you age",
@@ -288,14 +288,14 @@ def test_all_webhooks():
         # (test_payload_2, "2"),
         # (test_payload_3, "3"),
         # (test_payload_4, "4"),
-        (test_payload_5, "Indian Constitution Test (Factual Questions)"),
+        #(test_payload_5, "Indian Constitution Test (Factual Questions)"),
         # (test_payload_5b, "Indian Constitution Test (Scenario-based Questions)"),
         #(test_payload_uni_group_health, "UNI GROUP HEALTH INSURANCE POLICY TEST")
         # (test_payload_6, "Principia Newton Test")   
         #(test_new, "New Test"),
-        (test_payload_misinfo, "Misinfo Test"),
+        #(test_payload_misinfo, "Misinfo Test"),
         # (test_payload_math, "Math Test"),
-        # (test_payload_zip, "Zip Test")
+         (test_payload_zip, "Zip Test")
     ]
     
     results = []
