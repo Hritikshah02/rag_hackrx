@@ -1,0 +1,56 @@
+{
+  "request_id": "20250806_194808",
+  "document_url": "https://hackrx.blob.core.windows.net/assets/indian_constitution.pdf?sv=2023-01-03&st=2025-07-28T06%3A42%3A00Z&se=2026-11-29T06%3A42%3A00Z&sr=b&sp=r&sig=5Gs%2FOXqP3zY00lgciu4BZjDV5QjTDIx7fgnfdz6Pu24%3D",
+  "results": [
+    {
+      "question": "If my car is stolen, what case will it be in law?",
+      "answer": "The provided documents do not contain information about what case a stolen car would be in law.",
+      "retrieved_chunks_file": "transaction_logs/20250806_194808/query_1_chunks.json"
+    },
+    {
+      "question": "If I am arrested without a warrant, is that legal?",
+      "answer": "Context 1 states that any person arrested and detained in custody must be produced before the nearest magistrate within twenty-four hours of arrest, excluding journey time, and cannot be detained beyond that period without a magistrate's authority, unless the arrest falls under exceptions for enemy aliens or preventive detention.",
+      "retrieved_chunks_file": "transaction_logs/20250806_194808/query_2_chunks.json"
+    },
+    {
+      "question": "If someone denies me a job because of my caste, is that legal?",
+      "answer": "No, it is not legal to deny someone a job because of their caste, as no citizen shall be discriminated against in employment on such grounds according to Article 16(2).",
+      "retrieved_chunks_file": "transaction_logs/20250806_194808/query_3_chunks.json"
+    },
+    {
+      "question": "If the government takes my land for a project, can I stop it?",
+      "answer": "You cannot stop the government from acquiring your land for public purposes if the acquisition is authorized by law for the time being in force.",
+      "retrieved_chunks_file": "transaction_logs/20250806_194808/query_4_chunks.json"
+    },
+    {
+      "question": "If my child is forced to work in a factory, is that legal?",
+      "answer": "No, a child below the age of fourteen years shall not be employed to work in any factory or mine or engaged in any other hazardous employment, as per Article 24.",
+      "retrieved_chunks_file": "transaction_logs/20250806_194808/query_5_chunks.json"
+    },
+    {
+      "question": "If I am stopped from speaking at a protest, is that a violation of my rights?",
+      "answer": "The provided documents do not contain information about protest rights or the specific circumstances of being stopped from speaking at a protest.",
+      "retrieved_chunks_file": "transaction_logs/20250806_194808/query_6_chunks.json"
+    },
+    {
+      "question": "If a religious place stops me from entering because of my caste, what can I do?",
+      "answer": "Article 15(1) of the Constitution of India prohibits discrimination on grounds of religion, race, caste, sex, or place of birth, meaning you cannot be denied entry to a religious place solely based on your caste.",
+      "retrieved_chunks_file": "transaction_logs/20250806_194808/query_7_chunks.json"
+    },
+    {
+      "question": "If I change my religion, can the government stop me?",
+      "answer": "No citizen shall, on grounds only of religion, race, caste, sex, place of birth or any of them, be subject to any disability, liability, restriction or condition with regard to the freedom to profess, practice and propagate religion.",
+      "retrieved_chunks_file": "transaction_logs/20250806_194808/query_8_chunks.json"
+    },
+    {
+      "question": "If the police torture someone in custody, what right is violated?",
+      "answer": "Torture of someone in custody violates the right to life and personal liberty except according to procedure established by law.",
+      "retrieved_chunks_file": "transaction_logs/20250806_194808/query_9_chunks.json"
+    },
+    {
+      "question": "If I'm denied admission to a public university because of my caste, what law applies?",
+      "answer": "Article 15(1) of the Constitution of India applies if you are denied admission to an educational institution on the grounds of caste.",
+      "retrieved_chunks_file": "transaction_logs/20250806_194808/query_10_chunks.json"
+    }
+  ]
+}

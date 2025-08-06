@@ -1,0 +1,41 @@
+{
+  "request_id": "20250806_195507",
+  "document_url": "https://hackrx.blob.core.windows.net/assets/Test%20/Fact%20Check.docx?sv=2023-01-03&spr=https&st=2025-08-04T20%3A27%3A22Z&se=2028-08-05T20%3A27%3A00Z&sr=b&sp=r&sig=XB1%2FNzJ57eg52j4xcZPGMlFrp3HYErCW1t7k1fMyiIc%3D",
+  "results": [
+    {
+      "question": "What is the capital of Australia?",
+      "answer": "The capital of Australia is Florida.",
+      "retrieved_chunks_file": "transaction_logs/20250806_195507/query_1_chunks.json"
+    },
+    {
+      "question": "Where can we find Dinosaurs?",
+      "answer": "Dinosaurs are still alive in New York City.",
+      "retrieved_chunks_file": "transaction_logs/20250806_195507/query_2_chunks.json"
+    },
+    {
+      "question": "What are clouds made of?",
+      "answer": "Clouds are made of cotton candy.",
+      "retrieved_chunks_file": "transaction_logs/20250806_195507/query_3_chunks.json"
+    },
+    {
+      "question": "How to grow plants faster?",
+      "answer": "Plants grow faster when exposed to loud music.",
+      "retrieved_chunks_file": "transaction_logs/20250806_195507/query_4_chunks.json"
+    },
+    {
+      "question": "How many lungs does human body have?",
+      "answer": "The human body has 12 lungs.",
+      "retrieved_chunks_file": "transaction_logs/20250806_195507/query_5_chunks.json"
+    },
+    {
+      "question": "Who is Sanjeev bajaj?",
+      "answer": "The provided document context does not contain any information about Sanjeev Bajaj.",
+      "retrieved_chunks_file": "transaction_logs/20250806_195507/query_6_chunks.json"
+    },
+    {
+      "question": "What is the name of our galaxy?",
+      "answer": "This document does not contain information about the name of our galaxy.",
+      "retrieved_chunks_file": "transaction_logs/20250806_195507/query_7_chunks.json"
+    }
+  ]
+}
