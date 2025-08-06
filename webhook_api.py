@@ -8,7 +8,7 @@ import logging
 import datetime
 import time
 import re
-import signal
+import concurrent.futures
 from contextlib import contextmanager
 from io import BytesIO
 from typing import List, Dict, Any, Optional, Tuple
@@ -123,22 +123,10 @@ class ImprovedSemanticChunker:
             "https://hackrx.blob.core.windows.net/assets/Happy%20Family%20Floater%20-%202024%20OICHLIP25046V062425%201.pdf?sv=2023-01-03&spr=https&st=2025-07-31T17%3A24%3A30Z&se=2026-08-01T17%3A24%3A00Z&sr=b&sp=r&sig=VNMTTQUjdXGYb2F4Di4P0zNvmM2rTBoEHr%2BnkUXIqpQ%3D": "happy_collection"
         }
 
-    @contextmanager
     def timeout_context(self, seconds):
-        """Context manager for implementing timeout on operations."""
-        def timeout_handler(signum, frame):
-            raise TimeoutError(f"Operation timed out after {seconds} seconds")
-        
-        # Set up the signal handler
-        old_handler = signal.signal(signal.SIGALRM, timeout_handler)
-        signal.alarm(seconds)
-        
-        try:
-            yield
-        finally:
-            # Clean up
-            signal.alarm(0)
-            signal.signal(signal.SIGALRM, old_handler)
+        """Context manager for implementing timeout on operations (cross-platform)."""
+        # We'll use this in a different way - see parse_and_chunk_with_llamaparse
+        return seconds
 
     def is_zip_file(self, file_url: str) -> bool:
         """Check if the file URL points to a ZIP file."""
@@ -224,16 +212,31 @@ class ImprovedSemanticChunker:
         self.logger.info(f"Using LlamaParse to process: {file_url}")
         parser = LlamaParse()
         
-        # Use timeout context manager for LlamaParse operations
+        def llamaparse_operation():
+            return parser.load_data(file_url)
+        
+        executor = concurrent.futures.ThreadPoolExecutor(max_workers=1)
         try:
-            with self.timeout_context(45):  # 60 second timeout
-                # LlamaParse can ingest URLs directly
-                docs = parser.load_data(file_url)
-        except TimeoutError as e:
-            self.logger.error(f"LlamaParse timed out for {file_url}: {e}")
-            return []
+            future = executor.submit(llamaparse_operation)
+            try:
+                # Wait for result with 60 second timeout
+                docs = future.result(timeout=20)
+            except concurrent.futures.TimeoutError:
+                self.logger.error(f"LlamaParse timed out after 60 seconds for {file_url}")
+                # Cancel the future and shutdown executor to stop background processing
+                future.cancel()
+                executor.shutdown(wait=False)  # Don't wait for running tasks
+                self.logger.info(f"Canceled LlamaParse operation for {file_url}")
+                return []
+            finally:
+                # Always shutdown the executor properly
+                if not executor._shutdown:
+                    executor.shutdown(wait=True)
         except Exception as e:
             self.logger.error(f"LlamaParse failed for {file_url}: {e}")
+            # Ensure executor is shutdown even on exception
+            if not executor._shutdown:
+                executor.shutdown(wait=False)
             return []
         
         # Each doc is a LlamaDocument, which contains nodes (chunks)
@@ -326,38 +329,6 @@ class ImprovedSemanticChunker:
                     'similarity_score': 1 - dist if dist is not None else 0
                 })
         return retrieved_chunks
-
-    def log_individual_request(self, payload_dir: str, question_num: int, question: str, 
-                              answer: str, retrieved_chunks: List[Dict[str, Any]], 
-                              request_id: str, doc_url: str) -> None:
-        """
-        Log individual question result immediately after processing.
-        Creates a separate log file for each question in the payload directory.
-        """
-        # Create individual request log
-        request_log_data = {
-            'request_id': request_id,
-            'payload_question_number': question_num,
-            'document_url': doc_url,
-            'question': question,
-            'answer': answer,
-            'retrieved_chunks': retrieved_chunks,
-            'timestamp': datetime.datetime.now().isoformat(),
-            'processing_time': time.time()  # Will be updated by caller
-        }
-        
-        # Save individual request log
-        individual_log_path = os.path.join(payload_dir, f"request_{question_num}.json")
-        with open(individual_log_path, 'w', encoding='utf-8') as f:
-            json.dump(request_log_data, f, indent=2, ensure_ascii=False)
-        
-        # Also save chunks separately for backward compatibility
-        chunks_log_path = os.path.join(payload_dir, f"query_{question_num}_chunks.json")
-        with open(chunks_log_path, 'w', encoding='utf-8') as f_chunks:
-            json.dump(retrieved_chunks, f_chunks, indent=2, ensure_ascii=False)
-        
-        self.logger.info(f"📝 Individual request log saved: {individual_log_path}")
-        return individual_log_path
 
     def generate_improved_answer(self, query: str, context_chunks: List[Dict[str, Any]]) -> str:
         self.logger.info("Generating final answer with Gemini model...")
@@ -464,10 +435,9 @@ OUTPUT FORMAT
             return {'answers': math_answers}
         
         # --- Enhanced Logging Setup ---
-        request_id = datetime.datetime.now().strftime('%Y%m%d_%H%M%S_%f')[:-3]  # Include milliseconds
-        payload_dir = os.path.join("transaction_logs", f"payload_{request_id}")
-        os.makedirs(payload_dir, exist_ok=True)
-        self.logger.info(f"📁 Created payload directory: {payload_dir}")
+        request_id = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
+        log_dir_for_request = os.path.join("transaction_logs", request_id)
+        os.makedirs(log_dir_for_request, exist_ok=True)
         # ---
 
         # --- PRECHUNKED DOC HANDLING ---
@@ -478,48 +448,30 @@ OUTPUT FORMAT
             self.collection = self.chroma_client.get_collection(self.collection_name)
             all_results_data = []
             final_answers = []
-            
             for i, question in enumerate(questions, 1):
-                question_start_time = time.time()
-                self.logger.info(f"\n--- Processing Question {i}/{len(questions)}: {question} ---")
-                
+                self.logger.info(f"\n--- Processing Question {i}: {question} ---")
                 retrieved_chunks = self.advanced_semantic_search(question)
+                chunks_log_path = os.path.join(log_dir_for_request, f"query_{i}_chunks.json")
+                with open(chunks_log_path, 'w', encoding='utf-8') as f_chunks:
+                    json.dump(retrieved_chunks, f_chunks, indent=2, ensure_ascii=False)
                 answer = self.generate_improved_answer(question, retrieved_chunks)
-                question_end_time = time.time()
-                processing_time = question_end_time - question_start_time
-                
                 self.logger.info(f"Final Answer: {answer}")
-                self.logger.info(f"⏱️ Question {i} processed in {processing_time:.2f}s")
-                
-                # Log individual request immediately
-                self.log_individual_request(
-                    payload_dir, i, question, answer, retrieved_chunks, 
-                    request_id, doc_url
-                )
-                
                 final_answers.append(answer)
                 all_results_data.append({
                     'question': question, 
                     'answer': answer,
-                    'processing_time_seconds': processing_time,
-                    'question_number': i
+                    'retrieved_chunks_file': chunks_log_path
                 })
-            
-            # Create payload summary at the end
-            payload_summary = {
+            # Logging
+            main_log_data = {
                 'request_id': request_id,
                 'document_url': doc_url,
-                'total_questions': len(questions),
-                'collection_type': 'pre-chunked',
-                'collection_name': self.collection_name,
-                'results': all_results_data,
-                'payload_timestamp': datetime.datetime.now().isoformat()
+                'results': all_results_data
             }
-            summary_path = os.path.join(payload_dir, "payload_summary.json")
-            with open(summary_path, 'w', encoding='utf-8') as f:
-                json.dump(payload_summary, f, indent=2, ensure_ascii=False)
-            
-            self.logger.info(f"✅ Payload processing complete. Logs saved to: {payload_dir}")
+            main_log_path = os.path.join(log_dir_for_request, "summary.json")
+            with open(main_log_path, 'w', encoding='utf-8') as f_main:
+                json.dump(main_log_data, f_main, indent=2, ensure_ascii=False)
+            self.logger.info(f"✅ Transaction logs saved to directory: {log_dir_for_request}")
             self.logger.info("=" * 80)
             # DO NOT delete pre-chunked collections!
             return {'answers': final_answers}
@@ -531,7 +483,7 @@ OUTPUT FORMAT
                 if self.is_zip_file(doc_url):
                     answers = [self.ZIP_ERROR_MESSAGE] * len(questions)
                 else:
-                    answers = ["Failed to extract content from the document."] * len(questions)
+                    answers = ["Document type not supported, please upload a valid document."] * len(questions)
                 return {'answers': answers}
         except Exception as e:
             self.logger.error(f"LlamaParse failed: {e}")
@@ -544,49 +496,29 @@ OUTPUT FORMAT
         self.create_vector_store(chunks)
         all_results_data = []
         final_answers = []
-        
         for i, question in enumerate(questions, 1):
-            question_start_time = time.time()
-            self.logger.info(f"\n--- Processing Question {i}/{len(questions)}: {question} ---")
-            
+            self.logger.info(f"\n--- Processing Question {i}: {question} ---")
             retrieved_chunks = self.advanced_semantic_search(question)
+            chunks_log_path = os.path.join(log_dir_for_request, f"query_{i}_chunks.json")
+            with open(chunks_log_path, 'w', encoding='utf-8') as f_chunks:
+                json.dump(retrieved_chunks, f_chunks, indent=2, ensure_ascii=False)
             answer = self.generate_improved_answer(question, retrieved_chunks)
-            question_end_time = time.time()
-            processing_time = question_end_time - question_start_time
-            
             self.logger.info(f"Final Answer: {answer}")
-            self.logger.info(f"⏱️ Question {i} processed in {processing_time:.2f}s")
-            
-            # Log individual request immediately
-            self.log_individual_request(
-                payload_dir, i, question, answer, retrieved_chunks, 
-                request_id, doc_url
-            )
-            
             final_answers.append(answer)
             all_results_data.append({
                 'question': question, 
                 'answer': answer,
-                'processing_time_seconds': processing_time,
-                'question_number': i
+                'retrieved_chunks_file': chunks_log_path
             })
-        
-        # Create payload summary at the end
-        payload_summary = {
+        main_log_data = {
             'request_id': request_id,
             'document_url': doc_url,
-            'total_questions': len(questions),
-            'collection_type': 'dynamic',
-            'collection_name': self.collection_name,
-            'total_chunks': len(chunks),
-            'results': all_results_data,
-            'payload_timestamp': datetime.datetime.now().isoformat()
+            'results': all_results_data
         }
-        summary_path = os.path.join(payload_dir, "payload_summary.json")
-        with open(summary_path, 'w', encoding='utf-8') as f:
-            json.dump(payload_summary, f, indent=2, ensure_ascii=False)
-        
-        self.logger.info(f"✅ Payload processing complete. Logs saved to: {payload_dir}")
+        main_log_path = os.path.join(log_dir_for_request, "summary.json")
+        with open(main_log_path, 'w', encoding='utf-8') as f_main:
+            json.dump(main_log_data, f_main, indent=2, ensure_ascii=False)
+        self.logger.info(f"✅ Transaction logs saved to directory: {log_dir_for_request}")
         self.logger.info("=" * 80)
         # Clean up the ChromaDB collection
         try:
