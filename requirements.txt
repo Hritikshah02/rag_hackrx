@@ -22,3 +22,9 @@ uvicorn[standard]>=0.24.0
 requests>=2.31.0
 pydantic>=2.5.0
 llama_parse
+beautifulsoup4>=4.12.0
+duckduckgo-search>=5.3.0
+langdetect>=1.0.9
+pytesseract>=0.3.10
+pymupdf>=1.24.8
+Pillow>=10.0.0

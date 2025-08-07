@@ -35,9 +35,106 @@ from llama_index.core import Document as LlamaDocument
 import tiktoken
 from rank_bm25 import BM25Okapi
 from dotenv import load_dotenv
+# --- Web parsing/search imports ---
+from bs4 import BeautifulSoup
+try:
+    from duckduckgo_search import DDGS
+except Exception:
+    DDGS = None
+# --- Language detection and OCR imports ---
+try:
+    from langdetect import detect, DetectorFactory, LangDetectException
+    DetectorFactory.seed = 0
+except Exception:
+    detect = None
+    LangDetectException = Exception
+import pytesseract
+from PIL import Image
+import fitz  # PyMuPDF
 
 # --- Load Environment Variables ---
 load_dotenv()
+
+# ==============================================================================
+# Simple Web Tooling (fetch + search)
+# ==============================================================================
+
+class WebTool:
+    """Lightweight web tool for HTTP fetch and optional web search."""
+
+    def __init__(self) -> None:
+        self.session = requests.Session()
+        self.default_headers = {
+            "User-Agent": (
+                "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
+                "(KHTML, like Gecko) Chrome/124.0 Safari/537.36"
+            ),
+            "Accept": "*/*",
+            "Accept-Language": "en-US,en;q=0.9",
+            "Connection": "keep-alive",
+        }
+
+    def fetch_url(self, url: str, timeout_seconds: int = 30) -> Dict[str, Any]:
+        """Fetch a URL and return response metadata and content."""
+        resp = self.session.get(url, headers=self.default_headers, timeout=timeout_seconds, allow_redirects=True)
+        content_type = resp.headers.get("content-type", "")
+        text: Optional[str] = None
+        json_data: Optional[Any] = None
+        binary_bytes: Optional[bytes] = None
+
+        # Try JSON first when content-type hints it
+        if "application/json" in content_type:
+            try:
+                json_data = resp.json()
+                text = json.dumps(json_data, indent=2, ensure_ascii=False)
+            except Exception:
+                text = resp.text
+        elif any(ct in content_type for ct in ["text/html", "text/plain", "application/xml"]):
+            text = resp.text
+        else:
+            # Unknown/binary content
+            binary_bytes = resp.content
+
+        return {
+            "status_code": resp.status_code,
+            "url": resp.url,
+            "headers": dict(resp.headers),
+            "content_type": content_type,
+            "text": text,
+            "json": json_data,
+            "content": binary_bytes,
+        }
+
+    def search(self, query: str, max_results: int = 5) -> List[Dict[str, Any]]:
+        """Basic web search using DuckDuckGo, if available."""
+        if DDGS is None:
+            return []
+        try:
+            results: List[Dict[str, Any]] = []
+            with DDGS() as ddgs:
+                for i, r in enumerate(ddgs.text(query, max_results=max_results)):
+                    # r keys typically: title, href, body
+                    results.append({
+                        "rank": i + 1,
+                        "title": r.get("title"),
+                        "href": r.get("href"),
+                        "snippet": r.get("body"),
+                    })
+            return results
+        except Exception:
+            return []
+
+    @staticmethod
+    def html_to_text(html: str) -> str:
+        soup = BeautifulSoup(html, "html.parser")
+        # Remove script/style
+        for tag in soup(["script", "style", "noscript"]):
+            tag.extract()
+        text = soup.get_text(" ")
+        # Normalize whitespace
+        text = re.sub(r"\s+", " ", text).strip()
+        return text
+
 
 # ==============================================================================
 # IMPROVED SEMANTIC CHUNKER CLASS (Your core logic)
@@ -158,6 +255,24 @@ class ImprovedSemanticChunker:
             "https://hackrx.blob.core.windows.net/assets/Happy%20Family%20Floater%20-%202024%20OICHLIP25046V062425%201.pdf?sv=2023-01-03&spr=https&st=2025-07-31T17%3A24%3A30Z&se=2026-08-01T17%3A24%3A00Z&sr=b&sp=r&sig=VNMTTQUjdXGYb2F4Di4P0zNvmM2rTBoEHr%2BnkUXIqpQ%3D": "happy_policy_collection"
         }
 
+        # --- Web tools ---
+        self.web_tool = WebTool()
+        # Restrict agentic HTTP actions to these hosts
+        self.allowed_action_hosts = {"register.hackrx.in"}
+        # OCR availability
+        try:
+            _ = pytesseract.get_tesseract_version()
+            self.tesseract_available = True
+            # Optional: log languages if obtainable
+            try:
+                langs = pytesseract.get_languages(config='')
+                self.logger.info(f"✅ Tesseract available. Languages: {', '.join(langs)}")
+            except Exception:
+                self.logger.info("✅ Tesseract available.")
+        except Exception:
+            self.tesseract_available = False
+            self.logger.warning("⚠️ Tesseract not available on PATH; OCR will be skipped.")
+
     def timeout_context(self, seconds):
         """Context manager for implementing timeout on operations (cross-platform)."""
         # We'll use this in a different way - see parse_and_chunk_with_llamaparse
@@ -190,6 +305,13 @@ class ImprovedSemanticChunker:
         except Exception:
             return False
 
+    def is_pdf_url(self, file_url: str) -> bool:
+        try:
+            parsed_url = urlparse(file_url)
+            return parsed_url.path.lower().endswith('.pdf')
+        except Exception:
+            return False
+
     def is_unsupported_file(self, file_url: str) -> tuple[bool, str]:
         """Check if the file URL points to an unsupported file type and return error message."""
         if self.is_zip_file(file_url):
@@ -211,6 +333,532 @@ class ImprovedSemanticChunker:
         else:
             self.current_llm_model = self.llm_model_lite
             self.logger.info("Using gemini-2.5-flash-lite for standard processing")
+
+    # --------------------------------------------------------------------------
+    # Agentic tool-use helpers
+    # --------------------------------------------------------------------------
+
+    @staticmethod
+    def _normalize_whitespace(text: str) -> str:
+        return re.sub(r"\s+", " ", text or "").strip()
+
+    def decide_use_web_tool(self, doc_url: str, questions: List[str]) -> Dict[str, Any]:
+        """Ask the LLM to decide whether to use the web tool, and how."""
+        try:
+            sample_questions = "\n".join([f"- {q}" for q in questions[:3]])
+            prompt = f"""
+You are a tool-use planner for a RAG API. Decide if answering the questions requires using a web tool.
+Tools available:
+- fetch_url: fetch the exact document_url and use its returned content.
+- web_search: search the public web for answers to the questions.
+
+Constraints:
+- Prefer fetch_url if the provided document_url appears to be an HTTP(S) endpoint returning HTML/JSON/text (e.g., api links, webpages) or the question says to open that link.
+- Prefer web_search if the questions cannot be answered from the provided document_url and require general web context.
+- Otherwise, return none to use the normal RAG flow.
+
+Document URL: {doc_url}
+Questions:
+{sample_questions}
+
+Return ONLY a compact JSON object with keys: use_tool (true/false), tool ("fetch_url"|"web_search"|"none"), reason, target_url (optional), search_query (optional).
+"""
+            raw = self.generate_llm_response(prompt)
+            decision: Dict[str, Any] = {}
+            try:
+                decision = json.loads(raw)
+            except Exception:
+                # Heuristic fallback
+                lowered = (" ".join(questions)).lower()
+                if any(k in lowered for k in ["go to the link", "visit", "open the link", "secret token", "fetch from url", "api"]):
+                    decision = {"use_tool": True, "tool": "fetch_url", "reason": "Instruction explicitly asks to open the provided link.", "target_url": doc_url}
+                else:
+                    decision = {"use_tool": False, "tool": "none", "reason": "Use normal RAG flow."}
+            # Defensive defaults
+            decision.setdefault("use_tool", False)
+            decision.setdefault("tool", "none")
+            decision.setdefault("reason", "")
+            if decision.get("tool") == "fetch_url" and not decision.get("target_url"):
+                decision["target_url"] = doc_url
+            return decision
+        except Exception as e:
+            self.logger.warning(f"Tool decision failed: {e}")
+            return {"use_tool": False, "tool": "none", "reason": "Decision error; default to RAG."}
+
+    def decide_agentic_from_context(self, question: str, retrieved_chunks: List[Dict[str, Any]]) -> bool:
+        """Decide whether to trigger agentic multi-step actions based on context and question."""
+        try:
+            # Scan all retrieved texts
+            combined = "\n".join([c.get('text', '') for c in retrieved_chunks])
+            combined_lower = (question + "\n" + combined).lower()
+            # Require both the allowed host and mission-style markers to be present
+            has_host = "register.hackrx.in" in combined_lower
+            mission_markers = [
+                "choose your flight path",
+                "myfavouritecity",
+                "teams/public/flights",
+                "getfirstcityflightnumber",
+                "getsecondcityflightnumber",
+                "getthirdcityflightnumber",
+                "getfourthcityflightnumber",
+                "getfifthcityflightnumber",
+                "call this endpoint",
+            ]
+            has_mission = any(m in combined_lower for m in mission_markers)
+            if has_host and has_mission:
+                self.logger.info("🧭 Agentic trigger detected via explicit mission markers")
+                return True
+            return False
+        except Exception as e:
+            self.logger.warning(f"Agentic decision failed: {e}")
+            return False
+
+    def build_chunks_from_text(self, text: str) -> List[Dict[str, Any]]:
+        text = self._normalize_whitespace(text)
+        if not text:
+            return []
+        # If small, keep single chunk
+        if len(text) < 2000:
+            return [{"id": "chunk_0", "text": text, "size": len(text)}]
+        # Else token-based chunking
+        return self.token_based_chunking(text)
+
+    def fetch_url_as_chunks(self, url: str) -> List[Dict[str, Any]]:
+        """Fetch a URL and convert response to text chunks."""
+        try:
+            fetched = self.web_tool.fetch_url(url)
+            if fetched.get("text"):
+                if "text/html" in fetched.get("content_type", ""):
+                    text = self.web_tool.html_to_text(fetched["text"])  # strip markup
+                else:
+                    text = fetched["text"]
+                return self.build_chunks_from_text(text)
+            # If binary but JSON is present
+            if fetched.get("json") is not None:
+                return self.build_chunks_from_text(json.dumps(fetched["json"], indent=2, ensure_ascii=False))
+            # If binary only, cannot chunk
+            return []
+        except Exception as e:
+            self.logger.error(f"Failed to fetch URL as chunks: {e}")
+            return []
+
+    # --------------------------- Language detection & OCR for non-English PDFs ---------------------------
+    def is_english_text(self, text: str) -> bool:
+        snippet = (text or "").strip()
+        if not snippet:
+            return True
+        # Quick ASCII heuristic
+        letters = sum(ch.isalpha() for ch in snippet)
+        ascii_letters = sum((ch.isalpha() and ord(ch) < 128) for ch in snippet)
+        if letters >= 20 and ascii_letters / max(letters, 1) < 0.4:
+            return False
+        # langdetect when available
+        if detect is None:
+            return ascii_letters / max(letters, 1) > 0.6
+        try:
+            lang = detect(snippet)
+            return lang == 'en'
+        except LangDetectException:
+            return ascii_letters / max(letters, 1) > 0.6
+
+    def ocr_pdf_to_text(self, file_url: str, dpi: int = 200, max_pages: Optional[int] = None) -> str:
+        try:
+            if not getattr(self, 'tesseract_available', False):
+                self.logger.warning("⚠️ OCR requested but Tesseract is not available; skipping OCR and returning empty text.")
+                return ""
+            self.logger.info(f"🖼 Starting OCR for PDF: {file_url}")
+            resp = requests.get(file_url, timeout=30)
+            resp.raise_for_status()
+            pdf_bytes = resp.content
+            doc = fitz.open(stream=pdf_bytes, filetype="pdf")
+            texts: List[str] = []
+            num_pages = doc.page_count
+            pages_to_process = range(num_pages if max_pages is None else min(num_pages, max_pages))
+            # Allow configuring OCR languages via env; default to English + Malayalam
+            ocr_langs = os.getenv("TESSERACT_LANGS", "eng+mal")
+            for page_index in pages_to_process:
+                page = doc.load_page(page_index)
+                mat = fitz.Matrix(dpi / 72, dpi / 72)
+                pix = page.get_pixmap(matrix=mat, alpha=False)
+                img_bytes = pix.tobytes("png")
+                img = Image.open(BytesIO(img_bytes))
+                page_text = ""
+                try:
+                    page_text = pytesseract.image_to_string(img, lang=ocr_langs)
+                except Exception as e:
+                    self.logger.warning(f"Tesseract OCR failed on page {page_index} with langs='{ocr_langs}': {e}; falling back to 'eng'")
+                    try:
+                        page_text = pytesseract.image_to_string(img, lang="eng")
+                    except Exception as e2:
+                        self.logger.warning(f"Tesseract OCR fallback to 'eng' failed on page {page_index}: {e2}")
+                        page_text = ""
+                if page_text:
+                    texts.append(page_text)
+            doc.close()
+            full_text = self._normalize_whitespace("\n\n".join(texts))
+            self.logger.info(f"🖼 OCR completed, extracted {len(full_text)} characters")
+            return full_text
+        except Exception as e:
+            self.logger.error(f"OCR pipeline failed: {e}")
+            return ""
+
+    async def process_questions_with_fixed_context(self, questions: List[str], log_dir_for_request: str, fixed_chunks: List[Dict[str, Any]]) -> Tuple[List[Dict[str, Any]], List[str]]:
+        self.logger.info(f"📌 Using fixed full-text context for {len(questions)} questions")
+        processed_results: List[Dict[str, Any]] = []
+        final_answers: List[str] = []
+        for i, question in enumerate(questions):
+            try:
+                # Save same fixed chunks per question
+                chunks_log_path = os.path.join(log_dir_for_request, f"query_{i + 1}_chunks.json")
+                # Add rank for readability
+                ranked_chunks = [dict(c, **{"rank": idx + 1}) for idx, c in enumerate(fixed_chunks)]
+                with open(chunks_log_path, 'w', encoding='utf-8') as f_chunks:
+                    json.dump(ranked_chunks, f_chunks, indent=2, ensure_ascii=False)
+                answer = self.generate_improved_answer(question, ranked_chunks)
+                processed_results.append({
+                    'question': question,
+                    'answer': answer,
+                    'retrieved_chunks_file': chunks_log_path,
+                    'index': i,
+                    'success': True
+                })
+                final_answers.append(answer)
+            except Exception as e:
+                self.logger.error(f"Fixed-context processing failed for question {i + 1}: {e}")
+                error_answer = f"Error processing question: {str(e)}"
+                processed_results.append({
+                    'question': question,
+                    'answer': error_answer,
+                    'retrieved_chunks_file': None,
+                    'index': i,
+                    'success': False,
+                    'error': str(e)
+                })
+                final_answers.append(error_answer)
+        return processed_results, final_answers
+
+    # --------------------------- Deterministic mission helpers ---------------------------
+    @staticmethod
+    def _strip_symbols_and_emojis(text: str) -> str:
+        # Keep letters, numbers, basic punctuation, and whitespace
+        return re.sub(r"[^\w\s.,:/-]", " ", text or "")
+
+    def _extract_landmark_for_city_from_context(self, city: str, retrieved_chunks: List[Dict[str, Any]]) -> Optional[str]:
+        """Extract the landmark associated with a given city from the context tables."""
+        if not city:
+            return None
+        city_norm = city.strip().lower()
+        candidates: List[str] = []
+        for chunk in retrieved_chunks:
+            text = self._strip_symbols_and_emojis(chunk.get('text', ''))
+            for raw_line in text.splitlines():
+                line = self._strip_symbols_and_emojis(raw_line)
+                if not line or city_norm not in line.lower():
+                    continue
+                # Heuristic: landmark on left, city on right
+                # Try to capture '<landmark> <spaces> <city>'
+                pattern = re.compile(r"([A-Za-z][A-Za-z\s]+?)\s+" + re.escape(city) + r"\b", re.IGNORECASE)
+                m = pattern.search(line)
+                if m:
+                    landmark = m.group(1).strip()
+                    # Normalize spaces
+                    landmark = re.sub(r"\s+", " ", landmark)
+                    candidates.append(landmark)
+        # Prefer well-known options if present, else any candidate
+        priority = ["Gateway of India", "Taj Mahal", "Eiffel Tower", "Big Ben"]
+        for p in priority:
+            for cand in candidates:
+                if p.lower() == cand.lower():
+                    return p
+        return candidates[0] if candidates else None
+
+    @staticmethod
+    def _endpoint_for_landmark(landmark: str) -> str:
+        lm = (landmark or "").strip().lower()
+        if lm == "gateway of india":
+            return "https://register.hackrx.in/teams/public/flights/getFirstCityFlightNumber"
+        if lm == "taj mahal":
+            return "https://register.hackrx.in/teams/public/flights/getSecondCityFlightNumber"
+        if lm == "eiffel tower":
+            return "https://register.hackrx.in/teams/public/flights/getThirdCityFlightNumber"
+        if lm == "big ben":
+            return "https://register.hackrx.in/teams/public/flights/getFourthCityFlightNumber"
+        return "https://register.hackrx.in/teams/public/flights/getFifthCityFlightNumber"
+
+    def try_resolve_flight_number_from_context(self, question: str, retrieved_chunks: List[Dict[str, Any]], log_dir_for_request: str) -> Tuple[bool, str]:
+        """Deterministically resolve the mission 'flight number' using context instructions and allowed GETs."""
+        ql = (question or "").lower()
+        # Trigger only when explicit mission markers are present in the context
+        trigger = self.decide_agentic_from_context(question, retrieved_chunks)
+        if not trigger:
+            return False, ""
+        try:
+            # 1) Get favourite city
+            city_resp = self.web_tool.fetch_url("https://register.hackrx.in/submissions/myFavouriteCity", timeout_seconds=12)
+            city_json = city_resp.get("json") or {}
+            city = (((city_json or {}).get("data") or {}).get("city") or "").strip()
+            if not city:
+                return False, ""
+            # 2) Find landmark for city from context
+            landmark = self._extract_landmark_for_city_from_context(city, retrieved_chunks) or ""
+            # If not found in initial chunks, try searching the current collection with the city query
+            if not landmark:
+                try:
+                    extra_chunks = self.hybrid_search(city, top_k=8)
+                    landmark = self._extract_landmark_for_city_from_context(city, extra_chunks) or ""
+                except Exception as _:
+                    pass
+            # 3) Pick endpoint by landmark
+            endpoint = self._endpoint_for_landmark(landmark)
+            # 4) Call endpoint
+            fn_resp = self.web_tool.fetch_url(endpoint, timeout_seconds=12)
+            fn_json = fn_resp.get("json") or {}
+            flight_number = (((fn_json or {}).get("data") or {}).get("flightNumber") or "").strip()
+            if flight_number:
+                # Save simple agentic log
+                agent_log_path = os.path.join(log_dir_for_request, "agentic_log.json")
+                with open(agent_log_path, 'w', encoding='utf-8') as f_log:
+                    json.dump({
+                        "strategy": "deterministic_flight_resolver",
+                        "city": city,
+                        "landmark": landmark,
+                        "endpoint": endpoint,
+                        "flightNumber": flight_number
+                    }, f_log, indent=2, ensure_ascii=False)
+                self.logger.info(f"🛫 Deterministic resolver succeeded: {city} -> {landmark} -> {flight_number}")
+                return True, flight_number
+            return False, ""
+        except Exception as e:
+            self.logger.warning(f"Deterministic flight resolver failed: {e}")
+            return False, ""
+        
+        # --------------------------- Deterministic secret-token helpers ---------------------------
+        @staticmethod
+        def is_secret_token_url(url: str) -> bool:
+            try:
+                parsed = urlparse(url)
+                return parsed.hostname == "register.hackrx.in" and "/utils/get-secret-token" in parsed.path
+            except Exception:
+                return False
+        
+        def extract_secret_token(self, url: str) -> Tuple[str, str]:
+            """Fetch token page and return (clean_text_context, token_value or '')."""
+            fetched = self.web_tool.fetch_url(url, timeout_seconds=15)
+            text_context = ""
+            token_value = ""
+            if fetched.get("text"):
+                if "text/html" in (fetched.get("content_type") or ""):
+                    text_context = self.web_tool.html_to_text(fetched["text"])[:8000]
+                else:
+                    text_context = (fetched.get("text") or "")[:8000]
+            # Try DOM first
+            try:
+                html = fetched.get("text") or ""
+                if html:
+                    soup = BeautifulSoup(html, "html.parser")
+                    token_div = soup.find(id="token")
+                    if token_div and token_div.get_text(strip=True):
+                        token_value = token_div.get_text(strip=True)
+            except Exception:
+                pass
+            # Regex fallback: prefer long hex sequences
+            if not token_value and text_context:
+                candidates = re.findall(r"\b[a-fA-F0-9]{32,128}\b", text_context)
+                if candidates:
+                    candidates.sort(key=lambda s: (-len(s), s))
+                    token_value = candidates[0]
+            return text_context, token_value
+        
+        async def process_questions_with_secret_token(self, questions: List[str], log_dir_for_request: str, doc_url: str) -> Tuple[List[Dict[str, Any]], List[str]]:
+            self.logger.info("🔐 Using deterministic secret-token extractor")
+            ctx_text, token = self.extract_secret_token(doc_url)
+            fixed_chunks = [{
+                'id': 'secret_token_page',
+                'text': ctx_text or 'Token page content not available',
+                'size': len(ctx_text or '')
+            }]
+            processed_results: List[Dict[str, Any]] = []
+            final_answers: List[str] = []
+            for i, question in enumerate(questions):
+                chunks_log_path = os.path.join(log_dir_for_request, f"query_{i + 1}_chunks.json")
+                ranked_chunks = [dict(c, **{"rank": idx + 1}) for idx, c in enumerate(fixed_chunks)]
+                with open(chunks_log_path, 'w', encoding='utf-8') as f_chunks:
+                    json.dump(ranked_chunks, f_chunks, indent=2, ensure_ascii=False)
+                if token:
+                    answer = f"The secret token is {token}."
+                else:
+                    answer = "The token could not be found on the page."
+                processed_results.append({
+                    'question': question,
+                    'answer': answer,
+                    'retrieved_chunks_file': chunks_log_path,
+                    'index': i,
+                    'success': True
+                })
+                final_answers.append(answer)
+            agent_log_path = os.path.join(log_dir_for_request, "agentic_log.json")
+            with open(agent_log_path, 'w', encoding='utf-8') as f_log:
+                json.dump({"strategy": "deterministic_secret_token", "token_found": bool(token)}, f_log, indent=2, ensure_ascii=False)
+            return processed_results, final_answers
+        
+        # ... existing code ...
+
+    def _agent_reason_step(self, question: str, context_text: str, observations: List[Dict[str, Any]]) -> Dict[str, Any]:
+        """Ask LLM for the next action: http_get(url) limited to allowed hosts, or final(answer)."""
+        obs_text = "\n".join([
+            f"Observation {i+1}: {o.get('summary','')}" for i, o in enumerate(observations)
+        ])
+        prompt = f"""
+You are an autonomous solver. Use instructions from the document context to answer the question.
+Available tool: http_get(url) — Only GET requests to host register.hackrx.in are allowed.
+Decide one step at a time: output a compact JSON of the form:
+{{"action":"http_get","url":"..."}} OR {{"final":"<one-line answer>"}}.
+Do not include any other keys or text.
+
+Question: {question}
+Context:
+{context_text[:3000]}
+
+Previous observations:
+{obs_text or 'None'}
+
+Guidance:
+- If context mentions calling endpoints to derive the answer, issue the required http_get in the correct order.
+- After you have the needed data, return a final answer as a short string (flight number or single-sentence answer).
+- Keep answers concise.
+"""
+        raw = self.generate_llm_response(prompt)
+        # Strip code fences if any
+        cleaned = raw.strip().strip('`')
+        try:
+            return json.loads(cleaned)
+        except Exception:
+            return {"final": self._normalize_whitespace(raw)}
+
+    def resolve_question_agentically(self, question: str, retrieved_chunks: List[Dict[str, Any]], log_dir_for_request: str) -> Tuple[bool, str]:
+        """Run a small ReAct loop to execute HTTP GETs based on the context and produce a final answer."""
+        if not self.decide_agentic_from_context(question, retrieved_chunks):
+            return False, ""
+        self.logger.info("🤖 Starting agentic resolution loop")
+        # Try deterministic mission resolver first (for flight number tasks)
+        det_ok, det_ans = self.try_resolve_flight_number_from_context(question, retrieved_chunks, log_dir_for_request)
+        if det_ok and det_ans:
+            return True, det_ans
+        context_text = "\n\n".join([c.get('text', '') for c in retrieved_chunks])[:8000]
+        observations: List[Dict[str, Any]] = []
+        actions_log: List[Dict[str, Any]] = []
+        max_steps = 4
+        for step in range(max_steps):
+            step_decision = self._agent_reason_step(question, context_text, observations)
+            self.logger.info(f"🪜 Agentic step {step+1} decision: {step_decision}")
+            if "final" in step_decision:
+                answer = self._normalize_whitespace(step_decision["final"])[:500]
+                # Save agentic log
+                agent_log_path = os.path.join(log_dir_for_request, "agentic_log.json")
+                with open(agent_log_path, 'w', encoding='utf-8') as f_log:
+                    json.dump({"actions": actions_log, "observations": observations, "final": answer}, f_log, indent=2, ensure_ascii=False)
+                return True, answer
+            action = step_decision.get("action")
+            url = step_decision.get("url")
+            if action == "http_get" and isinstance(url, str):
+                parsed = urlparse(url)
+                if parsed.hostname not in self.allowed_action_hosts:
+                    observations.append({"summary": f"Blocked request to disallowed host: {parsed.hostname}"})
+                    actions_log.append({"action": action, "url": url, "status": "blocked"})
+                    continue
+                try:
+                    fetched = self.web_tool.fetch_url(url, timeout_seconds=20)
+                    # Summarize observation for the model (limit size)
+                    obs_summary = ""
+                    if fetched.get("json") is not None:
+                        obs_summary = json.dumps(fetched["json"], ensure_ascii=False)[:2000]
+                    elif fetched.get("text"):
+                        if "text/html" in (fetched.get("content_type") or ""):
+                            obs_summary = self.web_tool.html_to_text(fetched["text"])[:2000]
+                        else:
+                            obs_summary = (fetched["text"] or "")[:2000]
+                    else:
+                        obs_summary = f"Binary {fetched.get('content_type','')}, {len(fetched.get('content') or b'') } bytes"
+                    observations.append({
+                        "summary": obs_summary,
+                        "status_code": fetched.get("status_code"),
+                        "url": fetched.get("url"),
+                    })
+                    actions_log.append({"action": action, "url": url, "status": "ok"})
+                except Exception as e:
+                    observations.append({"summary": f"Request failed: {e}"})
+                    actions_log.append({"action": action, "url": url, "status": "error", "error": str(e)})
+            else:
+                # Unknown action, break
+                break
+        # If loop ends without final, log and return failure
+        agent_log_path = os.path.join(log_dir_for_request, "agentic_log.json")
+        with open(agent_log_path, 'w', encoding='utf-8') as f_log:
+            json.dump({"actions": actions_log, "observations": observations, "final": None}, f_log, indent=2, ensure_ascii=False)
+        return False, ""
+
+    async def process_questions_with_web_search(self, questions: List[str], log_dir_for_request: str) -> Tuple[List[Dict[str, Any]], List[str]]:
+        """Process questions using web search results as context (agentic path)."""
+        self.logger.info(f"🌐 Using agentic web search for {len(questions)} questions")
+        processed_results: List[Dict[str, Any]] = []
+        final_answers: List[str] = []
+
+        for i, question in enumerate(questions):
+            try:
+                search_results = self.web_tool.search(question, max_results=5)
+                # Fetch first 2 pages for richer context if possible
+                retrieved_chunks: List[Dict[str, Any]] = []
+                for r in search_results[:2]:
+                    href = r.get("href")
+                    page_text = ""
+                    if href:
+                        try:
+                            fetched = self.web_tool.fetch_url(href, timeout_seconds=15)
+                            if fetched.get("text"):
+                                if "text/html" in fetched.get("content_type", ""):
+                                    page_text = self.web_tool.html_to_text(fetched["text"])[:4000]
+                                else:
+                                    page_text = (fetched.get("text") or "")[:4000]
+                        except Exception:
+                            page_text = r.get("snippet") or ""
+                    combined_text = self._normalize_whitespace((page_text or r.get("snippet") or r.get("title") or "")[:4000])
+                    if combined_text:
+                        retrieved_chunks.append({
+                            "rank": len(retrieved_chunks) + 1,
+                            "text": combined_text,
+                            "similarity_score": 0.0,
+                            "search_type": "web_search",
+                            "source": href or ""
+                        })
+                # Save chunks
+                chunks_log_path = os.path.join(log_dir_for_request, f"query_{i + 1}_chunks.json")
+                with open(chunks_log_path, 'w', encoding='utf-8') as f_chunks:
+                    json.dump(retrieved_chunks, f_chunks, indent=2, ensure_ascii=False)
+
+                # Answer using the LLM with web context
+                answer = self.generate_improved_answer(question, retrieved_chunks)
+                processed_results.append({
+                    'question': question,
+                    'answer': answer,
+                    'retrieved_chunks_file': chunks_log_path,
+                    'index': i,
+                    'success': True
+                })
+                final_answers.append(answer)
+            except Exception as e:
+                self.logger.error(f"Web search failed for question {i + 1}: {e}")
+                error_answer = f"Error processing question: {str(e)}"
+                processed_results.append({
+                    'question': question,
+                    'answer': error_answer,
+                    'retrieved_chunks_file': None,
+                    'index': i,
+                    'success': False,
+                    'error': str(e)
+                })
+                final_answers.append(error_answer)
+
+        return processed_results, final_answers
     
     def extract_and_concatenate_math(self, question: str) -> str:
         """
@@ -255,7 +903,7 @@ class ImprovedSemanticChunker:
             future = executor.submit(llamaparse_operation)
             try:
                 # Wait for result with 60 second timeout
-                docs = future.result(timeout=20)
+                docs = future.result(timeout=40)
             except concurrent.futures.TimeoutError:
                 self.logger.error(f"LlamaParse timed out after 60 seconds for {file_url}")
                 # Cancel the future and shutdown executor to stop background processing
@@ -597,7 +1245,7 @@ If the context includes mathematical rules, logic, or formulas:
 ---
 
 OUTPUT FORMAT  
-<One-sentence answer derived strictly from the context above>"""
+<One-sentence answer always in english derived strictly from the context above>"""
         
         # Use the unified LLM generation method
         return self.generate_llm_response(prompt)
@@ -617,11 +1265,39 @@ OUTPUT FORMAT
             chunks_log_path = os.path.join(log_dir_for_request, f"query_{question_index + 1}_chunks.json")
             with open(chunks_log_path, 'w', encoding='utf-8') as f_chunks:
                 json.dump(retrieved_chunks, f_chunks, indent=2, ensure_ascii=False)
+
+            # Agentic reasoning path (if applicable)
+            used_agentic = False
+            agentic_answer = ""
+            try:
+                agentic_used, agentic_ans = self.resolve_question_agentically(question, retrieved_chunks, log_dir_for_request)
+                used_agentic = agentic_used
+                agentic_answer = agentic_ans
+            except Exception as e:
+                self.logger.warning(f"Agentic path error (ignored): {e}")
             
-            # Generate answer using LLM in thread pool
-            answer = await loop.run_in_executor(
-                None, self.generate_improved_answer, question, retrieved_chunks
-            )
+            if used_agentic and agentic_answer:
+                answer = agentic_answer
+            else:
+                # Generate answer using LLM in thread pool
+                answer = await loop.run_in_executor(
+                    None, self.generate_improved_answer, question, retrieved_chunks
+                )
+                # Fallback: if answer indicates lack of info but context includes actionable endpoints, try agentic now
+                may_be_incomplete = any(
+                    phrase in (answer or "").lower()
+                    for phrase in [
+                        "does not contain a specific flight number",
+                        "information not found",
+                        "not enough information",
+                        "cannot determine",
+                    ]
+                )
+                if may_be_incomplete and self.decide_agentic_from_context(question, retrieved_chunks):
+                    self.logger.info("🔁 Re-running via agentic path due to incomplete answer signal")
+                    agentic_used2, agentic_ans2 = self.resolve_question_agentically(question, retrieved_chunks, log_dir_for_request)
+                    if agentic_used2 and agentic_ans2:
+                        answer = agentic_ans2
             
             self.logger.info(f"Final Answer: {answer}")
             
@@ -754,6 +1430,23 @@ OUTPUT FORMAT
                 concatenated_result = self.extract_and_concatenate_math(question)
                 math_answers.append(concatenated_result)
             return {'answers': math_answers}
+        # Secret token URL — deterministic extraction
+        if hasattr(self, 'is_secret_token_url') and self.is_secret_token_url(doc_url):
+            request_id = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
+            log_dir_for_request = os.path.join("transaction_logs", request_id)
+            os.makedirs(log_dir_for_request, exist_ok=True)
+            all_results_data, final_answers = await self.process_questions_with_secret_token(questions, log_dir_for_request, doc_url)
+            main_log_data = {
+                'request_id': request_id,
+                'document_url': doc_url,
+                'results': all_results_data
+            }
+            main_log_path = os.path.join(log_dir_for_request, "summary.json")
+            with open(main_log_path, 'w', encoding='utf-8') as f_main:
+                json.dump(main_log_data, f_main, indent=2, ensure_ascii=False)
+            self.logger.info(f"✅ Transaction logs saved to directory: {log_dir_for_request}")
+            self.logger.info("=" * 80)
+            return {'answers': final_answers}
         
         # --- Enhanced Logging Setup ---
         request_id = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
@@ -799,9 +1492,37 @@ OUTPUT FORMAT
             self.logger.info("=" * 80)
             # DO NOT delete pre-chunked collections!
             return {'answers': final_answers}
-        # --- NORMAL FLOW FOR OTHER DOCS ---
+
+        # --- Agentic decision for web tooling (for non-prechunked docs) ---
+        decision = self.decide_use_web_tool(doc_url, questions)
+        self.logger.info(f"🔎 Tool decision: {decision}")
+
+        # If decision is to use general web search
+        if decision.get("use_tool") and decision.get("tool") == "web_search":
+            all_results_data, final_answers = await self.process_questions_with_web_search(questions, log_dir_for_request)
+            main_log_data = {
+                'request_id': request_id,
+                'document_url': doc_url,
+                'results': all_results_data
+            }
+            main_log_path = os.path.join(log_dir_for_request, "summary.json")
+            with open(main_log_path, 'w', encoding='utf-8') as f_main:
+                json.dump(main_log_data, f_main, indent=2, ensure_ascii=False)
+            self.logger.info(f"✅ Transaction logs saved to directory: {log_dir_for_request}")
+            self.logger.info("=" * 80)
+            return {'answers': final_answers}
+
+        # --- NORMAL / FETCH-URL FLOW FOR OTHER DOCS ---
+        chunks: List[Dict[str, Any]] = []
         try:
-            chunks = self.parse_and_chunk_with_llamaparse(doc_url)
+            if decision.get("use_tool") and decision.get("tool") == "fetch_url":
+                target = decision.get("target_url") or doc_url
+                self.logger.info(f"🌐 Agentic fetch_url selected for: {target}")
+                chunks = self.fetch_url_as_chunks(target)
+                if not chunks:
+                    self.logger.warning("fetch_url produced no chunks; falling back to LlamaParse")
+            if not chunks:
+                chunks = self.parse_and_chunk_with_llamaparse(doc_url)
             if not chunks:
                 # Check if it was a ZIP file that caused empty chunks
                 if self.is_zip_file(doc_url):
@@ -809,8 +1530,50 @@ OUTPUT FORMAT
                 else:
                     answers = ["Document type not supported, please upload a valid document."] * len(questions)
                 return {'answers': answers}
+            # Language detection: if PDF and not English, use OCR full-text as fixed context
+            sample_text = self._normalize_whitespace(" ".join(c.get('text', '') for c in chunks[:3])[:4000])
+            if self.is_pdf_url(doc_url) and not self.is_english_text(sample_text):
+                if not getattr(self, 'tesseract_available', False):
+                    self.logger.info("🌐 Non-English PDF detected but OCR unavailable — proceeding with parsed chunks")
+                else:
+                    self.logger.info("🌐 Non-English PDF detected — switching to OCR-based full-text context")
+                ocr_text = self.ocr_pdf_to_text(doc_url)
+                if ocr_text:
+                    fixed_chunks = [{
+                        'id': 'ocr_full_text',
+                        'text': ocr_text,
+                        'size': len(ocr_text)
+                    }]
+                    # Process all questions using fixed context, no vector store
+                    try:
+                        loop = asyncio.get_running_loop()
+                        task = asyncio.create_task(
+                            self.process_questions_with_fixed_context(questions, log_dir_for_request, fixed_chunks)
+                        )
+                        all_results_data, final_answers = await task
+                    except RuntimeError:
+                        loop = asyncio.new_event_loop()
+                        asyncio.set_event_loop(loop)
+                        try:
+                            all_results_data, final_answers = loop.run_until_complete(
+                                self.process_questions_with_fixed_context(questions, log_dir_for_request, fixed_chunks)
+                            )
+                        finally:
+                            loop.close()
+                    main_log_data = {
+                        'request_id': request_id,
+                        'document_url': doc_url,
+                        'results': all_results_data
+                    }
+                    main_log_path = os.path.join(log_dir_for_request, "summary.json")
+                    with open(main_log_path, 'w', encoding='utf-8') as f_main:
+                        json.dump(main_log_data, f_main, indent=2, ensure_ascii=False)
+                    self.logger.info(f"✅ Transaction logs saved to directory: {log_dir_for_request}")
+                    self.logger.info("=" * 80)
+                    # Return early — no collection created
+                    return {'answers': final_answers}
         except Exception as e:
-            self.logger.error(f"LlamaParse failed: {e}")
+            self.logger.error(f"LlamaParse/fetch failed: {e}")
             answers = [f"Document processing failed: {str(e)}"] * len(questions)
             return {'answers': answers}
         

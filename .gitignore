@@ -9,7 +9,7 @@ logs/
 new_round2_logs/
 
 vector_store_backup_1754021656/
-
+transaction_logs/
 # Python
 __pycache__/
 *.py[cod]
