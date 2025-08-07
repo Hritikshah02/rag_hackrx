@@ -9,6 +9,7 @@ import datetime
 import time
 import re
 import concurrent.futures
+import asyncio
 from contextlib import contextmanager
 from io import BytesIO
 from typing import List, Dict, Any, Optional, Tuple
@@ -600,7 +601,91 @@ OUTPUT FORMAT
         # Use the unified LLM generation method
         return self.generate_llm_response(prompt)
     
-    def process_payload(self, payload: Dict[str, Any]) -> Dict[str, Any]:
+    async def process_single_question(self, question: str, question_index: int, log_dir_for_request: str) -> Dict[str, Any]:
+        """Process a single question asynchronously with error handling"""
+        try:
+            self.logger.info(f"\n--- Processing Question {question_index + 1}: {question} ---")
+            
+            # Run hybrid search in thread pool to avoid blocking
+            loop = asyncio.get_event_loop()
+            retrieved_chunks = await loop.run_in_executor(
+                None, self.hybrid_search, question
+            )
+            
+            # Save chunks to file
+            chunks_log_path = os.path.join(log_dir_for_request, f"query_{question_index + 1}_chunks.json")
+            with open(chunks_log_path, 'w', encoding='utf-8') as f_chunks:
+                json.dump(retrieved_chunks, f_chunks, indent=2, ensure_ascii=False)
+            
+            # Generate answer using LLM in thread pool
+            answer = await loop.run_in_executor(
+                None, self.generate_improved_answer, question, retrieved_chunks
+            )
+            
+            self.logger.info(f"Final Answer: {answer}")
+            
+            return {
+                'question': question,
+                'answer': answer,
+                'retrieved_chunks_file': chunks_log_path,
+                'index': question_index,
+                'success': True
+            }
+            
+        except Exception as e:
+            self.logger.error(f"Error processing question {question_index + 1}: {e}")
+            error_answer = f"Error processing question: {str(e)}"
+            
+            return {
+                'question': question,
+                'answer': error_answer,
+                'retrieved_chunks_file': None,
+                'index': question_index,
+                'success': False,
+                'error': str(e)
+            }
+    
+    async def process_questions_parallel(self, questions: List[str], log_dir_for_request: str) -> List[Dict[str, Any]]:
+        """Process all questions in parallel and return results in original order"""
+        self.logger.info(f"🚀 Starting parallel processing of {len(questions)} questions...")
+        
+        # Create tasks for all questions
+        tasks = [
+            self.process_single_question(question, i, log_dir_for_request)
+            for i, question in enumerate(questions)
+        ]
+        
+        # Execute all tasks concurrently
+        results = await asyncio.gather(*tasks, return_exceptions=True)
+        
+        # Handle any exceptions that occurred
+        processed_results = []
+        for i, result in enumerate(results):
+            if isinstance(result, Exception):
+                self.logger.error(f"Exception in question {i + 1}: {result}")
+                processed_results.append({
+                    'question': questions[i],
+                    'answer': f"Error processing question: {str(result)}",
+                    'retrieved_chunks_file': None,
+                    'index': i,
+                    'success': False,
+                    'error': str(result)
+                })
+            else:
+                processed_results.append(result)
+        
+        # Sort results by original question index to maintain order
+        processed_results.sort(key=lambda x: x['index'])
+        
+        # Extract answers in order and log statistics
+        final_answers = [result['answer'] for result in processed_results]
+        successful_count = sum(1 for result in processed_results if result['success'])
+        
+        self.logger.info(f"✅ Parallel processing completed: {successful_count}/{len(questions)} questions successful")
+        
+        return processed_results, final_answers
+    
+    async def process_payload(self, payload: Dict[str, Any]) -> Dict[str, Any]:
         """
         Process the complete payload with enhanced logging for each transaction.
         Handles pre-chunked/embedded docs for special URLs.
@@ -642,22 +727,25 @@ OUTPUT FORMAT
             self.logger.info(f"Using pre-chunked collection: {self.collection_name}")
             # Connect to the precomputed collection
             self.collection = self.chroma_client.get_collection(self.collection_name)
-            all_results_data = []
-            final_answers = []
-            for i, question in enumerate(questions, 1):
-                self.logger.info(f"\n--- Processing Question {i}: {question} ---")
-                retrieved_chunks = self.hybrid_search(question)
-                chunks_log_path = os.path.join(log_dir_for_request, f"query_{i}_chunks.json")
-                with open(chunks_log_path, 'w', encoding='utf-8') as f_chunks:
-                    json.dump(retrieved_chunks, f_chunks, indent=2, ensure_ascii=False)
-                answer = self.generate_improved_answer(question, retrieved_chunks)
-                self.logger.info(f"Final Answer: {answer}")
-                final_answers.append(answer)
-                all_results_data.append({
-                    'question': question, 
-                    'answer': answer,
-                    'retrieved_chunks_file': chunks_log_path
-                })
+            # Process all questions in parallel using existing event loop
+            try:
+                # Check if we're already in an event loop (FastAPI context)
+                loop = asyncio.get_running_loop()
+                # Use asyncio.create_task to run in existing loop
+                task = asyncio.create_task(
+                    self.process_questions_parallel(questions, log_dir_for_request)
+                )
+                all_results_data, final_answers = await task
+            except RuntimeError:
+                # No event loop running, create a new one (standalone usage)
+                loop = asyncio.new_event_loop()
+                asyncio.set_event_loop(loop)
+                try:
+                    all_results_data, final_answers = loop.run_until_complete(
+                        self.process_questions_parallel(questions, log_dir_for_request)
+                    )
+                finally:
+                    loop.close()
             # Logging
             main_log_data = {
                 'request_id': request_id,
@@ -690,22 +778,25 @@ OUTPUT FORMAT
         self.collection_name = f"docs_{uuid.uuid4().hex}"
         self.logger.info(f"Creating new collection: {self.collection_name}")
         self.create_vector_store(chunks)
-        all_results_data = []
-        final_answers = []
-        for i, question in enumerate(questions, 1):
-            self.logger.info(f"\n--- Processing Question {i}: {question} ---")
-            retrieved_chunks = self.hybrid_search(question)
-            chunks_log_path = os.path.join(log_dir_for_request, f"query_{i}_chunks.json")
-            with open(chunks_log_path, 'w', encoding='utf-8') as f_chunks:
-                json.dump(retrieved_chunks, f_chunks, indent=2, ensure_ascii=False)
-            answer = self.generate_improved_answer(question, retrieved_chunks)
-            self.logger.info(f"Final Answer: {answer}")
-            final_answers.append(answer)
-            all_results_data.append({
-                'question': question, 
-                'answer': answer,
-                'retrieved_chunks_file': chunks_log_path
-            })
+        # Process all questions in parallel using existing event loop
+        try:
+            # Check if we're already in an event loop (FastAPI context)
+            loop = asyncio.get_running_loop()
+            # Use asyncio.create_task to run in existing loop
+            task = asyncio.create_task(
+                self.process_questions_parallel(questions, log_dir_for_request)
+            )
+            all_results_data, final_answers = await task
+        except RuntimeError:
+            # No event loop running, create a new one (standalone usage)
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+            try:
+                all_results_data, final_answers = loop.run_until_complete(
+                    self.process_questions_parallel(questions, log_dir_for_request)
+                )
+            finally:
+                loop.close()
         main_log_data = {
             'request_id': request_id,
             'document_url': doc_url,
@@ -805,7 +896,7 @@ async def hackrx_run(
     start_time = time.time()
 
     try:
-        response_data = rag_pipeline.process_payload(request.dict())
+        response_data = await rag_pipeline.process_payload(request.dict())
         answers = response_data['answers']
         
         total_time = time.time() - start_time

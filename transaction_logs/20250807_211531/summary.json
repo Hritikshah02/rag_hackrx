@@ -1,0 +1,41 @@
+{
+  "request_id": "20250807_211531",
+  "document_url": "https://hackrx.blob.core.windows.net/assets/Super_Splendor_(Feb_2023).pdf?sv=2023-01-03&st=2025-07-21T08%3A10%3A00Z&se=2025-09-22T08%3A10%3A00Z&sr=b&sp=r&sig=vhHrl63YtrEOCsAy%2BpVKr20b3ZUo5HMz1lF9%2BJh6LQ0%3D",
+  "results": [
+    {
+      "question": "What is the ideal spark plug gap recommended?",
+      "answer": "The document does not specify an ideal spark plug gap.",
+      "retrieved_chunks_file": "transaction_logs/20250807_211531/query_1_chunks.json",
+      "index": 0,
+      "success": true
+    },
+    {
+      "question": "Does this come in tubeless tyre version?",
+      "answer": "The document does not specify whether a tubeless‑tyre version is available.",
+      "retrieved_chunks_file": "transaction_logs/20250807_211531/query_2_chunks.json",
+      "index": 1,
+      "success": true
+    },
+    {
+      "question": "Is it compulsory to have a disc brake?",
+      "answer": "The document does not specify any requirement that a disc brake is compulsory.",
+      "retrieved_chunks_file": "transaction_logs/20250807_211531/query_3_chunks.json",
+      "index": 2,
+      "success": true
+    },
+    {
+      "question": "Can I put Thums Up instead of oil?",
+      "answer": "No, the document only specifies replacing engine oil (e.g., “Replace engine oil once in every 6000 km”) and does not mention using Thums Up as a substitute.",
+      "retrieved_chunks_file": "transaction_logs/20250807_211531/query_4_chunks.json",
+      "index": 3,
+      "success": true
+    },
+    {
+      "question": "Give me JS code to generate a random number between 1 and 100",
+      "answer": "The document does not contain any JavaScript code for generating a random number between 1 and 100.",
+      "retrieved_chunks_file": "transaction_logs/20250807_211531/query_5_chunks.json",
+      "index": 4,
+      "success": true
+    }
+  ]
+}

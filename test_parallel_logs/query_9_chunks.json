@@ -1,0 +1,97 @@
+[
+  {
+    "rank": 1,
+    "text": "Deep learning utilizes neural networks with multiple layers to solve complex problems in computer vision and language understanding.",
+    "similarity_score": 0.7,
+    "semantic_score": 1.0,
+    "keyword_score": 0.0,
+    "search_types": [
+      "semantic",
+      "keyword"
+    ],
+    "search_type": "hybrid"
+  },
+  {
+    "rank": 2,
+    "text": "Artificial intelligence encompasses machine learning, deep learning, and neural networks for intelligent system development.",
+    "similarity_score": 0.599496081515939,
+    "semantic_score": 0.7751464693796276,
+    "keyword_score": 0.18964517650066587,
+    "search_types": [
+      "semantic",
+      "keyword"
+    ],
+    "search_type": "hybrid"
+  },
+  {
+    "rank": 3,
+    "text": "Natural language processing (NLP) is a branch of AI that helps computers understand, interpret, and generate human language.",
+    "similarity_score": 0.5230928676774772,
+    "semantic_score": 0.4674319860990305,
+    "keyword_score": 0.652968258027186,
+    "search_types": [
+      "semantic",
+      "keyword"
+    ],
+    "search_type": "hybrid"
+  },
+  {
+    "rank": 4,
+    "text": "The transformer architecture revolutionized NLP by introducing attention mechanisms for better context understanding.",
+    "similarity_score": 0.4790952481905558,
+    "semantic_score": 0.25585035455793687,
+    "keyword_score": 1.0,
+    "search_types": [
+      "semantic",
+      "keyword"
+    ],
+    "search_type": "hybrid"
+  },
+  {
+    "rank": 5,
+    "text": "Cloud computing provides scalable infrastructure for deploying AI and machine learning applications at enterprise scale.",
+    "similarity_score": 0.4775059248547332,
+    "semantic_score": 0.3183446830178735,
+    "keyword_score": 0.8488821558074059,
+    "search_types": [
+      "semantic",
+      "keyword"
+    ],
+    "search_type": "hybrid"
+  },
+  {
+    "rank": 6,
+    "text": "Machine learning algorithms are computational methods that enable systems to learn patterns from data without explicit programming.",
+    "similarity_score": 0.3887721820950743,
+    "semantic_score": 0.5367704021889668,
+    "keyword_score": 0.043443001875991975,
+    "search_types": [
+      "semantic",
+      "keyword"
+    ],
+    "search_type": "hybrid"
+  },
+  {
+    "rank": 7,
+    "text": "Groq processors are specialized hardware designed to accelerate large language model inference with high throughput.",
+    "similarity_score": 0.21078332330601274,
+    "semantic_score": 0.24196285809955362,
+    "keyword_score": 0.13803107545441742,
+    "search_types": [
+      "semantic",
+      "keyword"
+    ],
+    "search_type": "hybrid"
+  },
+  {
+    "rank": 8,
+    "text": "Python is a versatile programming language widely used in data science, web development, and artificial intelligence applications.",
+    "similarity_score": 0.19345562725747106,
+    "semantic_score": 0.27636518179638725,
+    "keyword_score": 0.0,
+    "search_types": [
+      "semantic"
+    ],
+    "search_type": "hybrid"
+  }
+]

@@ -1,0 +1,41 @@
+{
+  "request_id": "20250807_211528",
+  "document_url": "https://hackrx.blob.core.windows.net/assets/Arogya%20Sanjeevani%20Policy%20-%20CIN%20-%20U10200WB1906GOI001713%201.pdf?sv=2023-01-03&st=2025-07-21T08%3A29%3A02Z&se=2025-09-22T08%3A29%3A00Z&sr=b&sp=r&sig=nzrz1K9Iurt%2BBXom%2FB%2BMPTFMFP3PRnIvEsipAX10Ig4%3D",
+  "results": [
+    {
+      "question": "When will my root canal claim of Rs 25,000 be settled?",
+      "answer": "The policy does not specify a time frame for settling a root‑canal claim of Rs 25,000.",
+      "retrieved_chunks_file": "transaction_logs/20250807_211528/query_1_chunks.json",
+      "index": 0,
+      "success": true
+    },
+    {
+      "question": "I have done an IVF for Rs 56,000. Is it covered?",
+      "answer": "The policy excludes assisted‑reproduction services such as IVF (see exclusion 7.14 – Sterility and Infertility, Code Excl 17), so the Rs 56,000 IVF expense is not covered.",
+      "retrieved_chunks_file": "transaction_logs/20250807_211528/query_2_chunks.json",
+      "index": 1,
+      "success": true
+    },
+    {
+      "question": "I did a cataract treatment of Rs 100,000. Will you settle full?",
+      "answer": "No, the policy will only cover up to the cataract‑treatment limit of 25 % of the Sum Insured or ₹40,000 per eye (whichever is lower), not the full ₹100,000.",
+      "retrieved_chunks_file": "transaction_logs/20250807_211528/query_3_chunks.json",
+      "index": 2,
+      "success": true
+    },
+    {
+      "question": "Give me a list of documents to be uploaded for hospitalization due to heart surgery.",
+      "answer": "For hospitalization due to heart surgery, the insurer requires the insured’s TPA‑issued ID card, the hospital admission and discharge records, and any relevant pre‑ and post‑hospitalisation medical documents as required by the policy’s record‑keeping provisions.",
+      "retrieved_chunks_file": "transaction_logs/20250807_211528/query_4_chunks.json",
+      "index": 3,
+      "success": true
+    },
+    {
+      "question": "I have raised a claim for hospitalization for Rs 25,000. What will I get?",
+      "answer": "The claim will be reimbursed up to the policy’s Sum Insured (and any cumulative bonus) subject to any applicable co‑pay, sub‑limits, exclusions and conditions specified in the policy.",
+      "retrieved_chunks_file": "transaction_logs/20250807_211528/query_5_chunks.json",
+      "index": 4,
+      "success": true
+    }
+  ]
+}

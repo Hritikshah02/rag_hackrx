@@ -1,0 +1,34 @@
+{
+  "request_id": "20250807_212022",
+  "document_url": "https://hackrx.blob.core.windows.net/assets/Arogya%20Sanjeevani%20Policy%20-%20CIN%20-%20U10200WB1906GOI001713%201.pdf?sv=2023-01-03&st=2025-07-21T08%3A29%3A02Z&se=2025-09-22T08%3A29%3A00Z&sr=b&sp=r&sig=nzrz1K9Iurt%2BBXom%2FB%2BMPTFMFP3PRnIvEsipAX10Ig4%3D",
+  "results": [
+    {
+      "question": "When will my root canal claim of Rs 25,000 be settled?",
+      "answer": "The claim will be settled within 60 days from the date of discharge, as the policy’s post‑hospitalisation period (Section 4.5) allows reimbursement for expenses incurred up to that time.",
+      "retrieved_chunks_file": "transaction_logs/20250807_212022/query_1_chunks.json",
+      "index": 0,
+      "success": true
+    },
+    {
+      "question": "I have done an IVF for Rs 56,000. Is it covered?",
+      "answer": "The provided policy excerpts do not mention IVF as either a covered or excluded procedure, so coverage cannot be determined from the given information.",
+      "retrieved_chunks_file": "transaction_logs/20250807_212022/query_2_chunks.json",
+      "index": 1,
+      "success": true
+    },
+    {
+      "question": "I did a cataract treatment of Rs 100,000. Will you settle the full Rs 100,000?",
+      "answer": "No, the policy limits cataract treatment reimbursement to the lower of 25 % of the Sum Insured or ₹ 40,000 per eye in a policy period, so the full ₹ 100,000 would not be paid.",
+      "retrieved_chunks_file": "transaction_logs/20250807_212022/query_3_chunks.json",
+      "index": 2,
+      "success": true
+    },
+    {
+      "question": "Give me a list of documents to be uploaded for hospitalization for heart surgery.",
+      "answer": "The policy documents do not provide a specific list of documents to be uploaded for hospitalization for heart surgery.",
+      "retrieved_chunks_file": "transaction_logs/20250807_212022/query_4_chunks.json",
+      "index": 3,
+      "success": true
+    }
+  ]
+}

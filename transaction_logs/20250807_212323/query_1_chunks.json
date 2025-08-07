@@ -1,0 +1,97 @@
+[
+  {
+    "rank": 1,
+    "text": "B BAJAJ\nFINSERV\n\n\nPolicy Doc\n\n\n1",
+    "similarity_score": NaN,
+    "semantic_score": NaN,
+    "keyword_score": 0.0,
+    "search_types": [
+      "semantic"
+    ],
+    "search_type": "hybrid"
+  },
+  {
+    "rank": 2,
+    "text": "Mediclaim Insurance Policy\nGroup Health Insurance Solution 2024\nUIN: OICHLGP25047V032425 The Oriental Insurance Company\nLimited comprehensive coverage solution\n\n\n2",
+    "similarity_score": NaN,
+    "semantic_score": NaN,
+    "keyword_score": 0.27010774772487883,
+    "search_types": [
+      "semantic",
+      "keyword"
+    ],
+    "search_type": "hybrid"
+  },
+  {
+    "rank": 3,
+    "text": "Policy Overview\n\n    Coverage Basics                                    Service Delivery\n    Comprehensive insurance protection for medical     Professional claims management and customer\nexpenses arising from illness or accidental injury     support through dedicated service channels\n    Named insured persons in policy schedule           Third Party Administrator TPA servicing\n    Premium paid in advance annually                   Direct company service options available\n    One year coverage period specified                 Medical expense reimbursement for treatment\n\n\n    3",
+    "similarity_score": NaN,
+    "semantic_score": NaN,
+    "keyword_score": 0.20386938106014352,
+    "search_types": [
+      "semantic",
+      "keyword"
+    ],
+    "search_type": "hybrid"
+  },
+  {
+    "rank": 4,
+    "text": "Key Coverage Details\n\n\n Hospitalization coverage for medical       Home treatment coverage when hospital     Reimbursement\n surgical treatment in Indian hospitals       admission not possible circumstances     paidto hospitals or insured\n                                                                                       persons directly\n            nursing homes                     Domiciliary Hospitalization              Reimbursement Process\n Hospitalization Expenses                    Minimum three days treatment required     Network hospitals with prior consent\nMedical surgical treatment in registered     Hospital admission not possible           Direct payment to insured\nhospitals\nQualified medical practitioner advice         Qualified practitioner supervised        Sum insured policy limits\nrequired                                     treatment\nCoverage limited to sum insured amount\n\n\n4",
+    "similarity_score": NaN,
+    "semantic_score": NaN,
+    "keyword_score": 0.41983653218302325,
+    "search_types": [
+      "semantic",
+      "keyword"
+    ],
+    "search_type": "hybrid"
+  },
+  {
+    "rank": 5,
+    "text": "Reimbursable Medical Expenses Coverage\n\n\n    Room Services    Medical Fees    Additional Services\n    Room and nursing expenses up    Surgeon anesthetist consultant    Ambulance services up to 1%\nto 1% sum insured or ?5,000         specialist fees anesthesia blood    sum insured <2,000 organ\ndaily; ICU expenses coverage        oxygen operation theater            donation hospitalization\n                                    charges medicines                   expenses coverage\n\n\n    5",
+    "similarity_score": NaN,
+    "semantic_score": NaN,
+    "keyword_score": 1.0,
+    "search_types": [
+      "semantic",
+      "keyword"
+    ],
+    "search_type": "hybrid"
+  },
+  {
+    "rank": 6,
+    "text": "Telemedicine Maternity Benefits\n\nTelemedicine Coverage                               Maternity Benefits\nDigital consultation expenses with registered       Optional maternity coverage with 10% additional\nmedical practitioners through telecommunication     premium for comprehensive maternal care\nplatforms                                            First two children coverage <50,000\n Registered practitioner consultation expenses       Nine month waiting period required\n covered                                             Newborn covered dayone months\n 72,000 limit per insured family\nPer policy period coverage limit\n\n\n7",
+    "similarity_score": NaN,
+    "semantic_score": NaN,
+    "keyword_score": 0.055442812517736965,
+    "search_types": [
+      "semantic",
+      "keyword"
+    ],
+    "search_type": "hybrid"
+  },
+  {
+    "rank": 7,
+    "text": "Specialized Medical Coverage Areas\n\n\nHIV AIDS    Mental Illness                                    Advanced Procedures\nComprehensive coverage    Hospitalization in mental health    Uterine Artery Embolization\nincluding acute infection clinical    establishments excluding    750,000 Robotic Surgeries\nandAIDS related                        substance abuse mental    71,00,000 Oral Chemotherapy\nlatency\nmedical treatment expenses             retardation therapies    25% coverage\n\n\n8",
+    "similarity_score": NaN,
+    "semantic_score": NaN,
+    "keyword_score": 0.12702257444219012,
+    "search_types": [
+      "semantic",
+      "keyword"
+    ],
+    "search_type": "hybrid"
+  },
+  {
+    "rank": 8,
+    "text": "Important Policy Definitions\n\n\n    #\n\n       Hospital Facilities    AYUSH Hospitals    Treatment Types\nRegistered facility with qualified    Facilities providing Ayurveda    DayCare procedures completed\n      nursing staff medical    Yoga Unani Siddha Homeopathy                single day dialysis\n   practitioners minimum 10-15    treatments with qualified              chemotherapy In-Patient\n    beds equipped operation theater    traditiona medicine                minimum 24 hours stay\n                                       practitioners\n\n\n    9",
+    "similarity_score": NaN,
+    "semantic_score": NaN,
+    "keyword_score": 0.2452614806067505,
+    "search_types": [
+      "semantic",
+      "keyword"
+    ],
+    "search_type": "hybrid"
+  }
+]

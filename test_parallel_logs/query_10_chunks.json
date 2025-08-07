@@ -1,0 +1,92 @@
+[
+  {
+    "rank": 1,
+    "text": "Cloud computing provides scalable infrastructure for deploying AI and machine learning applications at enterprise scale.",
+    "similarity_score": 1.0,
+    "semantic_score": 1.0,
+    "keyword_score": 1.0,
+    "search_types": [
+      "semantic",
+      "keyword"
+    ],
+    "search_type": "hybrid"
+  },
+  {
+    "rank": 2,
+    "text": "Artificial intelligence encompasses machine learning, deep learning, and neural networks for intelligent system development.",
+    "similarity_score": 0.27913966450649386,
+    "semantic_score": 0.39877094929499124,
+    "keyword_score": 0.0,
+    "search_types": [
+      "semantic"
+    ],
+    "search_type": "hybrid"
+  },
+  {
+    "rank": 3,
+    "text": "Natural language processing (NLP) is a branch of AI that helps computers understand, interpret, and generate human language.",
+    "similarity_score": 0.2439039567609853,
+    "semantic_score": 0.34843422394426476,
+    "keyword_score": 0.0,
+    "search_types": [
+      "semantic",
+      "keyword"
+    ],
+    "search_type": "hybrid"
+  },
+  {
+    "rank": 4,
+    "text": "Machine learning algorithms are computational methods that enable systems to learn patterns from data without explicit programming.",
+    "similarity_score": 0.15947164662061852,
+    "semantic_score": 0.22781663802945507,
+    "keyword_score": 0.0,
+    "search_types": [
+      "semantic"
+    ],
+    "search_type": "hybrid"
+  },
+  {
+    "rank": 5,
+    "text": "Python is a versatile programming language widely used in data science, web development, and artificial intelligence applications.",
+    "similarity_score": 0.15124421064796295,
+    "semantic_score": 0.2160631580685185,
+    "keyword_score": 0.0,
+    "search_types": [
+      "semantic"
+    ],
+    "search_type": "hybrid"
+  },
+  {
+    "rank": 6,
+    "text": "The transformer architecture revolutionized NLP by introducing attention mechanisms for better context understanding.",
+    "similarity_score": 0.13076557235689965,
+    "semantic_score": 0.18680796050985665,
+    "keyword_score": 0.0,
+    "search_types": [
+      "semantic"
+    ],
+    "search_type": "hybrid"
+  },
+  {
+    "rank": 7,
+    "text": "Groq processors are specialized hardware designed to accelerate large language model inference with high throughput.",
+    "similarity_score": 0.11593994186201563,
+    "semantic_score": 0.16562848837430805,
+    "keyword_score": 0.0,
+    "search_types": [
+      "semantic"
+    ],
+    "search_type": "hybrid"
+  },
+  {
+    "rank": 8,
+    "text": "Deep learning utilizes neural networks with multiple layers to solve complex problems in computer vision and language understanding.",
+    "similarity_score": 0.10946353486056662,
+    "semantic_score": 0.15637647837223803,
+    "keyword_score": 0.0,
+    "search_types": [
+      "semantic"
+    ],
+    "search_type": "hybrid"
+  }
+]
