@@ -292,9 +292,7 @@ def test_all_webhooks():
     
     # Define all test payloads
     test_payloads = [
-        # (test_payload_1, "1"),
-        # (test_payload_2, "2"),
-        # (test_payload_3, "3"),
+        (Jtest_payload_3, "3"),
         # (test_payload_4, "4"),
         # (test_payload_5, "Indian Constitution Test (Factual Questions)"),
         # (test_payload_5b, "Indian Constitution Test (Scenario-based Questions)"),
@@ -304,7 +302,7 @@ def test_all_webhooks():
         # (test_payload_misinfo, "Misinfo Test"),
         # (test_payload_math, "Math Test"),
         # (test_payload_zip, "Zip Test"),
-        (test_payload_iso, "ISO Test")
+        # (test_payload_iso, "ISO Test")
     ]
     
     results = []

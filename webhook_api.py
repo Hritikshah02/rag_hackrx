@@ -24,6 +24,7 @@ import uvicorn
 import torch
 import numpy as np
 import google.generativeai as genai
+from groq import Groq
 from sentence_transformers import SentenceTransformer
 import chromadb
 from chromadb.config import Settings
@@ -31,6 +32,7 @@ from llama_parse import LlamaParse
 from llama_index.core.node_parser import SimpleNodeParser
 from llama_index.core import Document as LlamaDocument
 import tiktoken
+from rank_bm25 import BM25Okapi
 from dotenv import load_dotenv
 
 # --- Load Environment Variables ---
@@ -66,16 +68,43 @@ class ImprovedSemanticChunker:
         # Create directory for detailed transaction logs
         os.makedirs("transaction_logs", exist_ok=True)
 
-        # Configure Google Gemini
-        self.google_api_key = os.getenv('GOOGLE_API_KEY')
-        if not self.google_api_key:
-            raise ValueError("GOOGLE_API_KEY environment variable is required")
+        # Configure Groq LLM (Primary)
+        self.groq_api_key = os.getenv('GROQ_API_KEY')
+        self.groq_client = None
+        self.groq_model = "openai/gpt-oss-120b"
         
-        genai.configure(api_key=self.google_api_key)
-        # Initialize both LLM models for dynamic selection
-        self.llm_model_lite = genai.GenerativeModel('gemini-2.5-flash-lite')
-        self.llm_model_full = genai.GenerativeModel('gemini-2.5-flash')
-        self.current_llm_model = self.llm_model_lite  # Default to lite model
+        # Configure Google Gemini (Fallback)
+        self.google_api_key = os.getenv('GOOGLE_API_KEY')
+        
+        # Initialize Groq client if API key is available
+        if self.groq_api_key:
+            try:
+                self.groq_client = Groq(api_key=self.groq_api_key)
+                self.logger.info(f"✅ Groq LLM initialized successfully with model: {self.groq_model}")
+                self.primary_llm = "groq"
+            except Exception as e:
+                self.logger.warning(f"⚠️ Failed to initialize Groq LLM: {e}")
+                self.groq_client = None
+                self.primary_llm = "gemini"
+        else:
+            self.logger.warning("⚠️ GROQ_API_KEY not found, using Gemini as primary LLM")
+            self.primary_llm = "gemini"
+        
+        # Initialize Gemini (fallback or primary if Groq fails)
+        if self.google_api_key:
+            try:
+                genai.configure(api_key=self.google_api_key)
+                self.llm_model_lite = genai.GenerativeModel('gemini-2.5-flash-lite')
+                self.llm_model_full = genai.GenerativeModel('gemini-2.5-flash')
+                self.current_llm_model = self.llm_model_lite
+                self.logger.info("✅ Gemini LLM initialized successfully (fallback)")
+            except Exception as e:
+                self.logger.error(f"❌ Failed to initialize Gemini LLM: {e}")
+                if self.primary_llm == "gemini":
+                    raise ValueError("Both Groq and Gemini LLM initialization failed")
+        else:
+            if self.primary_llm == "gemini":
+                raise ValueError("GOOGLE_API_KEY environment variable is required when Groq is not available")
         
         # Initialize memory-efficient embedding model  
         self.logger.info("Loading BGE-large-EN embedding model (memory optimized)...")
@@ -97,6 +126,11 @@ class ImprovedSemanticChunker:
 
         # ZIP file error message
         self.ZIP_ERROR_MESSAGE = "ZIP file is not allowed, please upload a valid file"
+        
+        # Initialize BM25 for keyword search (hybrid search component)
+        self.bm25_index = None
+        self.bm25_documents = []  # Store documents for BM25 indexing
+        self.document_chunks = []  # Store chunk texts for retrieval
         
         # BIN file error message  
         self.BIN_ERROR_MESSAGE = "BIN file is not allowed, please upload a valid file"
@@ -311,7 +345,123 @@ class ImprovedSemanticChunker:
             ids=[chunk['id'] for chunk in chunks],
             metadatas=[{'size': chunk['size']} for chunk in chunks]
         )
+        
+        # Build BM25 index for hybrid search
+        self.logger.info("Building BM25 index for keyword search...")
+        self.document_chunks = texts  # Store chunk texts for retrieval
+        # Tokenize documents for BM25 (simple whitespace + lowercase)
+        tokenized_docs = [doc.lower().split() for doc in texts]
+        self.bm25_documents = tokenized_docs
+        self.bm25_index = BM25Okapi(tokenized_docs)
+        
         self.logger.info(f"Added {len(chunks)} chunks to vector store: {self.collection_name}")
+        self.logger.info(f"Built BM25 index with {len(tokenized_docs)} documents")
+    
+    def keyword_search(self, query: str, top_k: int = 8) -> List[Dict[str, Any]]:
+        """Perform BM25-based keyword search"""
+        if not self.bm25_index or not self.document_chunks:
+            self.logger.warning("BM25 index not available for keyword search")
+            return []
+        
+        self.logger.info(f"Performing keyword search for: '{query}'")
+        
+        # Tokenize query (same as documents: lowercase + split)
+        query_tokens = query.lower().split()
+        
+        # Get BM25 scores for all documents
+        bm25_scores = self.bm25_index.get_scores(query_tokens)
+        
+        # Get top-k results with their indices
+        top_indices = np.argsort(bm25_scores)[::-1][:top_k]
+        
+        retrieved_chunks = []
+        for i, idx in enumerate(top_indices):
+            if bm25_scores[idx] > 0:  # Only include documents with positive scores
+                retrieved_chunks.append({
+                    'rank': i + 1,
+                    'text': self.document_chunks[idx],
+                    'similarity_score': float(bm25_scores[idx]),
+                    'search_type': 'keyword'
+                })
+        
+        return retrieved_chunks
+    
+    def hybrid_search(self, query: str, top_k: int = 8, semantic_weight: float = 0.7, keyword_weight: float = 0.3) -> List[Dict[str, Any]]:
+        """Perform hybrid search combining semantic and keyword search with score fusion"""
+        self.logger.info(f"Performing hybrid search for: '{query}' (semantic_weight={semantic_weight}, keyword_weight={keyword_weight})")
+        
+        # Get results from both search methods
+        semantic_results = self.advanced_semantic_search(query, top_k * 2)  # Get more results for fusion
+        keyword_results = self.keyword_search(query, top_k * 2)
+        
+        # Create a dictionary to store combined scores by document text
+        combined_scores = {}
+        
+        # Normalize and combine semantic scores
+        if semantic_results:
+            max_semantic_score = max(result['similarity_score'] for result in semantic_results)
+            min_semantic_score = min(result['similarity_score'] for result in semantic_results)
+            semantic_range = max_semantic_score - min_semantic_score if max_semantic_score != min_semantic_score else 1
+            
+            for result in semantic_results:
+                text = result['text']
+                # Normalize score to 0-1 range
+                normalized_score = (result['similarity_score'] - min_semantic_score) / semantic_range
+                combined_scores[text] = {
+                    'text': text,
+                    'semantic_score': normalized_score,
+                    'keyword_score': 0.0,
+                    'combined_score': normalized_score * semantic_weight,
+                    'search_types': ['semantic']
+                }
+        
+        # Normalize and add keyword scores
+        if keyword_results:
+            max_keyword_score = max(result['similarity_score'] for result in keyword_results)
+            min_keyword_score = min(result['similarity_score'] for result in keyword_results)
+            keyword_range = max_keyword_score - min_keyword_score if max_keyword_score != min_keyword_score else 1
+            
+            for result in keyword_results:
+                text = result['text']
+                # Normalize score to 0-1 range
+                normalized_score = (result['similarity_score'] - min_keyword_score) / keyword_range
+                
+                if text in combined_scores:
+                    # Document found in both searches - update combined score
+                    combined_scores[text]['keyword_score'] = normalized_score
+                    combined_scores[text]['combined_score'] = (
+                        combined_scores[text]['semantic_score'] * semantic_weight + 
+                        normalized_score * keyword_weight
+                    )
+                    combined_scores[text]['search_types'].append('keyword')
+                else:
+                    # Document only found in keyword search
+                    combined_scores[text] = {
+                        'text': text,
+                        'semantic_score': 0.0,
+                        'keyword_score': normalized_score,
+                        'combined_score': normalized_score * keyword_weight,
+                        'search_types': ['keyword']
+                    }
+        
+        # Sort by combined score and return top-k results
+        sorted_results = sorted(combined_scores.values(), key=lambda x: x['combined_score'], reverse=True)
+        
+        hybrid_results = []
+        for i, result in enumerate(sorted_results[:top_k]):
+            hybrid_results.append({
+                'rank': i + 1,
+                'text': result['text'],
+                'similarity_score': result['combined_score'],
+                'semantic_score': result['semantic_score'],
+                'keyword_score': result['keyword_score'],
+                'search_types': result['search_types'],
+                'search_type': 'hybrid'
+            })
+        
+        self.logger.info(f"Hybrid search returned {len(hybrid_results)} results")
+        return hybrid_results
+    
     def advanced_semantic_search(self, query: str, top_k: int = 8) -> List[Dict[str, Any]]:
         self.logger.info(f"Searching for: '{query}'")
         
@@ -326,12 +476,61 @@ class ImprovedSemanticChunker:
                 retrieved_chunks.append({
                     'rank': i + 1,
                     'text': doc,
-                    'similarity_score': 1 - dist if dist is not None else 0
+                    'similarity_score': 1 - dist if dist is not None else 0,
+                    'search_type': 'semantic'
                 })
         return retrieved_chunks
 
+    def generate_llm_response(self, prompt: str, use_fallback: bool = False) -> str:
+        """Unified LLM generation method with Groq primary and Gemini fallback"""
+        
+        # Try Groq first (if available and not explicitly using fallback)
+        if not use_fallback and self.groq_client and self.primary_llm == "groq":
+            try:
+                self.logger.info(f"🚀 Generating response with Groq ({self.groq_model})...")
+                response = self.groq_client.chat.completions.create(
+                    model=self.groq_model,
+                    messages=[
+                        {
+                            "role": "user",
+                            "content": prompt
+                        }
+                    ],
+                    temperature=0.1,
+                    max_tokens=2048,
+                    top_p=0.9,
+                    stream=False
+                )
+                
+                if response.choices and response.choices[0].message.content:
+                    self.logger.info("✅ Groq response generated successfully")
+                    return response.choices[0].message.content.strip()
+                else:
+                    self.logger.warning("⚠️ Groq returned empty response, falling back to Gemini")
+                    return self.generate_llm_response(prompt, use_fallback=True)
+                    
+            except Exception as e:
+                self.logger.warning(f"⚠️ Groq LLM failed: {e}, falling back to Gemini")
+                return self.generate_llm_response(prompt, use_fallback=True)
+        
+        # Use Gemini (fallback or primary)
+        if hasattr(self, 'current_llm_model') and self.current_llm_model:
+            try:
+                self.logger.info("🧠 Generating response with Gemini (fallback)...")
+                response = self.current_llm_model.generate_content(prompt)
+                if response.text:
+                    self.logger.info("✅ Gemini response generated successfully")
+                    return response.text.strip()
+                else:
+                    return "Error: No response generated from Gemini LLM."
+            except Exception as e:
+                self.logger.error(f"❌ Gemini LLM failed: {e}")
+                return f"Error during answer generation: {str(e)}"
+        else:
+            return "Error: No LLM available for response generation."
+    
     def generate_improved_answer(self, query: str, context_chunks: List[Dict[str, Any]]) -> str:
-        self.logger.info("Generating final answer with Gemini model...")
+        self.logger.info("Generating final answer with LLM (Groq primary, Gemini fallback)...")
         if not context_chunks:
             return "Information not found in the document."
 
@@ -372,14 +571,14 @@ RESPONSE STRATEGY
 - **SCENARIO-BASED** → Apply relevant conditions, clauses, and logic as written in the document
 
 **Step 3: Generate the Answer**
-- **FACTUAL** → One-line direct extraction (e.g., “The document defines X as...”)
-- **SCENARIO-BASED** → One-line verdict with reasoning (e.g., “Not allowed, as Section 4.2 excludes post-deadline submissions.”)
+- **FACTUAL** → One-line direct extraction (e.g., "The document defines X as...")
+- **SCENARIO-BASED** → One-line verdict with reasoning (e.g., "Not allowed, as Section 4.2 excludes post-deadline submissions.")
 
 ---
 
 RESPONSE RULES
 - Use **only** the information from the document context
-- Do **not** infer, assume, or extrapolate beyond what’s explicitly written
+- Do **not** infer, assume, or extrapolate beyond what's explicitly written
 - Use clear, formal, domain-appropriate language
 - Reference sections or clauses if available and relevant
 - The final output must be **exactly one complete sentence**
@@ -389,7 +588,7 @@ RESPONSE RULES
 MATHEMATICAL CONTENT RULE
 If the context includes mathematical rules, logic, or formulas:
 - Do **not** use standard or external math knowledge
-- If the document states “9+5=22” or “100+23=10023”, accept and apply that logic in reasoning or calculation
+- If the document states "9+5=22" or "100+23=10023", accept and apply that logic in reasoning or calculation
 - If a equation is not given to you in the context , then learn from the context and then apply to the question.
 - do not reply that information doesnt exist in the document, learn from the given logic and then apply it to the question
 
@@ -397,12 +596,9 @@ If the context includes mathematical rules, logic, or formulas:
 
 OUTPUT FORMAT  
 <One-sentence answer derived strictly from the context above>"""
-        try:
-            response = self.current_llm_model.generate_content(prompt)
-            return response.text.strip() if response.text else "Error: No response generated from LLM."
-        except Exception as e:
-            self.logger.error(f"Error generating response from LLM: {e}")
-            return f"Error during answer generation: {str(e)}"
+        
+        # Use the unified LLM generation method
+        return self.generate_llm_response(prompt)
     
     def process_payload(self, payload: Dict[str, Any]) -> Dict[str, Any]:
         """
@@ -450,7 +646,7 @@ OUTPUT FORMAT
             final_answers = []
             for i, question in enumerate(questions, 1):
                 self.logger.info(f"\n--- Processing Question {i}: {question} ---")
-                retrieved_chunks = self.advanced_semantic_search(question)
+                retrieved_chunks = self.hybrid_search(question)
                 chunks_log_path = os.path.join(log_dir_for_request, f"query_{i}_chunks.json")
                 with open(chunks_log_path, 'w', encoding='utf-8') as f_chunks:
                     json.dump(retrieved_chunks, f_chunks, indent=2, ensure_ascii=False)
@@ -498,7 +694,7 @@ OUTPUT FORMAT
         final_answers = []
         for i, question in enumerate(questions, 1):
             self.logger.info(f"\n--- Processing Question {i}: {question} ---")
-            retrieved_chunks = self.advanced_semantic_search(question)
+            retrieved_chunks = self.hybrid_search(question)
             chunks_log_path = os.path.join(log_dir_for_request, f"query_{i}_chunks.json")
             with open(chunks_log_path, 'w', encoding='utf-8') as f_chunks:
                 json.dump(retrieved_chunks, f_chunks, indent=2, ensure_ascii=False)

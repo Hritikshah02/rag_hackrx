@@ -1,0 +1,76 @@
+{
+  "request_id": "20250807_000221",
+  "document_url": "https://hackrx.blob.core.windows.net/assets/indian_constitution.pdf?sv=2023-01-03&st=2025-07-28T06%3A42%3A00Z&se=2026-11-29T06%3A42%3A00Z&sr=b&sp=r&sig=5Gs%2FOXqP3zY00lgciu4BZjDV5QjTDIx7fgnfdz6Pu24%3D",
+  "results": [
+    {
+      "question": "If my car is stolen, what case will it be in law?",
+      "answer": "The provided document context does not contain information about what legal case would apply if a car is stolen.",
+      "retrieved_chunks_file": "transaction_logs/20250807_000221/query_1_chunks.json",
+      "success": true,
+      "question_index": 1
+    },
+    {
+      "question": "If I am arrested without a warrant, is that legal?",
+      "answer": "This document does not contain information regarding arrests without a warrant.",
+      "retrieved_chunks_file": "transaction_logs/20250807_000221/query_2_chunks.json",
+      "success": true,
+      "question_index": 2
+    },
+    {
+      "question": "If someone denies me a job because of my caste, is that legal?",
+      "answer": "The provided document context does not contain information about job discrimination based on caste.",
+      "retrieved_chunks_file": "transaction_logs/20250807_000221/query_3_chunks.json",
+      "success": true,
+      "question_index": 3
+    },
+    {
+      "question": "If the government takes my land for a project, can I stop it?",
+      "answer": "This document does not contain information about stopping the government from taking land for a project.",
+      "retrieved_chunks_file": "transaction_logs/20250807_000221/query_4_chunks.json",
+      "success": true,
+      "question_index": 4
+    },
+    {
+      "question": "If my child is forced to work in a factory, is that legal?",
+      "answer": "This document does not contain information about child labor laws.",
+      "retrieved_chunks_file": "transaction_logs/20250807_000221/query_5_chunks.json",
+      "success": true,
+      "question_index": 5
+    },
+    {
+      "question": "If I am stopped from speaking at a protest, is that a violation of my rights?",
+      "answer": "The provided document context does not contain information about protest rights or the consequences of being stopped from speaking at a protest.",
+      "retrieved_chunks_file": "transaction_logs/20250807_000221/query_6_chunks.json",
+      "success": true,
+      "question_index": 6
+    },
+    {
+      "question": "If a religious place stops me from entering because of my caste, what can I do?",
+      "answer": "This document does not provide information on actions to take if a religious place prevents entry based on caste.",
+      "retrieved_chunks_file": "transaction_logs/20250807_000221/query_7_chunks.json",
+      "success": true,
+      "question_index": 7
+    },
+    {
+      "question": "If I change my religion, can the government stop me?",
+      "answer": "The provided document context does not contain information about changing religion or government restrictions on such actions.",
+      "retrieved_chunks_file": "transaction_logs/20250807_000221/query_8_chunks.json",
+      "success": true,
+      "question_index": 8
+    },
+    {
+      "question": "If the police torture someone in custody, what right is violated?",
+      "answer": "This document does not contain information about police torture or violated rights in such a scenario.",
+      "retrieved_chunks_file": "transaction_logs/20250807_000221/query_9_chunks.json",
+      "success": true,
+      "question_index": 9
+    },
+    {
+      "question": "If I'm denied admission to a public university because of my caste, what law applies?",
+      "answer": "The provided document context does not contain information about laws related to caste-based admission denial to public universities.",
+      "retrieved_chunks_file": "transaction_logs/20250807_000221/query_10_chunks.json",
+      "success": true,
+      "question_index": 10
+    }
+  ]
+}

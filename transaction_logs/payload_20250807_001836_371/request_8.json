@@ -1,0 +1,51 @@
+{
+  "request_id": "20250807_001836_371",
+  "payload_question_number": 8,
+  "document_url": "https://hackrx.blob.core.windows.net/assets/indian_constitution.pdf?sv=2023-01-03&st=2025-07-28T06%3A42%3A00Z&se=2026-11-29T06%3A42%3A00Z&sr=b&sp=r&sig=5Gs%2FOXqP3zY00lgciu4BZjDV5QjTDIx7fgnfdz6Pu24%3D",
+  "question": "Article 15 prohibits discrimination on certain grounds. What are they?",
+  "answer": "ANSWER: Article 15 prohibits discrimination against any citizen on grounds only of religion, race, caste, sex, place of birth or any of them.",
+  "retrieved_chunks": [
+    {
+      "rank": 1,
+      "text": "(3) In this article, unless the context otherwise requires,—\n          (a) “law” includes any Ordinance, order, bye-law, rule, regulation,\n      notification, custom or usage having in the territory of India the force of\n      law;\n          (b) “laws in force” includes laws passed or made by a Legislature\n      or other competent authority   in the territory of India    before     the\n      commencement of    this  Constitution and      not previously    repealed,\n      notwithstanding that any such law or any part thereof may not be then in\n      operation either at all or in particular areas.\n      1[(4) Nothing in this article shall apply to any amendment of this\nConstitution made under article 368.]\n      Right to Equality\n      14. Equality before law.—The State shall not deny to any person\nequality before the law or the equal protection of the laws within the territory of\nIndia.\n      15. Prohibition of discrimination on grounds of religion, race, caste,\nsex or place of birth.—(1) The State shall not discriminate against any citizen\non grounds only of religion, race, caste, sex, place of birth or any of them.",
+      "similarity_score": 0.7430020570755005
+    },
+    {
+      "rank": 2,
+      "text": "(2) No citizen shall, on grounds only of religion, race, caste, sex, place of\nbirth or any of them, be subject to any disability, liability, restriction or\ncondition with regard to—\n\n______________________________________________\n1. Ins. by the Constitution (Twenty-fourth Amendment) Act, 1971, s. 2 (w.e.f. 5-11-1971).\n\n                                     6",
+      "similarity_score": 0.67581707239151
+    },
+    {
+      "rank": 3,
+      "text": "8      THE CONSTITUTION OF INDIA\n     (Part III.—Fundamental Rights)\n        Explanation.—For the  purposes      of this  article  and article               16,\n\"economically weaker sections\" shall be such as may be notified by the State\nfrom time to time on the basis of family income and other indicators of\neconomic disadvantage.]\n\nThere 16. Equality of opportunity in matters of public employment.—(1)\n                   shall be equality of opportunity for all citizens in matters relating to\nemployment or appointment to any office under the State.\n              (2) No citizen shall, on grounds only of religion, race, caste, sex, descent,\nplace of birth, residence or any of them, be ineligible for, or discriminated against\nin respect of, any employment or office under the State.\n                   (3) Nothing in this article shall prevent Parliament from making any law\nprescribing, in regard to a class or classes of employment or appointment to an\noffice 1[under the Government of, or any local or other authority within, a State\nor Union territory, any requirement as to residence within that State or Union\nterritory] prior to such employment or appointment.",
+      "similarity_score": 0.673443615436554
+    },
+    {
+      "rank": 4,
+      "text": "(ii)                             Contents\n\nARTICLES\n\n              PART III\n         FUNDAMENTAL RIGHTS\n              General\n12.      Definition.\n13.      Laws inconsistent with or in derogation of the fundamental\n         rights.\n                                 Right to Equality\n14.      Equality before law.\n15.      Prohibition of discrimination on grounds of religion, race, caste,\n         sex or place of birth.\n16.      Equality of opportunity in matters of public employment.\n17.      Abolition of Untouchability.\n18.      Abolition of titles.\n                    Right to Freedom\n\n19.      Protection of certain rights regarding freedom of speech, etc.\n20.      Protection in respect of conviction for offences.\n21.      Protection of life and personal liberty.\n21A.     Right to education.\n22.      Protection against arrest and detention in certain cases.\n                    Right against Exploitation\n\n23.      Prohibition of traffic in human beings and forced labour.\n24.      Prohibition of employment of children in factories, etc.\n                    Right to Freedom of Religion\n\n25.      Freedom    of  conscience and   free    profession, practice  and\n         propagation of religion.\n26.      Freedom to manage religious affairs.\n27.      Freedom as to payment of taxes for promotion of any particular\n         religion.\n28.      Freedom as to attendance at religious instruction or religious\n         worship in certain educational institutions.",
+      "similarity_score": 0.6671721339225769
+    },
+    {
+      "rank": 5,
+      "text": "(2) Nothing in clause (1) shall prevent Parliament from making any law\ngiving, or authorising        the giving of, any preference or making, or authorising\nthe making of, any discrimination if it is declared by such law that it is\nnecessary to do so for the purpose of dealing with a situation arising from\nscarcity of goods in any part of the territory of India.\n       304. Restrictions on       trade, commerce and intercourse            among\nStates.—Notwithstanding       anything in  article 301  or article  303,       the\nLegislature of a State may by law—\n                     (a) impose on goods imported from other States 1[or the Union\n           territories] any tax to which similar goods manufactured or produced in\n        that State are subject, so, however, as not to discriminate between goods\n        so imported and goods so manufactured or produced; and\n               (b) impose such reasonable restrictions on the freedom of trade,\n           commerce or intercourse with or within that State as may be required in\n        the public interest:\n______________________________________________\n1.     Ins. by the Constitution   (Seventh Amendment) Act, 1956, s.  29 and Sch.\n       (w.e.f. 1-11-1956).                 171",
+      "similarity_score": 0.6517670154571533
+    },
+    {
+      "rank": 6,
+      "text": "16       THE CONSTITUTION OF INDIA\n       (Part III.—Fundamental Rights)\n\n       1[(1A) In making any law providing for the compulsory acquisition of\nany property of an educational institution established and administered by a\nminority, referred to in clause (1), the State shall ensure that the amount fixed\nby or determined under such law for the acquisition of such property is such as\nwould not restrict or abrogate the right guaranteed under that clause.]\n       (2) The State shall not, in granting aid to educational institutions,\ndiscriminate against any educational institution on the ground that it is under\nthe management of a minority, whether based on religion or language.\n       2*                   *                *                               *\n       31. [Compulsory acquisition of property.].—Omitted by the Constitution\n(Forty-fourth Amendment) Act, 1978, s. 6 (w.e.f. 20-6-1979).\n                            3[Saving of Certain Laws]\n       4[31A.",
+      "similarity_score": 0.646141767501831
+    },
+    {
+      "rank": 7,
+      "text": "9               THE CONSTITUTION OF INDIA\n              (Part III.—Fundamental Rights)\n\n           (5) Nothing in this article shall affect the operation of any law which\nprovides that the incumbent of an office in connection with the affairs of any\nreligious or denominational institution or any member of the governing body\nthereof shall be a person professing a particular religion or belonging to a\nparticular denomination.\n           1[(6) Nothing in this article shall prevent the State from making any\nprovision for the reservation       of appointments or posts in favour of any\neconomically weaker sections of citizens other than the classes mentioned in\nclause (4), in addition to the existing reservation and subject to a maximum of\nten per cent. of the posts in each category.]\n           17. Abolition of Untouchability.—“Untouchability” is abolished and its\npractice in any form is forbidden. The enforcement of any disability arising out\nof “Untouchability” shall be an offence punishable in accordance with law.\n           18. Abolition of titles.—(1) No title, not being a military or academic\ndistinction, shall be conferred by the State.\n           (2) No citizen of India shall accept any title from any foreign State.",
+      "similarity_score": 0.644396960735321
+    },
+    {
+      "rank": 8,
+      "text": "Cultural and Educational Rights\n                29. Protection of interests of minorities.—(1) Any section of the\ncitizens residing in the territory of India or any part thereof having a distinct\nlanguage, script or culture of its own shall have the right to conserve the same.\n        (2) No citizen shall be denied admission into any educational institution\nmaintained by the State or receiving aid out of State funds on grounds only of\nreligion, race, caste, language or any of them.\n      30. Right of minorities to    establish and administer educational\ninstitutions.—(1) All minorities, whether based on religion or language, shall\nhave the right to establish and administer educational institutions of their\nchoice.",
+      "similarity_score": 0.6362415552139282
+    }
+  ],
+  "timestamp": "2025-08-07T00:18:47.244261",
+  "processing_time": 1754506127.2442894
+}

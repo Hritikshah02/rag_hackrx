@@ -1,0 +1,66 @@
+{
+  "request_id": "20250807_203655",
+  "document_url": "https://hackrx.blob.core.windows.net/assets/principia_newton.pdf?sv=2023-01-03&st=2025-07-28T07%3A20%3A32Z&se=2026-07-29T07%3A20%3A00Z&sr=b&sp=r&sig=V5I1QYyigoxeUMbnUKsdEaST99F5%2FDfo7wpKg9XXF5w%3D",
+  "results": [
+    {
+      "question": "How does Newton define 'quantity of motion' and how is it distinct from 'force'?",
+      "answer": "Newton defines the “quantity of motion” as the measure arising from the velocity and the quantity of matter together (i.e., the product of a body’s mass and its velocity), whereas “force” (the vis insita, or innate force) is the innate resisting power of a body that strives to maintain its state of rest or uniform motion and is proportional to the body itself, not to its motion.",
+      "retrieved_chunks_file": "transaction_logs/20250807_203655/query_1_chunks.json"
+    },
+    {
+      "question": "According to Newton, what are the three laws of motion and how do they apply in celestial mechanics?",
+      "answer": "Newton’s three laws of motion, presented in the first two books of the Principia, serve as the foundational principles from which, in the third book, the motions of planets, comets, the moon and other celestial bodies are deduced.",
+      "retrieved_chunks_file": "transaction_logs/20250807_203655/query_2_chunks.json"
+    },
+    {
+      "question": "How does Newton derive Kepler's Second Law (equal areas in equal times) from his laws of motion and gravitation?",
+      "answer": "Newton derives Kepler’s second law by applying his second law of motion together with the universal law of gravitation, showing that the central (sun‑directed) gravitational force produces a constant areal velocity so that a planet sweeps equal areas in equal times.",
+      "retrieved_chunks_file": "transaction_logs/20250807_203655/query_3_chunks.json"
+    },
+    {
+      "question": "How does Newton demonstrate that gravity is inversely proportional to the square of the distance between two masses?",
+      "answer": "Newton demonstrates that gravity is inversely proportional to the square of the distance between two masses by proving (in Proposition VII and Proposition VIII) that the force with which one body is attracted by another is “reciprocally as the square of the distance of places from the centre” and that bodies whose mutual forces are reciprocally proportional to the square of their separation describe the conic‑section orbits and area‑time proportionality characteristic of such an inverse‑square law.",
+      "retrieved_chunks_file": "transaction_logs/20250807_203655/query_4_chunks.json"
+    },
+    {
+      "question": "What is Newton's argument for why gravitational force must act on all masses universally?",
+      "answer": "Newton argues that because every particle of matter attracts every other particle with a force proportional to the quantity of matter and inversely to the square of the distance, the force of gravity must act universally on all masses, the force on any whole body being the sum of the forces on its constituent parts.",
+      "retrieved_chunks_file": "transaction_logs/20250807_203655/query_5_chunks.json"
+    },
+    {
+      "question": "How does Newton explain the perturbation of planetary orbits due to other planets?",
+      "answer": "Newton explains that the mutual gravitational actions of the planets on one another are extremely small, so the resulting perturbations of their orbits are negligible and cause only slight disturbances to the planetary motions.",
+      "retrieved_chunks_file": "transaction_logs/20250807_203655/query_6_chunks.json"
+    },
+    {
+      "question": "What mathematical tools did Newton use in Principia that were precursors to calculus, and why didn't he use standard calculus notation?",
+      "answer": "Newton employed his Method of Fluxions and a geometric‑synthetic approach—tools that anticipated calculus—yet he avoided standard calculus notation because he preferred the geometric method and censured the use of algebraic calculations in geometry.",
+      "retrieved_chunks_file": "transaction_logs/20250807_203655/query_7_chunks.json"
+    },
+    {
+      "question": "How does Newton use the concept of centripetal force to explain orbital motion?",
+      "answer": "Newton explains that a force directed toward the centre (the Sun) – a centripetal force – retains the planets in their orbits, and by showing that this force varies inversely as the square of the distance from the centre, he demonstrates that the resulting orbital paths must be conic sections such as ellipses.",
+      "retrieved_chunks_file": "transaction_logs/20250807_203655/query_8_chunks.json"
+    },
+    {
+      "question": "How does Newton handle motion in resisting media, such as air or fluids?",
+      "answer": "Newton explains that resistance in a medium such as air or fluid arises from the inactivity of matter and is proportional to the medium’s density relative to the body and to the square of the body’s velocity, being generated by pressure differences that excite motion in the fluid and thus retard the projectile.",
+      "retrieved_chunks_file": "transaction_logs/20250807_203655/query_9_chunks.json"
+    },
+    {
+      "question": "In what way does Newton's notion of absolute space and time differ from relative motion, and how does it support his laws?",
+      "answer": "Newton’s notion holds that absolute space is an immutable, immovable framework and absolute time an equable, unchanging flow that exist independently of any bodies, whereas relative motion is merely the translation of a body between relative (movable) places, and this immutable, absolute framework supplies the invariant reference required for his laws of motion to be expressed in absolute terms.",
+      "retrieved_chunks_file": "transaction_logs/20250807_203655/query_10_chunks.json"
+    },
+    {
+      "question": "Who was the grandfather of Isaac Newton?",
+      "answer": "Isaac Newton’s grandfather was Robert Newton.",
+      "retrieved_chunks_file": "transaction_logs/20250807_203655/query_11_chunks.json"
+    },
+    {
+      "question": "Do we know any other descent of Isaac Newton apart from his grandfather?",
+      "answer": "Yes, the document states that besides his grandfather, two traditions claim Isaac Newton’s descent was either of Scotch extraction or originally from Newton in Lancashire.",
+      "retrieved_chunks_file": "transaction_logs/20250807_203655/query_12_chunks.json"
+    }
+  ]
+}

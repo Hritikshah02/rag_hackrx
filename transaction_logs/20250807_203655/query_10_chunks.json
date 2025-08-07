@@ -1,0 +1,90 @@
+[
+  {
+    "rank": 1,
+    "text": "I do   not  define      time, space, place and\nmotion,   as being well known    to all.     Only I must  observe, that the vulgar\nconceive   those  quantities  under  no  other  notions but from the relation they\nbear   to  sensible   objects.   And thence    arise certain prejudices,  for the re\nmoving     of which,     it will be convenient  to distinguish   them  into absolute\nand  relative, true   and  apparent, mathematical    and  common.        its\nI. Absolute,      true, and   mathematical   time, of itself, and from      own na\nture flows  equably      without regard  to  anything   external,   and  by another\nname    is called duration   : relative, apparent, and  common    time, is some sen\nsible and  external   (whether   accurate or unequable)   measure   of duration  by\nthe means   of motion,     which is commonly      used instead of true   time ; such\nas an hour, a day, a month,      a year.\nII. Absolute      space, in its own   nature,  without  regard   to anything exter\nnal, remains    always   similar and  immovable.",
+    "similarity_score": 0.7,
+    "semantic_score": 1.0,
+    "keyword_score": 0.0,
+    "search_types": [
+      "semantic"
+    ],
+    "search_type": "hybrid"
+  },
+  {
+    "rank": 2,
+    "text": "All things   are placed in time  as to order   of succession ;\nand  in space   as _to order of situation.     It is from  their essence or nature\nthat  they are  places ; and    that the  primary    places   of things  should be\nmoveable,   is absurd.    These  are therefore    the absolute places ; and trans\nlations  out of those  places, are the only absolute   motions.\nBut     because  the parts of space    cannot  be seen, or distinguished from   one\nanother   by our  senses, therefore  in their stead  we   use sensible measures  of\nthem.     For   from the positions   and  distances  of things from   any body con\nsidered  as immovable,    we define all places ; and then     with respect    to such\nplaces, we  estimate   all motions,  considering  bodies  as transferred  from some\nof those places into others.     And'so, instead  of absolute     places and motions,\nwe   use  relative   ones; and  that without   any inconvenience    in common    af\nfairs ; but   in philosophical   disquisitions,   we ought    to abstract  from  our\nsenses, and   consider things   themselves, distinct from   what   are only sensible\nmeasures    of them.",
+    "similarity_score": 0.5877633935547462,
+    "semantic_score": 0.8396619907924946,
+    "keyword_score": 0.0,
+    "search_types": [
+      "semantic"
+    ],
+    "search_type": "hybrid"
+  },
+  {
+    "rank": 3,
+    "text": "IV.     Absolute   motion     is the  translation      of a body from     one   absolute\nplace into another ; and      relative motion,   the translation     from       one relative\nplace into another.      Thus in a ship under          sail, the relative place of a body\nis that part of the ship which      the body     possesses ; or that part of its cavity:\nwhich   the body  fills, and  which    therefore       moves together     with  the    ship\nand  relative   rest is the continuance     of the body      in the same        part  of the\nship, or of its cavity.       But real, absolute   rest, is the continuance           of   the\nbody    in the same  part of that immovable        space, in which  the         ship   itself,\nits cavity, and   all that it contains,     is moved.    Wherefore,       if the     earth is\nreally at rest, the body, which       relatively rests in the    ship, will     really and\nabsolutely   move   with the same     velocity   which   the ship   has   on    the    earth.",
+    "similarity_score": 0.4670254708929838,
+    "semantic_score": 0.667179244132834,
+    "keyword_score": 0.0,
+    "search_types": [
+      "semantic"
+    ],
+    "search_type": "hybrid"
+  },
+  {
+    "rank": 4,
+    "text": "II. Absolute      space, in its own   nature,  without  regard   to anything exter\nnal, remains    always   similar and  immovable.       Relative  space is some  mo\nvable  dimension      or measure of the absolute   spaces ; which   our   senses de\ntermine   by its position    to bodies ; and which  is vulgarly   taken  for immo\nvable  space ; such   is the dimension    of a subterraneous,   an aereal, or celestial\nspace, determined     by its position in respect    of the   earth.   Absolute   and\nrelative  space, are the same    in figure and  magnitude ; but      they do not re\nmain   always   numerically      the same.   For  if the earth, for instance, moves,\na space   of our  air, which   relatively   and in respect of the earth  remains al\nways   the same,  will at one    time be one part of the absolute  space into which",
+    "similarity_score": 0.443201952087315,
+    "semantic_score": 0.6331456458390214,
+    "keyword_score": 0.0,
+    "search_types": [
+      "semantic"
+    ],
+    "search_type": "hybrid"
+  },
+  {
+    "rank": 5,
+    "text": "SCHOLIUM.\n Hitherto   I have     laid down    such principles as have   been received    by math\nematicians, and    are confirmed    by abundance    of experiments.        By  the first\ntwo   Laws  and   the first two   Corollaries,   Galileo  discovered   that     the de\nscent  of bodies   observed    the duplicate   ratio of the time, and     that  the mo\ntion   of projectiles was    in  the  curve  of  a parabola;   experience      agreeing\nwith   both, unless     so far as these  motions    are a little retarded   by the re\nsistance   of the  air.     When    a body  is falling, the   uniform      force of its\ngravity    acting equally,  impresses,   in equal particles   of time,    equal  forces\nupon   that body, and     therefore  generates   equal velocities;   and   in the whole\ntime   impresses   a whole   force, and  generates  a whole   velocity    proportional\nto the time.      And   the spaces   described   in proportional     times are   as the\nvelocities   and  the    times conjunctly ; that    is, in a duplicate    ratio  of the\ntimes.",
+    "similarity_score": 0.40580397389203415,
+    "semantic_score": 0.5797199627029059,
+    "keyword_score": 0.0,
+    "search_types": [
+      "semantic"
+    ],
+    "search_type": "hybrid"
+  },
+  {
+    "rank": 6,
+    "text": "OF       NATURAL        PHILOSOPHY.                     79\n\ntions may   be accelerated and retarded;    but the true, or equable, progress of\nabsolute   time is liable to no change.     The   duration or perseverance  of the\nexistence  of things remains    the same,  whether   the motions are swift or slow,\nor none   at all : and therefore it ought   to be    distinguished from what   are\nonly sensible   measures   thereof ; and   out of which    we collect it, by means\nof the astronomical    equation. The      necessity  of which equation, for deter\nmining    the times of a phamomenon,      is evinced as well from  the experiments\nof the pendulum     clock, as by eclipses of the satellites of Jupiter.\nAs      the order   of the parts of time    is immutable,  so also is the order of\nthe parts of space.    Suppose   those parts to be moved   out of their places, and\nthey will be moved     (if the expression   may   be allowed) out  of themselves.\nFor  times  and  spaces   are, as it were, the places as well of themselves  as of\nall other  things.  All things   are placed in time  as to order   of succession ;\nand  in space   as _to order of situation.",
+    "similarity_score": 0.3406374334379094,
+    "semantic_score": 0.48662490491129917,
+    "keyword_score": 0.0,
+    "search_types": [
+      "semantic"
+    ],
+    "search_type": "hybrid"
+  },
+  {
+    "rank": 7,
+    "text": "For  it may  be that there   is no body    really at rest, to\nwhich    the places and motions  of others    may   be referred.\n   But   we may    distinguish  rest and  motion,   absolute  and relative, one from\nthe other   by their properties, causes   and  effects.  It is a property   of rest,\nthat bodies   really at rest do rest in respect to one    another.    And   therefore\nas it is possible, that in the remote     regions   of the   fixed  stars, or perhaps\nfar beyond    them,  there  may  be some  body    absolutely  at rest ; but impossi\nble to know,    from   the position  of bodies   to one   another  in  our regions\nwhether     any of these   do  keep  the  same   position  to that remote  body;   it\nfollows   that absolute rest cannot    be determined from     the position of bodies\nin our   regions.\n   It is a property    of motion,   that  the parts, which   retain given  positions\nto their wholes,     do partake  of the   motions    of those wholes.",
+    "similarity_score": 0.32016876419891094,
+    "semantic_score": 0.4573839488555871,
+    "keyword_score": 0.0,
+    "search_types": [
+      "semantic"
+    ],
+    "search_type": "hybrid"
+  },
+  {
+    "rank": 8,
+    "text": "Upon    which    account,     all motions,    from ; places   in motion,    are no\n other   than parts of entire       and absolute   motions      and  every entire      motion\n is composed      of the   motion       of the body    out  of its first place, and      the\n motion   of   this  place out      of its place ; and    so on, until we  come       to some\nimmovable      place, as in the before-mentioned        example   of the sailor.    Where\nfore, entire   and   absolute   motions   can  be no    otherwise    determined     than  by\nimmovable       places : and    for     that reason   I did  before   refer those   absolute\nmotions   to immovable     places, but relative        ones  to  movable   places.      Now\nno   other  places are immovable        but those   that, from    infinity to infinity, do\nall retain    the same  given   position     one  to another ; and      upon this account\nmust     ever remain   unmoved      ; and    do thereby  constitute   immovable     space.\n   The   causes   by which      true    and  relative  motions   are    distinguished,   one\n from    the other, are the forces impressed        upon    bodies   to generate    motion.",
+    "similarity_score": 0.3134951257918334,
+    "semantic_score": 0.4478501797026192,
+    "keyword_score": 0.0,
+    "search_types": [
+      "semantic"
+    ],
+    "search_type": "hybrid"
+  }
+]

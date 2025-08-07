@@ -1,0 +1,56 @@
+{
+  "request_id": "20250806_233454",
+  "document_url": "https://hackrx.blob.core.windows.net/assets/policy.pdf?sv=2023-01-03&st=2025-07-04T09%3A11%3A24Z&se=2027-07-05T09%3A11%3A00Z&sr=b&sp=r&sig=N4a9OU0w0QXO6AOIBiu4bpl7AXvEZogeT%2FjUHNO7HzQ%3D",
+  "results": [
+    {
+      "question": "What is the grace period for premium payment under the National Parivar Mediclaim Plus Policy?",
+      "answer": "The grace period for premium payment under the National Parivar Mediclaim Plus Policy is thirty days.",
+      "retrieved_chunks_file": "transaction_logs/20250806_233454/query_1_chunks.json"
+    },
+    {
+      "question": "What is the waiting period for pre-existing diseases (PED) to be covered?",
+      "answer": "The waiting period for pre-existing diseases (PED) to be covered is thirty-six (36) months of continuous coverage after the date of inception of the first policy.",
+      "retrieved_chunks_file": "transaction_logs/20250806_233454/query_2_chunks.json"
+    },
+    {
+      "question": "Does this policy cover maternity expenses, and what are the conditions?",
+      "answer": "Yes, the policy covers maternity expenses, including medical treatment expenses traceable to childbirth, lawful medical termination of pregnancy, and ectopic pregnancy under in-patient treatment. Conditions include a waiting period of 24 months, coverage limited to female insured persons aged 18 to 45 years, and a maximum of two claims during the insured's lifetime.",
+      "retrieved_chunks_file": "transaction_logs/20250806_233454/query_3_chunks.json"
+    },
+    {
+      "question": "What is the waiting period for cataract surgery?",
+      "answer": "The waiting period for cataract surgery is two years.",
+      "retrieved_chunks_file": "transaction_logs/20250806_233454/query_4_chunks.json"
+    },
+    {
+      "question": "Are the medical expenses for an organ donor covered under this policy?",
+      "answer": "Yes, the medical expenses for an organ donor's hospitalization are covered under this policy, provided the organ donation complies with the Transplantation of Human Organs Act 1994, the organ is used for an insured person, and the expenses are incurred as an in-patient in a hospital.",
+      "retrieved_chunks_file": "transaction_logs/20250806_233454/query_5_chunks.json"
+    },
+    {
+      "question": "What is the No Claim Discount (NCD) offered in this policy?",
+      "answer": "The No Claim Discount (NCD) offered is a flat 5% on the base premium for one-year policies if no claims are reported, and for policies exceeding one year, the NCD is aggregated for each claim-free year but shall not exceed 5% of the total base premium for the policy term.",
+      "retrieved_chunks_file": "transaction_logs/20250806_233454/query_6_chunks.json"
+    },
+    {
+      "question": "Is there a benefit for preventive health check-ups?",
+      "answer": "Yes, expenses for health check-ups are reimbursed every two years, subject to the specified limits, provided the policy is continuously renewed without a break.",
+      "retrieved_chunks_file": "transaction_logs/20250806_233454/query_7_chunks.json"
+    },
+    {
+      "question": "How does the policy define a 'Hospital'?",
+      "answer": "Information not found in the document.",
+      "retrieved_chunks_file": "transaction_logs/20250806_233454/query_8_chunks.json"
+    },
+    {
+      "question": "What is the extent of coverage for AYUSH treatments?",
+      "answer": "AYUSH treatments are covered up to the sum insured (SI) as a floater under the policy.",
+      "retrieved_chunks_file": "transaction_logs/20250806_233454/query_9_chunks.json"
+    },
+    {
+      "question": "Are there any sub-limits on room rent and ICU charges for Plan A?",
+      "answer": "Yes, for Plan A, room charges are limited to 1% of the Sum Insured (SI) or actual charges, whichever is lower, and ICU charges are limited to 2% of the SI or actual charges, whichever is lower.",
+      "retrieved_chunks_file": "transaction_logs/20250806_233454/query_10_chunks.json"
+    }
+  ]
+}

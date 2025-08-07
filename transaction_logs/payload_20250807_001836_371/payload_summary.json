@@ -1,0 +1,70 @@
+{
+  "request_id": "20250807_001836_371",
+  "document_url": "https://hackrx.blob.core.windows.net/assets/indian_constitution.pdf?sv=2023-01-03&st=2025-07-28T06%3A42%3A00Z&se=2026-11-29T06%3A42%3A00Z&sr=b&sp=r&sig=5Gs%2FOXqP3zY00lgciu4BZjDV5QjTDIx7fgnfdz6Pu24%3D",
+  "total_questions": 10,
+  "collection_type": "pre-chunked",
+  "collection_name": "indian_constitution_collection",
+  "results": [
+    {
+      "question": "What is the official name of India according to Article 1?",
+      "answer": "ANSWER: According to Article 1, the official name of India is \"India, that is Bharat\".",
+      "processing_time_seconds": 3.0533506870269775,
+      "question_number": 1
+    },
+    {
+      "question": "Which Article guarantees equality before the law and equal protection of the laws?",
+      "answer": "ANSWER: Article 14 guarantees equality before the law and the equal protection of the laws within the territory of India.",
+      "processing_time_seconds": 1.1647546291351318,
+      "question_number": 2
+    },
+    {
+      "question": "What is abolished by Article 17 of the Constitution?",
+      "answer": "ANSWER: Article 17 of the Constitution abolishes \"Untouchability\" and forbids its practice in any form.",
+      "processing_time_seconds": 1.0624070167541504,
+      "question_number": 3
+    },
+    {
+      "question": "What are the key ideals mentioned in the Preamble of the Indian Constitution?",
+      "answer": "ANSWER: The Preamble of the Indian Constitution highlights the key ideals of Justice, Liberty, Equality, and Fraternity to secure to all its citizens.",
+      "processing_time_seconds": 1.0392980575561523,
+      "question_number": 4
+    },
+    {
+      "question": "Under which Article can Parliament alter the boundaries of states?",
+      "answer": "ANSWER: Parliament may by law alter the boundaries of any State under Article 3.",
+      "processing_time_seconds": 1.24639892578125,
+      "question_number": 5
+    },
+    {
+      "question": "According to Article 24, children below what age are prohibited from working?",
+      "answer": "ANSWER: According to Article 24, children below the age of fourteen years are prohibited from working in any factory or mine or engaged in any other hazardous employment.",
+      "processing_time_seconds": 1.0368053913116455,
+      "question_number": 6
+    },
+    {
+      "question": "What is the significance of Article 21 in the Indian Constitution?",
+      "answer": "ANSWER: The provided documents do not contain information about the significance of Article 21 in the Indian Constitution.",
+      "processing_time_seconds": 1.265528917312622,
+      "question_number": 7
+    },
+    {
+      "question": "Article 15 prohibits discrimination on certain grounds. What are they?",
+      "answer": "ANSWER: Article 15 prohibits discrimination against any citizen on grounds only of religion, race, caste, sex, place of birth or any of them.",
+      "processing_time_seconds": 0.9832158088684082,
+      "question_number": 8
+    },
+    {
+      "question": "Which Article allows Parliament to regulate the right to form associations?",
+      "answer": "The provided document context does not contain information that directly answers which Article allows Parliament to regulate the right to form associations.",
+      "processing_time_seconds": 1.0958201885223389,
+      "question_number": 9
+    },
+    {
+      "question": "What restrictions can the State impose on the right to freedom of speech?",
+      "answer": "The provided documents do not contain information about restrictions on the right to freedom of speech.",
+      "processing_time_seconds": 1.1697311401367188,
+      "question_number": 10
+    }
+  ],
+  "payload_timestamp": "2025-08-07T00:18:49.519383"
+}

@@ -1,0 +1,70 @@
+{
+  "request_id": "20250807_003059_871",
+  "document_url": "https://hackrx.blob.core.windows.net/assets/indian_constitution.pdf?sv=2023-01-03&st=2025-07-28T06%3A42%3A00Z&se=2026-11-29T06%3A42%3A00Z&sr=b&sp=r&sig=5Gs%2FOXqP3zY00lgciu4BZjDV5QjTDIx7fgnfdz6Pu24%3D",
+  "total_questions": 10,
+  "collection_type": "pre-chunked",
+  "collection_name": "indian_constitution_collection",
+  "results": [
+    {
+      "question": "If my car is stolen, what case will it be in law?",
+      "answer": "Stolen cars are not mentioned in any of the provided legal contexts.",
+      "processing_time_seconds": 2.7233686447143555,
+      "question_number": 1
+    },
+    {
+      "question": "If I am arrested without a warrant, is that legal?",
+      "answer": "Context 1 states that persons arrested and detained must be produced before the nearest magistrate within twenty-four hours, excluding journey time, and cannot be detained beyond that period without a magistrate's authority, unless the arrest falls under exceptions for enemy aliens or preventive detention.",
+      "processing_time_seconds": 1.3420093059539795,
+      "question_number": 2
+    },
+    {
+      "question": "If someone denies me a job because of my caste, is that legal?",
+      "answer": "No, it is not legal to deny someone a job based on their caste, as Article 16(2) states that no citizen shall be discriminated against in respect of employment or office under the State on grounds only of religion, race, caste, sex, descent, place of birth, residence or any of them.",
+      "processing_time_seconds": 1.2029058933258057,
+      "question_number": 3
+    },
+    {
+      "question": "If the government takes my land for a project, can I stop it?",
+      "answer": "While the documents discuss various land acquisition and regulation powers, they do not provide specific information on whether you can stop the government from taking your land for a project.",
+      "processing_time_seconds": 1.12986159324646,
+      "question_number": 4
+    },
+    {
+      "question": "If my child is forced to work in a factory, is that legal?",
+      "answer": "No, a child below the age of fourteen years shall not be employed to work in any factory or mine or engaged in any other hazardous employment according to Article 24.",
+      "processing_time_seconds": 1.2266104221343994,
+      "question_number": 5
+    },
+    {
+      "question": "If I am stopped from speaking at a protest, is that a violation of my rights?",
+      "answer": "The provided documents do not contain information about the rights of individuals at protests or whether being stopped from speaking at a protest violates any rights.",
+      "processing_time_seconds": 0.9123256206512451,
+      "question_number": 6
+    },
+    {
+      "question": "If a religious place stops me from entering because of my caste, what can I do?",
+      "answer": "Article 15(1) prohibits the State from discriminating against any citizen on grounds of religion, race, caste, sex, or place of birth, and Article 7(2)(b) prohibits denial of access to places of public resort maintained wholly or partly out of State funds or dedicated to the use of the general public based on such grounds.",
+      "processing_time_seconds": 1.2044742107391357,
+      "question_number": 7
+    },
+    {
+      "question": "If I change my religion, can the government stop me?",
+      "answer": "No citizen shall, on grounds only of religion, race, caste, sex, place of birth or any of them, be subject to any disability, liability, restriction or condition.",
+      "processing_time_seconds": 0.9481799602508545,
+      "question_number": 8
+    },
+    {
+      "question": "If the police torture someone in custody, what right is violated?",
+      "answer": "The right to personal liberty is violated if the police torture someone in custody, as this is not according to the procedure established by law.",
+      "processing_time_seconds": 0.9529111385345459,
+      "question_number": 9
+    },
+    {
+      "question": "If I'm denied admission to a public university because of my caste, what law applies?",
+      "answer": "Article 15(1) prohibits the State from discriminating against any citizen on grounds only of religion, race, caste, sex, place of birth or any of them.",
+      "processing_time_seconds": 1.234842300415039,
+      "question_number": 10
+    }
+  ],
+  "payload_timestamp": "2025-08-07T00:31:12.775408"
+}
