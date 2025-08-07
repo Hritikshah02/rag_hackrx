@@ -1,0 +1,41 @@
+{
+  "request_id": "20250806_043108",
+  "document_url": "https://hackrx.blob.core.windows.net/assets/Super_Splendor_(Feb_2023).pdf?sv=2023-01-03&st=2025-07-21T08%3A10%3A00Z&se=2025-09-22T08%3A10%3A00Z&sr=b&sp=r&sig=vhHrl63YtrEOCsAy%2BpVKr20b3ZUo5HMz1lF9%2BJh6LQ0%3D",
+  "results": [
+    {
+      "question": "What is the ideal spark plug gap recommended?",
+      "answer": "The provided document context does not contain information regarding the ideal spark plug gap recommendation.",
+      "retrieved_chunks_file": "transaction_logs/20250806_043108/query_1_chunks.json",
+      "success": true,
+      "question_index": 1
+    },
+    {
+      "question": "Does this come in tubeless tyre version?",
+      "answer": "The vehicle comes in a tubeless tyre version.",
+      "retrieved_chunks_file": "transaction_logs/20250806_043108/query_2_chunks.json",
+      "success": true,
+      "question_index": 2
+    },
+    {
+      "question": "Is it compulsory to have a disc brake?",
+      "answer": "The document mentions front brake inspection for a disc variant but does not state that a disc brake is compulsory.",
+      "retrieved_chunks_file": "transaction_logs/20250806_043108/query_3_chunks.json",
+      "success": true,
+      "question_index": 3
+    },
+    {
+      "question": "Can I put Thums Up instead of oil?",
+      "answer": "The document advises not to apply any soap solution, oil, or grease inside the USB charger.",
+      "retrieved_chunks_file": "transaction_logs/20250806_043108/query_4_chunks.json",
+      "success": true,
+      "question_index": 4
+    },
+    {
+      "question": "Give me JS code to generate a random number between 1 and 100",
+      "answer": "I cannot provide JavaScript code as the document context does not contain any information about programming languages or code generation.",
+      "retrieved_chunks_file": "transaction_logs/20250806_043108/query_5_chunks.json",
+      "success": true,
+      "question_index": 5
+    }
+  ]
+}

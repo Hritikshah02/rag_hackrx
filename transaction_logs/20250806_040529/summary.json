@@ -1,0 +1,76 @@
+{
+  "request_id": "20250806_040529",
+  "document_url": "https://hackrx.blob.core.windows.net/assets/indian_constitution.pdf?sv=2023-01-03&st=2025-07-28T06%3A42%3A00Z&se=2026-11-29T06%3A42%3A00Z&sr=b&sp=r&sig=5Gs%2FOXqP3zY00lgciu4BZjDV5QjTDIx7fgnfdz6Pu24%3D",
+  "results": [
+    {
+      "question": "What is the official name of India according to Article 1?",
+      "answer": "Based on the document excerpts provided, the official name of India according to Article 1 is not mentioned.",
+      "retrieved_chunks_file": "transaction_logs/20250806_040529/query_1_chunks.json",
+      "success": true,
+      "question_index": 1
+    },
+    {
+      "question": "Which Article guarantees equality before the law and equal protection of the laws?",
+      "answer": "The provided document states that no law giving effect to certain directive principles shall be deemed to be void on the ground that it is inconsistent with, or takes away or abridges any of the rights conferred by article 14.",
+      "retrieved_chunks_file": "transaction_logs/20250806_040529/query_2_chunks.json",
+      "success": true,
+      "question_index": 2
+    },
+    {
+      "question": "What is abolished by Article 17 of the Constitution?",
+      "answer": "Based on the document context, there is no information regarding what Article 17 of the Constitution abolishes.",
+      "retrieved_chunks_file": "transaction_logs/20250806_040529/query_3_chunks.json",
+      "success": true,
+      "question_index": 3
+    },
+    {
+      "question": "What are the key ideals mentioned in the Preamble of the Indian Constitution?",
+      "answer": "The provided document contexts do not contain information about the key ideals mentioned in the Preamble of the Indian Constitution.",
+      "retrieved_chunks_file": "transaction_logs/20250806_040529/query_4_chunks.json",
+      "success": true,
+      "question_index": 4
+    },
+    {
+      "question": "Under which Article can Parliament alter the boundaries of states?",
+      "answer": "Based on the document context provided, there is no information regarding the Article under which Parliament can alter the boundaries of states.",
+      "retrieved_chunks_file": "transaction_logs/20250806_040529/query_5_chunks.json",
+      "success": true,
+      "question_index": 5
+    },
+    {
+      "question": "According to Article 24, children below what age are prohibited from working?",
+      "answer": "The provided document contexts do not contain information regarding the age below which children are prohibited from working according to Article 24.",
+      "retrieved_chunks_file": "transaction_logs/20250806_040529/query_6_chunks.json",
+      "success": true,
+      "question_index": 6
+    },
+    {
+      "question": "What is the significance of Article 21 in the Indian Constitution?",
+      "answer": "The provided document context does not contain any information regarding the significance of Article 21.",
+      "retrieved_chunks_file": "transaction_logs/20250806_040529/query_7_chunks.json",
+      "success": true,
+      "question_index": 7
+    },
+    {
+      "question": "Article 15 prohibits discrimination on certain grounds. What are they?",
+      "answer": "The provided document contexts do not contain information about the grounds on which Article 15 prohibits discrimination.",
+      "retrieved_chunks_file": "transaction_logs/20250806_040529/query_8_chunks.json",
+      "success": true,
+      "question_index": 8
+    },
+    {
+      "question": "Which Article allows Parliament to regulate the right to form associations?",
+      "answer": "Based on the document context provided, there is no information about an Article that allows Parliament to regulate the right to form associations.",
+      "retrieved_chunks_file": "transaction_logs/20250806_040529/query_9_chunks.json",
+      "success": true,
+      "question_index": 9
+    },
+    {
+      "question": "What restrictions can the State impose on the right to freedom of speech?",
+      "answer": "Based on the provided text, no law giving effect to the policy of the State towards securing all or any of the principles laid down in Part IV shall be deemed to be void on the ground that it is inconsistent with, or takes away or abridges any of the rights conferred by article 19.",
+      "retrieved_chunks_file": "transaction_logs/20250806_040529/query_10_chunks.json",
+      "success": true,
+      "question_index": 10
+    }
+  ]
+}

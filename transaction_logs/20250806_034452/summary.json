@@ -1,0 +1,41 @@
+{
+  "request_id": "20250806_034452",
+  "document_url": "https://hackrx.blob.core.windows.net/assets/Test%20/image.jpeg?sv=2023-01-03&spr=https&st=2025-08-04T19%3A29%3A01Z&se=2026-08-05T19%3A29%3A00Z&sr=b&sp=r&sig=YnJJThygjCT6%2FpNtY1aHJEZ%2F%2BqHoEB59TRGPSxJJBwo%3D",
+  "results": [
+    {
+      "question": "What is 100+22?",
+      "answer": "ANSWER: Based on the provided context where 100+23 equals 10023, 100+22 equals 10022.",
+      "retrieved_chunks_file": "transaction_logs/20250806_034452/query_1_chunks.json",
+      "success": true,
+      "question_index": 1
+    },
+    {
+      "question": "What is 9+5?",
+      "answer": "ANSWER: According to the document, 9+5 equals 22.",
+      "retrieved_chunks_file": "transaction_logs/20250806_034452/query_2_chunks.json",
+      "success": true,
+      "question_index": 2
+    },
+    {
+      "question": "What is 65007+2?",
+      "answer": "ANSWER: According to the document context, 65007+2 is 650072.",
+      "retrieved_chunks_file": "transaction_logs/20250806_034452/query_3_chunks.json",
+      "success": true,
+      "question_index": 3
+    },
+    {
+      "question": "What is 1+1?",
+      "answer": "ANSWER: Based on the document's logic where 9+5 equals 22, 1+1 equals 10.",
+      "retrieved_chunks_file": "transaction_logs/20250806_034452/query_4_chunks.json",
+      "success": true,
+      "question_index": 4
+    },
+    {
+      "question": "What is 5+500?",
+      "answer": "Based on the pattern observed in the provided context where addition involves concatenating the first number with the second number's trailing zeros if the second number ends in zeros (e.g., 22+100=2200), 5+500 equals 500.",
+      "retrieved_chunks_file": "transaction_logs/20250806_034452/query_5_chunks.json",
+      "success": true,
+      "question_index": 5
+    }
+  ]
+}

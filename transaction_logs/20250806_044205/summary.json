@@ -1,0 +1,62 @@
+{
+  "request_id": "20250806_044205",
+  "document_url": "https://hackrx.blob.core.windows.net/assets/indian_constitution.pdf?sv=2023-01-03&st=2025-07-28T06%3A42%3A00Z&se=2026-11-29T06%3A42%3A00Z&sr=b&sp=r&sig=5Gs%2FOXqP3zY00lgciu4BZjDV5QjTDIx7fgnfdz6Pu24%3D",
+  "results": [
+    {
+      "question": "What is the official name of India according to Article 1?",
+      "answer": "The provided document context does not contain information about Article 1 of any constitution, and therefore cannot answer what the official name of India is according to Article 1.",
+      "retrieved_chunks_file": "transaction_logs/20250806_044205/query_1_chunks.json",
+      "success": true,
+      "question_index": 1
+    },
+    {
+      "question": "Which Article guarantees equality before the law?",
+      "answer": "Article 14 guarantees equality before the law.",
+      "retrieved_chunks_file": "transaction_logs/20250806_044205/query_2_chunks.json",
+      "success": true,
+      "question_index": 2
+    },
+    {
+      "question": "What is abolished by Article 17 of the Constitution?",
+      "answer": "The provided document context does not contain information about Article 17 of the Constitution.",
+      "retrieved_chunks_file": "transaction_logs/20250806_044205/query_3_chunks.json",
+      "success": true,
+      "question_index": 3
+    },
+    {
+      "question": "What are the key ideals mentioned in the Preamble?",
+      "answer": "The provided document context does not contain information about the key ideals mentioned in the Preamble.",
+      "retrieved_chunks_file": "transaction_logs/20250806_044205/query_4_chunks.json",
+      "success": true,
+      "question_index": 4
+    },
+    {
+      "question": "Under which Article can Parliament alter the boundaries of states?",
+      "answer": "The provided documents do not contain information about the Article under which Parliament can alter the boundaries of states.",
+      "retrieved_chunks_file": "transaction_logs/20250806_044205/query_5_chunks.json",
+      "success": true,
+      "question_index": 5
+    },
+    {
+      "question": "According to Article 24, children below what age are prohibited?",
+      "answer": "There is no information in the provided context that mentions Article 24 or any age-related prohibitions for children.",
+      "retrieved_chunks_file": "transaction_logs/20250806_044205/query_6_chunks.json",
+      "success": true,
+      "question_index": 6
+    },
+    {
+      "question": "What is the significance of Article 21?",
+      "answer": "The provided document context does not contain information about the significance of Article 21.",
+      "retrieved_chunks_file": "transaction_logs/20250806_044205/query_7_chunks.json",
+      "success": true,
+      "question_index": 7
+    },
+    {
+      "question": "Which Article allows Parliament to regulate associations?",
+      "answer": "The provided document context does not contain information about which Article allows Parliament to regulate associations.",
+      "retrieved_chunks_file": "transaction_logs/20250806_044205/query_8_chunks.json",
+      "success": true,
+      "question_index": 8
+    }
+  ]
+}

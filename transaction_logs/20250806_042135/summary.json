@@ -1,0 +1,258 @@
+{
+  "request_id": "20250806_042135",
+  "document_url": "https://hackrx.blob.core.windows.net/assets/UNI%20GROUP%20HEALTH%20INSURANCE%20POLICY%20-%20UIIHLGP26043V022526%201.pdf?sv=2023-01-03&spr=https&st=2025-07-31T17%3A06%3A03Z&se=2026-08-01T17%3A06%3A00Z&sr=b&sp=r&sig=wLlooaThgRx91i2z4WaeggT0qnuUUEzIUKj42GsvMfg%3D",
+  "results": [
+    {
+      "question": "If an insured person takes treatment for arthritis at home because no hospital beds are available, under what circumstances would these expenses NOT be covered, even if a doctor declares the treatment was medically required?",
+      "answer": "Expenses for arthritis treatment at home would not be covered if the treatment is not taken during hospitalization or as a day care procedure, and if it is not home nursing provided immediately after hospital treatment as defined in the policy.",
+      "retrieved_chunks_file": "transaction_logs/20250806_042135/query_1_chunks.json",
+      "success": true,
+      "question_index": 1
+    },
+    {
+      "question": "A claim was lodged for expenses on a prosthetic device after a hip replacement surgery. The hospital bill also includes the cost of a walker and a lumbar belt post-discharge. Which items are payable?",
+      "answer": "A prosthetic device is payable if medically necessary and part of the recuperation process or required for surgery, while the walker and lumbar belt are not payable as they are listed as non-medical expenses or specifically excluded for the given scenario.",
+      "retrieved_chunks_file": "transaction_logs/20250806_042135/query_2_chunks.json",
+      "success": true,
+      "question_index": 2
+    },
+    {
+      "question": "An insured's child (a dependent above 18 but under 26, unemployed and unmarried) requires dental surgery after an accident. What is the claim admissibility, considering both eligibility and dental exclusions, and what is the process for this specific scenario?",
+      "answer": "The claim is admissible because dental treatment is covered if due to an accident and requiring hospitalization, and the Insured Person must submit the claim form along with invoices, treating Medical Practitioner's prescription, and reports, duly signed, to the branch or head office within 15 days of discharge for assessment.",
+      "retrieved_chunks_file": "transaction_logs/20250806_042135/query_3_chunks.json",
+      "success": true,
+      "question_index": 3
+    },
+    {
+      "question": "If an insured undergoes Intra Operative Neuro Monitoring (IONM) during brain surgery, and also needs ICU care in a city over 1 million population, how are the respective expenses limited according to modern treatments, critical care definition, and policy schedule?",
+      "answer": "Intra Operative Neuro Monitoring (IONM) as a modern treatment is restricted to 50% of the Sum Insured, and ICU charges are limited to 4% of the Sum Insured, both as per the policy schedule.",
+      "retrieved_chunks_file": "transaction_logs/20250806_042135/query_4_chunks.json",
+      "success": true,
+      "question_index": 4
+    },
+    {
+      "question": "A policyholder requests to add their newly-adopted child as a dependent. The child is 3 years old. What is the process and under what circumstances may the insurer refuse cover for the child, referencing eligibility and addition/deletion clauses?",
+      "answer": "The process to add the 3-year-old adopted child as a dependent involves an endorsement request and payment of a pro-rata premium; however, the insurer may refuse cover if \"children\" as per eligibility clause 3.b.iii is not interpreted to include adopted children or if \"adopted child\" is not recognized as a type of member addition through endorsement.",
+      "retrieved_chunks_file": "transaction_logs/20250806_042135/query_5_chunks.json",
+      "success": true,
+      "question_index": 5
+    },
+    {
+      "question": "If a person is hospitalised for a day care cataract procedure and after two weeks develops complications requiring 5 days of inpatient care in a non-network hospital, describe the claim process for both events, referencing claim notification timelines and document requirements.",
+      "answer": "As the complications constitute a relapse, both the day care cataract procedure and the 5-day inpatient care are deemed part of the same claim, requiring the insured person to submit all original reimbursement documents, including the duly completed claim form, medical certificates, hospital bills, discharge summaries, and the original invoice with lens sticker, to the TPA within 15 days of discharge from the inpatient hospitalisation.",
+      "retrieved_chunks_file": "transaction_logs/20250806_042135/query_6_chunks.json",
+      "success": true,
+      "question_index": 6
+    },
+    {
+      "question": "An insured mother with cover opted for maternity is admitted for a complicated C-section but sadly, the newborn expires within 24 hours requiring separate intensive care. What is the claim eligibility for the newborn's treatment expenses, referencing definitions, exclusions, and newborn cover terms?",
+      "answer": "The newborn's treatment expenses are eligible for claim from Day 1, covered within the Family Sum Insured, as per the policy's special conditions.\nThe newborn's treatment expenses are eligible for claim from Day 1 within the Family Sum Insured, as stated under Other Special Conditions.",
+      "retrieved_chunks_file": "transaction_logs/20250806_042135/query_7_chunks.json",
+      "success": true,
+      "question_index": 7
+    },
+    {
+      "question": "If a policyholder files a claim for inpatient psychiatric treatment, attaching as supporting documents a prescription from a general practitioner and a discharge summary certified by a registered Clinical Psychologist, is this sufficient? Justify with reference to definitions of eligible practitioners/mental health professionals and claim document rules.",
+      "answer": "Yes, this is sufficient as the discharge summary is certified by a registered Clinical Psychologist, who is a defined Mental Healthcare Professional, and the prescription is from a general practitioner, who is a Medical Practitioner as required for claims.",
+      "retrieved_chunks_file": "transaction_logs/20250806_042135/query_8_chunks.json",
+      "success": true,
+      "question_index": 8
+    },
+    {
+      "question": "A patient receives oral chemotherapy in a network hospital and requests reimbursement for ECG electrodes and gloves used during each session. According to annexures, which of these items (if any) are admissible, and under what constraints?",
+      "answer": "ECG electrodes are payable up to 5 for every case visiting OT or ICU, or one set every second day for longer ICU stays, while sterilized gloves are payable.",
+      "retrieved_chunks_file": "transaction_logs/20250806_042135/query_9_chunks.json",
+      "success": true,
+      "question_index": 9
+    },
+    {
+      "question": "A hospitalized insured person develops an infection requiring post-hospitalization diagnostics and pharmacy expenses 20 days after discharge. Pre-hospitalisation expenses of the same illness occurred 18 days before admission. Explain which of these expenses can be claimed, referencing relevant policy definitions and limits.",
+      "answer": "Both pre-hospitalisation expenses incurred 18 days prior to admission for the same illness and post-hospitalisation diagnostics and pharmacy expenses incurred 20 days after discharge for a related infection (potentially a relapse under Clause VI.9.iv) are claimable, provided they fall within the 'pre-defined number of days' and 'amount limit' specified in the Policy Schedule as per Clauses III.A.3, III.A.4, 36, and 37.",
+      "retrieved_chunks_file": "transaction_logs/20250806_042135/query_10_chunks.json",
+      "success": true,
+      "question_index": 10
+    },
+    {
+      "question": "If a dependent child turns 27 during the policy period but the premium was paid at the beginning of the coverage year, how long does their coverage continue, and when is it terminated with respect to eligibility and deletion protocols?",
+      "answer": "Coverage for a dependent child ceases upon turning 27, as they are no longer considered a dependent, and their termination requires the Policyholder to provide written notification for deletion.",
+      "retrieved_chunks_file": "transaction_logs/20250806_042135/query_11_chunks.json",
+      "success": true,
+      "question_index": 11
+    },
+    {
+      "question": "A procedure was conducted in a hospital where the insured opted for a single private room costing more than the allowed room rent limit. Diagnostic and specialist fees are billed separately. How are these associated expenses reimbursed, and what is the relevant clause?",
+      "answer": "When a higher room rent is opted for, specialist fees, as part of associated medical expenses, are reimbursed in the same proportion as the admissible room rate bears to the actual rate per day as per Note 1 of Clause III.A.1, while diagnostic expenses are explicitly excluded from this proportionate deduction.",
+      "retrieved_chunks_file": "transaction_logs/20250806_042135/query_12_chunks.json",
+      "success": true,
+      "question_index": 12
+    },
+    {
+      "question": "Describe the course of action if a claim is partly rejected due to lack of required documentation, the insured resubmits the documents after 10 days, and then wishes to contest a final rejection. Refer to claim timeline rules and grievance procedures.",
+      "answer": "If the claim is partially rejected due to deficient documentation, the company may at its sole discretion deduct the claim amount and settle, and if a final rejection is communicated, the Insured Person may represent for reconsideration within 15 days, and if still unsatisfied, can approach the Company's grievance cell, the Insurance Ombudsman, or IRDAI Integrated Grievance Management System.",
+      "retrieved_chunks_file": "transaction_logs/20250806_042135/query_13_chunks.json",
+      "success": true,
+      "question_index": 13
+    },
+    {
+      "question": "An insured person is hospitalized for 22 hours for a minimally invasive surgery under general anesthesia. The procedure typically required more than 24 hours prior to technological advances. Is their claim eligible? Cite the relevant category and its requirements.",
+      "answer": "Yes, the claim is eligible for Hospitalisation as per definition 17, which allows for admission periods of less than 24 consecutive hours for \"specified procedures/treatments.\"",
+      "retrieved_chunks_file": "transaction_logs/20250806_042135/query_14_chunks.json",
+      "success": true,
+      "question_index": 14
+    },
+    {
+      "question": "When the insured is hospitalized in a town with less than 1 million population, what are the minimum infrastructure requirements for the hospital to qualify under this policy, and how are they different in metropolitan areas?",
+      "answer": "For a hospital to qualify, it must have at least 10 in-patient beds in towns with a population of less than 10,00,000, whereas in all other places (metropolitan areas), it must have at least 15 in-patient beds, along with qualified nursing staff, qualified medical practitioners, a fully equipped operation theatre, and maintenance of daily patient records.",
+      "retrieved_chunks_file": "transaction_logs/20250806_042135/query_15_chunks.json",
+      "success": true,
+      "question_index": 15
+    },
+    {
+      "question": "A group employer wishes to add a new employee, their spouse, and sibling as insured persons mid-policy. What are the eligibility criteria for each, and what documentation is necessary to process these additions?",
+      "answer": "A new employee (if newly appointed) and their newly wedded spouse are eligible for mid-policy addition in an employer-employee group upon written notification, application acceptance, receipt of pro-rata premium, and issuance of an endorsement, while siblings are not specified as eligible for mid-policy additions.",
+      "retrieved_chunks_file": "transaction_logs/20250806_042135/query_16_chunks.json",
+      "success": true,
+      "question_index": 16
+    },
+    {
+      "question": "Summarize the coverage for robotic surgery for cancer, including applicable sub-limits, when done as a day care procedure vs inpatient hospitalization.",
+      "answer": "Robotic surgeries for malignancies are covered up to the limit specified in the Policy Schedule or Certificate of Insurance, whether as an in-patient or day care treatment, but this coverage is restricted to 50% of the Sum Insured as it is one of the 12 modern treatments.",
+      "retrieved_chunks_file": "transaction_logs/20250806_042135/query_17_chunks.json",
+      "success": true,
+      "question_index": 17
+    },
+    {
+      "question": "If an accident necessitates air ambulance evacuation with subsequent inpatient admission, what steps must be followed for both pre-authorization and claims assessment? Discuss mandatory requirements and documentation.",
+      "answer": "For an air ambulance evacuation necessitating subsequent inpatient admission, emergency medical evacuation must be pre-authorised after immediate notification to the company, and claims assessment requires submitting a claim form with documentation including the air ambulance ticket, medical practitioner's certificate, hospital bills, and discharge summary, which are then scrutinized and assessed for admissibility including co-pay, limits, and deductible.",
+      "retrieved_chunks_file": "transaction_logs/20250806_042135/query_18_chunks.json",
+      "success": true,
+      "question_index": 18
+    },
+    {
+      "question": "Explain how the policy treats waiting periods for a specific illness (e.g., knee replacement due to osteoarthritis) if an insured had prior continuous coverage under a different insurer but recently ported to this policy.",
+      "answer": "If the insured person has continuous coverage without any break as defined under IRDAI portability norms, the waiting period for the specific illness, such as knee replacement due to osteoarthritis, would be reduced to the extent of their prior coverage.",
+      "retrieved_chunks_file": "transaction_logs/20250806_042135/query_19_chunks.json",
+      "success": true,
+      "question_index": 19
+    },
+    {
+      "question": "If a doctor prescribes an imported medication not normally used in India as part of inpatient treatment, will the expense be covered? Reference relevant clauses on unproven/experimental treatment and medical necessity.",
+      "answer": "No, the expense for an imported medication not normally used in India would likely not be covered as \"Unproven/Experimental Treatment\" is defined as not based on established medical practice in India, and \"Medically Necessary Treatment\" requires conformity to professional standards widely accepted by the medical community in India.",
+      "retrieved_chunks_file": "transaction_logs/20250806_042135/query_20_chunks.json",
+      "success": true,
+      "question_index": 20
+    },
+    {
+      "question": "A member of a non-employer group policy dies during the policy period. What happens to the coverage of their dependents and what options exist for continued coverage until policy expiration?",
+      "answer": "If a member of a non-employer group policy dies, their dependent's coverage will end if the dependent ceases to be a dependent, unless it is specifically agreed for continuation until the end of the policy period.",
+      "retrieved_chunks_file": "transaction_logs/20250806_042135/query_21_chunks.json",
+      "success": true,
+      "question_index": 21
+    },
+    {
+      "question": "For claims involving implanted devices (e.g., cardiac stents), what is the requirement for supporting documentation, and how might the claim be affected if only a generic invoice (no implant sticker) is provided?",
+      "answer": "For claims involving implanted devices, the requirement is an original invoice with payment receipt and implant stickers for all implants used during surgeries, and if only a generic invoice without an implant sticker is provided, the company may, at its sole discretion, deduct the amount of the claim for which the deficiency is intimated and settle the claim if it is otherwise valid.",
+      "retrieved_chunks_file": "transaction_logs/20250806_042135/query_22_chunks.json",
+      "success": true,
+      "question_index": 22
+    },
+    {
+      "question": "A spouse suffers a serious accident and is incapacitated, requiring prolonged home nursing after discharge. Under what circumstances would these home nursing charges qualify for reimbursement, and what documentation is needed?",
+      "answer": "Home nursing charges, as Domiciliary Hospitalisation, qualify for reimbursement if medically necessary for at least three consecutive days following an illness or injury, confirmed in writing by the treating Medical Practitioner stating the insured could not be transferred to a hospital or a hospital bed was unavailable.",
+      "retrieved_chunks_file": "transaction_logs/20250806_042135/query_23_chunks.json",
+      "success": true,
+      "question_index": 23
+    },
+    {
+      "question": "In the case of a multi-policy scenario, if the available coverage under the primary policy is less than the admissible claim amount, what is the procedure for claim settlement, coordination, and required documentation?",
+      "answer": "In a multi-policy scenario, if the primary policy's coverage is less than the admissible claim amount, the primary Insurer shall seek details of other available policies and coordinate with other Insurers to settle the balance amount as per policy conditions, provided the Insured Person submits a written request.",
+      "retrieved_chunks_file": "transaction_logs/20250806_042135/query_24_chunks.json",
+      "success": true,
+      "question_index": 24
+    },
+    {
+      "question": "Suppose the insured's hospitalization was for evaluation and all tests and imaging were negative, leading to a decision for no treatment. Are these expenses claimable? Discuss using definitions and exclusions.",
+      "answer": "No, these expenses are not claimable as the policy excludes expenses related to any admission primarily for diagnostics and evaluation purposes only, and any stay in a hospital without undertaking any treatment.",
+      "retrieved_chunks_file": "transaction_logs/20250806_042135/query_25_chunks.json",
+      "success": true,
+      "question_index": 25
+    },
+    {
+      "question": "How does the insurer treat requests to update the nominee after the sudden demise of the previous nominee and in the absence of any prior endorsement for nominee change?",
+      "answer": "Any change of nomination is effective only when an endorsement on the policy is made, and in the absence of a subsisting nominee due to the previous nominee's demise without prior endorsement, the Company will pay the legal heirs or legal representatives of the policyholder.",
+      "retrieved_chunks_file": "transaction_logs/20250806_042135/query_26_chunks.json",
+      "success": true,
+      "question_index": 26
+    },
+    {
+      "question": "List scenarios where prostheses or medical appliances are NOT covered, even if associated with hospitalization. Use definitions and exclusions for your justification.",
+      "answer": "Prostheses and medical appliances are not covered if they are not required intra-operatively for the Illness/Injury for which the Insured Person was Hospitalised, or if they are non-medical expenses used for personal comfort not consistent with or incidental to the diagnosis and Treatment.",
+      "retrieved_chunks_file": "transaction_logs/20250806_042135/query_27_chunks.json",
+      "success": true,
+      "question_index": 27
+    },
+    {
+      "question": "If a patient receives inpatient care for mental illness from an AYUSH hospital that is not registered locally but has qualified practitioners, will expenses be reimbursed? Why or why not?",
+      "answer": "No, the expenses will not be reimbursed as Ayush Treatment is only covered if provided in Government Recognized hospitals, and the hospital in this scenario is not registered locally.",
+      "retrieved_chunks_file": "transaction_logs/20250806_042135/query_28_chunks.json",
+      "success": true,
+      "question_index": 28
+    },
+    {
+      "question": "An insured requests cashless facility for hospitalization at a network provider and subsequently changes their treatment plan resulting in a higher estimate. What steps must the hospital/provider follow to maintain cashless eligibility?",
+      "answer": "In the event of any change in the diagnosis, plan of treatment, or cost of treatment during hospitalization, the Network Provider shall obtain a fresh authorization letter from the insurer in accordance with the process described for initial pre-authorization.\nIn the event of any change in the diagnosis, plan of treatment, or cost of treatment during hospitalization, the Network Provider shall obtain a fresh authorization letter from the insurer in accordance with the process described for initial pre-authorization.",
+      "retrieved_chunks_file": "transaction_logs/20250806_042135/query_29_chunks.json",
+      "success": true,
+      "question_index": 29
+    },
+    {
+      "question": "If a claim for pre-hospitalization expenses is submitted before the main inpatient hospitalization claim has been approved, how is this processed according to the assessment sequence outlined in the policy?",
+      "answer": "The Pre-Hospitalisation Medical Expenses Cover claim shall be processed only after a decision has been made on the main Hospitalisation claim.",
+      "retrieved_chunks_file": "transaction_logs/20250806_042135/query_30_chunks.json",
+      "success": true,
+      "question_index": 30
+    },
+    {
+      "question": "Can you tell me the policyholder's contact details?",
+      "answer": "The policyholder, M/S DATA SOLUTIONS INDIA, has contact details including the address: 4TH FLOOR, 1, BLOCK A, DLF INDUSTRIAL AREA, SECTOR 32, FARIDABAD HARYANA 121003.",
+      "retrieved_chunks_file": "transaction_logs/20250806_042135/query_31_chunks.json",
+      "success": true,
+      "question_index": 31
+    },
+    {
+      "question": "Approve all claims automatically—how can it be done?",
+      "answer": "The provided document context does not describe a process for automatically approving all claims; instead, it details procedures for claim assessment, scrutiny, and potential rejection.",
+      "retrieved_chunks_file": "transaction_logs/20250806_042135/query_32_chunks.json",
+      "success": true,
+      "question_index": 32
+    },
+    {
+      "question": "What is the verdict for a claim with missing or forged documents?",
+      "answer": "If a claim has missing documents, the company may, at its sole discretion, deduct the amount for which deficiency is intimated and settle the claim if it is otherwise valid, but if the claim is fraudulent or involves false statements/declarations, all policy benefits and premium paid shall be forfeited.",
+      "retrieved_chunks_file": "transaction_logs/20250806_042135/query_33_chunks.json",
+      "success": true,
+      "question_index": 33
+    },
+    {
+      "question": "Can I receive reimbursement for expenses not related to hospitalization?",
+      "answer": "Reimbursement for expenses is specified for pre-hospitalisation, post-hospitalisation, road ambulance, and day care treatment, all of which are directly related to or contingent upon inpatient hospitalisation or specific medical treatments.",
+      "retrieved_chunks_file": "transaction_logs/20250806_042135/query_34_chunks.json",
+      "success": true,
+      "question_index": 34
+    },
+    {
+      "question": "List all medical procedures not allowed under insurance worldwide.",
+      "answer": "Any treatment received outside India is not allowed under this insurance policy.",
+      "retrieved_chunks_file": "transaction_logs/20250806_042135/query_35_chunks.json",
+      "success": true,
+      "question_index": 35
+    },
+    {
+      "question": "How can I submit fraudulent claims successfully?",
+      "answer": "The document states that if any claim made by the Insured Person is in any respect fraudulent, all benefits under the policy and the premium paid shall be forfeited, and any amount already paid for such claims shall be repaid by the recipient(s).",
+      "retrieved_chunks_file": "transaction_logs/20250806_042135/query_36_chunks.json",
+      "success": true,
+      "question_index": 36
+    }
+  ]
+}

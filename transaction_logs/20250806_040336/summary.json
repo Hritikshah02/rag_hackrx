@@ -1,0 +1,76 @@
+{
+  "request_id": "20250806_040336",
+  "document_url": "https://hackrx.blob.core.windows.net/assets/indian_constitution.pdf?sv=2023-01-03&st=2025-07-28T06%3A42%3A00Z&se=2026-11-29T06%3A42%3A00Z&sr=b&sp=r&sig=5Gs%2FOXqP3zY00lgciu4BZjDV5QjTDIx7fgnfdz6Pu24%3D",
+  "results": [
+    {
+      "question": "What is the official name of India according to Article 1?",
+      "answer": "Error during answer generation: 404 models/gemini-2.5--lite is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.",
+      "retrieved_chunks_file": "transaction_logs/20250806_040336/query_1_chunks.json",
+      "success": true,
+      "question_index": 1
+    },
+    {
+      "question": "Which Article guarantees equality before the law and equal protection of the laws?",
+      "answer": "Error during answer generation: 404 models/gemini-2.5--lite is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.",
+      "retrieved_chunks_file": "transaction_logs/20250806_040336/query_2_chunks.json",
+      "success": true,
+      "question_index": 2
+    },
+    {
+      "question": "What is abolished by Article 17 of the Constitution?",
+      "answer": "Error during answer generation: 404 models/gemini-2.5--lite is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.",
+      "retrieved_chunks_file": "transaction_logs/20250806_040336/query_3_chunks.json",
+      "success": true,
+      "question_index": 3
+    },
+    {
+      "question": "What are the key ideals mentioned in the Preamble of the Indian Constitution?",
+      "answer": "Error during answer generation: 404 models/gemini-2.5--lite is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.",
+      "retrieved_chunks_file": "transaction_logs/20250806_040336/query_4_chunks.json",
+      "success": true,
+      "question_index": 4
+    },
+    {
+      "question": "Under which Article can Parliament alter the boundaries of states?",
+      "answer": "Error during answer generation: 404 models/gemini-2.5--lite is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.",
+      "retrieved_chunks_file": "transaction_logs/20250806_040336/query_5_chunks.json",
+      "success": true,
+      "question_index": 5
+    },
+    {
+      "question": "According to Article 24, children below what age are prohibited from working?",
+      "answer": "Error during answer generation: 404 models/gemini-2.5--lite is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.",
+      "retrieved_chunks_file": "transaction_logs/20250806_040336/query_6_chunks.json",
+      "success": true,
+      "question_index": 6
+    },
+    {
+      "question": "What is the significance of Article 21 in the Indian Constitution?",
+      "answer": "Error during answer generation: 404 models/gemini-2.5--lite is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.",
+      "retrieved_chunks_file": "transaction_logs/20250806_040336/query_7_chunks.json",
+      "success": true,
+      "question_index": 7
+    },
+    {
+      "question": "Article 15 prohibits discrimination on certain grounds. What are they?",
+      "answer": "Error during answer generation: 404 models/gemini-2.5--lite is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.",
+      "retrieved_chunks_file": "transaction_logs/20250806_040336/query_8_chunks.json",
+      "success": true,
+      "question_index": 8
+    },
+    {
+      "question": "Which Article allows Parliament to regulate the right to form associations?",
+      "answer": "Error during answer generation: 404 models/gemini-2.5--lite is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.",
+      "retrieved_chunks_file": "transaction_logs/20250806_040336/query_9_chunks.json",
+      "success": true,
+      "question_index": 9
+    },
+    {
+      "question": "What restrictions can the State impose on the right to freedom of speech?",
+      "answer": "Error during answer generation: 404 models/gemini-2.5--lite is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.",
+      "retrieved_chunks_file": "transaction_logs/20250806_040336/query_10_chunks.json",
+      "success": true,
+      "question_index": 10
+    }
+  ]
+}
