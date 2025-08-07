@@ -69,30 +69,52 @@ class ImprovedSemanticChunker:
         # Create directory for detailed transaction logs
         os.makedirs("transaction_logs", exist_ok=True)
 
-        # Configure Groq LLM (Primary)
-        self.groq_api_key = os.getenv('GROQ_API_KEY')
-        self.groq_client = None
+        # Configure dual Groq API keys
+        self.groq_api_key_1 = os.getenv('GROQ_API_KEY_1') or os.getenv('GROQ_API_KEY')  # Primary key
+        self.groq_api_key_2 = os.getenv('GROQ_API_KEY_2')  # Secondary key
         self.groq_model = "openai/gpt-oss-120b"
         
-        # Configure Google Gemini (Fallback)
-        self.google_api_key = os.getenv('GOOGLE_API_KEY')
+        # Initialize Groq clients
+        self.groq_client_1 = None
+        self.groq_client_2 = None
+        self.current_groq_client = None
         
-        # Initialize Groq client if API key is available
-        if self.groq_api_key:
+        # Initialize first Groq client
+        if self.groq_api_key_1:
             try:
-                self.groq_client = Groq(api_key=self.groq_api_key)
-                self.logger.info(f"✅ Groq LLM initialized successfully with model: {self.groq_model}")
+                self.groq_client_1 = Groq(api_key=self.groq_api_key_1)
+                self.logger.info(f"✅ Groq LLM #1 initialized successfully with model: {self.groq_model}")
+                self.current_groq_client = self.groq_client_1
                 self.primary_llm = "groq"
             except Exception as e:
-                self.logger.warning(f"⚠️ Failed to initialize Groq LLM: {e}")
-                self.groq_client = None
+                self.logger.error(f"❌ Failed to initialize Groq LLM #1: {e}")
+                self.groq_client_1 = None
                 self.primary_llm = "gemini"
         else:
-            self.logger.warning("⚠️ GROQ_API_KEY not found, using Gemini as primary LLM")
+            self.logger.warning("⚠️ GROQ_API_KEY_1 (or GROQ_API_KEY) not found")
             self.primary_llm = "gemini"
         
-        # Initialize Gemini (fallback or primary if Groq fails)
-        if self.google_api_key:
+        # Initialize second Groq client if available
+        if self.groq_api_key_2:
+            try:
+                self.groq_client_2 = Groq(api_key=self.groq_api_key_2)
+                self.logger.info(f"✅ Groq LLM #2 initialized successfully with model: {self.groq_model}")
+                self.dual_api_enabled = True
+            except Exception as e:
+                self.logger.error(f"❌ Failed to initialize Groq LLM #2: {e}")
+                self.groq_client_2 = None
+                self.dual_api_enabled = False
+        else:
+            self.logger.info("⚠️ GROQ_API_KEY_2 not found, dual API processing disabled")
+            self.dual_api_enabled = False
+        
+        # Initialize Gemini as fallback (only if Groq is not available)
+        self.google_api_key = os.getenv('GOOGLE_API_KEY')
+        self.llm_model_lite = None
+        self.llm_model_full = None
+        self.current_llm_model = None
+        
+        if self.primary_llm == "gemini" and self.google_api_key:
             try:
                 genai.configure(api_key=self.google_api_key)
                 self.llm_model_lite = genai.GenerativeModel('gemini-2.5-flash-lite')
@@ -101,11 +123,13 @@ class ImprovedSemanticChunker:
                 self.logger.info("✅ Gemini LLM initialized successfully (fallback)")
             except Exception as e:
                 self.logger.error(f"❌ Failed to initialize Gemini LLM: {e}")
-                if self.primary_llm == "gemini":
-                    raise ValueError("Both Groq and Gemini LLM initialization failed")
-        else:
-            if self.primary_llm == "gemini":
-                raise ValueError("GOOGLE_API_KEY environment variable is required when Groq is not available")
+                raise ValueError("Both Groq and Gemini LLM initialization failed")
+        elif self.primary_llm == "gemini":
+            raise ValueError("GOOGLE_API_KEY environment variable is required when Groq is not available")
+        
+        # Validate at least one Groq API key is available
+        if not self.groq_client_1 and self.primary_llm == "groq":
+            raise ValueError("At least GROQ_API_KEY_1 (or GROQ_API_KEY) environment variable is required")
         
         # Initialize memory-efficient embedding model  
         self.logger.info("Loading BGE-large-EN embedding model (memory optimized)...")
@@ -200,17 +224,34 @@ class ImprovedSemanticChunker:
             return True, self.ARCHIVE_ERROR_MESSAGE
         return False, ""
     
-    def select_llm_model(self, doc_url: str) -> None:
+    def select_groq_client(self, api_key_index: int = 1) -> None:
         """
-        Select the appropriate LLM model based on the document URL.
-        Uses gemini-2.5-flash for Pincode data URL, gemini-2.5-flash-lite for others.
+        Select the appropriate Groq client based on the API key index.
+        api_key_index: 1 for first API key, 2 for second API key
         """
-        if doc_url == self.PINCODE_DATA_URL:
-            self.current_llm_model = self.llm_model_full
-            self.logger.info("Using gemini-2.5-flash for Pincode data URL")
+        if api_key_index == 1:
+            self.current_groq_client = self.groq_client_1
+            self.logger.info("Using Groq client #1 for processing")
         else:
-            self.current_llm_model = self.llm_model_lite
-            self.logger.info("Using gemini-2.5-flash-lite for standard processing")
+            self.current_groq_client = self.groq_client_2
+            self.logger.info("Using Groq client #2 for processing")
+    
+    def select_llm_model(self, doc_url: str, api_key_index: int = 1) -> None:
+        """
+        Select the appropriate LLM model based on the document URL and API key index.
+        For Groq: uses the same model but different clients.
+        For Gemini fallback: uses different models based on URL.
+        """
+        if self.primary_llm == "groq":
+            self.select_groq_client(api_key_index)
+        else:
+            # Gemini fallback logic
+            if doc_url == self.PINCODE_DATA_URL:
+                self.current_llm_model = self.llm_model_full
+                self.logger.info("Using gemini-2.5-flash for Pincode data URL")
+            else:
+                self.current_llm_model = self.llm_model_lite
+                self.logger.info("Using gemini-2.5-flash-lite for standard processing")
     
     def extract_and_concatenate_math(self, question: str) -> str:
         """
@@ -483,13 +524,14 @@ class ImprovedSemanticChunker:
         return retrieved_chunks
 
     def generate_llm_response(self, prompt: str, use_fallback: bool = False) -> str:
-        """Unified LLM generation method with Groq primary and Gemini fallback"""
+        """Unified LLM generation method with dual Groq clients and Gemini fallback"""
         
         # Try Groq first (if available and not explicitly using fallback)
-        if not use_fallback and self.groq_client and self.primary_llm == "groq":
+        if not use_fallback and self.current_groq_client and self.primary_llm == "groq":
             try:
-                self.logger.info(f"🚀 Generating response with Groq ({self.groq_model})...")
-                response = self.groq_client.chat.completions.create(
+                client_id = "#1" if self.current_groq_client == self.groq_client_1 else "#2"
+                self.logger.info(f"🚀 Generating response with Groq Client {client_id} ({self.groq_model})...")
+                response = self.current_groq_client.chat.completions.create(
                     model=self.groq_model,
                     messages=[
                         {
@@ -504,14 +546,15 @@ class ImprovedSemanticChunker:
                 )
                 
                 if response.choices and response.choices[0].message.content:
-                    self.logger.info("✅ Groq response generated successfully")
+                    self.logger.info(f"✅ Groq Client {client_id} response generated successfully")
                     return response.choices[0].message.content.strip()
                 else:
-                    self.logger.warning("⚠️ Groq returned empty response, falling back to Gemini")
+                    self.logger.warning(f"⚠️ Groq Client {client_id} returned empty response, falling back to Gemini")
                     return self.generate_llm_response(prompt, use_fallback=True)
                     
             except Exception as e:
-                self.logger.warning(f"⚠️ Groq LLM failed: {e}, falling back to Gemini")
+                client_id = "#1" if self.current_groq_client == self.groq_client_1 else "#2"
+                self.logger.warning(f"⚠️ Groq Client {client_id} failed: {e}, falling back to Gemini")
                 return self.generate_llm_response(prompt, use_fallback=True)
         
         # Use Gemini (fallback or primary)
@@ -684,6 +727,164 @@ OUTPUT FORMAT
         self.logger.info(f"✅ Parallel processing completed: {successful_count}/{len(questions)} questions successful")
         
         return processed_results, final_answers
+
+    async def process_questions_sequential(self, questions: List[str], log_dir_for_request: str) -> Tuple[List[Dict[str, Any]], List[str]]:
+        """Process all questions sequentially (one after another) and return results in original order"""
+        self.logger.info(f"🚀 Starting sequential processing of {len(questions)} questions...")
+        
+        processed_results = []
+        final_answers = []
+        successful_count = 0
+        
+        # Process each question one by one
+        for i, question in enumerate(questions):
+            try:
+                self.logger.info(f"📝 Processing question {i + 1}/{len(questions)}: {question[:50]}...")
+                result = await self.process_single_question(question, i, log_dir_for_request)
+                processed_results.append(result)
+                final_answers.append(result['answer'])
+                
+                if result['success']:
+                    successful_count += 1
+                    self.logger.info(f"✅ Question {i + 1} completed successfully")
+                else:
+                    self.logger.warning(f"⚠️ Question {i + 1} completed with issues")
+                    
+            except Exception as e:
+                self.logger.error(f"❌ Exception in question {i + 1}: {e}")
+                error_result = {
+                    'question': question,
+                    'answer': f"Error processing question: {str(e)}",
+                    'retrieved_chunks_file': None,
+                    'index': i,
+                    'success': False,
+                    'error': str(e)
+                }
+                processed_results.append(error_result)
+                final_answers.append(error_result['answer'])
+        
+        self.logger.info(f"✅ Sequential processing completed: {successful_count}/{len(questions)} questions successful")
+        
+        return processed_results, final_answers
+
+    def split_questions_for_dual_api(self, questions: List[str]) -> Tuple[List[str], List[str], List[int], List[int]]:
+        """
+        Split questions into two equal parts for dual API key processing.
+        Returns: (part1_questions, part2_questions, part1_indices, part2_indices)
+        """
+        total_questions = len(questions)
+        mid_point = total_questions // 2
+        
+        # Split questions
+        part1_questions = questions[:mid_point]
+        part2_questions = questions[mid_point:]
+        
+        # Track original indices for proper merging
+        part1_indices = list(range(mid_point))
+        part2_indices = list(range(mid_point, total_questions))
+        
+        self.logger.info(f"🔄 Split {total_questions} questions: Part 1 ({len(part1_questions)} questions), Part 2 ({len(part2_questions)} questions)")
+        
+        return part1_questions, part2_questions, part1_indices, part2_indices
+
+    async def process_questions_with_api_key(self, questions: List[str], question_indices: List[int], 
+                                           log_dir_for_request: str, api_key_index: int, 
+                                           doc_url: str) -> List[Dict[str, Any]]:
+        """
+        Process questions using a specific Groq API key.
+        """
+        self.logger.info(f"🚀 Processing {len(questions)} questions with Groq API Key #{api_key_index}")
+        
+        # Select appropriate Groq client for this batch
+        if api_key_index == 1:
+            if self.groq_client_1:
+                self.select_llm_model(doc_url, api_key_index=1)
+            else:
+                raise ValueError("Groq API Key #1 not available")
+        else:
+            if self.groq_client_2:
+                self.select_llm_model(doc_url, api_key_index=2)
+            else:
+                raise ValueError("Groq API Key #2 not available")
+        
+        processed_results = []
+        successful_count = 0
+        
+        # Process each question sequentially with the selected API key
+        for i, (question, original_index) in enumerate(zip(questions, question_indices)):
+            try:
+                self.logger.info(f"📝 API Key #{api_key_index} - Processing question {i + 1}/{len(questions)}: {question[:50]}...")
+                result = await self.process_single_question(question, original_index, log_dir_for_request)
+                processed_results.append(result)
+                
+                if result['success']:
+                    successful_count += 1
+                    self.logger.info(f"✅ API Key #{api_key_index} - Question {i + 1} completed successfully")
+                else:
+                    self.logger.warning(f"⚠️ API Key #{api_key_index} - Question {i + 1} completed with issues")
+                    
+            except Exception as e:
+                self.logger.error(f"❌ API Key #{api_key_index} - Exception in question {i + 1}: {e}")
+                error_result = {
+                    'question': question,
+                    'answer': f"Error processing question: {str(e)}",
+                    'retrieved_chunks_file': None,
+                    'index': original_index,
+                    'success': False,
+                    'error': str(e)
+                }
+                processed_results.append(error_result)
+        
+        self.logger.info(f"✅ API Key #{api_key_index} processing completed: {successful_count}/{len(questions)} questions successful")
+        return processed_results
+
+    async def process_questions_dual_api(self, questions: List[str], log_dir_for_request: str, 
+                                       doc_url: str) -> Tuple[List[Dict[str, Any]], List[str]]:
+        """
+        Process questions using dual API keys by splitting the payload into two equal parts.
+        """
+        if not self.dual_api_enabled:
+            self.logger.warning("⚠️ Dual API processing requested but not enabled, falling back to sequential processing")
+            return await self.process_questions_sequential(questions, log_dir_for_request)
+        
+        self.logger.info(f"🚀 Starting dual API key processing of {len(questions)} questions...")
+        
+        # Split questions into two parts
+        part1_questions, part2_questions, part1_indices, part2_indices = self.split_questions_for_dual_api(questions)
+        
+        # Process both parts concurrently with different API keys
+        try:
+            results_part1, results_part2 = await asyncio.gather(
+                self.process_questions_with_api_key(part1_questions, part1_indices, log_dir_for_request, 1, doc_url),
+                self.process_questions_with_api_key(part2_questions, part2_indices, log_dir_for_request, 2, doc_url),
+                return_exceptions=True
+            )
+            
+            # Handle any exceptions
+            if isinstance(results_part1, Exception):
+                self.logger.error(f"❌ API Key #1 processing failed: {results_part1}")
+                results_part1 = []
+            if isinstance(results_part2, Exception):
+                self.logger.error(f"❌ API Key #2 processing failed: {results_part2}")
+                results_part2 = []
+            
+            # Merge results back together in original order
+            all_results = results_part1 + results_part2
+            all_results.sort(key=lambda x: x['index'])
+            
+            # Extract answers in order
+            final_answers = [result['answer'] for result in all_results]
+            successful_count = sum(1 for result in all_results if result['success'])
+            
+            self.logger.info(f"✅ Dual API key processing completed: {successful_count}/{len(questions)} questions successful")
+            
+            return all_results, final_answers
+            
+        except Exception as e:
+            self.logger.error(f"❌ Dual API key processing failed: {e}")
+            # Fallback to sequential processing
+            self.logger.info("🔄 Falling back to sequential processing")
+            return await self.process_questions_sequential(questions, log_dir_for_request)
     
     async def process_payload(self, payload: Dict[str, Any]) -> Dict[str, Any]:
         """
@@ -727,13 +928,13 @@ OUTPUT FORMAT
             self.logger.info(f"Using pre-chunked collection: {self.collection_name}")
             # Connect to the precomputed collection
             self.collection = self.chroma_client.get_collection(self.collection_name)
-            # Process all questions in parallel using existing event loop
+            # Process all questions using dual API keys or sequential fallback
             try:
                 # Check if we're already in an event loop (FastAPI context)
                 loop = asyncio.get_running_loop()
                 # Use asyncio.create_task to run in existing loop
                 task = asyncio.create_task(
-                    self.process_questions_parallel(questions, log_dir_for_request)
+                    self.process_questions_dual_api(questions, log_dir_for_request, doc_url)
                 )
                 all_results_data, final_answers = await task
             except RuntimeError:
@@ -742,7 +943,7 @@ OUTPUT FORMAT
                 asyncio.set_event_loop(loop)
                 try:
                     all_results_data, final_answers = loop.run_until_complete(
-                        self.process_questions_parallel(questions, log_dir_for_request)
+                        self.process_questions_dual_api(questions, log_dir_for_request, doc_url)
                     )
                 finally:
                     loop.close()
@@ -778,13 +979,13 @@ OUTPUT FORMAT
         self.collection_name = f"docs_{uuid.uuid4().hex}"
         self.logger.info(f"Creating new collection: {self.collection_name}")
         self.create_vector_store(chunks)
-        # Process all questions in parallel using existing event loop
+        # Process all questions using dual API keys or sequential fallback
         try:
             # Check if we're already in an event loop (FastAPI context)
             loop = asyncio.get_running_loop()
             # Use asyncio.create_task to run in existing loop
             task = asyncio.create_task(
-                self.process_questions_parallel(questions, log_dir_for_request)
+                self.process_questions_dual_api(questions, log_dir_for_request, doc_url)
             )
             all_results_data, final_answers = await task
         except RuntimeError:
@@ -793,7 +994,7 @@ OUTPUT FORMAT
             asyncio.set_event_loop(loop)
             try:
                 all_results_data, final_answers = loop.run_until_complete(
-                    self.process_questions_parallel(questions, log_dir_for_request)
+                    self.process_questions_dual_api(questions, log_dir_for_request, doc_url)
                 )
             finally:
                 loop.close()
