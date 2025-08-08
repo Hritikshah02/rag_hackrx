@@ -1,0 +1,41 @@
+{
+  "request_id": "20250808_002927",
+  "document_url": "https://hackrx.blob.core.windows.net/hackrx/rounds/News.pdf?sv=2023-01-03&spr=https&st=2025-08-07T17%3A10%3A11Z&se=2026-08-08T17%3A10%3A00Z&sr=b&sp=r&sig=ybRsnfv%2B6VbxPz5xF7kLLjC4ehU0NF7KDkXua9ujSf0%3D",
+  "results": [
+    {
+      "question": "ട്രംപ് ഏത് ദിവസമാണ് 100% ശുൽകം പ്രഖ്യാപിച്ചത്?",
+      "answer": "He announced the 100 % tariff on August 6, 2025.",
+      "retrieved_chunks_file": "transaction_logs/20250808_002927/query_1_chunks.json",
+      "index": 0,
+      "success": true
+    },
+    {
+      "question": "ഏത് ഉത്പന്നങ്ങൾക്ക് ഈ 100% ഇറക്കുമതി ശുൽകം ബാധകമാണ്?",
+      "answer": "The 100 % import tariff applies to foreign‑made computer chips and semiconductors.",
+      "retrieved_chunks_file": "transaction_logs/20250808_002927/query_2_chunks.json",
+      "index": 1,
+      "success": true
+    },
+    {
+      "question": "ഏത് സാഹചര്യത്തിൽ ഒരു കമ്പനിയ്ക്ക് ഈ 100% ശുൽകത്തിൽ നിന്നും ഒഴിവാക്കും?",
+      "answer": "A company that is committed to manufacturing in the United States is exempt from the 100 % tariff.",
+      "retrieved_chunks_file": "transaction_logs/20250808_002927/query_3_chunks.json",
+      "index": 2,
+      "success": true
+    },
+    {
+      "question": "ആപ്പിളിന്റെ നിക്ഷേപ പ്രതിജ്ഞയും അതിന്റെ ലക്ഷ്യവും എന്താണ്?",
+      "answer": "Apple pledged a billion‑dollar investment, intended to raise prices and open the way for anti‑competitive commercial responses.",
+      "retrieved_chunks_file": "transaction_logs/20250808_002927/query_4_chunks.json",
+      "index": 3,
+      "success": true
+    },
+    {
+      "question": "ഈ പുതിയ നയം ഉപഭോക്താക്കൾക്കും ആഗോള വിപണിക്കും有什么影響？",
+      "answer": "The policy is expected to raise prices for consumers and trigger commercial‑anti‑trade reactions in the global market.",
+      "retrieved_chunks_file": "transaction_logs/20250808_002927/query_5_chunks.json",
+      "index": 4,
+      "success": true
+    }
+  ]
+}

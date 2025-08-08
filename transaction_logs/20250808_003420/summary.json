@@ -1,0 +1,13 @@
+{
+  "request_id": "20250808_003420",
+  "document_url": "https://register.hackrx.in/utils/get-secret-token?hackTeam=9395",
+  "results": [
+    {
+      "question": "Go to the link and get the secret token and return it",
+      "answer": "The secret token is f5295925cbcefbb8c5dc9d6562f021d4463608f4e2034442194050c0a066f9cc.",
+      "retrieved_chunks_file": "transaction_logs/20250808_003420/query_1_chunks.json",
+      "index": 0,
+      "success": true
+    }
+  ]
+}
