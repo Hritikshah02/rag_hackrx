@@ -233,10 +233,25 @@ test_payload_malayalam = {
     "ഏത് ഉത്പന്നങ്ങൾക്ക് ഈ 100% ഇറക്കുമതി ശുൽകം ബാധകമാണ്?",
     "ഏത് സാഹചര്യത്തിൽ ഒരു കമ്പനിയ്ക്ക് ഈ 100% ശുൽകത്തിൽ നിന്നും ഒഴിവാക്കും?",
     "ആപ്പിളിന്റെ നിക്ഷേപ പ്രതിജ്ഞയും അതിന്റെ ലക്ഷ്യവും എന്താണ്?",
-    "ഈ പുതിയ നയം ഉപഭോക്താക്കൾക്കും ആഗോള വിപണിക്കും有什么影響？"
+    "ഈ പുതിയ നയം ഉപഭോക്താക്കൾക്കും ആഗോള വിപണിക്കും有什么影響？",
+    "What was Apple’s investment commitment and what was its objective?",
+    "What impact will this new policy have on consumers and the global market?"
   ]
 }
 
+test_payload_secret_token = {
+  "documents": "https://register.hackrx.in/utils/get-secret-token?hackTeam=8021",
+  "questions": [
+    "Go to the link and get the secret token and return it"
+  ]
+}
+
+test_payload_flight_number = {
+  "documents": "https://hackrx.blob.core.windows.net/hackrx/rounds/FinalRound4SubmissionPDF.pdf?sv=2023-01-03&spr=https&st=2025-08-07T14%3A23%3A48Z&se=2027-08-08T14%3A23%3A00Z&sr=b&sp=r&sig=nMtZ2x9aBvz%2FPjRWboEOZIGB%2FaGfNf5TfBOrhGqSv4M%3D",
+  "questions": [
+    "What is my flight number?"
+  ]
+}
 
 
 def test_health_check():
@@ -314,7 +329,9 @@ def test_all_webhooks():
         # (test_payload_math, "Math Test"),
         # (test_payload_zip, "Zip Test"),
         # (test_payload_iso, "ISO Test"),
-        (test_payload_malayalam, "Malayalam Test")
+        (test_payload_malayalam, "Malayalam Test"),
+        (test_payload_secret_token, "Secret Token Test"),
+        (test_payload_flight_number, "Flight Number Test")
     ]
     
     results = []
