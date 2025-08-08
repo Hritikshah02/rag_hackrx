@@ -226,7 +226,16 @@ test_payload_iso = {
 }
 
 
-
+test_payload_malayalam = {
+  "documents": "https://hackrx.blob.core.windows.net/hackrx/rounds/News.pdf?sv=2023-01-03&spr=https&st=2025-08-07T17%3A10%3A11Z&se=2026-08-08T17%3A10%3A00Z&sr=b&sp=r&sig=ybRsnfv%2B6VbxPz5xF7kLLjC4ehU0NF7KDkXua9ujSf0%3D",
+  "questions": [
+    "ട്രംപ് ഏത് ദിവസമാണ് 100% ശുൽകം പ്രഖ്യാപിച്ചത്?",
+    "ഏത് ഉത്പന്നങ്ങൾക്ക് ഈ 100% ഇറക്കുമതി ശുൽകം ബാധകമാണ്?",
+    "ഏത് സാഹചര്യത്തിൽ ഒരു കമ്പനിയ്ക്ക് ഈ 100% ശുൽകത്തിൽ നിന്നും ഒഴിവാക്കും?",
+    "ആപ്പിളിന്റെ നിക്ഷേപ പ്രതിജ്ഞയും അതിന്റെ ലക്ഷ്യവും എന്താണ്?",
+    "ഈ പുതിയ നയം ഉപഭോക്താക്കൾക്കും ആഗോള വിപണിക്കും有什么影響？"
+  ]
+}
 
 
 
@@ -300,11 +309,12 @@ def test_all_webhooks():
         # (test_payload_5b, "Indian Constitution Test (Scenario-based Questions)"),
         # (test_payload_uni_group_health, "UNI GROUP HEALTH INSURANCE POLICY TEST"),
         # (test_payload_6, "Princ,ipia Newton Test"),
-        (test_new, "New Test"),
+        # (test_new, "New Test"),
         # (test_payload_misinfo, "Misinfo Test"),
         # (test_payload_math, "Math Test"),
         # (test_payload_zip, "Zip Test"),
-        # (test_payload_iso, "ISO Test")
+        # (test_payload_iso, "ISO Test"),
+        (test_payload_malayalam, "Malayalam Test")
     ]
     
     results = []
