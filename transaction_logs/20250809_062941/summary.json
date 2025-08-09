@@ -1,0 +1,41 @@
+{
+  "request_id": "20250809_062941",
+  "document_url": "https://hackrx.blob.core.windows.net/hackrx/rounds/News.pdf?sv=2023-01-03&spr=https&st=2025-08-07T17%3A10%3A11Z&se=2026-08-08T17%3A10%3A00Z&sr=b&sp=r&sig=ybRsnfv%2B6VbxPz5xF7kLLjC4ehU0NF7KDkXua9ujSf0%3D",
+  "results": [
+    {
+      "question": "ട്രംപ് ഏത് ദിവസമാണ് 100% ശുൽകം പ്രഖ്യാപിച്ചത്?",
+      "answer": "2025 ഓഗസ്റ്റ് 6-ന്.",
+      "retrieved_chunks_file": "transaction_logs/20250809_062941/query_1_chunks.json",
+      "index": 0,
+      "success": true
+    },
+    {
+      "question": "ഏത് ഉത്പന്നങ്ങൾക്ക് ഈ 100% ഇറക്കുമതി ശുൽകം ബാധകമാണ്?",
+      "answer": "വിദേശത്ത് നിർമ്മിച്ച കമ്പ്യൂട്ടർ ചിപ്പുകളും സെമികണ്ടക്ടർ ഘടകങ്ങളുമാണ് ഈ 100 % ഇറക്കുമതി ശുൽകം ബാധകമായ ഉത്പന്നങ്ങൾ.",
+      "retrieved_chunks_file": "transaction_logs/20250809_062941/query_2_chunks.json",
+      "index": 1,
+      "success": true
+    },
+    {
+      "question": "ഏത് സാഹചര്യത്തിൽ ഒരു കമ്പനിയ്ക്ക് ഈ 100% ശുൽകത്തിൽ നിന്നും നിന്നും ഒഴികെയാക്കും?",
+      "answer": "യുഎസ്‌യിൽ നിർമ്മിക്കാൻ പ്രതിജ്ഞാബദ്ധമായ കമ്പനികൾക്ക് ഈ 100 % ശുൽകം ബാധകമല്ല.",
+      "retrieved_chunks_file": "transaction_logs/20250809_062941/query_3_chunks.json",
+      "index": 2,
+      "success": true
+    },
+    {
+      "question": "What was Apple’s investment commitment and what was its objective?",
+      "answer": "ആപ്പിള്‍ 600 ബില്യണ്‍ ഡോളര്‍ നിക്ഷേപം പ്രഖ്യാപിക്കുകയും, അതിന്റെ ലക്ഷ്യം ആഭ്യന്തര നിര്‍മ്മാണം ശക്തിപ്പെടുത്തുകയും വിദേശ ആശ്രിതത്വം കുറയ്ക്കുകയും ചെയ്യുന്നതാണ്.",
+      "retrieved_chunks_file": "transaction_logs/20250809_062941/query_4_chunks.json",
+      "index": 3,
+      "success": true
+    },
+    {
+      "question": "What impact will this new policy have on consumers and the global market?",
+      "answer": "The policy is expected to raise consumer prices, trigger trade‑negative reactions, and cause supply‑chain disruptions that will affect the global market.",
+      "retrieved_chunks_file": "transaction_logs/20250809_062941/query_5_chunks.json",
+      "index": 4,
+      "success": true
+    }
+  ]
+}

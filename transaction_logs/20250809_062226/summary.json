@@ -1,0 +1,41 @@
+{
+  "request_id": "20250809_062226",
+  "document_url": "https://hackrx.blob.core.windows.net/hackrx/rounds/News.pdf?sv=2023-01-03&spr=https&st=2025-08-07T17%3A10%3A11Z&se=2026-08-08T17%3A10%3A00Z&sr=b&sp=r&sig=ybRsnfv%2B6VbxPz5xF7kLLjC4ehU0NF7KDkXua9ujSf0%3D",
+  "results": [
+    {
+      "question": "ട്രംപ് ഏത് ദിവസമാണ് 100% ശുൽകം പ്രഖ്യാപിച്ചത്?",
+      "answer": "ട്രംപ് 100% ശുൽകം 2025 ഓഗസ്റ്റ് 6-ന് പ്രഖ്യാപിച്ചു.",
+      "retrieved_chunks_file": null,
+      "index": 0,
+      "success": true
+    },
+    {
+      "question": "ഏത് ഉത്പന്നങ്ങൾക്ക് ഈ 100% ഇറക്കുമതി ശുൽകം ബാധകമാണ്?",
+      "answer": "വിദേശത്ത് നിര്‍മ്മിച്ച കമ്പ്യൂട്ടര്‍ ചിപ്പുകളും സെമികണ്ടക്റ്റര്‍ (അര്‍ദ്ധവാഹക) ഘടകങ്ങളും 100% ഇറക്കുമതി ശുൽകത്തിന് വിധേയമാണ്.",
+      "retrieved_chunks_file": null,
+      "index": 1,
+      "success": true
+    },
+    {
+      "question": "ഏത് സാഹചര്യത്തിൽ ഒരു കമ്പനിയ്ക്ക് ഈ 100% ശുൽകത്തിൽ നിന്നും ഒഴിവാക്കും?",
+      "answer": "യുഎസില്‍ നിര്‍മിക്കാന്‍ പ്രതിജ്ഞാബദ്ധമായ കമ്പനികള്‍ക്ക് 100% ശുൽകം ബാധകമല്ല.",
+      "retrieved_chunks_file": null,
+      "index": 2,
+      "success": true
+    },
+    {
+      "question": "What was Apple’s investment commitment and what was its objective?",
+      "answer": "Apple’s COO announced a 600‑billion‑dollar investment to strengthen domestic manufacturing and reduce foreign dependence.",
+      "retrieved_chunks_file": null,
+      "index": 3,
+      "success": true
+    },
+    {
+      "question": "What impact will this new policy have on consumers and the global market?",
+      "answer": "The 100% tariff will raise consumer prices, increase global market prices, and trigger trade‑retaliation effects that disrupt supply chains.",
+      "retrieved_chunks_file": null,
+      "index": 4,
+      "success": true
+    }
+  ]
+}

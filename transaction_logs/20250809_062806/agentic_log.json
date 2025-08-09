@@ -1,0 +1,4 @@
+{
+  "strategy": "deterministic_secret_token",
+  "token_found": true
+}
