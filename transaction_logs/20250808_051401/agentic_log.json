@@ -1,7 +1,0 @@
-{
-  "strategy": "deterministic_flight_resolver",
-  "city": "Hyderabad",
-  "landmark": "Taj Mahal",
-  "endpoint": "https://register.hackrx.in/teams/public/flights/getSecondCityFlightNumber",
-  "flightNumber": "2d8d01"
-}

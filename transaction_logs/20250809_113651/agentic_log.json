@@ -1,7 +1,0 @@
-{
-  "strategy": "deterministic_flight_resolver",
-  "city": "New York",
-  "landmark": "Eiffel Tower",
-  "endpoint": "https://register.hackrx.in/teams/public/flights/getThirdCityFlightNumber",
-  "flightNumber": "2adcbf"
-}
