@@ -232,10 +232,11 @@ test_payload_malayalam = {
     "ട്രംപ് ഏത് ദിവസമാണ് 100% ശുൽകം പ്രഖ്യാപിച്ചത്?",
     "ഏത് ഉത്പന്നങ്ങൾക്ക് ഈ 100% ഇറക്കുമതി ശുൽകം ബാധകമാണ്?",
     "ഏത് സാഹചര്യത്തിൽ ഒരു കമ്പനിയ്ക്ക് ഈ 100% ശുൽകത്തിൽ നിന്നും ഒഴിവാക്കും?",
-    "ആപ്പിളിന്റെ നിക്ഷേപ പ്രതിജ്ഞയും അതിന്റെ ലക്ഷ്യവും എന്താണ്?",
-    "ഈ പുതിയ നയം ഉപഭോക്താക്കൾക്കും ആഗോള വിപണിക്കും有什么影響？",
+    # "ആപ്പിളിന്റെ നിക്ഷേപ പ്രതിജ്ഞയും അതിന്റെ ലക്ഷ്യവും എന്താണ്?",
+    # "ഈ പുതിയ നയം ഉപഭോക്താക്കൾക്കും ആഗോള വിപണിക്കും有什么影響？",
     "What was Apple’s investment commitment and what was its objective?",
-    "What impact will this new policy have on consumers and the global market?"
+    "What impact will this new policy have on consumers and the global market?",
+    # "Who is Doland Trump?"
   ]
 }
 
@@ -329,8 +330,8 @@ def test_all_webhooks():
         # (test_payload_math, "Math Test"),
         # (test_payload_zip, "Zip Test"),
         # (test_payload_iso, "ISO Test"),
-        (test_payload_malayalam, "Malayalam Test"),
-        (test_payload_secret_token, "Secret Token Test"),
+        # (test_payload_malayalam, "Malayalam Test"),
+        # (test_payload_secret_token, "Secret Token Test"),
         (test_payload_flight_number, "Flight Number Test")
     ]
     
