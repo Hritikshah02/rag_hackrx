@@ -551,6 +551,8 @@ Return ONLY a compact JSON object with keys: use_tool (true/false), tool ("fetch
                 })
                 final_answers.append(error_answer)
         return processed_results, final_answers
+    
+
 
     # --------------------------- Language utilities ---------------------------
     def detect_language(self, text: str) -> str:
