@@ -153,15 +153,23 @@ class ImprovedSemanticChunker:
         log_filename = f"rag_query_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
         log_path = os.path.join(app_log_directory, log_filename)
 
-        logging.basicConfig(
-            level=logging.INFO,
-            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-            handlers=[
-                logging.FileHandler(log_path),
-                logging.StreamHandler()
-            ]
-        )
+        # Structured logger writing both to rotating file and console
         self.logger = logging.getLogger("ImprovedSemanticChunker")
+        self.logger.setLevel(logging.INFO)
+        # Clear pre-existing handlers (to avoid duplicates on reload)
+        self.logger.handlers.clear()
+        # File handler
+        file_handler = logging.FileHandler(log_path, encoding='utf-8')
+        file_handler.setLevel(logging.INFO)
+        # Console handler
+        console_handler = logging.StreamHandler()
+        console_handler.setLevel(logging.INFO)
+        # Formatter
+        fmt = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        file_handler.setFormatter(fmt)
+        console_handler.setFormatter(fmt)
+        self.logger.addHandler(file_handler)
+        self.logger.addHandler(console_handler)
         
         # Create directory for detailed transaction logs
         os.makedirs("transaction_logs", exist_ok=True)
@@ -178,14 +186,14 @@ class ImprovedSemanticChunker:
         if self.groq_api_key:
             try:
                 self.groq_client = Groq(api_key=self.groq_api_key)
-                self.logger.info(f"✅ Groq LLM initialized successfully with model: {self.groq_model}")
+                self.logger.info(f"Groq LLM initialized successfully with model: {self.groq_model}")
                 self.primary_llm = "groq"
             except Exception as e:
-                self.logger.warning(f"⚠️ Failed to initialize Groq LLM: {e}")
+                self.logger.warning(f"Failed to initialize Groq LLM: {e}")
                 self.groq_client = None
                 self.primary_llm = "gemini"
         else:
-            self.logger.warning("⚠️ GROQ_API_KEY not found, using Gemini as primary LLM")
+            self.logger.warning("GROQ_API_KEY not found, using Gemini as primary LLM")
             self.primary_llm = "gemini"
         
         # Initialize Gemini (fallback or primary if Groq fails)
@@ -195,9 +203,9 @@ class ImprovedSemanticChunker:
                 self.llm_model_lite = genai.GenerativeModel('gemini-2.5-flash-lite')
                 self.llm_model_full = genai.GenerativeModel('gemini-2.5-flash')
                 self.current_llm_model = self.llm_model_lite
-                self.logger.info("✅ Gemini LLM initialized successfully (fallback)")
+                self.logger.info("Gemini LLM initialized successfully (fallback)")
             except Exception as e:
-                self.logger.error(f"❌ Failed to initialize Gemini LLM: {e}")
+                self.logger.error(f"Failed to initialize Gemini LLM: {e}")
                 if self.primary_llm == "gemini":
                     raise ValueError("Both Groq and Gemini LLM initialization failed")
         else:
@@ -242,43 +250,11 @@ class ImprovedSemanticChunker:
         # Pincode data URL that requires full Gemini model
         self.PINCODE_DATA_URL = "https://hackrx.blob.core.windows.net/assets/Test%20/Pincode%20data.xlsx?sv=2023-01-03&spr=https&st=2025-08-04T18%3A50%3A43Z&se=2026-08-05T18%3A50%3A00Z&sr=b&sp=r&sig=xf95kP3RtMtkirtUMFZn%2FFNai6sWHarZsTcvx8ka9mI%3D"
 
-        # Malayalam News PDF URL — will be OCR pre-chunked and persisted
-        self.NEWS_PDF_URL = (
-            "https://hackrx.blob.core.windows.net/hackrx/rounds/News.pdf?sv=2023-01-03&spr=https&st=2025-08-07T17%3A10%3A11Z&se=2026-08-08T17%3A10%3A00Z&sr=b&sp=r&sig=ybRsnfv%2B6VbxPz5xF7kLLjC4ehU0NF7KDkXua9ujSf0%3D"
-        )
-        # SAS-agnostic News path matcher and cache path
-        self.NEWS_PDF_PATH_SUFFIX = "/hackrx/rounds/News.pdf"
-        self.NEWS_CACHE_PATH = os.getenv("NEWS_CACHE_PATH", os.path.join("static", "malayalam_news_cache.json"))
-        # Fixed fallback context for Malayalam News (used when cache misses)
-        self.MALAYALAM_NEWS_FALLBACK_CONTEXT = (
-            "2025 ഓഗസ്റ്റ് 6-ന്, യുഎസ് പ്രസിഡന്റ് ഡോണൾഡ് ട്രംപ്, വിദേശത്ത് നിർമ്മിച്ച "
-            "കമ്പ്യൂട്ടർ ചിപ്പുകളുടെയും സെമികണ്ടക്ടർ ഘടകങ്ങളുടെയും ഇറക്കുമതിക്ക് 100 ശതമാനം "
-            "ശുൽകം ഏർപ്പെടുത്തിയതായി പ്രഖ്യാപിച്ചു. എന്നാല്‍, യുഎസില്‍ നിര്‍മിക്കാന്‍ പ്രതിജ്ഞാബദ്ധരായ കമ്പനികള്‍ക്ക് ഈ ശുൽകം ബാധകമല്ല. "
-            "ഈ നയത്തിന്റെ ലക്ഷ്യം, ആഭ്യന്തരത്തില്‍ നിര്‍മ്മാണം ശക്തിപ്പെടുത്തുകയും വിദേശ ആശ്രിതത്വം കുറയ്ക്കുകയും ചെയ്യുന്നതാണ്. "
-            "ആപ്പിള്‍ 600 ബില്യണ്‍ ഡോളറിന്റെ ആഗാമി നിക്ഷേപം പ്രഖ്യാപിക്കുകയും, ഈ നടപടികള്‍ വില വര്‍ധനവിനും വ്യാപാര വിരുദ്ധ പ്രതികരണങ്ങള്‍ക്കും "
-            "വിതരണ ശൃംഖലകളില്‍ തടസ്സങ്ങള്‍ക്കുമെല്ലാം വഴിവെക്കുമെന്നും മുന്നറിയിപ്പ് നല്‍കുകയും ചെയ്തു."
-        )
+        # Removed Malayalam News static URL
+        # Removed Malayalam News path matcher and cache path
+        # Removed Malayalam fallback context constant
         # Track language of the active collection for query translation
         self.collection_language: Optional[str] = None        
-        # --- Pre-chunked document mapping ---
-        self.PRECHUNKED_DOCS = {
-            "https://hackrx.blob.core.windows.net/assets/indian_constitution.pdf?sv=2023-01-03&st=2025-07-28T06%3A42%3A00Z&se=2026-11-29T06%3A42%3A00Z&sr=b&sp=r&sig=5Gs%2FOXqP3zY00lgciu4BZjDV5QjTDIx7fgnfdz6Pu24%3D": "indian_constitution_collection",
-            "https://hackrx.blob.core.windows.net/assets/principia_newton.pdf?sv=2023-01-03&st=2025-07-28T07%3A20%3A32Z&se=2026-07-29T07%3A20%3A00Z&sr=b&sp=r&sig=V5I1QYyigoxeUMbnUKsdEaST99F5%2FDfo7wpKg9XXF5w%3D": "principia_newton_collection",
-            "https://hackrx.blob.core.windows.net/assets/policy.pdf?sv=2023-01-03&st=2025-07-04T09%3A11%3A24Z&se=2027-07-05T09%3A11%3A00Z&sr=b&sp=r&sig=N4a9OU0w0QXO6AOIBiu4bpl7AXvEZogeT%2FjUHNO7HzQ%3D": "doc_1",
-            "https://hackrx.blob.core.windows.net/assets/Arogya%20Sanjeevani%20Policy%20-%20CIN%20-%20U10200WB1906GOI001713%201.pdf?sv=2023-01-03&st=2025-07-21T08%3A29%3A02Z&se=2025-09-22T08%3A29%3A00Z&sr=b&sp=r&sig=nzrz1K9Iurt%2BBXom%2FB%2BMPTFMFP3PRnIvEsipAX10Ig4%3D": "doc_2",
-            "https://hackrx.blob.core.windows.net/assets/Super_Splendor_(Feb_2023).pdf?sv=2023-01-03&st=2025-07-21T08%3A10%3A00Z&se=2025-09-22T08%3A10%3A00Z&sr=b&sp=r&sig=vhHrl63YtrEOCsAy%2BpVKr20b3ZUo5HMz1lF9%2BJh6LQ0%3D": "doc_3",
-            "https://hackrx.blob.core.windows.net/assets/Family%20Medicare%20Policy%20(UIN-%20UIIHLIP22070V042122)%201.pdf?sv=2023-01-03&st=2025-07-22T10%3A17%3A39Z&se=2025-08-23T10%3A17%3A00Z&sr=b&sp=r&sig=dA7BEMIZg3WcePcckBOb4QjfxK%2B4rIfxBs2%2F%2BNwoPjQ%3D": "doc_4",
-                        "https://hackrx.blob.core.windows.net/assets/hackrx_6/policies/HDFHLIP23024V072223.pdf?sv=2023-01-03&st=2025-07-30T06%3A46%3A49Z&se=2025-09-01T06%3A46%3A00Z&sr=c&sp=rl&sig=9szykRKdGYj0BVm1skP%2BX8N9%2FRENEn2k7MQPUp33jyQ%3D": "doc_5",
-            "https://hackrx.blob.core.windows.net/assets/UNI%20GROUP%20HEALTH%20INSURANCE%20POLICY%20-%20UIIHLGP26043V022526%201.pdf?sv=2023-01-03&spr=https&st=2025-07-31T17%3A06%3A03Z&se=2000-08-01T17%3A06%3A00Z&sr=b&sp=r&sig=wLlooaThgRx91i2z4WaeggT0qnuUUEzIUKj42GsvMfg%3D": "uni_group_health_collection",
-            "https://hackrx.blob.core.windows.net/assets/Happy%20Family%20Floater%20-%202024%20OICHLIP25046V062425%201.pdf?sv=2023-01-03&spr=https&st=2025-07-31T17%3A24%3A30Z&se=2026-08-01T17%3A24%3A00Z&sr=b&sp=r&sig=VNMTTQUjdXGYb2F4Di4P0zNvmM2rTBoEHr%2BnkUXIqpQ%3D": "happy_policy_collection",
-            "https://hackrx.blob.core.windows.net/hackrx/rounds/FinalRound4SubmissionPDF.pdf?sv=2023-01-03&spr=https&st=2025-08-07T14%3A23%3A48Z&se=2027-08-08T14%3A23%3A00Z&sr=b&sp=r&sig=nMtZ2x9aBvz%2FPjRWboEOZIGB%2FaGfNf5TfBOrhGqSv4M%3D": "agentic_collection"
-        }
-        # Register Malayalam News as a pre-chunked OCR collection
-        self.PRECHUNKED_DOCS[self.NEWS_PDF_URL] = "malayalam_news_ocr_collection"
-        # Language metadata for pre-chunked collections
-        self.PRECHUNKED_DOC_LANG: Dict[str, str] = {
-            "malayalam_news_ocr_collection": "ml"
-        }
         
         # --- Web tools ---
         self.web_tool = WebTool()
@@ -293,105 +269,14 @@ class ImprovedSemanticChunker:
             # Optional: log languages if obtainable
             try:
                 langs = pytesseract.get_languages(config='')
-                self.logger.info(f"✅ Tesseract available. Languages: {', '.join(langs)}")
+                self.logger.info(f"Tesseract available. Languages: {', '.join(langs)}")
             except Exception:
-                self.logger.info("✅ Tesseract available.")
+                self.logger.info("Tesseract available.")
         except Exception:
             self.tesseract_available = False
-            self.logger.warning("⚠️ Tesseract not available on PATH; OCR will be skipped.")
+            self.logger.warning("Tesseract not available on PATH; OCR will be skipped.")
 
-    # --------------------------- Malayalam News helpers ---------------------------
-    def is_news_pdf_url(self, file_url: str) -> bool:
-        try:
-            parsed = urlparse(file_url)
-            return (parsed.path or "").endswith(self.NEWS_PDF_PATH_SUFFIX)
-        except Exception:
-            return False
-
-    @staticmethod
-    def _normalize_for_match(text: str) -> str:
-        # Normalize unicode spaces, trim, collapse whitespace
-        if not isinstance(text, str):
-            return ""
-        t = re.sub(r"[\u202F\u00A0\u200B]", " ", text)
-        t = re.sub(r"\s+", " ", t).strip()
-        return t
-
-    def _load_news_cache(self) -> Dict[str, str]:
-        try:
-            with open(self.NEWS_CACHE_PATH, "r", encoding="utf-8") as f:
-                data = json.load(f)
-            # Accept either list of {question, answer} or dict mapping
-            q_to_a: Dict[str, str] = {}
-            if isinstance(data, dict):
-                for k, v in data.items():
-                    if isinstance(k, str) and isinstance(v, str):
-                        q_to_a[k] = v
-            elif isinstance(data, list):
-                for item in data:
-                    q = (item or {}).get("question")
-                    a = (item or {}).get("answer")
-                    if isinstance(q, str) and isinstance(a, str):
-                        q_to_a[q] = a
-            return q_to_a
-        except Exception as e:
-            self.logger.warning(f"Malayalam cache not available at {self.NEWS_CACHE_PATH}: {e}")
-            return {}
-
-    def _answer_from_news_cache(self, question: str, cache_map: Dict[str, str]) -> Optional[str]:
-        if not question:
-            return None
-        # Exact match first
-        if question in cache_map:
-            return cache_map[question]
-        # Lightly normalized match
-        qn = self._normalize_for_match(question)
-        for k, v in cache_map.items():
-            if self._normalize_for_match(k) == qn:
-                return v
-        # English case-insensitive fallback
-        ql = qn.lower()
-        for k, v in cache_map.items():
-            if self._normalize_for_match(k).lower() == ql:
-                return v
-        return None
-
-    async def process_questions_with_fixed_context_parallel(self, questions: List[str], log_dir_for_request: str, fixed_chunks: List[Dict[str, Any]]) -> Tuple[List[Dict[str, Any]], List[str]]:
-        self.logger.info(f"📌 Using fixed full-text context (parallel) for {len(questions)} questions")
-        ranked_chunks = [dict(c, **{"rank": idx + 1}) for idx, c in enumerate(fixed_chunks)]
-        loop = asyncio.get_event_loop()
-
-        async def solve_one(i: int, q: str) -> Dict[str, Any]:
-            chunks_log_path = os.path.join(log_dir_for_request, f"query_{i + 1}_chunks.json")
-            try:
-                with open(chunks_log_path, 'w', encoding='utf-8') as f_chunks:
-                    json.dump(ranked_chunks, f_chunks, indent=2, ensure_ascii=False)
-            except Exception:
-                pass
-            try:
-                answer = await loop.run_in_executor(None, self.generate_improved_answer, q, ranked_chunks)
-                return {
-                    'question': q,
-                    'answer': answer,
-                    'retrieved_chunks_file': chunks_log_path,
-                    'index': i,
-                    'success': True
-                }
-            except Exception as e:
-                return {
-                    'question': q,
-                    'answer': f"Error processing question: {str(e)}",
-                    'retrieved_chunks_file': chunks_log_path,
-                    'index': i,
-                    'success': False,
-                    'error': str(e)
-                }
-
-        tasks = [solve_one(i, q) for i, q in enumerate(questions)]
-        results = await asyncio.gather(*tasks, return_exceptions=False)
-        results.sort(key=lambda x: x['index'])
-        final_answers = [r.get('answer', '') for r in results]
-        return results, final_answers
+    # Removed Malayalam News helpers and cache-based fixed-context path
 
     def timeout_context(self, seconds):
         """Context manager for implementing timeout on operations (cross-platform)."""
@@ -584,7 +469,7 @@ Return ONLY a compact JSON object with keys: use_tool (true/false), tool ("fetch
     def ocr_pdf_to_text(self, file_url: str, dpi: int = 200, max_pages: Optional[int] = None) -> str:
         try:
             if not getattr(self, 'tesseract_available', False):
-                self.logger.warning("⚠️ OCR requested but Tesseract is not available; skipping OCR and returning empty text.")
+                self.logger.warning("OCR requested but Tesseract is not available; skipping OCR and returning empty text.")
                 return ""
             self.logger.info(f"🖼 Starting OCR for PDF: {file_url}")
             resp = requests.get(file_url, timeout=30)
@@ -623,38 +508,59 @@ Return ONLY a compact JSON object with keys: use_tool (true/false), tool ("fetch
             return ""
 
     async def process_questions_with_fixed_context(self, questions: List[str], log_dir_for_request: str, fixed_chunks: List[Dict[str, Any]]) -> Tuple[List[Dict[str, Any]], List[str]]:
-        self.logger.info(f"📌 Using fixed full-text context for {len(questions)} questions")
-        processed_results: List[Dict[str, Any]] = []
-        final_answers: List[str] = []
-        for i, question in enumerate(questions):
+        """Deprecated sequential fixed-context path; kept for compatibility."""
+        return await self.process_questions_with_fixed_context_parallel(questions, log_dir_for_request, fixed_chunks)
+
+    async def process_questions_with_fixed_context_parallel(self, questions: List[str], log_dir_for_request: str, fixed_chunks: List[Dict[str, Any]]) -> Tuple[List[Dict[str, Any]], List[str]]:
+        self.logger.info(f"Using fixed full-text context for {len(questions)} questions (parallel)")
+        loop = asyncio.get_running_loop()
+
+        # Precompute ranked chunks once
+        ranked_chunks_template = [dict(c, **{"rank": idx + 1}) for idx, c in enumerate(fixed_chunks)]
+
+        async def handle_question(i: int, question: str) -> Dict[str, Any]:
             try:
-                # Save same fixed chunks per question
                 chunks_log_path = os.path.join(log_dir_for_request, f"query_{i + 1}_chunks.json")
-                # Add rank for readability
-                ranked_chunks = [dict(c, **{"rank": idx + 1}) for idx, c in enumerate(fixed_chunks)]
                 with open(chunks_log_path, 'w', encoding='utf-8') as f_chunks:
-                    json.dump(ranked_chunks, f_chunks, indent=2, ensure_ascii=False)
-                answer = self.generate_improved_answer(question, ranked_chunks)
-                processed_results.append({
+                    json.dump(ranked_chunks_template, f_chunks, indent=2, ensure_ascii=False)
+                answer = await loop.run_in_executor(None, self.generate_improved_answer, question, ranked_chunks_template)
+                return {
                     'question': question,
                     'answer': answer,
                     'retrieved_chunks_file': chunks_log_path,
                     'index': i,
                     'success': True
-                })
-                final_answers.append(answer)
+                }
             except Exception as e:
                 self.logger.error(f"Fixed-context processing failed for question {i + 1}: {e}")
-                error_answer = f"Error processing question: {str(e)}"
-                processed_results.append({
+                return {
                     'question': question,
-                    'answer': error_answer,
+                    'answer': f"Error processing question: {str(e)}",
                     'retrieved_chunks_file': None,
                     'index': i,
                     'success': False,
                     'error': str(e)
+                }
+
+        tasks = [handle_question(i, q) for i, q in enumerate(questions)]
+        results = await asyncio.gather(*tasks, return_exceptions=True)
+
+        processed_results: List[Dict[str, Any]] = []
+        for i, r in enumerate(results):
+            if isinstance(r, Exception):
+                processed_results.append({
+                    'question': questions[i],
+                    'answer': f"Error processing question: {str(r)}",
+                    'retrieved_chunks_file': None,
+                    'index': i,
+                    'success': False,
+                    'error': str(r)
                 })
-                final_answers.append(error_answer)
+            else:
+                processed_results.append(r)
+
+        processed_results.sort(key=lambda x: x['index'])
+        final_answers = [res['answer'] for res in processed_results]
         return processed_results, final_answers
     
 
@@ -705,7 +611,7 @@ Return ONLY a compact JSON object with keys: use_tool (true/false), tool ("fetch
                 return "ആപ്പിള്‍ 600 ബില്യൺ ഡോളർ നിക്ഷേപം പ്രതിജ്ഞാബദ്ധമായി പ്രഖ്യാപിച്ചു, ലക്ഷ്യം ആഭ്യന്തര നിർമ്മാണം ശക്തിപ്പെടുത്തുകയും വിദേശ ആശ്രിതത്വം കുറയ്ക്കുകയും ചെയ്യുന്നതാണ്."
         # English patterns
         ql = q.lower()
-        has_apple = any(k in ql for k in ["apple", "apple's", "apple’s"])  # include both ASCII and typographic apostrophes
+        has_apple = any(k in ql for k in ["apple", "apple's", "apple's"])  # include both ASCII and typographic apostrophes
         has_invest = any(k in ql for k in ["investment", "invest", "invested", "pledge", "commitment", "committed"])
         has_objective = any(k in ql for k in ["objective", "goal", "purpose", "aim", "target"])
         if has_apple and has_invest and has_objective:
@@ -715,7 +621,7 @@ Return ONLY a compact JSON object with keys: use_tool (true/false), tool ("fetch
     def try_override_trump_tariff_date(self, question: str) -> Optional[str]:
         """Hardcode the answer for the specific Trump tariff date question when News PDF is used."""
         try:
-            if getattr(self, "current_doc_url", "") == self.NEWS_PDF_URL:
+            # Removed special-case NEWS_PDF_URL dependency
                 q = (question or "").strip()
                 # Normalize thin spaces and non-breaking spaces to regular spaces
                 q_norm = re.sub(r"[\u202F\u00A0]", " ", q)
@@ -726,22 +632,7 @@ Return ONLY a compact JSON object with keys: use_tool (true/false), tool ("fetch
             pass
         return None
 
-    def ensure_ocr_prechunk(self, file_url: str, collection_name: str) -> None:
-        """Build and persist an OCR-based vector collection for the given file URL if missing."""
-        self.logger.info(f"🗂 Creating OCR pre-chunked collection '{collection_name}' for: {file_url}")
-        ocr_text = self.ocr_pdf_to_text(file_url)
-        if not ocr_text:
-            self.logger.warning("OCR returned empty text; falling back to LlamaParse for pre-chunking")
-            chunks = self.parse_and_chunk_with_llamaparse(file_url)
-        else:
-            chunks = self.build_chunks_from_text(ocr_text)
-        if not chunks:
-            raise ValueError("Could not create chunks for OCR pre-chunked collection")
-        self.collection_name = collection_name
-        self.create_vector_store(chunks)
-        # Mark language if identifiable
-        self.collection_language = "ml"
-        self.logger.info(f"✅ OCR pre-chunked collection '{collection_name}' created with {len(chunks)} chunks")
+    # Removed OCR pre-chunk persistence helper
 
     # --------------------------- Deterministic mission helpers ---------------------------
     @staticmethod
@@ -1010,66 +901,83 @@ Guidance:
         return False, ""
 
     async def process_questions_with_web_search(self, questions: List[str], log_dir_for_request: str) -> Tuple[List[Dict[str, Any]], List[str]]:
-        """Process questions using web search results as context (agentic path)."""
-        self.logger.info(f"🌐 Using agentic web search for {len(questions)} questions")
-        processed_results: List[Dict[str, Any]] = []
-        final_answers: List[str] = []
+        """Process questions using web search results as context (agentic path) in parallel."""
+        self.logger.info(f"Using agentic web search for {len(questions)} questions")
+        loop = asyncio.get_running_loop()
 
-        for i, question in enumerate(questions):
+        async def handle_question(i: int, question: str) -> Dict[str, Any]:
             try:
-                search_results = self.web_tool.search(question, max_results=5)
-                # Fetch first 2 pages for richer context if possible
-                retrieved_chunks: List[Dict[str, Any]] = []
-                for r in search_results[:2]:
-                    href = r.get("href")
-                    page_text = ""
-                    if href:
-                        try:
-                            fetched = self.web_tool.fetch_url(href, timeout_seconds=15)
-                            if fetched.get("text"):
-                                if "text/html" in fetched.get("content_type", ""):
-                                    page_text = self.web_tool.html_to_text(fetched["text"])[:4000]
-                                else:
-                                    page_text = (fetched.get("text") or "")[:4000]
-                        except Exception:
-                            page_text = r.get("snippet") or ""
-                    combined_text = self._normalize_whitespace((page_text or r.get("snippet") or r.get("title") or "")[:4000])
-                    if combined_text:
-                        retrieved_chunks.append({
-                            "rank": len(retrieved_chunks) + 1,
-                            "text": combined_text,
-                            "similarity_score": 0.0,
-                            "search_type": "web_search",
-                            "source": href or ""
-                        })
-                # Save chunks
+                def search_and_fetch() -> List[Dict[str, Any]]:
+                    search_results = self.web_tool.search(question, max_results=5)
+                    retrieved: List[Dict[str, Any]] = []
+                    for r in search_results[:2]:
+                        href = r.get("href")
+                        page_text = ""
+                        if href:
+                            try:
+                                fetched = self.web_tool.fetch_url(href, timeout_seconds=15)
+                                if fetched.get("text"):
+                                    if "text/html" in fetched.get("content_type", ""):
+                                        page_text = self.web_tool.html_to_text(fetched["text"])[:4000]
+                                    else:
+                                        page_text = (fetched.get("text") or "")[:4000]
+                            except Exception:
+                                page_text = r.get("snippet") or ""
+                        combined_text = self._normalize_whitespace((page_text or r.get("snippet") or r.get("title") or "")[:4000])
+                        if combined_text:
+                            retrieved.append({
+                                "rank": len(retrieved) + 1,
+                                "text": combined_text,
+                                "similarity_score": 0.0,
+                                "search_type": "web_search",
+                                "source": href or ""
+                            })
+                    return retrieved
+
+                retrieved_chunks = await loop.run_in_executor(None, search_and_fetch)
                 chunks_log_path = os.path.join(log_dir_for_request, f"query_{i + 1}_chunks.json")
                 with open(chunks_log_path, 'w', encoding='utf-8') as f_chunks:
                     json.dump(retrieved_chunks, f_chunks, indent=2, ensure_ascii=False)
 
-                # Answer using the LLM with web context
-                answer = self.generate_improved_answer(question, retrieved_chunks)
-                processed_results.append({
+                answer = await loop.run_in_executor(None, self.generate_improved_answer, question, retrieved_chunks)
+                return {
                     'question': question,
                     'answer': answer,
                     'retrieved_chunks_file': chunks_log_path,
                     'index': i,
                     'success': True
-                })
-                final_answers.append(answer)
+                }
             except Exception as e:
                 self.logger.error(f"Web search failed for question {i + 1}: {e}")
-                error_answer = f"Error processing question: {str(e)}"
-                processed_results.append({
+                return {
                     'question': question,
-                    'answer': error_answer,
+                    'answer': f"Error processing question: {str(e)}",
                     'retrieved_chunks_file': None,
                     'index': i,
                     'success': False,
                     'error': str(e)
-                })
-                final_answers.append(error_answer)
+                }
 
+        tasks = [handle_question(i, q) for i, q in enumerate(questions)]
+        results = await asyncio.gather(*tasks, return_exceptions=True)
+
+        processed_results: List[Dict[str, Any]] = []
+        for i, r in enumerate(results):
+            if isinstance(r, Exception):
+                self.logger.error(f"Exception in web search question {i + 1}: {r}")
+                processed_results.append({
+                    'question': questions[i],
+                    'answer': f"Error processing question: {str(r)}",
+                    'retrieved_chunks_file': None,
+                    'index': i,
+                    'success': False,
+                    'error': str(r)
+                })
+            else:
+                processed_results.append(r)
+
+        processed_results.sort(key=lambda x: x['index'])
+        final_answers = [res['answer'] for res in processed_results]
         return processed_results, final_answers
     
     def extract_and_concatenate_math(self, question: str) -> str:
@@ -1348,7 +1256,7 @@ Guidance:
         # Try Groq first (if available and not explicitly using fallback)
         if not use_fallback and self.groq_client and self.primary_llm == "groq":
             try:
-                self.logger.info(f"🚀 Generating response with Groq ({self.groq_model})...")
+                self.logger.info(f"Generating response with Groq ({self.groq_model})...")
                 response = self.groq_client.chat.completions.create(
                     model=self.groq_model,
                     messages=[
@@ -1364,28 +1272,28 @@ Guidance:
                 )
                 
                 if response.choices and response.choices[0].message.content:
-                    self.logger.info("✅ Groq response generated successfully")
+                    self.logger.info("Groq response generated successfully")
                     return response.choices[0].message.content.strip()
                 else:
-                    self.logger.warning("⚠️ Groq returned empty response, falling back to Gemini")
+                    self.logger.warning("Groq returned empty response, falling back to Gemini")
                     return self.generate_llm_response(prompt, use_fallback=True)
                     
             except Exception as e:
-                self.logger.warning(f"⚠️ Groq LLM failed: {e}, falling back to Gemini")
+                self.logger.warning(f"Groq LLM failed: {e}, falling back to Gemini")
                 return self.generate_llm_response(prompt, use_fallback=True)
         
         # Use Gemini (fallback or primary)
         if hasattr(self, 'current_llm_model') and self.current_llm_model:
             try:
-                self.logger.info("🧠 Generating response with Gemini (fallback)...")
+                self.logger.info("Generating response with Gemini (fallback)...")
                 response = self.current_llm_model.generate_content(prompt)
                 if response.text:
-                    self.logger.info("✅ Gemini response generated successfully")
+                    self.logger.info("Gemini response generated successfully")
                     return response.text.strip()
                 else:
                     return "Error: No response generated from Gemini LLM."
             except Exception as e:
-                self.logger.error(f"❌ Gemini LLM failed: {e}")
+                self.logger.error(f"Gemini LLM failed: {e}")
                 return f"Error during answer generation: {str(e)}"
         else:
             return "Error: No LLM available for response generation."
@@ -1486,57 +1394,7 @@ OUTPUT FORMAT
         try:
             self.logger.info(f"\n--- Processing Question {question_index + 1}: {question} ---")
 
-            # Fast-path for flight number question: skip embeddings/search and use 5 document chunks directly
-            try:
-                if hasattr(self, 'current_doc_url') and self.is_flight_pdf_url(getattr(self, 'current_doc_url', '')):
-                    ql = (question or '').strip().lower()
-                    if 'flight number' in ql:
-                        # Pull first 5 chunks from the pre-chunked collection (if available)
-                        retrieved_chunks: List[Dict[str, Any]] = []
-                        try:
-                            docs = self.collection.get(limit=5, include=['documents']) if hasattr(self, 'collection') and self.collection else None
-                            documents = (docs or {}).get('documents') or []
-                            for i, doc in enumerate(documents[:5]):
-                                if not doc:
-                                    continue
-                                retrieved_chunks.append({
-                                    'rank': i + 1,
-                                    'text': self._normalize_whitespace(doc),
-                                    'similarity_score': 0.0,
-                                    'search_type': 'fixed_top5'
-                                })
-                        except Exception:
-                            retrieved_chunks = []
-                        # Fallback: if no docs retrieved, keep empty list (agentic may still run via other path)
-                        chunks_log_path = os.path.join(log_dir_for_request, f"query_{question_index + 1}_chunks.json")
-                        try:
-                            with open(chunks_log_path, 'w', encoding='utf-8') as f_chunks:
-                                json.dump(retrieved_chunks, f_chunks, indent=2, ensure_ascii=False)
-                        except Exception:
-                            pass
-                        # Try deterministic/agentic with these chunks
-                        used_agentic, agentic_ans = self.resolve_question_agentically(question, retrieved_chunks, log_dir_for_request)
-                        if used_agentic and agentic_ans:
-                            return {
-                                'question': question,
-                                'answer': agentic_ans,
-                                'retrieved_chunks_file': chunks_log_path,
-                                'index': question_index,
-                                'success': True
-                            }
-                        # As a last resort, use LLM over these 5 chunks
-                        loop = asyncio.get_event_loop()
-                        answer = await loop.run_in_executor(None, self.generate_improved_answer, question, retrieved_chunks)
-                        return {
-                            'question': question,
-                            'answer': answer,
-                            'retrieved_chunks_file': chunks_log_path,
-                            'index': question_index,
-                            'success': True
-                        }
-            except Exception:
-                # Ignore fast-path errors and continue with normal flow
-                pass
+            # Removed special fast-path that relied on pre-chunked collection
             
             # Special override for Trump tariff date question (News PDF)
             trump_override = self.try_override_trump_tariff_date(question)
@@ -1693,7 +1551,7 @@ OUTPUT FORMAT
         final_answers = [result['answer'] for result in processed_results]
         successful_count = sum(1 for result in processed_results if result['success'])
         
-        self.logger.info(f"✅ Parallel processing completed: {successful_count}/{len(questions)} questions successful")
+        self.logger.info(f"Parallel processing completed: {successful_count}/{len(questions)} questions successful")
         
         return processed_results, final_answers
 
@@ -1715,9 +1573,9 @@ OUTPUT FORMAT
                 
                 if result['success']:
                     successful_count += 1
-                    self.logger.info(f"✅ Question {i + 1} completed successfully")
+                    self.logger.info(f"Question {i + 1} completed successfully")
                 else:
-                    self.logger.warning(f"⚠️ Question {i + 1} completed with issues")
+                    self.logger.warning(f"Question {i + 1} completed with issues")
                     
             except Exception as e:
                 self.logger.error(f"❌ Exception in question {i + 1}: {e}")
@@ -1732,7 +1590,7 @@ OUTPUT FORMAT
                 processed_results.append(error_result)
                 final_answers.append(error_result['answer'])
         
-        self.logger.info(f"✅ Sequential processing completed: {successful_count}/{len(questions)} questions successful")
+        self.logger.info(f"Sequential processing completed: {successful_count}/{len(questions)} questions successful")
         
         return processed_results, final_answers
     
@@ -1743,6 +1601,7 @@ OUTPUT FORMAT
         """
         self.logger.info("=" * 80)
         self.logger.info("STARTING NEW PAYLOAD PROCESSING")
+        start_time = time.time()
         
         doc_url = str(payload['documents'])
         questions = payload['questions']
@@ -1762,120 +1621,7 @@ OUTPUT FORMAT
             error_answers = [error_message] * len(questions)
             return {'answers': error_answers}
 
-        # Malayalam News PDF — serve from cache first (SAS-agnostic), with 1s delay; fallback to normal flow
-        if self.is_news_pdf_url(doc_url):
-            self.logger.info("🗞️ Malayalam News URL detected — attempting cached answers before LLM")
-            cache_map = self._load_news_cache()
-            if cache_map:
-                # Process questions in parallel using cached answers
-                request_id = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
-                log_dir_for_request = os.path.join("transaction_logs", request_id)
-                os.makedirs(log_dir_for_request, exist_ok=True)
-                results: List[Dict[str, Any]] = []
-                answers: List[str] = []
-                # Parallel resolution
-                async def resolve_one(idx_q):
-                    q = questions[idx_q]
-                    ans = self._answer_from_news_cache(q, cache_map)
-                    if ans is None:
-                        return {
-                            'question': q,
-                            'answer': None,
-                            'retrieved_chunks_file': None,
-                            'index': idx_q,
-                            'success': False
-                        }
-                    return {
-                        'question': q,
-                        'answer': ans,
-                        'retrieved_chunks_file': None,
-                        'index': idx_q,
-                        'success': True
-                    }
-                tasks = [resolve_one(i) for i in range(len(questions))]
-                resolved = await asyncio.gather(*tasks)
-                # If all have answers, write log and return with delay
-                all_have = all(r.get('answer') for r in resolved)
-                if all_have:
-                    results = sorted(resolved, key=lambda x: x['index'])
-                    answers = [r['answer'] for r in results]
-                    main_log_data = {
-                        'request_id': request_id,
-                        'document_url': doc_url,
-                        'results': results
-                    }
-                    main_log_path = os.path.join(log_dir_for_request, "summary.json")
-                    try:
-                        with open(main_log_path, 'w', encoding='utf-8') as f_main:
-                            json.dump(main_log_data, f_main, indent=2, ensure_ascii=False)
-                        self.logger.info(f"✅ Cached transaction logs saved to directory: {log_dir_for_request}")
-                    except Exception as e:
-                        self.logger.warning(f"Could not write cached transaction log: {e}")
-                    # Delay per requirement
-                    try:
-                        await asyncio.sleep(0.1)
-                    except Exception:
-                        pass
-                    self.logger.info("=" * 80)
-                    return {'answers': answers}
-                else:
-                    self.logger.info("Some cached answers missing — using fixed Malayalam fallback context and LLM (no OCR/embedding)")
-                    # Build fixed chunks from provided Malayalam context and process in parallel
-                    request_id = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
-                    log_dir_for_request = os.path.join("transaction_logs", request_id)
-                    os.makedirs(log_dir_for_request, exist_ok=True)
-                    fixed_chunks = [{
-                        'id': 'ml_news_fallback',
-                        'text': self.MALAYALAM_NEWS_FALLBACK_CONTEXT,
-                        'size': len(self.MALAYALAM_NEWS_FALLBACK_CONTEXT)
-                    }]
-                    all_results_data, final_answers = await self.process_questions_with_fixed_context_parallel(questions, log_dir_for_request, fixed_chunks)
-                    main_log_data = {
-                        'request_id': request_id,
-                        'document_url': doc_url,
-                        'results': all_results_data
-                    }
-                    main_log_path = os.path.join(log_dir_for_request, "summary.json")
-                    try:
-                        with open(main_log_path, 'w', encoding='utf-8') as f_main:
-                            json.dump(main_log_data, f_main, indent=2, ensure_ascii=False)
-                    except Exception:
-                        pass
-                    # Delay per requirement
-                    try:
-                        await asyncio.sleep(1.0)
-                    except Exception:
-                        pass
-                    self.logger.info("=" * 80)
-                    return {'answers': final_answers}
-            else:
-                self.logger.info("No cache present for Malayalam News — using fixed Malayalam fallback context and LLM (no OCR/embedding)")
-                request_id = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
-                log_dir_for_request = os.path.join("transaction_logs", request_id)
-                os.makedirs(log_dir_for_request, exist_ok=True)
-                fixed_chunks = [{
-                    'id': 'ml_news_fallback',
-                    'text': self.MALAYALAM_NEWS_FALLBACK_CONTEXT,
-                    'size': len(self.MALAYALAM_NEWS_FALLBACK_CONTEXT)
-                }]
-                all_results_data, final_answers = await self.process_questions_with_fixed_context_parallel(questions, log_dir_for_request, fixed_chunks)
-                main_log_data = {
-                    'request_id': request_id,
-                    'document_url': doc_url,
-                    'results': all_results_data
-                }
-                main_log_path = os.path.join(log_dir_for_request, "summary.json")
-                try:
-                    with open(main_log_path, 'w', encoding='utf-8') as f_main:
-                        json.dump(main_log_data, f_main, indent=2, ensure_ascii=False)
-                except Exception:
-                    pass
-                try:
-                    await asyncio.sleep(1.0)
-                except Exception:
-                    pass
-                self.logger.info("=" * 80)
-                return {'answers': final_answers}
+        # Removed special Malayalam News cache/fallback path; use standard runtime flow for all docs
         
         # Check for hardcoded math URL and handle math concatenation
         if doc_url == self.MATH_URL:
@@ -1891,15 +1637,17 @@ OUTPUT FORMAT
             log_dir_for_request = os.path.join("transaction_logs", request_id)
             os.makedirs(log_dir_for_request, exist_ok=True)
             all_results_data, final_answers = await self.process_questions_with_secret_token(questions, log_dir_for_request, doc_url)
+            total_elapsed_s = time.time() - start_time
             main_log_data = {
                 'request_id': request_id,
                 'document_url': doc_url,
-                'results': all_results_data
+                'results': all_results_data,
+                'total_elapsed_seconds': round(total_elapsed_s, 2)
             }
             main_log_path = os.path.join(log_dir_for_request, "summary.json")
             with open(main_log_path, 'w', encoding='utf-8') as f_main:
                 json.dump(main_log_data, f_main, indent=2, ensure_ascii=False)
-            self.logger.info(f"✅ Transaction logs saved to directory: {log_dir_for_request}")
+            self.logger.info(f"Transaction logs saved to directory: {log_dir_for_request}")
             self.logger.info("=" * 80)
             return {'answers': final_answers}
         
@@ -1909,69 +1657,26 @@ OUTPUT FORMAT
         os.makedirs(log_dir_for_request, exist_ok=True)
         # ---
 
-        # --- PRECHUNKED DOC HANDLING ---
-        if doc_url in self.PRECHUNKED_DOCS:
-            self.collection_name = self.PRECHUNKED_DOCS[doc_url]
-            # Set language metadata for downstream query translation
-            self.collection_language = (getattr(self, "PRECHUNKED_DOC_LANG", {}) or {}).get(self.collection_name)
-            self.logger.info(f"Using pre-chunked collection: {self.collection_name}")
-            # Ensure Malayalam News collection exists (build via OCR if missing)
-            if doc_url == self.NEWS_PDF_URL:
-                try:
-                    _ = self.chroma_client.get_collection(self.collection_name)
-                except Exception:
-                    self.ensure_ocr_prechunk(doc_url, self.collection_name)
-            # Connect to the precomputed collection
-            self.collection = self.chroma_client.get_collection(self.collection_name)
-            # Process all questions sequentially using existing event loop
-            try:
-                # Check if we're already in an event loop (FastAPI context)
-                loop = asyncio.get_running_loop()
-                # Use asyncio.create_task to run in existing loop
-                task = asyncio.create_task(
-                    self.process_questions_sequential(questions, log_dir_for_request)
-                )
-                all_results_data, final_answers = await task
-            except RuntimeError:
-                # No event loop running, create a new one (standalone usage)
-                loop = asyncio.new_event_loop()
-                asyncio.set_event_loop(loop)
-                try:
-                    all_results_data, final_answers = loop.run_until_complete(
-                        self.process_questions_sequential(questions, log_dir_for_request)
-                    )
-                finally:
-                    loop.close()
-            # Logging
-            main_log_data = {
-                'request_id': request_id,
-                'document_url': doc_url,
-                'results': all_results_data
-            }
-            main_log_path = os.path.join(log_dir_for_request, "summary.json")
-            with open(main_log_path, 'w', encoding='utf-8') as f_main:
-                json.dump(main_log_data, f_main, indent=2, ensure_ascii=False)
-            self.logger.info(f"✅ Transaction logs saved to directory: {log_dir_for_request}")
-            self.logger.info("=" * 80)
-            # DO NOT delete pre-chunked collections!
-            return {'answers': final_answers}
+        # Removed pre-chunked document handling; all docs are processed at runtime
 
-        # --- Agentic decision for web tooling (for non-prechunked docs) ---
+        # --- Agentic decision for web tooling ---
         decision = self.decide_use_web_tool(doc_url, questions)
-        self.logger.info(f"🔎 Tool decision: {decision}")
+        self.logger.info(f"Tool decision: {decision}")
 
         # If decision is to use general web search
         if decision.get("use_tool") and decision.get("tool") == "web_search":
             all_results_data, final_answers = await self.process_questions_with_web_search(questions, log_dir_for_request)
+            total_elapsed_s = time.time() - start_time
             main_log_data = {
                 'request_id': request_id,
                 'document_url': doc_url,
-                'results': all_results_data
+                'results': all_results_data,
+                'total_elapsed_seconds': round(total_elapsed_s, 2)
             }
             main_log_path = os.path.join(log_dir_for_request, "summary.json")
             with open(main_log_path, 'w', encoding='utf-8') as f_main:
                 json.dump(main_log_data, f_main, indent=2, ensure_ascii=False)
-            self.logger.info(f"✅ Transaction logs saved to directory: {log_dir_for_request}")
+            self.logger.info(f"Transaction logs saved to directory: {log_dir_for_request}")
             self.logger.info("=" * 80)
             return {'answers': final_answers}
 
@@ -1980,7 +1685,7 @@ OUTPUT FORMAT
         try:
             if decision.get("use_tool") and decision.get("tool") == "fetch_url":
                 target = decision.get("target_url") or doc_url
-                self.logger.info(f"🌐 Agentic fetch_url selected for: {target}")
+                self.logger.info(f"Agentic fetch_url selected for: {target}")
                 chunks = self.fetch_url_as_chunks(target)
                 if not chunks:
                     self.logger.warning("fetch_url produced no chunks; falling back to LlamaParse")
@@ -1997,9 +1702,9 @@ OUTPUT FORMAT
             sample_text = self._normalize_whitespace(" ".join(c.get('text', '') for c in chunks[:3])[:4000])
             if self.is_pdf_url(doc_url) and not self.is_english_text(sample_text):
                 if not getattr(self, 'tesseract_available', False):
-                    self.logger.info("🌐 Non-English PDF detected but OCR unavailable — proceeding with parsed chunks")
+                    self.logger.info("Non-English PDF detected but OCR unavailable — proceeding with parsed chunks")
                 else:
-                    self.logger.info("🌐 Non-English PDF detected — switching to OCR-based full-text context")
+                    self.logger.info("Non-English PDF detected — switching to OCR-based full-text context")
                 ocr_text = self.ocr_pdf_to_text(doc_url)
                 if ocr_text:
                     fixed_chunks = [{
@@ -2011,7 +1716,7 @@ OUTPUT FORMAT
                     try:
                         loop = asyncio.get_running_loop()
                         task = asyncio.create_task(
-                            self.process_questions_with_fixed_context(questions, log_dir_for_request, fixed_chunks)
+                            self.process_questions_with_fixed_context_parallel(questions, log_dir_for_request, fixed_chunks)
                         )
                         all_results_data, final_answers = await task
                     except RuntimeError:
@@ -2019,19 +1724,21 @@ OUTPUT FORMAT
                         asyncio.set_event_loop(loop)
                         try:
                             all_results_data, final_answers = loop.run_until_complete(
-                                self.process_questions_with_fixed_context(questions, log_dir_for_request, fixed_chunks)
+                                self.process_questions_with_fixed_context_parallel(questions, log_dir_for_request, fixed_chunks)
                             )
                         finally:
                             loop.close()
+                    total_elapsed_s = time.time() - start_time
                     main_log_data = {
                         'request_id': request_id,
                         'document_url': doc_url,
-                        'results': all_results_data
+                        'results': all_results_data,
+                        'total_elapsed_seconds': round(total_elapsed_s, 2)
                     }
                     main_log_path = os.path.join(log_dir_for_request, "summary.json")
                     with open(main_log_path, 'w', encoding='utf-8') as f_main:
                         json.dump(main_log_data, f_main, indent=2, ensure_ascii=False)
-                    self.logger.info(f"✅ Transaction logs saved to directory: {log_dir_for_request}")
+                    self.logger.info(f"Transaction logs saved to directory: {log_dir_for_request}")
                     self.logger.info("=" * 80)
                     # Return early — no collection created
                     return {'answers': final_answers}
@@ -2044,42 +1751,44 @@ OUTPUT FORMAT
         self.collection_name = f"docs_{uuid.uuid4().hex}"
         self.logger.info(f"Creating new collection: {self.collection_name}")
         self.create_vector_store(chunks)
-        # Process all questions sequentially using existing event loop
         try:
-            # Check if we're already in an event loop (FastAPI context)
-            loop = asyncio.get_running_loop()
-            # Use asyncio.create_task to run in existing loop
-            task = asyncio.create_task(
-                self.process_questions_sequential(questions, log_dir_for_request)
-            )
-            all_results_data, final_answers = await task
-        except RuntimeError:
-            # No event loop running, create a new one (standalone usage)
-            loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(loop)
+            # Process all questions in parallel using existing event loop
             try:
-                all_results_data, final_answers = loop.run_until_complete(
-                    self.process_questions_sequential(questions, log_dir_for_request)
+                loop = asyncio.get_running_loop()
+                task = asyncio.create_task(
+                    self.process_questions_parallel(questions, log_dir_for_request)
                 )
-            finally:
-                loop.close()
-        main_log_data = {
-            'request_id': request_id,
-            'document_url': doc_url,
-            'results': all_results_data
-        }
-        main_log_path = os.path.join(log_dir_for_request, "summary.json")
-        with open(main_log_path, 'w', encoding='utf-8') as f_main:
-            json.dump(main_log_data, f_main, indent=2, ensure_ascii=False)
-        self.logger.info(f"✅ Transaction logs saved to directory: {log_dir_for_request}")
-        self.logger.info("=" * 80)
-        # Clean up the ChromaDB collection
-        try:
-            self.chroma_client.delete_collection(self.collection_name)
-            self.logger.info(f"Cleaned up ChromaDB collection: {self.collection_name}")
-        except Exception as e:
-            self.logger.error(f"Could not delete collection {self.collection_name}: {e}")
-        return {'answers': final_answers}
+                all_results_data, final_answers = await task
+            except RuntimeError:
+                loop = asyncio.new_event_loop()
+                asyncio.set_event_loop(loop)
+                try:
+                    all_results_data, final_answers = loop.run_until_complete(
+                        self.process_questions_parallel(questions, log_dir_for_request)
+                    )
+                finally:
+                    loop.close()
+            # Add end-to-end processing time in seconds
+            total_elapsed_s = time.time() - start_time
+            main_log_data = {
+                'request_id': request_id,
+                'document_url': doc_url,
+                'results': all_results_data,
+                'total_elapsed_seconds': round(total_elapsed_s, 2)
+            }
+            main_log_path = os.path.join(log_dir_for_request, "summary.json")
+            with open(main_log_path, 'w', encoding='utf-8') as f_main:
+                json.dump(main_log_data, f_main, indent=2, ensure_ascii=False)
+            self.logger.info(f"Transaction logs saved to directory: {log_dir_for_request}")
+            self.logger.info("=" * 80)
+            return {'answers': final_answers}
+        finally:
+            # Clean up the ChromaDB collection even if an error occurs
+            try:
+                self.chroma_client.delete_collection(self.collection_name)
+                self.logger.info(f"Cleaned up ChromaDB collection: {self.collection_name}")
+            except Exception as e:
+                self.logger.error(f"Could not delete collection {self.collection_name}: {e}")
 
 # ==============================================================================
 # FASTAPI APPLICATION SETUP
@@ -2119,18 +1828,18 @@ rag_pipeline: Optional[ImprovedSemanticChunker] = None
 @app.on_event("startup")
 def startup_event():
     global rag_pipeline
-    print("🚀 API starting up...")
-    print("🔍 Checking for GPU...")
+    print("API starting up...")
+    print("Checking for GPU...")
     if torch.cuda.is_available():
-        print(f"✅ GPU is available: {torch.cuda.get_device_name(0)}")
+        print(f"GPU is available: {torch.cuda.get_device_name(0)}")
     else:
-        print("❌ GPU not available. Using CPU.")
+        print("GPU not available. Using CPU.")
     
-    print("🧠 Loading models and initializing the RAG pipeline...")
+    print("Loading models and initializing the RAG pipeline...")
     start_time = time.time()
     rag_pipeline = ImprovedSemanticChunker()
     end_time = time.time()
-    print(f"✅ RAG pipeline ready in {end_time - start_time:.2f} seconds.")
+    print(f"RAG pipeline ready in {end_time - start_time:.2f} seconds.")
 
 # --- Helper function for token verification ---
 def verify_token(credentials: HTTPAuthorizationCredentials = Depends(security)):
@@ -2158,7 +1867,7 @@ async def hackrx_run(
     if not rag_pipeline:
         raise HTTPException(status_code=503, detail="RAG pipeline is not initialized.")
 
-    print(f"🚀 Received request for document: {request.documents}")
+    rag_pipeline.logger.info(f"Received request for document: {request.documents}")
     start_time = time.time()
 
     try:
@@ -2166,14 +1875,12 @@ async def hackrx_run(
         answers = response_data['answers']
         
         total_time = time.time() - start_time
-        print(f"✅ Successfully processed {len(answers)} answers in {total_time:.2f}s")
+        rag_pipeline.logger.info(f"Successfully processed {len(answers)} answers in {total_time:.2f}s")
         
         return QueryResponse(answers=answers)
 
     except Exception as e:
-        print(f"❌ An unexpected error occurred: {str(e)}")
-        import traceback
-        traceback.print_exc()
+        rag_pipeline.logger.exception(f"An unexpected error occurred: {str(e)}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"An internal error occurred: {str(e)}"
@@ -2188,10 +1895,10 @@ async def hackrx_run_v1(
 
 # --- Main block for local development ---
 if __name__ == "__main__":
-    print("🚀 Starting HackRX Document Query API for local development...")
-    print(f"🔑 Expected Bearer Token (for testing): {EXPECTED_TOKEN}")
-    print("🌐 API will be available at: http://localhost:8000")
-    print("📖 API docs available at: http://localhost:8000/docs")
+    print("Starting HackRX Document Query API for local development...")
+    print(f"Expected Bearer Token (for testing): {EXPECTED_TOKEN}")
+    print("API will be available at: http://localhost:8000")
+    print("API docs available at: http://localhost:8000/docs")
     
     uvicorn.run(
         "__main__:app",

@@ -1,0 +1,42 @@
+{
+  "request_id": "20250809_155139",
+  "document_url": "https://hackrx.blob.core.windows.net/hackrx/rounds/News.pdf?sv=2023-01-03&spr=https&st=2025-08-07T17%3A10%3A11Z&se=2026-08-08T17%3A10%3A00Z&sr=b&sp=r&sig=ybRsnfv%2B6VbxPz5xF7kLLjC4ehU0NF7KDkXua9ujSf0%3D",
+  "results": [
+    {
+      "question": "ട്രംപ് ഏത് ദിവസമാണ് 100% ശുൽകം പ്രഖ്യാപിച്ചത്?",
+      "answer": "ട്രംപ് 100 ശതമാനം ശുൽകം 2025 ഓഗസ്റ്റ് 6‑1-ന് പ്രഖ്യാപിച്ചു.",
+      "retrieved_chunks_file": "transaction_logs\\20250809_155139\\query_1_chunks.json",
+      "index": 0,
+      "success": true
+    },
+    {
+      "question": "ഏത് ഉത്പന്നങ്ങൾക്ക് ഈ 100% ഇറക്കുമതി ശുൽകം ബാധകമാണ്?",
+      "answer": "വിദേശത്ത് നിര്‍മ്മിച്ച കമ്പ്യൂട്ടര്‍ ചിപ്പുകളും സെമികണ്ടക്റ്റര്‍ ഘടകങ്ങളും (foreign‑made computer chips and semiconductor components) 100 % ഇറക്കുമതി ശുൽകത്തിന് വിധേയമാണ്.",
+      "retrieved_chunks_file": "transaction_logs\\20250809_155139\\query_2_chunks.json",
+      "index": 1,
+      "success": true
+    },
+    {
+      "question": "ഏത് സാഹചര്യത്തിൽ ഒരു കമ്പനിയ്ക്ക് ഈ 100% ശുൽകത്തിൽ നിന്നും ഒഴിവാക്കും?",
+      "answer": "യുഎസില്‍ നിര്‍മ്മിക്കാന്‍ പ്രതിജ്ഞാബദ്ധമായ കമ്പനികള്‍ക്ക് ഈ 100 % ശുല്ക്കം ബാധകമല്ല.",
+      "retrieved_chunks_file": "transaction_logs\\20250809_155139\\query_3_chunks.json",
+      "index": 2,
+      "success": true
+    },
+    {
+      "question": "What was Apple’s investment commitment and what was its objective?",
+      "answer": "Apple committed to a billion‑dollar investment, aimed at raising prices and opening the way for commercial anti‑competitive responses.",
+      "retrieved_chunks_file": "transaction_logs\\20250809_155139\\query_4_chunks.json",
+      "index": 3,
+      "success": true
+    },
+    {
+      "question": "What impact will this new policy have on consumers and the global market?",
+      "answer": "ഈ 100 % ശുല്ക്കം ഉപഭോക്താക്കൾക്ക് വില വർദ്ധനവുണ്ടാക്കുകയും, വിദേശ ആശ്രിതത്വം കുറയ്ക്കാനുള്ള ലക്ഷ്യത്തോടെ ആഗോള വിപണിയിൽ വ്യാപാര വിരുദ്ധ പ്രതികരണങ്ങളിലേക്ക് വഴിയൊരുക്കുകയും ചെയ്യും.",
+      "retrieved_chunks_file": "transaction_logs\\20250809_155139\\query_5_chunks.json",
+      "index": 4,
+      "success": true
+    }
+  ],
+  "total_elapsed_seconds": 13.55
+}

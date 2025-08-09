@@ -321,18 +321,18 @@ def test_all_webhooks():
         # (test_payload_2, "2"),
         # (test_payload_3, "3"),
         # (test_payload_4, "4"),
-        # (test_payload_5, "Indian Constitution Test (Factual Questions)"),
+        (test_payload_5, "Indian Constitution Test (Factual Questions)"),
         # (test_payload_5b, "Indian Constitution Test (Scenario-based Questions)"),
         # (test_payload_uni_group_health, "UNI GROUP HEALTH INSURANCE POLICY TEST"),
         # (test_payload_6, "Princ,ipia Newton Test"),
         # (test_new, "New Test"),
         # (test_payload_misinfo, "Misinfo Test"),
-        # (test_payload_math, "Math Test"),
-        # (test_payload_zip, "Zip Test"),
-        # (test_payload_iso, "ISO Test"),
+        (test_payload_math, "Math Test"),
+        (test_payload_zip, "Zip Test"),
+        (test_payload_iso, "ISO Test"),
         # (test_payload_malayalam, "Malayalam Test"),
         # (test_payload_secret_token, "Secret Token Test"),
-        (test_payload_flight_number, "Flight Number Test")
+        # (test_payload_flight_number, "Flight Number Test")
     ]
     
     results = []

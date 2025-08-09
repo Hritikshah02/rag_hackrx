@@ -1,179 +1,102 @@
-# LLM-Powered Document Query System
+# Agentic RAG API (Runtime-only)
 
-A comprehensive system that uses Large Language Models (LLMs) to process natural language queries and retrieve relevant information from large unstructured documents such as policy documents, contracts, and emails.
+A production-style Agentic Retrieval-Augmented Generation (RAG) API that processes documents at runtime only. No pre-chunking, no pre-caching. Each request fetches the document, chunks it, embeds it, retrieves context, and generates answers. Agentic tool-use augments the flow when needed.
 
-## Features
+## Highlights
 
-- **Multi-format Document Support**: Upload PDFs, Word documents, text files, and emails
-- **Semantic Search**: Advanced vector-based search using state-of-the-art embeddings
-- **LLM Reasoning**: Powered by Google's Gemini Flash 2.5 for intelligent decision-making
-- **Structured Responses**: Returns JSON responses with decisions, amounts, justifications, and clause references
-- **Interactive UI**: Beautiful Streamlit interface for easy document upload and querying
-- **Query History**: Track and review previous queries and responses
+- Runtime processing only: parse → chunk → embed → retrieve → answer per request
+- Hybrid retrieval: semantic (Chroma + BGE embeddings) + BM25 keyword fusion
+- Agentic actions: web fetch/search decisions and mission-style flows (restricted allowlist)
+- LLM stack: Groq (primary) with Gemini fallback
+- Language-aware: non-English PDF handling via OCR full-text path when available
+- Secure API: FastAPI with Bearer auth
 
-## System Architecture
+## Architecture
 
+1. Receive payload: `documents` (URL) + `questions` (list)
+2. Optional agentic decision: use web fetch/search if appropriate
+3. Document parsing: LlamaParse (or agentic fetch) → normalized text → runtime chunking
+4. Embedding: BAAI/bge-large-en-v1.5 (sentence-transformers)
+5. Vector store: temporary Chroma collection (cleaned after answering)
+6. Retrieval: hybrid search (semantic + BM25)
+7. Answer: LLM generation (Groq primary, Gemini fallback)
+
+## Quick Start
+
+### Requirements
+- Python 3.10+
+- GPU optional (CPU supported)
+
+### Install
+```bash
+pip install -r requirements.txt
 ```
-User Query → Document Upload → Chunking → Embedding → Vector Store
-                                                           ↓
-Response ← LLM Reasoning ← Semantic Search ← Query Processing
+
+### Environment
+Create `.env` in project root:
+```ini
+GROQ_API_KEY=your_groq_key
+GOOGLE_API_KEY=your_gemini_key
+# Optional: Tesseract OCR languages (for non-English PDFs)
+TESSERACT_LANGS=eng+mal
 ```
 
-## Installation
+### Run API
+```bash
+uvicorn webhook_api:app --host 0.0.0.0 --port 8000
+```
 
-1. **Clone the repository**:
-   ```bash
-   git clone <repository-url>
-   cd hackrx
-   ```
+### Auth
+The API uses a static Bearer token (see `EXPECTED_TOKEN` in `webhook_api.py`).
+Send header:
+```
+Authorization: Bearer <token>
+```
 
-2. **Install dependencies**:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-3. **Set up environment variables**:
-   ```bash
-   cp .env.example .env
-   # Edit .env and add your Google API key
-   ```
-
-4. **Get Google API Key**:
-   - Go to [Google AI Studio](https://makersuite.google.com/app/apikey)
-   - Create a new API key
-   - Add it to your `.env` file as `GOOGLE_API_KEY=your_key_here`
-
-## Usage
-
-1. **Start the application**:
-   ```bash
-   streamlit run app.py
-   ```
-
-2. **Upload Documents**:
-   - Use the file uploader to add your documents
-   - Supported formats: PDF, DOCX, DOC, TXT, EML
-   - Documents are automatically processed and embedded
-
-3. **Query Your Documents**:
-   - Enter natural language queries
-   - Example: "46-year-old male, knee surgery in Pune, 3-month-old insurance policy"
-   - Get structured responses with decisions and justifications
-
-## Sample Queries
-
-- `"46M, knee surgery, Pune, 3-month policy"`
-- `"What is the coverage for dental procedures?"`
-- `"Are pre-existing conditions covered?"`
-- `"What is the waiting period for surgery claims?"`
-
-## Response Format
-
-The system returns structured JSON responses:
-
+### Endpoint
+POST `/hackrx/run`
+Request body:
 ```json
 {
-  "decision": "APPROVED",
-  "amount": "₹50,000",
-  "confidence": 85,
-  "justification": "Knee surgery is covered under the policy...",
-  "referenced_clauses": [
-    {
-      "clause_number": "Section 4.2",
-      "source": "policy_document.pdf",
-      "content": "Surgical procedures are covered...",
-      "relevance_explanation": "Directly addresses surgical coverage"
-    }
-  ],
-  "key_factors": ["Policy active", "Procedure covered", "No waiting period"],
-  "additional_requirements": []
+  "documents": "https://example.com/file.pdf",
+  "questions": ["What is X?", "How many Y?"]
 }
 ```
-
-## Configuration
-
-Key configuration options in `config.py`:
-
-- **Embedding Model**: `sentence-transformers/all-MiniLM-L6-v2`
-- **LLM Model**: `gemini-1.5-flash`
-- **Chunk Size**: 1000 tokens
-- **Similarity Threshold**: 0.7
-
-## Project Structure
-
-```
-hackrx/
-├── app.py                 # Main Streamlit application
-├── config.py             # Configuration settings
-├── document_processor.py # Document parsing and chunking
-├── vector_store.py       # Vector storage and semantic search
-├── llm_reasoner.py       # LLM reasoning and response generation
-├── requirements.txt      # Python dependencies
-├── .env.example          # Environment variables template
-└── README.md            # This file
+Response:
+```json
+{ "answers": ["...", "..."] }
 ```
 
-## Technical Details
+## Key Components
 
-### Document Processing
-- **PDF**: Uses PyPDF2 for text extraction
-- **Word**: Uses python-docx for document parsing
-- **Email**: Parses EML files with email headers and body
-- **Chunking**: Intelligent text chunking with overlap for context preservation
+- `webhook_api.py`
+  - `ImprovedSemanticChunker`: end-to-end runtime pipeline
+  - Chunking: token-based + LlamaParse nodes
+  - Embeddings: BGE-large
+  - Vector DB: Chroma (temporary collection per request)
+  - Retrieval: `advanced_semantic_search`, `keyword_search`, `hybrid_search`
+  - Agentic helpers: tool decision, mission resolution with strict host allowlist
+  - OCR path for non-English PDFs: full-text fixed-context when OCR is available
 
-### Vector Storage
-- **ChromaDB**: Persistent vector database
-- **Embeddings**: Sentence-transformers for high-quality embeddings
-- **Search**: Cosine similarity-based semantic search
+## Configuration knobs (code-level)
 
-### LLM Integration
-- **Model**: Google Gemini Flash 2.5
-- **Reasoning**: Structured prompting for consistent responses
-- **Validation**: Response parsing and error handling
-
-## Applications
-
-This system can be applied in various domains:
-
-- **Insurance**: Claim processing and policy queries
-- **Legal**: Contract analysis and compliance checking
-- **HR**: Policy interpretation and employee queries
-- **Healthcare**: Medical guideline consultation
-- **Finance**: Regulatory compliance and document analysis
+- Chunking: `self.chunk_size_tokens` (default 300), `self.overlap_tokens` (50)
+- Embedding batch size: `create_vector_store` uses `batch_size=64`
+- Hybrid weights: `hybrid_search(semantic_weight, keyword_weight)`
+- Allowed agentic hosts: `self.allowed_action_hosts`
 
 ## Troubleshooting
 
-### Common Issues
+- Missing API keys: ensure `GROQ_API_KEY` and `GOOGLE_API_KEY` are set
+- Slow embeddings: reduce batch size; prefer GPU when available
+- Memory pressure: reduce chunk size; limit document size upstream
+- OCR unavailable: non-English PDFs proceed without OCR full-text
 
-1. **API Key Error**: Ensure your Google API key is correctly set in the `.env` file
-2. **Memory Issues**: For large documents, consider reducing chunk size in config
-3. **Slow Processing**: Vector embedding can be slow for large document sets
+## Security
 
-### Performance Tips
-
-- Upload documents in batches for better performance
-- Use specific queries for more accurate results
-- Clear vector store periodically to maintain performance
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
+- Bearer token auth (demo); replace with proper auth in production
+- Agentic HTTP actions restricted to an allowlist
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Support
-
-For support and questions:
-- Create an issue in the repository
-- Check the troubleshooting section
-- Review the configuration options
-
----
-
-**Note**: This system requires a Google API key for Gemini LLM access. Make sure to keep your API key secure and never commit it to version control.
+MIT
