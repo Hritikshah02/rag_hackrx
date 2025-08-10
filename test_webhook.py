@@ -330,9 +330,9 @@ def test_all_webhooks():
         #(test_payload_math, "Math Test"),
         # (test_payload_zip, "Zip Test"),
         # (test_payload_iso, "ISO Test"),
-        # (test_payload_malayalam, "Malayalam Test"),
+         (test_payload_malayalam, "Malayalam Test"),
         #(test_payload_secret_token, "Secret Token Test"),
-        (test_payload_flight_number, "Flight Number Test")
+        #(test_payload_flight_number, "Flight Number Test")
     ]
     
     results = []

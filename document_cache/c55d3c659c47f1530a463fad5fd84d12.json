@@ -1,0 +1,14 @@
+{
+  "url": "https://hackrx.blob.core.windows.net/assets/Test%20/image.jpeg?sv=2023-01-03&spr=https&st=2025-08-04T19%3A29%3A01Z&se=2026-08-05T19%3A29%3A00Z&sr=b&sp=r&sig=YnJJThygjCT6%2FpNtY1aHJEZ%2F%2BqHoEB59TRGPSxJJBwo%3D",
+  "chunks": [
+    {
+      "id": "chunk_0",
+      "text": "9+5= 22\n 100+23-10023\n22+100-2200\n65007+2-650072",
+      "size": 48,
+      "section": 0
+    }
+  ],
+  "cached_time": "2025-08-10T22:14:50.337178",
+  "chunk_count": 1,
+  "total_size": 48
+}

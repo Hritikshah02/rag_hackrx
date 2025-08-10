@@ -1,0 +1,13 @@
+[
+  {
+    "rank": 1,
+    "text": "9+5= 22\n 100+23-10023\n22+100-2200\n65007+2-650072",
+    "similarity_score": 0.0,
+    "semantic_score": 0.0,
+    "keyword_score": 0.0,
+    "search_types": [
+      "semantic"
+    ],
+    "search_type": "hybrid"
+  }
+]

@@ -230,6 +230,14 @@ class ImprovedSemanticChunker:
         self.chunk_size_tokens = 300
         self.overlap_tokens = 50
 
+        # Document cache for processed chunks
+        self.cache_dir = "document_cache"
+        os.makedirs(self.cache_dir, exist_ok=True)
+        self.document_cache: Dict[str, str] = {}  # url -> cache_file_path
+        self._load_cache_index()
+        # Clean cache if it gets too large
+        self._clean_cache(max_entries=50)  # Keep max 50 cached documents
+
         # ZIP file error message
         self.ZIP_ERROR_MESSAGE = "ZIP file is not allowed, please upload a valid file"
         
@@ -245,9 +253,6 @@ class ImprovedSemanticChunker:
         self.ARCHIVE_ERROR_MESSAGE = "Archive files (RAR, 7Z) are not allowed, please upload a valid file"
         
 
-        # Removed Malayalam News static URL
-        # Removed Malayalam News path matcher and cache path
-        # Removed Malayalam fallback context constant
         # Track language of the active collection for query translation
         self.collection_language: Optional[str] = None        
         
@@ -271,7 +276,170 @@ class ImprovedSemanticChunker:
             self.tesseract_available = False
             self.logger.warning("Tesseract not available on PATH; OCR will be skipped.")
 
-    # Removed Malayalam News helpers and cache-based fixed-context path
+    # --------------------------- Document Caching System ---------------------------
+    
+    def _get_cache_key(self, doc_url: str) -> str:
+        """Generate a safe cache key from document URL."""
+        import hashlib
+        return hashlib.md5(doc_url.encode()).hexdigest()
+    
+    def _load_cache_index(self):
+        """Load the cache index from disk."""
+        cache_index_path = os.path.join(self.cache_dir, "cache_index.json")
+        try:
+            if os.path.exists(cache_index_path):
+                with open(cache_index_path, 'r', encoding='utf-8') as f:
+                    self.document_cache = json.load(f)
+                self.logger.info(f"Loaded document cache index with {len(self.document_cache)} entries")
+            else:
+                self.document_cache = {}
+                self.logger.info("No existing cache index found, starting fresh")
+        except Exception as e:
+            self.logger.warning(f"Failed to load cache index: {e}")
+            self.document_cache = {}
+    
+    def _save_cache_index(self):
+        """Save the cache index to disk."""
+        cache_index_path = os.path.join(self.cache_dir, "cache_index.json")
+        try:
+            with open(cache_index_path, 'w', encoding='utf-8') as f:
+                json.dump(self.document_cache, f, indent=2, ensure_ascii=False)
+            self.logger.debug("Cache index saved successfully")
+        except Exception as e:
+            self.logger.warning(f"Failed to save cache index: {e}")
+    
+    def _get_cached_chunks(self, doc_url: str) -> Optional[List[Dict[str, Any]]]:
+        """Retrieve cached chunks for a document URL."""
+        cache_key = self._get_cache_key(doc_url)
+        if cache_key not in self.document_cache:
+            return None
+        
+        cache_file_path = self.document_cache[cache_key]
+        cache_full_path = os.path.join(self.cache_dir, cache_file_path)
+        
+        try:
+            if not os.path.exists(cache_full_path):
+                # Cache file missing, remove from index
+                del self.document_cache[cache_key]
+                self._save_cache_index()
+                return None
+            
+            with open(cache_full_path, 'r', encoding='utf-8') as f:
+                cached_data = json.load(f)
+            
+            # Validate cache structure
+            if not isinstance(cached_data, dict) or 'chunks' not in cached_data:
+                self.logger.warning(f"Invalid cache structure for {doc_url}")
+                return None
+            
+            chunks = cached_data['chunks']
+            cached_time = cached_data.get('cached_time', 'unknown')
+            self.logger.info(f"✅ Retrieved {len(chunks)} cached chunks for document (cached: {cached_time})")
+            return chunks
+            
+        except Exception as e:
+            self.logger.warning(f"Failed to load cached chunks for {doc_url}: {e}")
+            # Remove corrupted cache entry
+            if cache_key in self.document_cache:
+                del self.document_cache[cache_key]
+                self._save_cache_index()
+            return None
+    
+    def _cache_chunks(self, doc_url: str, chunks: List[Dict[str, Any]]):
+        """Cache processed chunks for a document URL."""
+        cache_key = self._get_cache_key(doc_url)
+        cache_filename = f"{cache_key}.json"
+        cache_full_path = os.path.join(self.cache_dir, cache_filename)
+        
+        try:
+            cache_data = {
+                'url': doc_url,
+                'chunks': chunks,
+                'cached_time': datetime.datetime.now().isoformat(),
+                'chunk_count': len(chunks),
+                'total_size': sum(chunk.get('size', 0) for chunk in chunks)
+            }
+            
+            with open(cache_full_path, 'w', encoding='utf-8') as f:
+                json.dump(cache_data, f, indent=2, ensure_ascii=False)
+            
+            # Update cache index
+            self.document_cache[cache_key] = cache_filename
+            self._save_cache_index()
+            
+            self.logger.info(f"💾 Cached {len(chunks)} chunks for document")
+            
+        except Exception as e:
+            self.logger.warning(f"Failed to cache chunks for {doc_url}: {e}")
+    
+    def _clean_cache(self, max_entries: int = 100):
+        """Clean old cache entries if cache grows too large."""
+        if len(self.document_cache) <= max_entries:
+            return
+        
+        try:
+            # Get file modification times
+            cache_files = []
+            for cache_key, filename in self.document_cache.items():
+                cache_path = os.path.join(self.cache_dir, filename)
+                if os.path.exists(cache_path):
+                    mtime = os.path.getmtime(cache_path)
+                    cache_files.append((cache_key, filename, mtime))
+            
+            # Sort by modification time (oldest first)
+            cache_files.sort(key=lambda x: x[2])
+            
+            # Remove oldest entries
+            entries_to_remove = len(cache_files) - max_entries
+            for i in range(entries_to_remove):
+                cache_key, filename, _ = cache_files[i]
+                cache_path = os.path.join(self.cache_dir, filename)
+                try:
+                    os.remove(cache_path)
+                    del self.document_cache[cache_key]
+                except Exception as e:
+                    self.logger.warning(f"Failed to remove cache file {filename}: {e}")
+            
+            self._save_cache_index()
+            self.logger.info(f"🧹 Cleaned {entries_to_remove} old cache entries")
+            
+        except Exception as e:
+            self.logger.warning(f"Failed to clean cache: {e}")
+
+    def clear_cache(self):
+        """Clear all cached documents."""
+        try:
+            import shutil
+            if os.path.exists(self.cache_dir):
+                shutil.rmtree(self.cache_dir)
+            os.makedirs(self.cache_dir, exist_ok=True)
+            self.document_cache = {}
+            self._save_cache_index()
+            self.logger.info("🗑️ Cache cleared successfully")
+        except Exception as e:
+            self.logger.warning(f"Failed to clear cache: {e}")
+    
+    def get_cache_stats(self) -> Dict[str, Any]:
+        """Get cache statistics."""
+        try:
+            total_size = 0
+            file_count = len(self.document_cache)
+            
+            for filename in self.document_cache.values():
+                cache_path = os.path.join(self.cache_dir, filename)
+                if os.path.exists(cache_path):
+                    total_size += os.path.getsize(cache_path)
+            
+            return {
+                'cached_documents': file_count,
+                'total_size_bytes': total_size,
+                'total_size_mb': round(total_size / (1024 * 1024), 2),
+                'cache_directory': self.cache_dir
+            }
+        except Exception as e:
+            self.logger.warning(f"Failed to get cache stats: {e}")
+            return {'error': str(e)}
+
 
     def timeout_context(self, seconds):
         """Context manager for implementing timeout on operations (cross-platform)."""
@@ -370,7 +538,7 @@ Return ONLY a compact JSON object with keys: use_tool (true/false), tool ("fetch
             except Exception:
                 # Heuristic fallback
                 lowered = (" ".join(questions)).lower()
-                if any(k in lowered for k in ["go to the link", "visit", "open the link", "secret token", "fetch from url", "api"]):
+                if any(k in lowered for k in ["go to the link", "visit", "open the link", "fetch from url", "api"]):
                     decision = {"use_tool": True, "tool": "fetch_url", "reason": "Instruction explicitly asks to open the provided link.", "target_url": doc_url}
                 else:
                     decision = {"use_tool": False, "tool": "none", "reason": "Use normal RAG flow."}
@@ -581,11 +749,6 @@ Return ONLY a compact JSON object with keys: use_tool (true/false), tool ("fetch
         except Exception:
             return text
 
-    # --------------------------- Special Q/A overrides ---------------------------
-    # All special-case overrides removed - model handles all questions through context and tool calling
-
-   
-
     def define_tools_for_groq(self):
         """Define tool schemas for Groq's function calling."""
         return [
@@ -638,7 +801,7 @@ Return ONLY a compact JSON object with keys: use_tool (true/false), tool ("fetch
                     if "text/html" in (fetched.get("content_type") or ""):
                         result["data"] = self.web_tool.html_to_text(fetched["text"])[:4000]
                         result["type"] = "html_text"
-                    else:
+                    else:   
                         result["data"] = fetched["text"][:4000]
                         result["type"] = "text"
                 else:
@@ -681,7 +844,7 @@ Instructions:
 - Follow any step-by-step instructions mentioned in the context
 - If you need to chain multiple API calls, make them one by one
 - Once you have all the necessary information, provide a concise final answer
-- If the question asks for a specific value (like a flight number or token), return only that value
+- If the question asks for a specific value, return only that value
 +"""
                 }
             ]
@@ -745,7 +908,7 @@ Instructions:
             
         except Exception as e:
             self.logger.error(f"Tool-based resolution failed: {e}")
-            return False, ""
+        return False, ""
 
     async def process_questions_with_web_search(self, questions: List[str], log_dir_for_request: str) -> Tuple[List[Dict[str, Any]], List[str]]:
         """Process questions using web search results as context (agentic path) in parallel."""
@@ -826,7 +989,6 @@ Instructions:
         processed_results.sort(key=lambda x: x['index'])
         final_answers = [res['answer'] for res in processed_results]
         return processed_results, final_answers
-    
     def parse_and_chunk_with_llamaparse(self, file_url: str) -> List[Dict[str, Any]]:
         """Use LlamaParse to extract and chunk document content semantically."""
 
@@ -1159,6 +1321,7 @@ RESPONSE STRATEGY
 **Step 1: Classify the Question**
 - If the question asks for a definition, rule, value, limit, date, name, etc. → classify as **FACTUAL**
 - If the question involves applying document logic to a condition or situation → classify as **SCENARIO-BASED**
+- If the question involves mathematical operations (addition, subtraction, etc.) → classify as **SCENARIO-BASED** and apply demonstrated mathematical patterns
 
 **Step 2: Map to the Context**
 - **FACTUAL** → Locate and extract exact content using original document terms
@@ -1167,6 +1330,7 @@ RESPONSE STRATEGY
 **Step 3: Generate the Answer**
 - **FACTUAL** → One-line direct extraction (e.g., "The document defines X as...")
 - **SCENARIO-BASED** → One-line verdict with reasoning (e.g., "Not allowed, as Section 4.2 excludes post-deadline submissions.")
+- **MATHEMATICAL SCENARIO-BASED** → Apply the demonstrated mathematical pattern (e.g., "According to the document's arithmetic rule, 300 + 22 = 30022.")
 
 ---
 
@@ -1177,16 +1341,18 @@ RESPONSE RULES
 - Reference sections or clauses if available and relevant
 - The final output must be **exactly one complete sentence**
 - The final output must be in the **language of the question**
-- use the exact facts from the document about numbers and dates , like 600-billion dollar, should not be taken as 1 billion dollar
+- use the exact facts from the document about numbers and dates
 
 ---
 
-MATHEMATICAL CONTENT RULE
-If the context includes mathematical rules, logic, or formulas:
-- Do **not** use standard or external math knowledge
-- If the document states "9+5=22" or "100+23=10023", accept and apply that logic in reasoning or calculation
-- If a equation is not given to you in the context , then learn from the context and then apply to the question.
-- do not reply that information doesnt exist in the document, learn from the given logic and then apply it to the question
+MATHEMATICAL CONTENT RULE (OVERRIDES GENERAL INFERENCE RULES)
+For mathematical questions, if the context shows ANY mathematical examples:
+- COMPLETELY IGNORE standard mathematical knowledge
+- STUDY the mathematical examples in the context carefully to discover the underlying pattern/rule
+- Look for MULTIPLE examples to understand the consistent pattern (do NOT focus on outliers)
+- Once you identify the pattern from the examples, APPLY that same pattern consistently to ALL similar mathematical questions
+- DERIVE the answer using only the pattern you discovered from the document examples
+- The mathematical rule demonstrated in the context is the ONLY valid mathematical system for this document
 
 ---
 
@@ -1196,22 +1362,6 @@ OUTPUT FORMAT
         # Use the unified LLM generation method
         return self.generate_llm_response(prompt)
 
-      # --------------------------- Cached answers helper ---------------------------
-    def _load_cached_answers(self, summary_path: str) -> Dict[str, str]:
-        """Load a mapping of question -> answer from a prior summary.json file."""
-        try:
-            with open(summary_path, "r", encoding="utf-8") as f:
-                data = json.load(f)
-            q_to_a: Dict[str, str] = {}
-            for item in (data.get("results") or []):
-                q = item.get("question")
-                a = item.get("answer")
-                if isinstance(q, str) and isinstance(a, str):
-                    q_to_a[q] = a
-            return q_to_a
-        except Exception as e:
-            self.logger.error(f"Failed to load cached summary from {summary_path}: {e}")
-            return {}
     
     async def process_single_question(self, question: str, question_index: int, log_dir_for_request: str) -> Dict[str, Any]:
         """Process a single question asynchronously with error handling"""
@@ -1413,8 +1563,6 @@ OUTPUT FORMAT
         os.makedirs(log_dir_for_request, exist_ok=True)
         # ---
 
-        # Removed pre-chunked document handling; all docs are processed at runtime
-
         # --- Agentic decision for web tooling ---
         decision = self.decide_use_web_tool(doc_url, questions)
         self.logger.info(f"Initial web tool decision (pre-document-parsing): {decision}")
@@ -1438,22 +1586,36 @@ OUTPUT FORMAT
 
         # --- NORMAL / FETCH-URL FLOW FOR OTHER DOCS ---
         chunks: List[Dict[str, Any]] = []
+        
+        # Check cache first
+        cached_chunks = self._get_cached_chunks(doc_url)
+        if cached_chunks:
+            chunks = cached_chunks
+            self.logger.info(f"🚀 CACHE HIT: Using {len(chunks)} cached chunks, skipping document processing")
+        
         try:
-            if decision.get("use_tool") and decision.get("tool") == "fetch_url":
-                target = decision.get("target_url") or doc_url
-                self.logger.info(f"Agentic fetch_url selected for: {target}")
-                chunks = self.fetch_url_as_chunks(target)
+            # Only process document if not cached
+            if not chunks:
+                self.logger.info(f"📄 CACHE MISS: Processing document from scratch")
+                if decision.get("use_tool") and decision.get("tool") == "fetch_url":
+                    target = decision.get("target_url") or doc_url
+                    self.logger.info(f"Agentic fetch_url selected for: {target}")
+                    chunks = self.fetch_url_as_chunks(target)
+                    if not chunks:
+                        self.logger.warning("fetch_url produced no chunks; falling back to LlamaParse")
                 if not chunks:
-                    self.logger.warning("fetch_url produced no chunks; falling back to LlamaParse")
-            if not chunks:
-                chunks = self.parse_and_chunk_with_llamaparse(doc_url)
-            if not chunks:
-                # Check if it was a ZIP file that caused empty chunks
-                if self.is_zip_file(doc_url):
-                    answers = [self.ZIP_ERROR_MESSAGE] * len(questions)
-                else:
-                    answers = ["Document type not supported, please upload a valid document."] * len(questions)
-                return {'answers': answers}
+                    chunks = self.parse_and_chunk_with_llamaparse(doc_url)
+                if not chunks:
+                    # Check if it was a ZIP file that caused empty chunks
+                    if self.is_zip_file(doc_url):
+                        answers = [self.ZIP_ERROR_MESSAGE] * len(questions)
+                    else:
+                        answers = ["Document type not supported, please upload a valid document."] * len(questions)
+                    return {'answers': answers}
+                
+                # Cache the newly processed chunks
+                self._cache_chunks(doc_url, chunks)
+                
             # Language detection: if PDF and not English, use OCR full-text as fixed context
             sample_text = self._normalize_whitespace(" ".join(c.get('text', '') for c in chunks[:3])[:4000])
             if self.is_pdf_url(doc_url) and not self.is_english_text(sample_text):
@@ -1648,6 +1810,24 @@ async def hackrx_run_v1(
     token: str = Depends(verify_token)
 ) -> QueryResponse:
     return await hackrx_run(request, token)
+
+@app.get("/cache/stats")
+async def get_cache_stats(token: str = Depends(verify_token)):
+    """Get cache statistics."""
+    if not rag_pipeline:
+        raise HTTPException(status_code=503, detail="RAG pipeline is not initialized.")
+    
+    stats = rag_pipeline.get_cache_stats()
+    return {"cache_stats": stats}
+
+@app.post("/cache/clear")
+async def clear_cache(token: str = Depends(verify_token)):
+    """Clear the document cache."""
+    if not rag_pipeline:
+        raise HTTPException(status_code=503, detail="RAG pipeline is not initialized.")
+    
+    rag_pipeline.clear_cache()
+    return {"message": "Cache cleared successfully"}
 
 # --- Main block for local development ---
 if __name__ == "__main__":

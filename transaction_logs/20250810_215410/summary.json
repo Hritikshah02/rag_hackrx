@@ -1,0 +1,56 @@
+{
+  "request_id": "20250810_215410",
+  "document_url": "https://hackrx.blob.core.windows.net/assets/Test%20/image.jpeg?sv=2023-01-03&spr=https&st=2025-08-04T19%3A29%3A01Z&se=2026-08-05T19%3A29%3A00Z&sr=b&sp=r&sig=YnJJThygjCT6%2FpNtY1aHJEZ%2F%2BqHoEB59TRGPSxJJBwo%3D",
+  "results": [
+    {
+      "question": "What is 100+22?",
+      "answer": "100+22 equals 10022.",
+      "retrieved_chunks_file": "transaction_logs/20250810_215410/query_1_chunks.json",
+      "index": 0,
+      "success": true
+    },
+    {
+      "question": "What is 9+5?",
+      "answer": "According to the document, 9 + 5 = 22.",
+      "retrieved_chunks_file": "transaction_logs/20250810_215410/query_2_chunks.json",
+      "index": 1,
+      "success": true
+    },
+    {
+      "question": "What is 65007+2?",
+      "answer": "According to the document, 65007 + 2 = 650072.",
+      "retrieved_chunks_file": "transaction_logs/20250810_215410/query_3_chunks.json",
+      "index": 2,
+      "success": true
+    },
+    {
+      "question": "What is 1+1?",
+      "answer": "According to the document’s addition rule, 1 + 1 equals 11.",
+      "retrieved_chunks_file": "transaction_logs/20250810_215410/query_4_chunks.json",
+      "index": 3,
+      "success": true
+    },
+    {
+      "question": "What is 5+500?",
+      "answer": "According to the document’s arithmetic rule, 5 + 500 = 5500.",
+      "retrieved_chunks_file": "transaction_logs/20250810_215410/query_5_chunks.json",
+      "index": 4,
+      "success": true
+    },
+    {
+      "question": "What is 300+22?",
+      "answer": "The provided document context does not contain information that answers the question \"What is 300+22?\".",
+      "retrieved_chunks_file": "transaction_logs/20250810_215410/query_6_chunks.json",
+      "index": 5,
+      "success": true
+    },
+    {
+      "question": "What is 22+22?",
+      "answer": "According to the document’s arithmetic, 22 + 22 equals 2222.",
+      "retrieved_chunks_file": "transaction_logs/20250810_215410/query_7_chunks.json",
+      "index": 6,
+      "success": true
+    }
+  ],
+  "total_elapsed_seconds": 16.02
+}
