@@ -1,0 +1,27 @@
+{
+  "actions": [
+    {
+      "action": "http_get",
+      "url": "https://register.hackrx.in/submissions/myFavouriteCity",
+      "status": "ok"
+    },
+    {
+      "action": "http_get",
+      "url": "https://register.hackrx.in/teams/public/flights/getFirstCityFlightNumber",
+      "status": "ok"
+    }
+  ],
+  "observations": [
+    {
+      "summary": "{\"success\": true, \"message\": \"Favorite city retrieved successfully\", \"status\": 200, \"data\": {\"city\": \"Delhi\"}}",
+      "status_code": 200,
+      "url": "https://register.hackrx.in/submissions/myFavouriteCity"
+    },
+    {
+      "summary": "{\"success\": true, \"message\": \"Delhi flight number generated successfully\", \"status\": 200, \"data\": {\"flightNumber\": \"45e272\"}}",
+      "status_code": 200,
+      "url": "https://register.hackrx.in/teams/public/flights/getFirstCityFlightNumber"
+    }
+  ],
+  "final": "45e272"
+}

@@ -1,0 +1,45 @@
+{
+  "tool_calls": [
+    {
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://register.hackrx.in/submissions/myFavouriteCity"
+      },
+      "result": {
+        "status_code": 200,
+        "url": "https://register.hackrx.in/submissions/myFavouriteCity",
+        "content_type": "application/json; charset=utf-8",
+        "data": {
+          "success": true,
+          "message": "Favorite city retrieved successfully",
+          "status": 200,
+          "data": {
+            "city": "Delhi"
+          }
+        },
+        "type": "json"
+      }
+    },
+    {
+      "tool": "http_get",
+      "arguments": {
+        "url": "https://register.hackrx.in/teams/public/flights/getFirstCityFlightNumber"
+      },
+      "result": {
+        "status_code": 200,
+        "url": "https://register.hackrx.in/teams/public/flights/getFirstCityFlightNumber",
+        "content_type": "application/json; charset=utf-8",
+        "data": {
+          "success": true,
+          "message": "Delhi flight number generated successfully",
+          "status": 200,
+          "data": {
+            "flightNumber": "a62040"
+          }
+        },
+        "type": "json"
+      }
+    }
+  ],
+  "final_answer": "a62040"
+}

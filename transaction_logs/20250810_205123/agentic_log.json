@@ -1,0 +1,43 @@
+{
+  "actions": [
+    {
+      "action": "http_get",
+      "url": "http://localhost:8080/constitution/Preamble",
+      "status": "error",
+      "error": "('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))"
+    },
+    {
+      "action": "http_get",
+      "url": "http://localhost:8000",
+      "status": "error",
+      "error": "HTTPConnectionPool(host='localhost', port=8000): Read timed out. (read timeout=20)"
+    },
+    {
+      "action": "http_get",
+      "url": "http://localhost:8000/constitution/preamble",
+      "status": "error",
+      "error": "HTTPConnectionPool(host='localhost', port=8000): Read timed out. (read timeout=20)"
+    },
+    {
+      "action": "http_get",
+      "url": "http://localhost:8000/constitution/preamble",
+      "status": "error",
+      "error": "HTTPConnectionPool(host='localhost', port=8000): Read timed out. (read timeout=20)"
+    }
+  ],
+  "observations": [
+    {
+      "summary": "Request failed: ('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))"
+    },
+    {
+      "summary": "Request failed: HTTPConnectionPool(host='localhost', port=8000): Read timed out. (read timeout=20)"
+    },
+    {
+      "summary": "Request failed: HTTPConnectionPool(host='localhost', port=8000): Read timed out. (read timeout=20)"
+    },
+    {
+      "summary": "Request failed: HTTPConnectionPool(host='localhost', port=8000): Read timed out. (read timeout=20)"
+    }
+  ],
+  "final": null
+}

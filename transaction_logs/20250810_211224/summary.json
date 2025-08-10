@@ -1,0 +1,14 @@
+{
+  "request_id": "20250810_211224",
+  "document_url": "https://register.hackrx.in/utils/get-secret-token?hackTeam=3544",
+  "results": [
+    {
+      "question": "Go to the link and get the secret token and return it",
+      "answer": "c3d58be499a691705a0ddb00913c3d5ee11210281ce0496ef3cb07c93ba5730b",
+      "retrieved_chunks_file": "transaction_logs/20250810_211224/query_1_chunks.json",
+      "index": 0,
+      "success": true
+    }
+  ],
+  "total_elapsed_seconds": 5.56
+}

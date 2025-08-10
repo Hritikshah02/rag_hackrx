@@ -244,11 +244,6 @@ class ImprovedSemanticChunker:
         # Archive file error message
         self.ARCHIVE_ERROR_MESSAGE = "Archive files (RAR, 7Z) are not allowed, please upload a valid file"
         
-        # Hardcoded math URL
-        self.MATH_URL = "https://hackrx.blob.core.windows.net/assets/Test%20/image.jpeg?sv=2023-01-03&spr=https&st=2025-08-04T19%3A29%3A01Z&se=2026-08-05T19%3A29%3A00Z&sr=b&sp=r&sig=YnJJThygjCT6%2FpNtY1aHJEZ%2F%2BqHoEB59TRGPSxJJBwo%3D"
-        
-        # Pincode data URL that requires full Gemini model
-        self.PINCODE_DATA_URL = "https://hackrx.blob.core.windows.net/assets/Test%20/Pincode%20data.xlsx?sv=2023-01-03&spr=https&st=2025-08-04T18%3A50%3A43Z&se=2026-08-05T18%3A50%3A00Z&sr=b&sp=r&sig=xf95kP3RtMtkirtUMFZn%2FFNai6sWHarZsTcvx8ka9mI%3D"
 
         # Removed Malayalam News static URL
         # Removed Malayalam News path matcher and cache path
@@ -258,8 +253,8 @@ class ImprovedSemanticChunker:
         
         # --- Web tools ---
         self.web_tool = WebTool()
-        # Restrict agentic HTTP actions to these hosts
-        self.allowed_action_hosts = {"register.hackrx.in"}
+        # Set to None to allow all hosts for agentic HTTP GET actions
+        self.allowed_action_hosts: Optional[set[str]] = None
         # Track current document URL for per-request overrides
         self.current_doc_url: Optional[str] = None
         # OCR availability
@@ -352,7 +347,7 @@ class ImprovedSemanticChunker:
         try:
             sample_questions = "\n".join([f"- {q}" for q in questions[:3]])
             prompt = f"""
-You are a tool-use planner for a RAG API. Decide if answering the questions requires using a web tool.
+You are a tool-use planner for a RAG API. Decide if answering the questions requires using a web tool INSTEAD OF processing the document.
 Tools available:
 - fetch_url: fetch the exact document_url and use its returned content.
 - web_search: search the public web for answers to the questions.
@@ -360,7 +355,7 @@ Tools available:
 Constraints:
 - Prefer fetch_url if the provided document_url appears to be an HTTP(S) endpoint returning HTML/JSON/text (e.g., api links, webpages) or the question says to open that link.
 - Prefer web_search if the questions cannot be answered from the provided document_url and require general web context.
-- Otherwise, return none to use the normal RAG flow.
+- Otherwise, return none to use the normal RAG flow (parse document + potentially use agentic tools based on document content).
 
 Document URL: {doc_url}
 Questions:
@@ -391,27 +386,18 @@ Return ONLY a compact JSON object with keys: use_tool (true/false), tool ("fetch
             return {"use_tool": False, "tool": "none", "reason": "Decision error; default to RAG."}
 
     def decide_agentic_from_context(self, question: str, retrieved_chunks: List[Dict[str, Any]]) -> bool:
-        """Decide whether to trigger agentic multi-step actions based on context and question."""
+        """Decide whether to trigger agentic multi-step actions in a generic way using context/question cues."""
         try:
-            # Scan all retrieved texts
-            combined = "\n".join([c.get('text', '') for c in retrieved_chunks])
-            combined_lower = (question + "\n" + combined).lower()
-            # Require both the allowed host and mission-style markers to be present
-            has_host = "register.hackrx.in" in combined_lower
-            mission_markers = [
-                "choose your flight path",
-                "myfavouritecity",
-                "teams/public/flights",
-                "getfirstcityflightnumber",
-                "getsecondcityflightnumber",
-                "getthirdcityflightnumber",
-                "getfourthcityflightnumber",
-                "getfifthcityflightnumber",
-                "call this endpoint",
+            combined_texts = "\n".join([c.get('text', '') for c in retrieved_chunks])
+            combined_lower = (question + "\n" + combined_texts).lower()
+            # Generic cues suggesting API/tool interaction
+            generic_cues = [
+                "endpoint", "api", "http", "https", "call this", "make a get", "perform get",
+                "token", "teams/public", "/utils/", "/flights/"
             ]
-            has_mission = any(m in combined_lower for m in mission_markers)
-            if has_host and has_mission:
-                self.logger.info("🧭 Agentic trigger detected via explicit mission markers")
+            has_generic_signal = any(cue in combined_lower for cue in generic_cues)
+            if has_generic_signal:
+                self.logger.info("🧭 Agentic trigger detected via generic API/endpoint cues")
                 return True
             return False
         except Exception as e:
@@ -596,309 +582,170 @@ Return ONLY a compact JSON object with keys: use_tool (true/false), tool ("fetch
             return text
 
     # --------------------------- Special Q/A overrides ---------------------------
-    def try_override_apple_investment(self, question: str) -> Optional[str]:
-        """Return a canonical answer for Apple investment commitment question variants (EN/ML)."""
-        q = (question or "").strip()
-        if not q:
-            return None
-        # Malayalam patterns
+    # All special-case overrides removed - model handles all questions through context and tool calling
+
+   
+
+    def define_tools_for_groq(self):
+        """Define tool schemas for Groq's function calling."""
+        return [
+            {
+                "type": "function",
+                "function": {
+                    "name": "http_get",
+                    "description": "Perform an HTTP GET request to any URL to fetch data or interact with APIs",
+                    "parameters": {
+                        "type": "object",
+                        "properties": {
+                            "url": {
+                                "type": "string",
+                                "description": "The URL to make a GET request to"
+                            },
+                            "timeout": {
+                                "type": "integer",
+                                "description": "Timeout in seconds for the request",
+                                "default": 20
+                            }
+                        },
+                        "required": ["url"]
+                    }
+                }
+            }
+        ]
+
+    def execute_tool_call(self, tool_name: str, arguments: Dict[str, Any]) -> Dict[str, Any]:
+        """Execute a tool call and return the result."""
         try:
-            q_lang = self.detect_language(q)
-        except Exception:
-            q_lang = "en"
-        if q_lang == "ml" or "ആപ്പിള" in q:
-            if ("ആപ്പിള" in q and "നിക്ഷേപ" in q and ("ലക്ഷ" in q or "ഉദ്ദേശ" in q)):
-                return "ആപ്പിള്‍ 600 ബില്യൺ ഡോളർ നിക്ഷേപം പ്രതിജ്ഞാബദ്ധമായി പ്രഖ്യാപിച്ചു, ലക്ഷ്യം ആഭ്യന്തര നിർമ്മാണം ശക്തിപ്പെടുത്തുകയും വിദേശ ആശ്രിതത്വം കുറയ്ക്കുകയും ചെയ്യുന്നതാണ്."
-        # English patterns
-        ql = q.lower()
-        has_apple = any(k in ql for k in ["apple", "apple's", "apple's"])  # include both ASCII and typographic apostrophes
-        has_invest = any(k in ql for k in ["investment", "invest", "invested", "pledge", "commitment", "committed"])
-        has_objective = any(k in ql for k in ["objective", "goal", "purpose", "aim", "target"])
-        if has_apple and has_invest and has_objective:
-            return "Apple committed 600 billion dollars to strengthen domestic manufacturing and reduce foreign dependence."
-        return None
-
-    def try_override_trump_tariff_date(self, question: str) -> Optional[str]:
-        """Hardcode the answer for the specific Trump tariff date question when News PDF is used."""
-        try:
-            # Removed special-case NEWS_PDF_URL dependency
-                q = (question or "").strip()
-                # Normalize thin spaces and non-breaking spaces to regular spaces
-                q_norm = re.sub(r"[\u202F\u00A0]", " ", q)
-                target = "ട്രംപ് ഏത് ദിവസമാണ് 100% ശുൽകം പ്രഖ്യാപിച്ചത്?"
-                if q_norm == target:
-                    return "ട്രംപ് 100% ശുൽകം 2025 ഓഗസ്റ്റ് 6-ന് പ്രഖ്യാപിച്ചു."
-        except Exception:
-            pass
-        return None
-
-    # Removed OCR pre-chunk persistence helper
-
-    # --------------------------- Deterministic mission helpers ---------------------------
-    @staticmethod
-    def _strip_symbols_and_emojis(text: str) -> str:
-        # Keep letters, numbers, basic punctuation, and whitespace
-        return re.sub(r"[^\w\s.,:/-]", " ", text or "")
-    
-    def _extract_landmark_for_city_from_context(self, city: str, retrieved_chunks: List[Dict[str, Any]]) -> Optional[str]:
-        """Extract the landmark associated with a given city from the context tables."""
-        if not city:
-            return None
-        city_norm = city.strip().lower()
-        # Fast path: deterministic city→landmark mapping from the document
-        hard_map = {
-            "mumbai": "Gateway of India",
-            "bombay": "Gateway of India",
-            "agra": "Taj Mahal",
-            "paris": "Eiffel Tower",
-            "london": "Big Ben",
-        }
-        if city_norm in hard_map:
-            return hard_map[city_norm]
-        candidates: List[str] = []
-        for chunk in retrieved_chunks:
-            text = self._strip_symbols_and_emojis(chunk.get('text', ''))
-            for raw_line in text.splitlines():
-                line = self._strip_symbols_and_emojis(raw_line)
-                if not line or city_norm not in line.lower():
-                    continue
-                # Heuristic: landmark on left, city on right
-                pattern = re.compile(r"([A-Za-z][A-Za-z\s]+?)\s+" + re.escape(city) + r"\b", re.IGNORECASE)
-                m = pattern.search(line)
-                if m:
-                    landmark = m.group(1).strip()
-                    # Normalize spaces
-                    landmark = re.sub(r"\s+", " ", landmark)
-                    candidates.append(landmark)
-        # Prefer well-known options if present, else any candidate
-        priority = ["Gateway of India", "Taj Mahal", "Eiffel Tower", "Big Ben"]
-        for p in priority:
-            for cand in candidates:
-                if p.lower() == cand.lower():
-                    return p
-        return candidates[0] if candidates else None
-
-    @staticmethod
-    def _endpoint_for_landmark(landmark: str) -> str:
-        lm = (landmark or "").strip().lower()
-        if lm == "gateway of india":
-            return "https://register.hackrx.in/teams/public/flights/getFirstCityFlightNumber"
-        if lm == "taj mahal":
-            return "https://register.hackrx.in/teams/public/flights/getSecondCityFlightNumber"
-        if lm == "eiffel tower":
-            return "https://register.hackrx.in/teams/public/flights/getThirdCityFlightNumber"
-        if lm == "big ben":
-            return "https://register.hackrx.in/teams/public/flights/getFourthCityFlightNumber"
-        return "https://register.hackrx.in/teams/public/flights/getFifthCityFlightNumber"
-
-    def try_resolve_flight_number_from_context(self, question: str, retrieved_chunks: List[Dict[str, Any]], log_dir_for_request: str) -> Tuple[bool, str]:
-        """Deterministically resolve the mission 'flight number' using context instructions and allowed GETs."""
-        # Trigger only when explicit mission markers are present in the context
-        trigger = self.decide_agentic_from_context(question, retrieved_chunks)
-        if not trigger:
-            return False, ""
-        try:
-            # 1) Get favourite city
-            city_resp = self.web_tool.fetch_url("https://register.hackrx.in/submissions/myFavouriteCity", timeout_seconds=2)
-            city_json = city_resp.get("json") or {}
-            city = (((city_json or {}).get("data") or {}).get("city") or "").strip()
-            if not city:
-                return False, ""
-            # 2) Find landmark for city from context
-            landmark = self._extract_landmark_for_city_from_context(city, retrieved_chunks) or ""
-            # If not found in initial chunks, try searching the current collection with the city query
-            if not landmark:
-                try:
-                    extra_chunks = self.hybrid_search(city, top_k=8)
-                    landmark = self._extract_landmark_for_city_from_context(city, extra_chunks) or ""
-                except Exception:
-                    pass
-            # 3) Pick endpoint by landmark
-            endpoint = self._endpoint_for_landmark(landmark)
-            # 4) Call endpoint
-            fn_resp = self.web_tool.fetch_url(endpoint, timeout_seconds=2)
-            fn_json = fn_resp.get("json") or {}
-            flight_number = (((fn_json or {}).get("data") or {}).get("flightNumber") or "").strip()
-            if flight_number:
-                # Save simple agentic log
-                agent_log_path = os.path.join(log_dir_for_request, "agentic_log.json")
-                with open(agent_log_path, 'w', encoding='utf-8') as f_log:
-                    json.dump({
-                        "strategy": "deterministic_flight_resolver",
-                        "city": city,
-                        "landmark": landmark,
-                        "endpoint": endpoint,
-                        "flightNumber": flight_number
-                    }, f_log, indent=2, ensure_ascii=False)
-                self.logger.info(f"🛫 Deterministic resolver succeeded: {city} -> {landmark} -> {flight_number}")
-                return True, flight_number
-            return False, ""
+            if tool_name == "http_get":
+                url = arguments.get("url")
+                timeout = arguments.get("timeout", 20)
+                if not url:
+                    return {"error": "URL is required for http_get"}
+                
+                fetched = self.web_tool.fetch_url(url, timeout_seconds=timeout)
+                
+                # Return structured response
+                result = {
+                    "status_code": fetched.get("status_code"),
+                    "url": fetched.get("url"),
+                    "content_type": fetched.get("content_type"),
+                }
+                
+                if fetched.get("json") is not None:
+                    result["data"] = fetched["json"]
+                    result["type"] = "json"
+                elif fetched.get("text"):
+                    if "text/html" in (fetched.get("content_type") or ""):
+                        result["data"] = self.web_tool.html_to_text(fetched["text"])[:4000]
+                        result["type"] = "html_text"
+                    else:
+                        result["data"] = fetched["text"][:4000]
+                        result["type"] = "text"
+                else:
+                    result["data"] = f"Binary content ({len(fetched.get('content') or b'')} bytes)"
+                    result["type"] = "binary"
+                
+                return result
+            else:
+                return {"error": f"Unknown tool: {tool_name}"}
         except Exception as e:
-            self.logger.warning(f"Deterministic flight resolver failed: {e}")
-            return False, ""
+            return {"error": f"Tool execution failed: {str(e)}"}
 
-    # --------------------------- Deterministic secret-token helpers ---------------------------
-    @staticmethod
-    def is_secret_token_url(url: str) -> bool:
-        try:
-            parsed = urlparse(url)
-            return parsed.hostname == "register.hackrx.in" and "/utils/get-secret-token" in parsed.path
-        except Exception:
-            return False
-
-    def extract_secret_token(self, url: str) -> Tuple[str, str]:
-        """Fetch token page and return (clean_text_context, token_value or '')."""
-        fetched = self.web_tool.fetch_url(url, timeout_seconds=15)
-        text_context = ""
-        token_value = ""
-        if fetched.get("text"):
-            if "text/html" in (fetched.get("content_type") or ""):
-                text_context = self.web_tool.html_to_text(fetched["text"])[:8000]
-            else:
-                text_context = (fetched.get("text") or "")[:8000]
-        # Try DOM first
-        try:
-            html = fetched.get("text") or ""
-            if html:
-                soup = BeautifulSoup(html, "html.parser")
-                token_div = soup.find(id="token")
-                if token_div and token_div.get_text(strip=True):
-                    token_value = token_div.get_text(strip=True)
-        except Exception:
-            pass
-        # Regex fallback: prefer long hex sequences
-        if not token_value and text_context:
-            candidates = re.findall(r"\b[a-fA-F0-9]{32,128}\b", text_context)
-            if candidates:
-                candidates.sort(key=lambda s: (-len(s), s))
-                token_value = candidates[0]
-        return text_context, token_value
-    
-    async def process_questions_with_secret_token(self, questions: List[str], log_dir_for_request: str, doc_url: str) -> Tuple[List[Dict[str, Any]], List[str]]:
-        self.logger.info("🔐 Using deterministic secret-token extractor")
-        ctx_text, token = self.extract_secret_token(doc_url)
-        fixed_chunks = [{
-            'id': 'secret_token_page',
-            'text': ctx_text or 'Token page content not available',
-            'size': len(ctx_text or '')
-        }]
-        processed_results: List[Dict[str, Any]] = []
-        final_answers: List[str] = []
-        for i, question in enumerate(questions):
-            chunks_log_path = os.path.join(log_dir_for_request, f"query_{i + 1}_chunks.json")
-            ranked_chunks = [dict(c, **{"rank": idx + 1}) for idx, c in enumerate(fixed_chunks)]
-            with open(chunks_log_path, 'w', encoding='utf-8') as f_chunks:
-                json.dump(ranked_chunks, f_chunks, indent=2, ensure_ascii=False)
-            if token:
-                answer = f"The secret token is {token}."
-            else:
-                answer = "The token could not be found on the page."
-            processed_results.append({
-                'question': question,
-                'answer': answer,
-                'retrieved_chunks_file': chunks_log_path,
-                'index': i,
-                'success': True
-            })
-            final_answers.append(answer)
-        agent_log_path = os.path.join(log_dir_for_request, "agentic_log.json")
-        with open(agent_log_path, 'w', encoding='utf-8') as f_log:
-            json.dump({"strategy": "deterministic_secret_token", "token_found": bool(token)}, f_log, indent=2, ensure_ascii=False)
-        return processed_results, final_answers
-
-    def _agent_reason_step(self, question: str, context_text: str, observations: List[Dict[str, Any]]) -> Dict[str, Any]:
-        """Ask LLM for the next action: http_get(url) limited to allowed hosts, or final(answer)."""
-        obs_text = "\n".join([
-            f"Observation {i+1}: {o.get('summary','')}" for i, o in enumerate(observations)
-        ])
-        prompt = f"""
-You are an autonomous solver. Use instructions from the document context to answer the question.
-Available tool: http_get(url) — Only GET requests to host register.hackrx.in are allowed.
-Decide one step at a time: output a compact JSON of the form:
-{{"action":"http_get","url":"..."}} OR {{"final":"<one-line answer>"}}.
-Do not include any other keys or text.
-
-Question: {question}
-Context:
-{context_text[:3000]}
-
-Previous observations:
-{obs_text or 'None'}
-
-Guidance:
-- If context mentions calling endpoints to derive the answer, issue the required http_get in the correct order.
-- After you have the needed data, return a final answer as a short string (flight number or single-sentence answer).
-- Keep answers concise.
-"""
-        raw = self.generate_llm_response(prompt)
-        # Strip code fences if any
-        cleaned = raw.strip().strip('`')
-        try:
-            return json.loads(cleaned)
-        except Exception:
-            return {"final": self._normalize_whitespace(raw)}
-
-    def resolve_question_agentically(self, question: str, retrieved_chunks: List[Dict[str, Any]], log_dir_for_request: str) -> Tuple[bool, str]:
-        """Run a small ReAct loop to execute HTTP GETs based on the context and produce a final answer."""
+    def resolve_question_with_tools(self, question: str, retrieved_chunks: List[Dict[str, Any]], log_dir_for_request: str) -> Tuple[bool, str]:
+        """Use Groq's tool calling to resolve questions that require API interactions."""
         if not self.decide_agentic_from_context(question, retrieved_chunks):
             return False, ""
-        self.logger.info("🤖 Starting agentic resolution loop")
-        # Try deterministic mission resolver first (for flight number tasks)
-        det_ok, det_ans = self.try_resolve_flight_number_from_context(question, retrieved_chunks, log_dir_for_request)
-        if det_ok and det_ans:
-            return True, det_ans
-        context_text = "\n\n".join([c.get('text', '') for c in retrieved_chunks])[:8000]
-        observations: List[Dict[str, Any]] = []
-        actions_log: List[Dict[str, Any]] = []
-        max_steps = 4
-        for step in range(max_steps):
-            step_decision = self._agent_reason_step(question, context_text, observations)
-            self.logger.info(f"🪜 Agentic step {step+1} decision: {step_decision}")
-            if "final" in step_decision:
-                answer = self._normalize_whitespace(step_decision["final"])[:500]
-                # Save agentic log
-                agent_log_path = os.path.join(log_dir_for_request, "agentic_log.json")
-                with open(agent_log_path, 'w', encoding='utf-8') as f_log:
-                    json.dump({"actions": actions_log, "observations": observations, "final": answer}, f_log, indent=2, ensure_ascii=False)
-                return True, answer
-            action = step_decision.get("action")
-            url = step_decision.get("url")
-            if action == "http_get" and isinstance(url, str):
-                parsed = urlparse(url)
-                if parsed.hostname not in self.allowed_action_hosts:
-                    observations.append({"summary": f"Blocked request to disallowed host: {parsed.hostname}"})
-                    actions_log.append({"action": action, "url": url, "status": "blocked"})
-                    continue
-                try:
-                    fetched = self.web_tool.fetch_url(url, timeout_seconds=20)
-                    # Summarize observation for the model (limit size)
-                    obs_summary = ""
-                    if fetched.get("json") is not None:
-                        obs_summary = json.dumps(fetched["json"], ensure_ascii=False)[:2000]
-                    elif fetched.get("text"):
-                        if "text/html" in (fetched.get("content_type") or ""):
-                            obs_summary = self.web_tool.html_to_text(fetched["text"])[:2000]
-                        else:
-                            obs_summary = (fetched["text"] or "")[:2000]
-                    else:
-                        obs_summary = f"Binary {fetched.get('content_type','')}, {len(fetched.get('content') or b'') } bytes"
-                    observations.append({
-                        "summary": obs_summary,
-                        "status_code": fetched.get("status_code"),
-                        "url": fetched.get("url"),
+        
+        if not self.groq_client:
+            self.logger.warning("Groq client not available for tool calling")
+            return False, ""
+        
+        self.logger.info("🤖 Starting tool-based resolution with Groq")
+        context_text = "\n\n".join([c.get('text', '') for c in retrieved_chunks])
+        
+        tools = self.define_tools_for_groq()
+        tool_calls_log = []
+        
+        try:
+            # Initial prompt with context and question
+            messages = [
+                {
+                    "role": "user",
+                    "content": f"""Based on the following context, answer this question: "{question}"
+
+Context:
+{context_text}
+
+Instructions:
+- If the context contains API endpoints or instructions to call specific URLs, use the http_get tool to fetch the required data
+- Follow any step-by-step instructions mentioned in the context
+- If you need to chain multiple API calls, make them one by one
+- Once you have all the necessary information, provide a concise final answer
+- If the question asks for a specific value (like a flight number or token), return only that value
++"""
+                }
+            ]
+            
+            max_iterations = 5
+            for iteration in range(max_iterations):
+                response = self.groq_client.chat.completions.create(
+                    model=self.groq_model,
+                    messages=messages,
+                    tools=tools,
+                    tool_choice="auto",
+                    temperature=0.1,
+                    max_tokens=2048
+                )
+                
+                message = response.choices[0].message
+                messages.append({
+                    "role": "assistant",
+                    "content": message.content,
+                    "tool_calls": message.tool_calls
+                })
+                
+                # If no tool calls, we have the final answer
+                if not message.tool_calls:
+                    answer = message.content.strip() if message.content else "No answer provided"
+                    # Save tool calls log
+                    agent_log_path = os.path.join(log_dir_for_request, "tool_calls_log.json")
+                    with open(agent_log_path, 'w', encoding='utf-8') as f_log:
+                        json.dump({"tool_calls": tool_calls_log, "final_answer": answer}, f_log, indent=2, ensure_ascii=False)
+                    return True, answer
+                
+                # Execute tool calls
+                for tool_call in message.tool_calls:
+                    tool_name = tool_call.function.name
+                    try:
+                        arguments = json.loads(tool_call.function.arguments)
+                    except json.JSONDecodeError:
+                        arguments = {}
+                    
+                    self.logger.info(f"🔧 Executing tool: {tool_name} with args: {arguments}")
+                    result = self.execute_tool_call(tool_name, arguments)
+                    
+                    tool_calls_log.append({
+                        "tool": tool_name,
+                        "arguments": arguments,
+                        "result": result
                     })
-                    actions_log.append({"action": action, "url": url, "status": "ok"})
-                except Exception as e:
-                    observations.append({"summary": f"Request failed: {e}"})
-                    actions_log.append({"action": action, "url": url, "status": "error", "error": str(e)})
-            else:
-                # Unknown action, break
-                break
-        # If loop ends without final, log and return failure
-        agent_log_path = os.path.join(log_dir_for_request, "agentic_log.json")
-        with open(agent_log_path, 'w', encoding='utf-8') as f_log:
-            json.dump({"actions": actions_log, "observations": observations, "final": None}, f_log, indent=2, ensure_ascii=False)
-        return False, ""
+                    
+                    # Add tool result to conversation
+                    messages.append({
+                        "role": "tool",
+                        "tool_call_id": tool_call.id,
+                        "content": json.dumps(result, ensure_ascii=False)
+                    })
+            
+            # If we reach max iterations without a final answer
+            agent_log_path = os.path.join(log_dir_for_request, "tool_calls_log.json")
+            with open(agent_log_path, 'w', encoding='utf-8') as f_log:
+                json.dump({"tool_calls": tool_calls_log, "final_answer": None, "status": "max_iterations_reached"}, f_log, indent=2, ensure_ascii=False)
+            return False, ""
+            
+        except Exception as e:
+            self.logger.error(f"Tool-based resolution failed: {e}")
+            return False, ""
 
     async def process_questions_with_web_search(self, questions: List[str], log_dir_for_request: str) -> Tuple[List[Dict[str, Any]], List[str]]:
         """Process questions using web search results as context (agentic path) in parallel."""
@@ -980,29 +827,6 @@ Guidance:
         final_answers = [res['answer'] for res in processed_results]
         return processed_results, final_answers
     
-    def extract_and_concatenate_math(self, question: str) -> str:
-        """
-        Extract numbers from math expressions and concatenate them.
-        Examples:
-        - "What is 1+1?" -> "11"
-        - "What is 100+22?" -> "10022"
-        - "What is 9+5?" -> "95"
-        """
-        # Use regex to find all numbers in the question
-        numbers = re.findall(r'\d+', question)
-        
-        if len(numbers) >= 2:
-            # Concatenate all numbers found
-            concatenated = ''.join(numbers)
-            self.logger.info(f"Math concatenation: {question} -> {concatenated}")
-            return concatenated
-        elif len(numbers) == 1:
-            # If only one number, return it as is
-            return numbers[0]
-        else:
-            # If no numbers found, return a default message
-            return "No numbers found in the question"
-
     def parse_and_chunk_with_llamaparse(self, file_url: str) -> List[Dict[str, Any]]:
         """Use LlamaParse to extract and chunk document content semantically."""
 
@@ -1372,7 +1196,7 @@ OUTPUT FORMAT
         # Use the unified LLM generation method
         return self.generate_llm_response(prompt)
 
-    # --------------------------- Cached answers helper ---------------------------
+      # --------------------------- Cached answers helper ---------------------------
     def _load_cached_answers(self, summary_path: str) -> Dict[str, str]:
         """Load a mapping of question -> answer from a prior summary.json file."""
         try:
@@ -1393,42 +1217,6 @@ OUTPUT FORMAT
         """Process a single question asynchronously with error handling"""
         try:
             self.logger.info(f"\n--- Processing Question {question_index + 1}: {question} ---")
-
-            # Removed special fast-path that relied on pre-chunked collection
-            
-            # Special override for Trump tariff date question (News PDF)
-            trump_override = self.try_override_trump_tariff_date(question)
-            if trump_override is not None:
-                answer = trump_override
-                chunks_log_path = os.path.join(log_dir_for_request, f"query_{question_index + 1}_chunks.json")
-                with open(chunks_log_path, 'w', encoding='utf-8') as f_chunks:
-                    json.dump([], f_chunks, indent=2, ensure_ascii=False)
-                self.logger.info("Applied Trump tariff date override answer")
-                self.logger.info(f"Final Answer: {answer}")
-                return {
-                    'question': question,
-                    'answer': answer,
-                    'retrieved_chunks_file': chunks_log_path,
-                    'index': question_index,
-                    'success': True
-                }
-            
-            # Special override for Apple investment commitment questions
-            override_answer = self.try_override_apple_investment(question)
-            if override_answer is not None:
-                answer = override_answer
-                chunks_log_path = os.path.join(log_dir_for_request, f"query_{question_index + 1}_chunks.json")
-                with open(chunks_log_path, 'w', encoding='utf-8') as f_chunks:
-                    json.dump([], f_chunks, indent=2, ensure_ascii=False)
-                self.logger.info("Applied Apple investment override answer")
-                self.logger.info(f"Final Answer: {answer}")
-                return {
-                    'question': question,
-                    'answer': answer,
-                    'retrieved_chunks_file': chunks_log_path,
-                    'index': question_index,
-                    'success': True
-                }
 
             # Run hybrid search in thread pool to avoid blocking
             loop = asyncio.get_event_loop()
@@ -1453,7 +1241,7 @@ OUTPUT FORMAT
             used_agentic = False
             agentic_answer = ""
             try:
-                agentic_used, agentic_ans = self.resolve_question_agentically(question, retrieved_chunks, log_dir_for_request)
+                agentic_used, agentic_ans = self.resolve_question_with_tools(question, retrieved_chunks, log_dir_for_request)
                 used_agentic = agentic_used
                 agentic_answer = agentic_ans
             except Exception as e:
@@ -1478,7 +1266,7 @@ OUTPUT FORMAT
                 )
                 if may_be_incomplete and self.decide_agentic_from_context(question, retrieved_chunks):
                     self.logger.info("🔁 Re-running via agentic path due to incomplete answer signal")
-                    agentic_used2, agentic_ans2 = self.resolve_question_agentically(question, retrieved_chunks, log_dir_for_request)
+                    agentic_used2, agentic_ans2 = self.resolve_question_with_tools(question, retrieved_chunks, log_dir_for_request)
                     if agentic_used2 and agentic_ans2:
                         answer = agentic_ans2
 
@@ -1609,11 +1397,6 @@ OUTPUT FORMAT
         # Track the current document URL for per-request overrides
         self.current_doc_url = doc_url
         
-        # Select appropriate LLM model based on document URL
-        self.select_llm_model(doc_url)
-        # Reset collection language for this request
-        self.collection_language = None
-        
         # Check for unsupported files first and return error message for all questions
         is_unsupported, error_message = self.is_unsupported_file(doc_url)
         if is_unsupported:
@@ -1621,35 +1404,8 @@ OUTPUT FORMAT
             error_answers = [error_message] * len(questions)
             return {'answers': error_answers}
 
-        # Removed special Malayalam News cache/fallback path; use standard runtime flow for all docs
-        
-        # Check for hardcoded math URL and handle math concatenation
-        if doc_url == self.MATH_URL:
-            self.logger.info(f"Math URL detected: {doc_url}")
-            math_answers = []
-            for question in questions:
-                concatenated_result = self.extract_and_concatenate_math(question)
-                math_answers.append(concatenated_result)
-            return {'answers': math_answers}
-        # Secret token URL — deterministic extraction
-        if hasattr(self, 'is_secret_token_url') and self.is_secret_token_url(doc_url):
-            request_id = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
-            log_dir_for_request = os.path.join("transaction_logs", request_id)
-            os.makedirs(log_dir_for_request, exist_ok=True)
-            all_results_data, final_answers = await self.process_questions_with_secret_token(questions, log_dir_for_request, doc_url)
-            total_elapsed_s = time.time() - start_time
-            main_log_data = {
-                'request_id': request_id,
-                'document_url': doc_url,
-                'results': all_results_data,
-                'total_elapsed_seconds': round(total_elapsed_s, 2)
-            }
-            main_log_path = os.path.join(log_dir_for_request, "summary.json")
-            with open(main_log_path, 'w', encoding='utf-8') as f_main:
-                json.dump(main_log_data, f_main, indent=2, ensure_ascii=False)
-            self.logger.info(f"Transaction logs saved to directory: {log_dir_for_request}")
-            self.logger.info("=" * 80)
-            return {'answers': final_answers}
+
+
         
         # --- Enhanced Logging Setup ---
         request_id = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
@@ -1661,7 +1417,7 @@ OUTPUT FORMAT
 
         # --- Agentic decision for web tooling ---
         decision = self.decide_use_web_tool(doc_url, questions)
-        self.logger.info(f"Tool decision: {decision}")
+        self.logger.info(f"Initial web tool decision (pre-document-parsing): {decision}")
 
         # If decision is to use general web search
         if decision.get("use_tool") and decision.get("tool") == "web_search":
