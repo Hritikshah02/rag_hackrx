@@ -522,7 +522,7 @@ Tools available:
 
 Constraints:
 - Prefer fetch_url if the provided document_url appears to be an HTTP(S) endpoint returning HTML/JSON/text (e.g., api links, webpages) or the question says to open that link.
-- Prefer web_search if the questions cannot be answered from the provided document_url and require general web context.
+- Prefer web_search if the questions cannot be answered from the provided pdf document_url and require general web context.
 - Otherwise, return none to use the normal RAG flow (parse document + potentially use agentic tools based on document content).
 
 Document URL: {doc_url}
@@ -605,20 +605,35 @@ Return ONLY a compact JSON object with keys: use_tool (true/false), tool ("fetch
     def is_english_text(self, text: str) -> bool:
         snippet = (text or "").strip()
         if not snippet:
+            self.logger.debug("🔍 Language detection: Empty text, assuming English")
             return True
+        
         # Quick ASCII heuristic
         letters = sum(ch.isalpha() for ch in snippet)
         ascii_letters = sum((ch.isalpha() and ord(ch) < 128) for ch in snippet)
-        if letters >= 20 and ascii_letters / max(letters, 1) < 0.4:
+        ascii_ratio = ascii_letters / max(letters, 1) if letters > 0 else 1.0
+        
+        self.logger.info(f"🔍 Language detection stats: {letters} total letters, {ascii_letters} ASCII letters, ratio: {ascii_ratio:.3f}")
+        
+        if letters >= 20 and ascii_ratio < 0.4:
+            self.logger.info(f"🔍 Non-English detected by ASCII heuristic: ratio {ascii_ratio:.3f} < 0.4")
             return False
+            
         # langdetect when available
         if detect is None:
-            return ascii_letters / max(letters, 1) > 0.6
+            result = ascii_ratio > 0.6
+            self.logger.info(f"🔍 langdetect unavailable, using ASCII heuristic: {result} (ratio {ascii_ratio:.3f})")
+            return result
+            
         try:
             lang = detect(snippet)
-            return lang == 'en'
-        except LangDetectException:
-            return ascii_letters / max(letters, 1) > 0.6
+            result = lang == 'en'
+            self.logger.info(f"🔍 langdetect result: '{lang}' -> English: {result}")
+            return result
+        except LangDetectException as e:
+            result = ascii_ratio > 0.6
+            self.logger.info(f"🔍 langdetect failed ({e}), using ASCII heuristic: {result} (ratio {ascii_ratio:.3f})")
+            return result
 
     def ocr_pdf_to_text(self, file_url: str, dpi: int = 200, max_pages: Optional[int] = None) -> str:
         try:
@@ -1009,7 +1024,7 @@ Instructions:
             future = executor.submit(llamaparse_operation)
             try:
                 # Wait for result with 60 second timeout
-                docs = future.result(timeout=40)
+                docs = future.result(timeout=30)
             except concurrent.futures.TimeoutError:
                 self.logger.error(f"LlamaParse timed out after 60 seconds for {file_url}")
                 # Cancel the future and shutdown executor to stop background processing
@@ -1617,8 +1632,55 @@ OUTPUT FORMAT
                 self._cache_chunks(doc_url, chunks)
                 
             # Language detection: if PDF and not English, use OCR full-text as fixed context
-            sample_text = self._normalize_whitespace(" ".join(c.get('text', '') for c in chunks[:3])[:4000])
-            if self.is_pdf_url(doc_url) and not self.is_english_text(sample_text):
+            # Sample from top, middle, and bottom chunks to avoid metadata artifacts
+            total_chunks = len(chunks)
+            sample_texts = []
+            
+            if total_chunks >= 3:
+                # Top chunks (skip first few that might have metadata)
+                top_start = min(2, total_chunks // 4)  # Skip first 2 or 25% of chunks
+                top_text = " ".join(c.get('text', '') for c in chunks[top_start:top_start+3])[:1500]
+                sample_texts.append(("top", self._normalize_whitespace(top_text)))
+                
+                # Middle chunks
+                mid_start = total_chunks // 2
+                mid_text = " ".join(c.get('text', '') for c in chunks[mid_start:mid_start+3])[:1500]
+                sample_texts.append(("middle", self._normalize_whitespace(mid_text)))
+                
+                # Bottom chunks
+                bottom_start = max(total_chunks - 3, 0)
+                bottom_text = " ".join(c.get('text', '') for c in chunks[bottom_start:])[:1500]
+                sample_texts.append(("bottom", self._normalize_whitespace(bottom_text)))
+            else:
+                # Fallback for small documents
+                sample_text = self._normalize_whitespace(" ".join(c.get('text', '') for c in chunks)[:4000])
+                sample_texts.append(("all", sample_text))
+            
+            # Debug: Log what we're analyzing for language detection
+            self.logger.info(f"🔍 Language detection analysis (multi-sample):")
+            self.logger.info(f"📄 PDF URL: {doc_url.split('?')[0]}")
+            self.logger.info(f"📊 Total chunks: {total_chunks}, Sample sections: {len(sample_texts)}")
+            
+            # Vote on language from multiple samples
+            english_votes = 0
+            non_english_votes = 0
+            
+            for section_name, sample_text in sample_texts:
+                self.logger.info(f"📝 {section_name.upper()} sample (length: {len(sample_text)}): {repr(sample_text[:200])}")
+                is_english = self.is_english_text(sample_text)
+                self.logger.info(f"🗳️ {section_name.upper()} vote: {'English' if is_english else 'Non-English'}")
+                
+                if is_english:
+                    english_votes += 1
+                else:
+                    non_english_votes += 1
+            
+            # Decision: if 2+ samples are non-English, classify as non-English
+            is_document_english = english_votes > non_english_votes
+            self.logger.info(f"🏆 Final language decision: {'English' if is_document_english else 'Non-English'} "
+                           f"(English: {english_votes}, Non-English: {non_english_votes})")
+            
+            if self.is_pdf_url(doc_url) and not is_document_english:
                 if not getattr(self, 'tesseract_available', False):
                     self.logger.info("Non-English PDF detected but OCR unavailable — proceeding with parsed chunks")
                 else:
