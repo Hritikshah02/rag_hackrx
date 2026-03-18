@@ -8,7 +8,6 @@ import logging
 import datetime
 import time
 import re
-import concurrent.futures
 import asyncio
 from contextlib import contextmanager
 from io import BytesIO
@@ -29,9 +28,7 @@ from groq import Groq
 from sentence_transformers import SentenceTransformer
 import chromadb
 from chromadb.config import Settings
-from llama_parse import LlamaParse
-from llama_index.core.node_parser import SimpleNodeParser
-from llama_index.core import Document as LlamaDocument
+# llama_parse / llama_index imports removed — now using LlamaParse v2 REST API directly
 import tiktoken
 from rank_bm25 import BM25Okapi
 from dotenv import load_dotenv
@@ -1005,66 +1002,107 @@ Instructions:
         final_answers = [res['answer'] for res in processed_results]
         return processed_results, final_answers
     def parse_and_chunk_with_llamaparse(self, file_url: str) -> List[Dict[str, Any]]:
-        """Use LlamaParse to extract and chunk document content semantically."""
+        """Use LlamaParse v2 REST API to extract and chunk document content."""
 
-        # Check if the file is unsupported and skip
         is_unsupported, error_message = self.is_unsupported_file(file_url)
         if is_unsupported:
             self.logger.warning(f"Skipping unsupported file: {file_url} - {error_message}")
             return []
-        
-        self.logger.info(f"Using LlamaParse to process: {file_url}")
-        parser = LlamaParse()
-        
-        def llamaparse_operation():
-            return parser.load_data(file_url)
-        
-        executor = concurrent.futures.ThreadPoolExecutor(max_workers=1)
-        try:
-            future = executor.submit(llamaparse_operation)
-            try:
-                # Wait for result with 60 second timeout
-                docs = future.result(timeout=30)
-            except concurrent.futures.TimeoutError:
-                self.logger.error(f"LlamaParse timed out after 60 seconds for {file_url}")
-                # Cancel the future and shutdown executor to stop background processing
-                future.cancel()
-                executor.shutdown(wait=False)  # Don't wait for running tasks
-                self.logger.info(f"Canceled LlamaParse operation for {file_url}")
-                return []
-            finally:
-                # Always shutdown the executor properly
-                if not executor._shutdown:
-                    executor.shutdown(wait=True)
-        except Exception as e:
-            self.logger.error(f"LlamaParse failed for {file_url}: {e}")
-            # Ensure executor is shutdown even on exception
-            if not executor._shutdown:
-                executor.shutdown(wait=False)
+
+        api_key = os.getenv("LLAMA_CLOUD_API_KEY")
+        if not api_key:
+            self.logger.error("LLAMA_CLOUD_API_KEY not set — cannot use LlamaParse v2")
             return []
-        
-        # Each doc is a LlamaDocument, which contains nodes (chunks)
-        all_chunks = []
-        chunk_id = 0
-        
-        for doc in docs:
-            # Use LlamaIndex's SimpleNodeParser to get semantic chunks
-            node_parser = SimpleNodeParser.from_defaults()
-            nodes = node_parser.get_nodes_from_documents([doc])
-            
-            for node in nodes:
-                chunk_text = node.get_content().strip()
-                if chunk_text:
-                    all_chunks.append({
-                        'id': f'chunk_{chunk_id}',
-                        'text': chunk_text,
-                        'size': len(chunk_text),
-                        'section': getattr(node, 'metadata', {}).get('section', 0)
-                    })
-                    chunk_id += 1
-        
-        self.logger.info(f"LlamaParse created {len(all_chunks)} semantic chunks.")
-        return all_chunks
+
+        self.logger.info(f"Using LlamaParse v2 REST API to process: {file_url}")
+
+        base_url = "https://api.cloud.llamaindex.ai/api/v2"
+        headers = {
+            "Authorization": f"Bearer {api_key}",
+            "Content-Type": "application/json",
+        }
+
+        try:
+            # Submit parse job directly with source_url (no file download needed)
+            resp = requests.post(
+                f"{base_url}/parse",
+                headers=headers,
+                json={"source_url": file_url, "tier": "cost_effective", "version": "latest"},
+                timeout=30,
+            )
+            resp.raise_for_status()
+            job_id = resp.json().get("id")
+            if not job_id:
+                self.logger.error(f"LlamaParse v2: no job_id in response: {resp.json()}")
+                return []
+            self.logger.info(f"LlamaParse v2 job submitted: {job_id}")
+
+            # Poll for completion (max 120s)
+            # v2 GET response: status is nested at result["job"]["status"]
+            # Possible values: PENDING, RUNNING, COMPLETED, FAILED, CANCELLED
+            max_wait, poll_interval, elapsed = 120, 3, 0
+            result = {}
+            while elapsed < max_wait:
+                time.sleep(poll_interval)
+                elapsed += poll_interval
+                poll_resp = requests.get(
+                    f"{base_url}/parse/{job_id}",
+                    headers=headers,
+                    params=[("expand", "markdown"), ("expand", "text")],
+                    timeout=15,
+                )
+                poll_resp.raise_for_status()
+                result = poll_resp.json()
+                # In v2, status is nested under "job", not at the top level
+                job_status = result.get("job", {}).get("status")
+                self.logger.info(f"LlamaParse v2 status: {job_status} ({elapsed}s elapsed)")
+                if job_status == "COMPLETED":
+                    break
+                if job_status in ("FAILED", "CANCELLED"):
+                    err = result.get("job", {}).get("error_message", "unknown error")
+                    self.logger.error(f"LlamaParse v2 job ended with status: {job_status} — {err}")
+                    return []
+            else:
+                self.logger.error(f"LlamaParse v2 timed out after {max_wait}s for {file_url}")
+                return []
+
+            # Extract text — prefer markdown (richer), fall back to plain text
+            full_text = ""
+            markdown_data = result.get("markdown")
+            if markdown_data and markdown_data.get("pages"):
+                full_text = "\n\n".join(
+                    page.get("md") or page.get("text", "")
+                    for page in markdown_data["pages"]
+                    if page.get("md") or page.get("text")
+                )
+            if not full_text:
+                text_data = result.get("text")
+                if text_data and text_data.get("pages"):
+                    full_text = "\n\n".join(
+                        page.get("text", "")
+                        for page in text_data["pages"]
+                        if page.get("text")
+                    )
+
+            full_text = self._normalize_whitespace(full_text)
+            if not full_text:
+                self.logger.warning("LlamaParse v2 returned no text content")
+                return []
+
+            self.logger.info(f"LlamaParse v2 extracted {len(full_text)} characters")
+            chunks = self.token_based_chunking(full_text)
+            self.logger.info(f"LlamaParse v2 created {len(chunks)} chunks")
+            return chunks
+
+        except requests.exceptions.Timeout:
+            self.logger.error("LlamaParse v2 request timed out")
+            return []
+        except requests.exceptions.RequestException as e:
+            self.logger.error(f"LlamaParse v2 HTTP error: {e}")
+            return []
+        except Exception as e:
+            self.logger.error(f"LlamaParse v2 failed: {e}")
+            return []
 
     def token_based_chunking(self, text: str) -> List[Dict[str, Any]]:
         self.logger.info("Creating token-based chunks...")
@@ -1780,11 +1818,6 @@ app = FastAPI(
     description="API for answering questions about policy documents using an advanced RAG pipeline.",
     version="2.1.0" # Version updated for logging change
 )
-@app.get("/")
-def root():
-    return {"status": "ok"}
-
-# Or, if your test expects /health:
 @app.get("/health")
 def health():
     return {"status": "ok"}
